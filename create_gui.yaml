@@ -1,0 +1,26 @@
+# create_gui example for Phoebus GuiBuilder
+beamline:
+  dom: bl01t
+  desc: Test Beamline
+
+components:
+  fshtr:
+    type: shutter
+    desc: Fast Shutter
+    prefix: BL01T-EA-FSHTR-01
+
+  dcm:
+    type: dcm
+    desc: Double Crystal Monochromator
+    prefix: BL01T-MO-DCM-01
+
+  d1:
+    type: diode
+    desc: Diode 1
+    prefix: BL01T-DI-PHDGN-01
+    filename: test.bob
+
+  p2m:
+    type: pilatus
+    desc: Pilatus 2M
+    prefix: BL01T-EA-PILAT-01

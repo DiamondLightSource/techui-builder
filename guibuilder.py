@@ -17,7 +17,6 @@ class Beamline:
 @dataclass
 class Component:
     name: str
-    type: str
     desc: str
     prefix: str
     filename: str | None = None
@@ -44,7 +43,7 @@ print("COMPONENTS")
 pp.pprint(components)
 
 
-pattern = r"^(.*?):([A-Z]+)\.([A-Z]+)$"
+pattern = r"([^:]+)((?::([^:.]+))*)(?:\.([^:.]+))?"
 
 for component in components:
     prefix = component.prefix

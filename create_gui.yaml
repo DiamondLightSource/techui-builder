@@ -10,7 +10,7 @@ components:
 
   dcm:
     desc: Double Crystal Monochromator
-    prefix: BL01T-MO-DCM-01
+    prefix: BL01T-MO-DCM-01:MIRR1
 
   d1:
     desc: Diode 1

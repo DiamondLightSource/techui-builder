@@ -1,9 +1,11 @@
 # Changes here will be overwritten by Copier
-_commit: 2.1.0
+_commit: 2.6.0
 _src_path: gh:DiamondLightSource/python-copier-template
 author_email: oliver.copping@diamond.ac.uk
 author_name: Oliver Copping
+component_lifecycle: experimental
 component_owner: group:default/sscc
+component_type: library
 description: A package for building GUIs
 distribution_name: phoebus-guibuilder
 docker: true

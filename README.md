@@ -1,7 +1,7 @@
 [![CI](https://github.com/DiamondLightSource/phoebus-guibuilder/actions/workflows/ci.yml/badge.svg)](https://github.com/DiamondLightSource/phoebus-guibuilder/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/DiamondLightSource/phoebus-guibuilder/branch/main/graph/badge.svg)](https://codecov.io/gh/DiamondLightSource/phoebus-guibuilder)
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 # phoebus_guibuilder
 

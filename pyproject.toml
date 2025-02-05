@@ -1,14 +1,134 @@
-[tool.poetry]
-name = "guibuilder"
+[project]
+dependencies = ["python", "pyyaml"]
+urls = { github = "https://github.com/DiamondLightSource/phoebus-guibuilder" }
+name = "phoebus-guibuilder"
 version = "0.1.0"
 description = "A package for building GUIs"
-authors = ["Oliver Copping <oliver.copping@diamond.ac.uk>"]
-license = "Apache-2.0"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-pyyaml = "^6.0.2"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3.12",
+]
+authors = [
+    { name = "Oliver Copping", email = "oliver.copping@diamond.ac.uk" },
+    { name = "Adedamola Sode", email = "adedamola.sode@diamond.ac.uk" },
+]
+license = "LICENCE.file"
+readme = "README.md"
+requires-python = ">=3.12"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=2.0.0", "pyyaml>=6.0.2"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.setuptools_scm]
+version_file = "src/phoebus_guibuilder/_version.py"
+
+[tool.pyright]
+typeCheckingMode = "standard"
+reportMissingImports = false  # Ignore missing stubs in imported modules
+
+[tool.pytest.ini_options]
+# Run pytest with all our checkers, and don't spam us with massive tracebacks on error
+addopts = """
+    --tb=native -vv --strict-markers --doctest-modules
+    --doctest-glob="*.rst" --doctest-glob="*.md"
+    --ignore=docs/examples --ignore=src/phoebus_guibuilder/epics/signal.py
+    """
+# https://iscinumpy.gitlab.io/post/bound-version-constraints/#watch-for-warnings
+filterwarnings = "error"
+# Doctest python code in docs, python code in src docstrings, test functions in tests
+testpaths = "docs src tests"
+log_format = "%(asctime)s,%(msecs)03d %(levelname)s (%(threadName)s) %(message)s"
+log_date_format = "%H:%M:%S"
+
+markers = [
+    "motorsim: require the motorsim IOC to be running",
+    "adsim: require the ADsim IOC to be running",
+]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.run]
+data_file = "/tmp/phoebus_guibuilder.coverage"
+
+[tool.coverage.paths]
+# Tests are run from installed location, map back to the src directory
+source = ["src", "**/site-packages/"]
+
+# tox must currently be configured via an embedded ini string
+# See: https://github.com/tox-dev/tox/issues/999
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist=True
+
+[testenv:{pre-commit,type-checking,tests,docs}]
+# Don't create a virtualenv for the command, requires tox-direct plugin
+direct = True
+passenv = *
+allowlist_externals =
+    pytest
+    pre-commit
+    pyright
+    sphinx-build
+    sphinx-autobuild
+commands =
+    pre-commit: pre-commit run --all-files --show-diff-on-failure {posargs}
+    type-checking: pyright src {posargs}
+    tests: pytest --cov=phoebus_guibuilder --cov-report term --cov-report xml:cov.xml {posargs}
+    docs: sphinx-{posargs:build -EW --keep-going} -T docs build/html
+"""
+
+[tool.ruff]
+src = ["src", "tests", "system_tests"]
+line-length = 88
+lint.select = [
+    "B",       # flake8-bugbear - https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
+    "C4",      # flake8-comprehensions - https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
+    "E",       # pycodestyle errors - https://docs.astral.sh/ruff/rules/#error-e
+    "F",       # pyflakes rules - https://docs.astral.sh/ruff/rules/#pyflakes-f
+    "W",       # pycodestyle warnings - https://docs.astral.sh/ruff/rules/#warning-w
+    "I",       # isort - https://docs.astral.sh/ruff/rules/#isort-i
+    "UP",      # pyupgrade - https://docs.astral.sh/ruff/rules/#pyupgrade-up
+    "SLF",     # self - https://docs.astral.sh/ruff/settings/#lintflake8-self
+    "PLC2701", # private import - https://docs.astral.sh/ruff/rules/import-private-name/
+    "LOG015",  # root logger call - https://docs.astral.sh/ruff/rules/root-logger-call/
+    "S101",    # assert = https://docs.astral.sh/ruff/rules/assert/
+]
+lint.ignore = [
+    "B901", # Return in a generator is needed for plans
+]
+lint.preview = true # so that preview mode PLC2701 is enabled
+
+[tool.ruff.lint.per-file-ignores]
+# By default, private member access is allowed in tests
+# See https://github.com/DiamondLightSource/python-copier-template/issues/154
+# Remove this line to forbid private member access in tests
+"tests/**/*" = ["SLF001", "S101"]
+"src/phoebus_guibuilder/testing/**/*" = ["SLF001", "S101"]
+"system_tests/**/*" = ["SLF001", "S101"]
+"docs/examples/**/*" = ["SLF001", "S101"]
+
+
+[tool.importlinter]
+root_package = "phoebus_guibuilder"
+
+[[tool.importlinter.contracts]]
+name = "All runtime modules are in layers"
+type = "layers"
+containers = ["phoebus_guibuilder"]
+layers = ["plan_stubs", "fastcs", "epics | tango | sim", "core"]
+exhaustive = true
+exhaustive_ignores = ["testing", "_version", "__main__"]
+
+[[tool.importlinter.contracts]]
+name = "Testing and sim modules are not used at runtime"
+type = "forbidden"
+forbidden_modules = ["phoebus_guibuilder.testing", "phoebus_guibuilder.sim"]
+source_modules = [
+    "phoebus_guibuilder.plan_stubs",
+    "phoebus_guibuilder.fast.*",
+    "phoebus_guibuilder.epics",
+    "phoebus_guibuilder.tango",
+]

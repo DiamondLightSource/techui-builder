@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: phoebus-guibuilder
+  title: phoebus-guibuilder
+  description: A package for building GUIs
+spec:
+  type: documentation
+  lifecycle: experimental
+  owner: group:default/sscc

@@ -1,6 +1,4 @@
 [project]
-dependencies = ["python", "pyyaml"]
-urls = { github = "https://github.com/DiamondLightSource/phoebus-guibuilder" }
 name = "phoebus-guibuilder"
 version = "0.1.0"
 description = "A package for building GUIs"
@@ -9,20 +7,45 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python :: 3.12",
 ]
+urls = { GitHub = "https://github.com/DiamondLightSource/phoebus-guibuilder" }
 authors = [
     { name = "Oliver Copping", email = "oliver.copping@diamond.ac.uk" },
     { name = "Adedamola Sode", email = "adedamola.sode@diamond.ac.uk" },
 ]
-license = "LICENCE.file"
+license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.12"
+dependencies = ["pyyaml (>=6.0.2)"]
+optional-dependencies = { dev = [
+    "pre-commit",
+    "pyright",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-faulthandler",
+    "pytest-forked",
+    "pytest-rerunfailures",
+    "pytest-timeout",
+    "ruff",
+    "sphinx<7.4.0",
+    "sphinx-autobuild",
+    "autodoc-pydantic",
+    "sphinxcontrib-mermaid",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "tox-direct",
+    "types-mock",
+    "types-pyyaml",
+] }
+
 
 [build-system]
-requires = ["poetry-core>=2.0.0", "pyyaml>=6.0.2"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=2.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
 
-[tool.setuptools_scm]
-version_file = "src/phoebus_guibuilder/_version.py"
+
+# [tool.setuptools_scm]
+# version_file = "src/phoebus_guibuilder/_version.py" # overwrites base version
 
 [tool.pyright]
 typeCheckingMode = "standard"

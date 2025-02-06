@@ -1,5 +1,6 @@
 import pprint
 import re
+import os
 from dataclasses import dataclass
 from typing import Dict
 from warnings import warn
@@ -14,6 +15,13 @@ class Beamline:
     dom: str
     desc: str
 
+@dataclass
+class Entry:
+    type: str
+    DESC: str | None
+    P: str
+    M: str | None
+    R: str | None
 
 @dataclass
 class Component:
@@ -81,3 +89,45 @@ pp.pprint(beamline)
 print("")
 print("COMPONENTS")
 pp.pprint(components)
+
+#####################################################
+def find_services_folders():
+    services_directory = beamline.dom + "-services/services"  # Will be changed, probably made relative to actual directory i.e. "./services" or absolute paths.
+    path = f"/dls/science/users/uns32131/{services_directory}"
+    files = os.listdir(path)
+
+    # Attempting to match the prefix to the files in the services directory
+    pattern = "^(.*)-(.*)-(.*)"
+
+    for component in components:
+        domain = re.match(pattern, component.P)
+        for file in files:
+            match = re.match(pattern, file)
+            if match:
+                if match.group(1) == domain.group(1).lower():
+                    if os.path.exists(f"{path}/{file}/config/ioc.yaml"):
+                        ve = extract_valid_entities(ioc_yaml=f"{path}/{file}/config/ioc.yaml", component= component)
+                    else:
+                        print(f"No ioc.yaml file for service: {file}")
+
+    return ve
+    
+def extract_valid_entities(ioc_yaml, component):
+    entities: list[dict[str,str]] = []
+    valid_entities: list[Entry] = []
+    component_match = f"{component.P}:{component.R}"
+    with open(ioc_yaml, "r") as ioc:
+        conf = yaml.safe_load(ioc)
+        entities = conf["entities"]
+        for entity in entities:
+            print(entity)
+            print("\n")
+            if 'P' in entity.keys() and entity['P'] == component_match: # the suffix could be M, could be R
+                valid_entities.append(Entry(type= entity["type"], DESC = None, P = entity["P"], M = None, R = None))
+    
+    return(valid_entities)
+
+
+find_services_folders()
+
+

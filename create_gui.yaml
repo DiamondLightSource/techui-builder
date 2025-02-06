@@ -1,22 +1,26 @@
 # create_gui example for Phoebus GuiBuilder
 beamline:
-  dom: bl01t
+  dom: p47
   desc: Test Beamline
 
 components:
   fshtr:
     desc: Fast Shutter
-    prefix: BL01T-EA-FSHTR-01
+    prefix: BL47P-EA-FSHTR-01
 
   dcm:
     desc: Double Crystal Monochromator
-    prefix: BL01T-MO-DCM-01:MIRR1
+    prefix: BL47P-MO-DCM-01:MIRR1
 
   d1:
     desc: Diode 1
-    prefix: BL01T-DI-PHDGN-01
+    prefix: BL47P-DI-PHDGN-01
     filename: test.bob
 
   p2m:
     desc: Pilatus 2M
-    prefix: BL01T-EA-PILAT-01
+    prefix: BL47P-EA-PILAT-01
+
+  motor:
+    desc: Hexapod Stage
+    prefix: BL47P-MO-MAP-01:STAGE

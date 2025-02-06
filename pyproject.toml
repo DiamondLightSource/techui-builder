@@ -27,7 +27,7 @@ optional-dependencies = { dev = [
     "pytest-rerunfailures",
     "pytest-timeout",
     "ruff",
-    "sphinx<7.4.0",
+    "sphinx<8.2.0",
     "sphinx-autobuild",
     "autodoc-pydantic",
     "sphinxcontrib-mermaid",

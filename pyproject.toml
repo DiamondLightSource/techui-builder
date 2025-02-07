@@ -109,16 +109,10 @@ source = ["src", "**/site-packages/"]
 [tool.tox]
 skipsdist = true
 
-[tool.tox.env_run_base]
-description = "Run pre-commit, type-checking, tests and docs"
+[tool.tox.env.pre-commit]
+description = "Run pre-commit"
 direct = true
-allowlist_externals = [
-    "pytest",
-    "pre-commit",
-    "pyright",
-    "sphinx-build",
-    "sphinx-autobuild",
-]
+allowlist_externals = ["pre-commit"]
 commands = [
     [
         "pre-commit",
@@ -127,11 +121,19 @@ commands = [
         "--show-diff-on-failure",
         "{posargs}",
     ],
-    [
-        "pyright",
-        "src",
-        "{posargs}",
-    ],
+]
+
+[tool.tox.env.type-checking]
+description = "Run type-checking"
+direct = true
+allowlist_externals = ["pyright"]
+commands = [["pyright", "src", "{posargs}"]]
+
+[tool.tox.env.tests]
+description = "Run tests"
+direct = true
+allowlist_externals = ["pytest"]
+commands = [
     [
         "pytest",
         "--cov=phoebus_guibuilder",
@@ -141,15 +143,21 @@ commands = [
         "xml:cov.xml",
         "{posargs}",
     ],
-    # TODO: Uncomment when needed
-    # [
-    #     "sphinx-{posargs:build}",
-    #     "-EW",
-    #     "--keep-going",
-    #     "-T",
-    #     "docs",
-    #     "build/html",
-    # ],
+]
+
+[tool.tox.env.docs]
+description = "Run docs"
+direct = true
+allowlist_externals = ["sphinx-build", "sphinx-autobuild"]
+commands = [
+    [
+        "sphinx-{posargs:build}",
+        "-EW",
+        "--keep-going",
+        "-T",
+        "docs",
+        "build/html",
+    ],
 ]
 
 [tool.ruff]

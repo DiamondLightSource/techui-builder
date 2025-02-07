@@ -8,4 +8,7 @@
 
 from ._version import __version__
 
-__all__ = ["__version__"]
+from phoebus_guibuilder.datatypes import Beamline, Component, Entry
+from phoebus_guibuilder.guibuilder import Guibuilder
+
+__all__ = ["__version__", "Beamline", "Component", "Entry", "Guibuilder"]

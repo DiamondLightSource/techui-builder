@@ -1,6 +1,6 @@
 import pytest
 
-from phoebus_guibuilder.guibuilder import Beamline, Component
+from phoebus_guibuilder.datatypes import Beamline, Component
 
 
 @pytest.fixture
@@ -28,11 +28,8 @@ def test_component_object(component):
 
 
 def test_component_repr(component):
-    assert (
-        str(component)
-        == "Component(name=TESTDEV, desc=Test Device, \
-prefix=BL01T-EA-TEST-02, suffix=None, filename=None)"
-    )
+    assert (str(component)== "Component(name=TESTDEV, desc=Test Device, \
+            prefix=BL01T-EA-TEST-02, suffix=None, filename=None)")
 
 
 def test_component_bad_prefix():

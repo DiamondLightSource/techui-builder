@@ -105,7 +105,7 @@ def find_services_folders():
     services_directory = (
         beamline.dom + "-services/services"
     )  # TODO: rm hardcoding, map to services.
-    path = f"/dls/science/users/uns32131/{services_directory}"
+    path = f"{services_directory}"
     files = os.listdir(path)
 
     # Attempting to match the prefix to the files in the services directory
@@ -145,7 +145,7 @@ def extract_valid_entities(ioc_yaml: str, component: Component):
 
 
 def gui_map(entrys: list[Entry]):
-    gui_map = "/dls/science/users/uns32131/BLGui/BLGuiApp/opi/bob/gui_map.yaml"
+    gui_map = "blgui/BLGuiApp/opi/bob/gui_map.yaml"
 
     with open(gui_map) as map:
         conf = yaml.safe_load(map)

@@ -1,3 +1,4 @@
+import os
 import pprint
 import re
 from dataclasses import dataclass
@@ -12,6 +13,15 @@ pp = pprint.PrettyPrinter()
 class Beamline:
     dom: str
     desc: str
+
+
+@dataclass
+class Entry:
+    type: str
+    DESC: str | None
+    P: str
+    M: str | None
+    R: str | None
 
 
 @dataclass
@@ -65,9 +75,10 @@ class Component:
             exit()
 
 
-components: list[Component] = []
+components: list[Component] = []  # TODO Manage global lists better
+valid_entities: list[Entry] = []
 
-with open("create_gui.yaml") as f:
+with open("example/create_gui.yaml") as f:
     conf = yaml.safe_load(f)
 
     bl: dict[str, str] = conf["beamline"]
@@ -84,3 +95,72 @@ pp.pprint(beamline)
 print("")
 print("COMPONENTS")
 pp.pprint(components)
+
+#####################################################
+# TODO Functionality should be in phoebusguibuilder class
+# class Phoebusguibuilder(beamline: Beamline, components: list[Component]):
+
+
+def find_services_folders():
+    services_directory = (
+        beamline.dom + "-services/services"
+    )  # TODO: rm hardcoding, map to services.
+    path = f"/dls/science/users/uns32131/{services_directory}"
+    files = os.listdir(path)
+
+    # Attempting to match the prefix to the files in the services directory
+    pattern = "^(.*)-(.*)-(.*)"
+
+    for component in components:
+        domain = re.match(pattern, component.P)
+        for file in files:
+            match = re.match(pattern, file)
+            if match:
+                if match.group(1) == domain.group(1).lower():
+                    if os.path.exists(f"{path}/{file}/config/ioc.yaml"):
+                        extract_valid_entities(
+                            ioc_yaml=f"{path}/{file}/config/ioc.yaml",
+                            component=component,
+                        )
+                    else:
+                        print(f"No ioc.yaml file for service: {file}")
+
+
+def extract_valid_entities(ioc_yaml: str, component: Component):
+    print(type(ioc_yaml))
+    entities: list[dict[str, str]] = []
+    component_match = f"{component.P}:{component.R}"
+    with open(ioc_yaml) as ioc:
+        conf = yaml.safe_load(ioc)
+        entities = conf["entities"]
+        for entity in entities:
+            if (
+                "P" in entity.keys() and entity["P"] == component_match
+            ):  # the suffix could be M, could be R
+                valid_entities.append(
+                    Entry(type=entity["type"], DESC=None, P=entity["P"], M=None, R=None)
+                )
+
+
+def gui_map(entrys: list[Entry]):
+    gui_map = "/dls/science/users/uns32131/BLGui/BLGuiApp/opi/bob/gui_map.yaml"
+
+    with open(gui_map) as map:
+        conf = yaml.safe_load(map)
+
+        for entry in entrys:
+            print(entry.type)
+            if conf[entry.type]:
+                print(
+                    conf[entry.type]["file"]
+                )  # Find correct .bob file, and injet macros
+                # TODO:  create a copy of the file, and replace the required macros
+                # TODO:  return the file to guibuilder
+
+            else:
+                print("No BOB available")
+
+
+find_services_folders()
+print(valid_entities)
+gui_map(valid_entities)

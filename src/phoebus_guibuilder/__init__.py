@@ -3,7 +3,7 @@
 .. data:: __version__
     :type: str
 
-    Version number as calculated by https://github.com/pypa/setuptools_scm
+    Version number as calculated by poetry-dynamic-versioning
 """
 
 from ._version import __version__

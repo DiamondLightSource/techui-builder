@@ -18,6 +18,7 @@ requires-python = ">=3.12"
 dependencies = ["pyyaml (>=6.0.2)"]
 optional-dependencies = { dev = [
     "pre-commit",
+    "pydata-sphinx-theme>=0.12",
     "pyright",
     "pytest",
     "pytest-asyncio",
@@ -40,16 +41,35 @@ optional-dependencies = { dev = [
 
 
 [build-system]
-requires = ["poetry-core>=2.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.poetry]
+include = ["src/phoebus_guibuilder/_version.py"]
 version = "0.1.0"
+
 [tool.poetry.requires-plugins]
 poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
 
 [tool.poetry-dynamic-versioning]
 enable = true
+vcs = "git"
+latest-tag = true
+bump = true
+metadata = false
+# allows for tags with the format 0.1.0a1
+pattern = "((?P<base>\\d+(\\.\\d+)*)(?P<stage>[a-zA-Z]+)?(?P<revision>\\d+)?)"
+
+[tool.poetry-dynamic-versioning.files."src/phoebus_guibuilder/_version.py"]
+persistent-substitution = true
+initial-content = """
+  # These version placeholders will be replaced later during substitution.
+  __version__ = "0.1.0"
+  __version_tuple__ = (0, 1, 0)
+"""
+
+[tool.poetry-dynamic-versioning.substitution]
+folders = [{ path = "src" }]
 
 # [tool.setuptools_scm]
 # version_file = "src/phoebus_guibuilder/_version.py" # overwrites base version
@@ -86,8 +106,6 @@ data_file = "/tmp/phoebus_guibuilder.coverage"
 # Tests are run from installed location, map back to the src directory
 source = ["src", "**/site-packages/"]
 
-# tox must currently be configured via an embedded ini string
-# See: https://github.com/tox-dev/tox/issues/999
 [tool.tox]
 skipsdist = true
 
@@ -123,30 +141,16 @@ commands = [
         "xml:cov.xml",
         "{posargs}",
     ],
-    [
-        "sphinx-{posargs:build -EW --keep-going}",
-        "-T",
-        "docs",
-        "build/html",
-    ],
+    # TODO: Uncomment when needed
+    # [
+    #     "sphinx-{posargs:build}",
+    #     "-EW",
+    #     "--keep-going",
+    #     "-T",
+    #     "docs",
+    #     "build/html",
+    # ],
 ]
-
-# [tool.tox.testenv:{pre-commit,type-checking,tests,docs}]
-# # Don't create a virtualenv for the command, requires tox-direct plugin
-# direct = True
-# passenv = *
-# allowlist_externals =
-#     pytest
-#     pre-commit
-#     pyright
-#     sphinx-build
-#     sphinx-autobuild
-# commands = {
-#     pre-commit: pre-commit run --all-files --show-diff-on-failure {posargs}
-#     type-checking: pyright src {posargs}
-#     tests: pytest --cov=phoebus_guibuilder --cov-report term --cov-report xml:cov.xml {posargs}
-#     docs: sphinx-{posargs:build -EW --keep-going} -T docs build/html
-#     }
 
 [tool.ruff]
 src = ["src", "tests", "system_tests"]

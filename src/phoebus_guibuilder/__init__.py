@@ -8,6 +8,8 @@
 
 from importlib.metadata import version
 
+from phoebus_guibuilder.datatypes import Beamline, Component, Entry
+
 __version__ = version("phoebus_guibuilder")
 
-__all__ = ["__version__"]
+__all__ = ["__version__", "Beamline", "Component", "Entry"]

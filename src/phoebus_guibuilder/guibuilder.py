@@ -67,7 +67,7 @@ class Component:
 
 components: list[Component] = []
 
-with open("create_gui.yaml") as f:
+with open("example/create_gui.yaml") as f:
     conf = yaml.safe_load(f)
 
     bl: dict[str, str] = conf["beamline"]

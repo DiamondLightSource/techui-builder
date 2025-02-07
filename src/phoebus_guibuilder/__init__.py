@@ -6,6 +6,8 @@
     Version number as calculated by https://github.com/pypa/setuptools_scm
 """
 
-from ._version import __version__
+from importlib.metadata import version
+
+__version__ = version("phoebus_guibuilder")
 
 __all__ = ["__version__"]

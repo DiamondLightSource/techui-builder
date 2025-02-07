@@ -112,7 +112,9 @@ def find_services_folders():
     pattern = "^(.*)-(.*)-(.*)"
 
     for component in components:
-        domain = re.match(pattern, component.P)
+        domain: re.Match[str] | None = re.match(pattern, component.P)
+        assert domain is not None, "Empty Prefix Field"
+
         for file in files:
             match = re.match(pattern, file)
             if match:

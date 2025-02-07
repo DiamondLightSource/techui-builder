@@ -4,8 +4,7 @@ ARG PYTHON_VERSION=3.12
 FROM python:${PYTHON_VERSION} as developer
 
 # Add any system dependencies for the developer/build environment here
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    graphviz \
+RUN apt-get update && apt-get upgrade \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install poetry>=2.0.0

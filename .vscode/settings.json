@@ -10,4 +10,5 @@
         "editor.defaultFormatter": "charliermarsh.ruff",
     },
     "python.analysis.autoImportCompletions": true,
+    "ruff.configuration": "pyproject.toml",
 }

@@ -38,6 +38,7 @@ optional-dependencies = { dev = [
     "types-mock",
     "types-pyyaml",
 ] }
+scripts = { phoebus_guibuilder = "phoebus_guibuilder.__main__:main" }
 
 
 [build-system]
@@ -83,7 +84,7 @@ reportMissingImports = false  # Ignore missing stubs in imported modules
 addopts = """
     --tb=native -vv --strict-markers --doctest-modules
     --doctest-glob="*.rst" --doctest-glob="*.md"
-    --ignore=docs/examples --ignore=src/phoebus_guibuilder/epics/signal.py
+    --ignore=docs/examples
     """
 # https://iscinumpy.gitlab.io/post/bound-version-constraints/#watch-for-warnings
 filterwarnings = "error"

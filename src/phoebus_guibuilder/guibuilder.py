@@ -2,7 +2,6 @@ import os
 import pprint
 import re
 from dataclasses import dataclass
-from warnings import warn
 
 import yaml
 
@@ -36,7 +35,7 @@ class Component:
 
     def __repr__(self) -> str:
         return f"Component(name={self.name}, desc={self.desc}, prefix={self.P}, \
-            suffix={self.R}, filename={self.filename})"
+suffix={self.R}, filename={self.filename})"
 
     def _extract_p_and_r(self):
         pattern = re.compile(
@@ -71,8 +70,7 @@ class Component:
             # TODO: Is this needed?
             self.attribute: str | None = match.group(3)
         else:
-            warn(f"No valid PV prefix found for {self.name}.", stacklevel=1)
-            exit()
+            raise AttributeError(f"No valid PV prefix found for {self.name}.")
 
 
 components: list[Component] = []  # TODO Manage global lists better
@@ -163,6 +161,6 @@ def gui_map(entrys: list[Entry]):
                 print("No BOB available")
 
 
-find_services_folders()
-print(valid_entities)
-gui_map(valid_entities)
+# find_services_folders()
+# print(valid_entities)
+# gui_map(valid_entities)

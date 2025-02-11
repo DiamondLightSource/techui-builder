@@ -1741,4 +1741,4 @@ dev = ["autodoc-pydantic", "pre-commit", "pydata-sphinx-theme", "pyright", "pyte
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "a57e70cf904fb4be42a7239643293468333808127aa743eee2a40464cd6fc535"
+content-hash = "91c8626941442e0af52999e4a5b4a0b6bc8e19fc50973f7c73ea0d8b75d1c111"

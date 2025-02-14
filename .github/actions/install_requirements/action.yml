@@ -4,9 +4,9 @@ inputs:
   python-version:
     description: Python version to install, default is from Dockerfile
     default: "dev"
-  pip-install:
-    description: Parameters to pass to pip install
-    default: "$([ -f dev-requirements.txt ] && echo '-c dev-requirements.txt') -e .[dev]"
+  poetry-version:
+    description: Poetry version to install, from pyproject.toml
+    default: $(yq '.project."optional-dependencies".dev[] | select(. | contains("poetry"))' pyproject.toml | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 
 runs:
   using: composite
@@ -25,10 +25,20 @@ runs:
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
-    - name: Install packages
-      run: pip install ${{ inputs.pip-install }}
+    - name: Install Poetry
+      uses: abatilo/actions-poetry@v2
+      with:
+        poetry-version: ${{ inputs.poetry-version }}
+
+    # - name: Install Poetry with specific version from pyproject.toml
+    #   uses: snok/install-poetry@v1
+    #   with:
+    #     poetry-version-from-pyproject-toml: true
+
+    - name: Install dependencies
+      run: poetry install --no-root
       shell: bash
 
     - name: Report what was installed
-      run: pip freeze
+      run: poetry show
       shell: bash

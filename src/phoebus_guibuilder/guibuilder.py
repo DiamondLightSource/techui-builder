@@ -73,33 +73,34 @@ suffix={self.R}, filename={self.filename})"
             raise AttributeError(f"No valid PV prefix found for {self.name}.")
 
 
-components: list[Component] = []  # TODO Manage global lists better
-valid_entities: list[Entry] = []
+def main(filename: str):
+    components: list[Component] = []  # TODO Manage global lists better
 
-with open("example/create_gui.yaml") as f:
-    conf = yaml.safe_load(f)
+    with open(filename) as f:
+        conf = yaml.safe_load(f)
 
-    bl: dict[str, str] = conf["beamline"]
-    comps: dict[str, dict[str, str]] = conf["components"]
+        bl: dict[str, str] = conf["beamline"]
+        comps: dict[str, dict[str, str]] = conf["components"]
 
-    beamline = Beamline(**bl)
+        beamline = Beamline(**bl)
 
-    for key, comp in comps.items():
-        components.append(Component(key, **comp))
+        for key, comp in comps.items():
+            components.append(Component(key, **comp))
 
-print("BEAMLINE:")
-pp.pprint(beamline)
+    print("BEAMLINE:")
+    pp.pprint(beamline)
 
-print("")
-print("COMPONENTS")
-pp.pprint(components)
+    print("")
+    print("COMPONENTS")
+    pp.pprint(components)
+
 
 #####################################################
 # TODO Functionality should be in phoebusguibuilder class
 # class Phoebusguibuilder(beamline: Beamline, components: list[Component]):
 
 
-def find_services_folders():
+def find_services_folders(beamline: Beamline, components: list[Component]):
     services_directory = (
         beamline.dom + "-services/services"
     )  # TODO: rm hardcoding, map to services.
@@ -118,17 +119,19 @@ def find_services_folders():
             if match:
                 if match.group(1) == domain.group(1).lower():
                     if os.path.exists(f"{path}/{file}/config/ioc.yaml"):
-                        extract_valid_entities(
+                        valid_entities = extract_valid_entities(
                             ioc_yaml=f"{path}/{file}/config/ioc.yaml",
                             component=component,
                         )
+                        return valid_entities
                     else:
                         print(f"No ioc.yaml file for service: {file}")
 
 
-def extract_valid_entities(ioc_yaml: str, component: Component):
+def extract_valid_entities(ioc_yaml: str, component: Component) -> list[Entry]:
     print(type(ioc_yaml))
     entities: list[dict[str, str]] = []
+    valid_entities: list[Entry] = []
     component_match = f"{component.P}:{component.R}"
     with open(ioc_yaml) as ioc:
         conf = yaml.safe_load(ioc)
@@ -140,6 +143,8 @@ def extract_valid_entities(ioc_yaml: str, component: Component):
                 valid_entities.append(
                     Entry(type=entity["type"], DESC=None, P=entity["P"], M=None, R=None)
                 )
+
+    return valid_entities
 
 
 def gui_map(entrys: list[Entry]):

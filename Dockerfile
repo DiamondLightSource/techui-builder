@@ -4,9 +4,9 @@ ARG PYTHON_VERSION=3.12
 FROM python:${PYTHON_VERSION} AS developer
 
 # Add any system dependencies for the developer/build environment here
-RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
-
-RUN pip install poetry>=2.0.0
+RUN apt-get update && apt upgrade -y && rm -rf /var/lib/apt/lists/*
+RUN wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq \
+    && chmod +x /usr/bin/yq
 
 COPY . ./
 COPY src/phoebus_guibuilder ./phoebus_guibuilder

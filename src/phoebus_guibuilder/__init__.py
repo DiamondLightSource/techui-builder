@@ -6,8 +6,6 @@
     Version number as calculated by poetry-dynamic-versioning
 """
 
-from importlib.metadata import version
-
-__version__ = version("phoebus_guibuilder")
+from ._version import __version__
 
 __all__ = ["__version__"]

@@ -58,7 +58,5 @@
         "--security-opt=label=disable"
     ],
     // Mount the parent as /workspaces so we can pip install peers as editable
-    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
-    // After the container is created, install the python project in editable form
-    "postCreateCommand": "bash ./.devcontainer/post-install.sh"
+    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind"
 }

@@ -10,25 +10,25 @@ RUN curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm
 RUN wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq \
     && chmod +x /usr/bin/yq
 
-COPY . ./
-COPY src/phoebus_guibuilder ./phoebus_guibuilder
-RUN touch README.md
-
-# # Set up a virtual environment and put it in PATH
-# RUN python -m venv /venv
-# ENV PATH=/venv/bin:$PATH
-
 # # The build stage installs the context into the venv
-# FROM developer AS build
-# COPY . /context
-# WORKDIR /context
-# RUN touch dev-requirements.txt && pip install -c dev-requirements.txt .
+FROM developer AS build
+# install PDM
+RUN pip install -U pdm
+# disable update check
+ENV PDM_CHECK_UPDATE=false
+# copy files
+COPY pyproject.toml pdm.lock README.md LICENSE /project/
+COPY src/ /project/src
 
-# # The runtime stage copies the built venv into a slim runtime container
-# FROM python:${PYTHON_VERSION}-slim AS runtime
-# # Add apt-get system dependecies for runtime here if needed
-# COPY --from=build /venv/ /venv/
-# ENV PATH=/venv/bin:$PATH
+# install dependencies and project into the local packages directory
+WORKDIR /project
+RUN pdm install --check --prod --no-editable
+
+# The runtime stage copies the built venv into a slim runtime container
+FROM python:${PYTHON_VERSION}-slim AS runtime
+# Add apt-get system dependecies for runtime here if needed
+COPY --from=build /project/.venv/ /project/.venv
+ENV PATH="/project/.venv/bin:$PATH"
 
 # change this entrypoint if it is not the same as the repo
 ENTRYPOINT ["phoebus-guibuilder"]

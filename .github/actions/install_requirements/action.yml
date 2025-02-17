@@ -4,9 +4,6 @@ inputs:
   python-version:
     description: Python version to install, default is from Dockerfile
     default: "dev"
-  poetry-version:
-    description: Poetry version to install, from pyproject.toml
-    default: $(yq '.project."optional-dependencies".dev[] | select(. | contains("poetry"))' pyproject.toml | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 
 runs:
   using: composite
@@ -20,25 +17,23 @@ runs:
         echo "PYTHON_VERSION=$PYTHON_VERSION" >> "$GITHUB_ENV"
       shell: bash
 
-    - name: Setup python
-      uses: actions/setup-python@v5
+    - name: Setup PDM
+      uses: pdm-project/setup-pdm@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
-    - name: Install Poetry
-      uses: abatilo/actions-poetry@v2
-      with:
-        poetry-version: ${{ inputs.poetry-version }}
-
-    # - name: Install Poetry with specific version from pyproject.toml
-    #   uses: snok/install-poetry@v1
-    #   with:
-    #     poetry-version-from-pyproject-toml: true
-
     - name: Install dependencies
-      run: poetry install --no-root
+      run: pdm sync -d -G dev
       shell: bash
 
     - name: Report what was installed
-      run: poetry show
+      run: pdm list
+      shell: bash
+
+    - name: Add venv path to Github environment
+      run: echo "VENV_PATH=$(pdm venv activate | sed 's/.*source //; s|/bin/activate||')" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Add venv path to Github Path
+      run: echo "${{ env.VENV_PATH }}/bin:$PATH" >> $GITHUB_PATH
       shell: bash

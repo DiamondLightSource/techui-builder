@@ -39,7 +39,7 @@ optional-dependencies = { dev = [
     "types-mock",
     "types-pyyaml",
 ] }
-scripts = { phoebus_guibuilder = "phoebus_guibuilder.__main__:main" }
+scripts = { phoebus-guibuilder = "phoebus_guibuilder.__main__:main" }
 
 [build-system]
 requires = ["pdm-backend"]

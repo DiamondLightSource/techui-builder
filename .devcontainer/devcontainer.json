@@ -7,7 +7,9 @@
     },
     "remoteEnv": {
         // Allow X11 apps to run inside the container
-        "DISPLAY": "${localEnv:DISPLAY}"
+        "DISPLAY": "${localEnv:DISPLAY}",
+        // Add venv to path for cmd line tools to be recognised by default, e.g. tox
+        "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}"
     },
     "customizations": {
         "vscode": {

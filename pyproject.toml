@@ -15,9 +15,9 @@ authors = [
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
-dependencies = ["pyyaml (>=6.0.2)"]
+dependencies = ["pyyaml>=6.0.2"]
 optional-dependencies = { dev = [
-    "poetry>=2.0.0",
+    "pdm>=2.22.3",
     "pre-commit",
     "pydata-sphinx-theme>=0.12",
     "pyright",
@@ -41,40 +41,19 @@ optional-dependencies = { dev = [
 ] }
 scripts = { phoebus_guibuilder = "phoebus_guibuilder.__main__:main" }
 
-
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
-[tool.poetry]
-include = ["src/phoebus_guibuilder/_version.py"]
-version = "0.1.0"
-
-[tool.poetry.requires-plugins]
-poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
-
-[tool.poetry-dynamic-versioning]
-enable = false
-vcs = "git"
-latest-tag = true
-bump = true
-metadata = false
+[tool.pdm.version]
+fallback_version = "0.0.0"
+source = "scm"
+tag_filter = "*"
 # allows for tags with the format 0.1.0a1
-pattern = "((?P<base>\\d+(\\.\\d+)*)(?P<stage>[a-zA-Z]+)?(?P<revision>\\d+)?)"
-
-[tool.poetry-dynamic-versioning.files."src/phoebus_guibuilder/_version.py"]
-persistent-substitution = true
-initial-content = """
-  # These version placeholders will be replaced later during substitution.
-  __version__ = "0.1.0"
-  __version_tuple__ = (0, 1, 0)
-"""
-
-[tool.poetry-dynamic-versioning.substitution]
-folders = [{ path = "src" }]
-
-# [tool.setuptools_scm]
-# version_file = "src/phoebus_guibuilder/_version.py" # overwrites base version
+tag_regex = "(?P<version>([1-9][0-9]*!)?(0|[1-9][0-9]*)(\\.(0|[1-9][0-9]*))*((a|b|c|rc)(0|[1-9][0-9]*))?)"
+#version_format = "phoebus_guibuiler.version:format_version"
+write_to = "phoebus_guibuilder/_version.py"
+write_template = "__version__ = '{}'\n"
 
 [tool.pyright]
 typeCheckingMode = "standard"

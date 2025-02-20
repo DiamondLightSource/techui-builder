@@ -2,7 +2,6 @@
 
 from argparse import ArgumentParser
 from collections.abc import Sequence
-from fileinput import filename
 
 from . import __version__
 from .guibuilder import Guibuilder

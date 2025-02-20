@@ -1,6 +1,5 @@
 import os
 import re
-import sys
 
 import yaml
 
@@ -15,14 +14,14 @@ class Guibuilder:
 
     """
 
-    def __init__(self, create_gui: str):
+    def __init__(self, create_gui_yaml: str):
         self.components: list[Component]
 
         self.beamline: Beamline
 
         self.valid_entities: list[Entry] = []
 
-        self.create_gui: str = create_gui
+        self.create_gui: str = create_gui_yaml
 
     def extract_from_create_gui(
         self,
@@ -123,7 +122,3 @@ class Guibuilder:
 
                 else:
                     print("No BOB available")
-
-
-if __name__ == "__main__":
-    Guibuilder(sys.argv[1])

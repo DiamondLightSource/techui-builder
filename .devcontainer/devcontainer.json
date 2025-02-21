@@ -3,7 +3,7 @@
     "name": "Python 3 Developer Container",
     "build": {
         "dockerfile": "../Dockerfile",
-        "target": "developer"
+        "target": "build"
     },
     "remoteEnv": {
         // Allow X11 apps to run inside the container
@@ -58,5 +58,7 @@
         "--security-opt=label=disable"
     ],
     // Mount the parent as /workspaces so we can pip install peers as editable
-    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind"
+    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
+    // After the container is created, install the pdm env
+    "postCreateCommand": "bash .devcontainer/post-install.sh"
 }

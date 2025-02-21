@@ -50,7 +50,7 @@ class Guibuilder:
 
         for component in self.components:
             print(component.P)
-            ioc_yaml = GitYaml(self.beamline.dom).fetch_ioc_yaml()
+            ioc_yaml = GitYaml(self.beamline.dom, prefix=component.P).fetch_ioc_yaml()
             if ioc_yaml is not None:
                 self.extract_valid_entities(
                     ioc_yaml,

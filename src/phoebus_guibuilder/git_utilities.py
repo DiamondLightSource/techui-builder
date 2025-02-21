@@ -5,16 +5,17 @@ import requests
 
 
 class GitYaml:
-    def __init__(self, dom: str):
+    def __init__(self, dom: str, prefix: str):
         self.pattern: str = "^(.*)-(.*)-(.*)"
         self.dom: str = dom
         self.git_ref: str = (
             f"https://api.github.com/repos/epics-containers/{dom}-services/git/refs"
         )
+        self.prefix: re.Match[str] | None = re.match(self.pattern, prefix)
+        assert self.prefix is not None, "Empty Prefix"
 
     def re_group(self, component: str) -> str | None:
         match: re.Match[str] | None = re.match(self.pattern, component)
-
         if match:
             return match.group(1)
 
@@ -30,20 +31,19 @@ class GitYaml:
             return err.response.json()
 
     def get_yaml(self, url) -> str | None:
-        data: dict | None = self.get_json_from_url(url)
-        if data is not None:
-            base64_content = data["content"]
-            decoded_content = base64.b64decode(base64_content).decode("utf-8")
+        config_json: dict | None = self.get_json_from_url(url)
+        assert config_json is not None, "Could not fetch config json tree"
 
-            return decoded_content
+        ioc_yaml_url = self.fetch_matches(config_json, "ioc_yaml")
+        if ioc_yaml_url is not None:
+            data: dict | None = self.get_json_from_url(ioc_yaml_url)
+            if data is not None:
+                base64_content = data["content"]
+                decoded_content = base64.b64decode(base64_content).decode("utf-8")
 
-    def fetch_matches(
-        self,
-        tree: dict,
-        task: str,
-        prefix: str = "",
-        option: str = "",
-    ) -> str | None:
+                return decoded_content
+
+    def fetch_matches(self, tree: dict, task: str) -> str | None:
         if task == "ref":
             matching_refs = [
                 item
@@ -58,19 +58,21 @@ class GitYaml:
                 for item in tree
                 if isinstance(item, dict) and item.get("path") == "services"
             ]
-            print(f"DEBUG1:{matching_url}")
             return matching_url[0]["url"]
 
         elif task == "subfolder":
             tree = tree["tree"]
-            matching_folders = [
-                item
-                for item in tree
-                if isinstance(item, dict)
-                and self.re_group(str(item.get("path"))) == prefix.lower()
-            ]
-            if matching_folders:
-                return matching_folders[0]["url"]
+            if self.prefix:
+                print(f"DEBUG1:{self.prefix.group(1).lower()}")
+                matching_folders = [
+                    item
+                    for item in tree
+                    if isinstance(item, dict)
+                    and self.re_group(str(item.get("path")))
+                    == self.prefix.group(1).lower()
+                ]
+                if matching_folders:
+                    return matching_folders[0]["url"]
 
         elif task == "config":
             tree = tree["tree"]
@@ -80,14 +82,14 @@ class GitYaml:
                 if isinstance(item, dict) and item.get("path") == "config"
             ]
             return config[0]["url"]
-
-        else:
-            answer = [
+        elif task == "iocyaml":
+            tree = tree["tree"]
+            ioc_url = [
                 item
                 for item in tree
-                if isinstance(item, dict) and item.get(option) == task
+                if isinstance(item, dict) and item.get("path") == "ioc.yaml"
             ]
-            return answer[0]["url"]
+            return ioc_url[0]["url"]
 
     def fetch_ioc_yaml(
         self,
@@ -95,7 +97,8 @@ class GitYaml:
         commit_hashes: dict | None = self.get_json_from_url(self.git_ref)
 
         assert commit_hashes is not None, "Could not pull commit hashes"
-        if commit_hashes["message"]:
+        if len(commit_hashes) < 3:
+            print(f"{commit_hashes['message']}")
             return
 
         main_hash = self.fetch_matches(commit_hashes, "ref")

@@ -1,9 +1,7 @@
-import os
-import re
-
 import yaml
 
 from phoebus_guibuilder.datatypes import Beamline, Component, Entry
+from phoebus_guibuilder.git_utilities import GitYaml
 
 
 class Guibuilder:
@@ -15,7 +13,7 @@ class Guibuilder:
     """
 
     def __init__(self, create_gui_yaml: str):
-        self.components: list[Component]
+        self.components: list[Component] = []
 
         self.beamline: Beamline
 
@@ -42,38 +40,24 @@ class Guibuilder:
             for key, comp in comps.items():
                 self.components.append(Component(key, **comp))
 
-    def find_services_folders(
+    def find_services_extract_ioc(
         self,
     ):
         """
-        Finds the related folders in the services directory
+        Finds the related folders in the services repo
         and extracts the related entites with the matching prefixes
         """
 
-        services_directory = (
-            self.beamline.dom + "-services/services"
-        )  # TODO: rm hardcoding, map to services.
-        path = f"{services_directory}"
-        files = os.listdir(path)
-
-        # Attempting to match the prefix to the files in the services directory
-        pattern = "^(.*)-(.*)-(.*)"
-
         for component in self.components:
-            domain: re.Match[str] | None = re.match(pattern, component.P)
-            assert domain is not None, "Empty Prefix Field"
-
-            for file in files:
-                match = re.match(pattern, file)
-                if match:
-                    if match.group(1) == domain.group(1).lower():
-                        if os.path.exists(f"{path}/{file}/config/ioc.yaml"):
-                            self.extract_valid_entities(
-                                ioc_yaml=f"{path}/{file}/config/ioc.yaml",
-                                component=component,
-                            )
-                        else:
-                            print(f"No ioc.yaml file for service: {file}")
+            print(component.P)
+            ioc_yaml = GitYaml(self.beamline.dom).fetch_ioc_yaml()
+            if ioc_yaml is not None:
+                self.extract_valid_entities(
+                    ioc_yaml,
+                    component=component,
+                )
+            else:
+                print("Cannot find the yaml file, check the repo")
 
     def extract_valid_entities(self, ioc_yaml: str, component: Component):
         """
@@ -86,6 +70,7 @@ class Guibuilder:
         with open(ioc_yaml) as ioc:
             conf = yaml.safe_load(ioc)
             entities = conf["entities"]
+            print(entities)
             for entity in entities:
                 if (
                     "P" in entity.keys() and entity["P"] == component_match
@@ -99,6 +84,7 @@ class Guibuilder:
                             R=None,
                         )
                     )
+            print(self.valid_entities)
 
     def gui_map(self, entrys: list[Entry]):
         """

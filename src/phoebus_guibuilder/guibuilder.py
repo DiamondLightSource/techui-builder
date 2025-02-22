@@ -1,3 +1,5 @@
+import io
+
 import yaml
 
 from phoebus_guibuilder.datatypes import Beamline, Component, Entry
@@ -67,24 +69,24 @@ class Guibuilder:
         entities: list[dict[str, str]] = []
         component_match = f"{component.P}:{component.R}"
 
-        with open(ioc_yaml) as ioc:
-            conf = yaml.safe_load(ioc)
-            entities = conf["entities"]
-            print(entities)
-            for entity in entities:
-                if (
-                    "P" in entity.keys() and entity["P"] == component_match
-                ):  # the suffix could be M, could be R
-                    self.valid_entities.append(
-                        Entry(
-                            type=entity["type"],
-                            DESC=None,
-                            P=entity["P"],
-                            M=None,
-                            R=None,
-                        )
+        ioc = io.StringIO(ioc_yaml)
+        conf = yaml.safe_load(ioc)
+        entities = conf["entities"]
+        print(entities)
+        for entity in entities:
+            if (
+                "P" in entity.keys() and entity["P"] == component_match
+            ):  # the suffix could be M, could be R
+                self.valid_entities.append(
+                    Entry(
+                        type=entity["type"],
+                        DESC=None,
+                        P=entity["P"],
+                        M=None,
+                        R=None,
                     )
-            print(self.valid_entities)
+                )
+        print(self.valid_entities)
 
     def gui_map(self, entrys: list[Entry]):
         """

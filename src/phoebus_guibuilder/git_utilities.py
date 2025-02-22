@@ -34,7 +34,7 @@ class GitYaml:
         config_json: dict | None = self.get_json_from_url(url)
         assert config_json is not None, "Could not fetch config json tree"
 
-        ioc_yaml_url = self.fetch_matches(config_json, "ioc_yaml")
+        ioc_yaml_url = self.fetch_matches(config_json, "iocyaml")
         if ioc_yaml_url is not None:
             data: dict | None = self.get_json_from_url(ioc_yaml_url)
             if data is not None:
@@ -81,6 +81,7 @@ class GitYaml:
                 for item in tree
                 if isinstance(item, dict) and item.get("path") == "config"
             ]
+            print(f"DEBUG2:{config[0]['url']}")
             return config[0]["url"]
         elif task == "iocyaml":
             tree = tree["tree"]
@@ -89,6 +90,7 @@ class GitYaml:
                 for item in tree
                 if isinstance(item, dict) and item.get("path") == "ioc.yaml"
             ]
+            print(f"DEBUG3:{ioc_url[0]['url']}")
             return ioc_url[0]["url"]
 
     def fetch_ioc_yaml(

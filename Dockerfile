@@ -17,17 +17,23 @@ RUN pip install -U pdm
 # disable update check
 ENV PDM_CHECK_UPDATE=false
 # copy files
-COPY pyproject.toml pdm.lock README.md LICENSE /project/
+# * means it will only try to copy pdm.lock if it exists already
+COPY pyproject.toml pdm.lock* README.md LICENSE /project/
 COPY src/ /project/src
 
 # install dependencies and project into the local packages directory
 WORKDIR /project
-RUN pdm install --check --prod --no-editable
+# Checks if a lock file already exists
+RUN if [ -f pdm.lock ]; then \
+        pdm install --check --dev; \
+    else \
+        pdm install --dev; \
+    fi
 
 # The runtime stage copies the built venv into a slim runtime container
 FROM python:${PYTHON_VERSION}-slim AS runtime
 # Add apt-get system dependecies for runtime here if needed
-COPY --from=build /project/.venv/ /project/.venv
+COPY --from=build /project/.venv/ /project/.venv/
 ENV PATH="/project/.venv/bin:$PATH"
 
 # change this entrypoint if it is not the same as the repo

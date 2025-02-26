@@ -31,7 +31,7 @@ def test_component_repr(component):
     assert (
         str(component)
         == "Component(name=TESTDEV, desc=Test Device, \
-prefix=BL01T-EA-TEST-02, suffix=None, filename=None)"
+            prefix=BL01T-EA-TEST-02, suffix=None, filename=None)"
     )
 
 

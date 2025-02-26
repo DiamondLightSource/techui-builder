@@ -3,7 +3,8 @@
 from argparse import ArgumentParser
 from collections.abc import Sequence
 
-from . import __version__, guibuilder
+from . import __version__
+from .guibuilder import Guibuilder
 
 __all__ = ["main"]
 
@@ -20,7 +21,8 @@ def main(args: Sequence[str] | None = None) -> None:
     )
     _args = parser.parse_args(args)
 
-    guibuilder.main(_args.filename)
+    gb = Guibuilder(_args.filename)
+    gb.extract_from_create_gui()
 
 
 if __name__ == "__main__":

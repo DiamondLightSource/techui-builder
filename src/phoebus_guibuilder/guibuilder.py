@@ -134,10 +134,8 @@ class Guibuilder:
         submodules and removes all traces of submodules.
         """
         services_repo = f"git submodule add --force\
-                        git@github.com:epics-containers/{self.beamline.dom}-services.git"
-        gui_map_repo = (
-            "git submodule add --force git@github.com:adedamola-sode/techui-support.git"
-        )
+                        https://github.com:epics-containers/{self.beamline.dom}-services.git"
+        gui_map_repo = "git submodule add --force https://github.com:adedamola-sode/techui-support.git"
 
         submodules = "echo ''> .gitmodules & git submodule sync"
         rm_repos = f"rm -rf ./{self.beamline.dom}-services/ ./techui-support/"

@@ -23,6 +23,8 @@ class Guibuilder:
 
         self.create_gui: str = create_gui_yaml
 
+        self.extract_from_create_gui()
+
     def extract_from_create_gui(
         self,
     ):
@@ -48,7 +50,8 @@ class Guibuilder:
         Finds the related folders in the services directory
         and extracts the related entites with the matching prefixes
         """
-        self.git_pull_submodules(self.beamline.dom)
+        self.git_pull_submodules()
+
         services_directory = (
             self.beamline.dom + "-services/services"
         )  # TODO: rm hardcoding, map to services.
@@ -73,6 +76,7 @@ class Guibuilder:
                             )
                         else:
                             print(f"No ioc.yaml file for service: {file}")
+        os.system(f"rm -rf ./{self.beamline.dom}-services/ ./techui-support/")
 
     def extract_valid_entities(self, ioc_yaml: str, component: Component):
         """
@@ -98,6 +102,8 @@ class Guibuilder:
                             R=None,
                         )
                     )
+                    if "M" in entity.keys():
+                        self.valid_entities[-1].M = entity["M"]
 
     def gui_map(self, entrys: list[Entry]):
         """
@@ -122,18 +128,25 @@ class Guibuilder:
                 else:
                     print("No BOB available")
 
-    def git_pull_submodules(self, dom: str):
-        services_repo = (
-            f"git submodule add git@github.com:epics-containers/{dom}-services.git"
-        )
+    def git_pull_submodules(self):
+        """
+        Method which helps pull the required modules in as
+        submodules and removes all traces of submodules.
+        """
+        services_repo = f"git submodule add --force\
+                        git@github.com:epics-containers/{self.beamline.dom}-services.git"
         gui_map_repo = (
-            "git submodule add git@github.com:adedamola-sode/techui-support.git"
+            "git submodule add --force git@github.com:adedamola-sode/techui-support.git"
         )
 
-        submodules = "touch ./.gitmodules & git submodule sync"
-        rm_repos = f"rm -rf ./{dom}-services/ ./techui-support/"
+        submodules = "echo ''> .gitmodules & git submodule sync"
+        rm_repos = f"rm -rf ./{self.beamline.dom}-services/ ./techui-support/"
+        unstage = f"git restore --staged .gitmodules\
+              {self.beamline.dom}-services techui-support"
 
         os.system(submodules)
         os.system(rm_repos)
         os.system(services_repo)
         os.system(gui_map_repo)
+        os.system(unstage)
+        os.system(submodules)

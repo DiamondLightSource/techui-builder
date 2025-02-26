@@ -69,3 +69,7 @@ lockfiles/
 
 # ruff cache
 .ruff_cache/
+
+# submodules
+./techui-support/
+./*-services/

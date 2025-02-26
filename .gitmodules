@@ -1,7 +1,1 @@
-[submodule "blgui"]
-	path = blgui
-	url = git@gitlab.diamond.ac.uk:controls/support/blgui.git
-	branch = BLGuiYaml
-[submodule "p47-services"]
-	path = p47-services
-	url = https://github.com/epics-containers/p47-services.git
+

@@ -15,7 +15,7 @@ class Guibuilder:
     """
 
     def __init__(self, create_gui_yaml: str):
-        self.components: list[Component]
+        self.components: list[Component] = []
 
         self.beamline: Beamline
 
@@ -33,7 +33,6 @@ class Guibuilder:
 
         with open(self.create_gui) as f:
             conf = yaml.safe_load(f)
-
             bl: dict[str, str] = conf["beamline"]
             comps: dict[str, dict[str, str]] = conf["components"]
 
@@ -49,7 +48,7 @@ class Guibuilder:
         Finds the related folders in the services directory
         and extracts the related entites with the matching prefixes
         """
-
+        self.git_pull_submodules(self.beamline.dom)
         services_directory = (
             self.beamline.dom + "-services/services"
         )  # TODO: rm hardcoding, map to services.
@@ -106,7 +105,7 @@ class Guibuilder:
         to the required screen in gui_map.yaml
         """
 
-        gui_map = "/BLGui/BLGuiApp/opi/bob/gui_map.yaml"
+        gui_map = "./GuiMap/gui_map.yaml"
 
         with open(gui_map) as map:
             conf = yaml.safe_load(map)
@@ -122,3 +121,19 @@ class Guibuilder:
 
                 else:
                     print("No BOB available")
+
+    def git_pull_submodules(self, dom: str):
+        services_repo = (
+            f"git submodule add git@github.com:epics-containers/{dom}-services.git"
+        )
+        gui_map_repo = (
+            "git submodule add git@github.com:adedamola-sode/techui-support.git"
+        )
+
+        submodules = "touch ./.gitmodules & git submodule sync"
+        rm_repos = f"rm -rf ./{dom}-services/ ./techui-support/"
+
+        os.system(submodules)
+        os.system(rm_repos)
+        os.system(services_repo)
+        os.system(gui_map_repo)

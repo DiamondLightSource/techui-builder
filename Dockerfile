@@ -6,29 +6,24 @@ FROM python:${PYTHON_VERSION} AS developer
 # Add any system dependencies for the developer/build environment here
 RUN apt-get update && apt upgrade -y && rm -rf /var/lib/apt/lists/*
 # Install PDM using the official installer script
-RUN curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 RUN wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq \
     && chmod +x /usr/bin/yq
 
-# # The build stage installs the context into the venv
+# The build stage installs the context into the venv
 FROM developer AS build
-# install PDM
-RUN pip install -U pdm
+# install uv
+RUN pip install -U uv
 # disable update check
-ENV PDM_CHECK_UPDATE=false
+ENV UV_CHECK_UPDATE=false
 # copy files
 # * means it will only try to copy pdm.lock if it exists already
-COPY pyproject.toml pdm.lock* README.md LICENSE /project/
+COPY pyproject.toml uv.lock* README.md LICENSE /project/
 COPY src/ /project/src
 
 # install dependencies and project into the local packages directory
 WORKDIR /project
-# Checks if a lock file already exists
-RUN if [ -f pdm.lock ]; then \
-        pdm install --check --dev; \
-    else \
-        pdm install --dev; \
-    fi
+RUN uv sync --dev
 
 # The runtime stage copies the built venv into a slim runtime container
 FROM python:${PYTHON_VERSION}-slim AS runtime

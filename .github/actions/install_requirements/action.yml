@@ -17,21 +17,23 @@ runs:
         echo "PYTHON_VERSION=$PYTHON_VERSION" >> "$GITHUB_ENV"
       shell: bash
 
-    - name: Setup PDM
-      uses: pdm-project/setup-pdm@v4
+    - name: Install uv and set the python version
+      uses: astral-sh/setup-uv@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
 
     - name: Install dependencies
-      run: pdm sync -d -G dev
+      run: uv sync --dev
       shell: bash
 
     - name: Report what was installed
-      run: pdm list
+      run: uv pip list
       shell: bash
 
     - name: Add venv path to Github environment
-      run: echo "VENV_PATH=$(pdm venv activate | sed 's/.*source //; s|/bin/activate||')" >> $GITHUB_ENV
+      run: echo "VENV_PATH=.venv" >> $GITHUB_ENV
       shell: bash
 
     - name: Add venv path to Github Path

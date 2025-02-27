@@ -56,6 +56,7 @@ fallback-version = "0.1.0"
 # allows for tags with the format 0.1.0a1
 tag-pattern = "(?P<version>([1-9][0-9]*!)?(0|[1-9][0-9]*)(\\.(0|[1-9][0-9]*))*((a|b|c|rc)(0|[1-9][0-9]*))?)"
 #version_format = "phoebus_guibuiler.version:format_version"
+raw-options = { version_scheme = "only-version", local_scheme = "dirty-tag" }
 
 [tool.hatch.build.hooks.vcs]
 version-file = "src/phoebus_guibuilder/_version.py"

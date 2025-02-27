@@ -124,14 +124,3 @@ class Guibuilder:
 
             # else:
             #     print("No BOB available")
-
-    def choose_tech_support(self, branch: str):
-        """
-        Method which helps pull the required branch
-        of the tech-support submodule
-        """
-        checkout_branch = "cd  ./techui_support ;\
-            git checkout -b {branch};\
-            cd -"
-
-        os.system(checkout_branch)

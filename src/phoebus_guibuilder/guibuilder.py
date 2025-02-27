@@ -50,10 +50,9 @@ class Guibuilder:
         Finds the related folders in the services directory
         and extracts the related entites with the matching prefixes
         """
-        self.git_pull_submodules()
 
         services_directory = (
-            self.beamline.dom + "-services/services"
+            "./example/" + self.beamline.dom + "-services/services"
         )  # TODO: rm hardcoding, map to services.
         path = f"{services_directory}"
         files = os.listdir(path)
@@ -76,7 +75,6 @@ class Guibuilder:
                             )
                         else:
                             print(f"No ioc.yaml file for service: {file}")
-        os.system(f"rm -rf ./{self.beamline.dom}-services/ ./techui-support/")
 
     def extract_valid_entities(self, ioc_yaml: str, component: Component):
         """
@@ -128,23 +126,18 @@ class Guibuilder:
                 else:
                     print("No BOB available")
 
-    def git_pull_submodules(self):
+    def choose_tech_support(self, branch: str):
         """
-        Method which helps pull the required modules in as
-        submodules and removes all traces of submodules.
+        Method which helps pull the required branch
+        of the tech-support submodule
         """
-        services_repo = f"git submodule add --force\
-                        https://github.com/epics-containers/{self.beamline.dom}-services.git"
-        gui_map_repo = "git submodule add --force https://github.com/adedamola-sode/techui-support.git"
+        gui_map_repo = "git submodule add --force https://github.com/adedamola-sode/techui-support.git; git checkout -b {branch}"
 
         submodules = "echo ''> .gitmodules & git submodule sync"
-        rm_repos = f"rm -rf ./{self.beamline.dom}-services/ ./techui-support/"
-        unstage = f"git restore --staged .gitmodules\
-              {self.beamline.dom}-services techui-support"
+        rm_repos = "rm -rf ./techui-support/"
+        unstage = "git restore --staged techui-support"
 
         os.system(submodules)
         os.system(rm_repos)
-        os.system(services_repo)
         os.system(gui_map_repo)
         os.system(unstage)
-        os.system(submodules)

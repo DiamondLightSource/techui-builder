@@ -14,16 +14,6 @@ def test_guibuilder():
     assert gb.components[0].attribute is None
 
 
-def test_git_pull_submodules():
-    gb = Guibuilder("./example/create_gui.yaml")
-    gb.extract_from_create_gui()
-    gb.git_pull_submodules()
-    services_directory = f"./{gb.beamline.dom}-services"
-    techui_directory = "./techui-support"
-    assert os.path.isdir(services_directory)
-    assert os.path.isdir(techui_directory)
-
-
 def test_gb_extract_services():
     gb = Guibuilder("./example/create_gui.yaml")
     gb.find_services_folders()

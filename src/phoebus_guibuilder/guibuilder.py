@@ -131,15 +131,8 @@ class Guibuilder:
         Method which helps pull the required branch
         of the tech-support submodule
         """
-        gui_map_repo = "git submodule add \
-            --force https://github.com/adedamola-sode/techui-support.git;\
-            git checkout -b {branch}"
+        checkout_branch = "cd  ./techui_support ;\
+            git checkout -b {branch};\
+            cd -"
 
-        submodules = "echo ''> .gitmodules & git submodule sync"
-        rm_repos = "rm -rf ./techui-support/"
-        unstage = "git restore --staged techui-support"
-
-        os.system(submodules)
-        os.system(rm_repos)
-        os.system(gui_map_repo)
-        os.system(unstage)
+        os.system(checkout_branch)

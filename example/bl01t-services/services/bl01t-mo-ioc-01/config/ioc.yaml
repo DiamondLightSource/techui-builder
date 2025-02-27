@@ -15,13 +15,13 @@ entities:
     IOC: "{{ ioc_name | upper }}"
 
   - type: pmac.pmacAsynIPPort
-    IP: 192.168.250.13:1025
+    IP: 1.1.1.1:1111
     name: BRICK1port
 
   - type: pmac.GeoBrick
     IdlePoll: 1000
     NAXES: 4
-    P: BL47P-MO-BRICK-01
+    P: BL01T-MO-BRICK-01
     name: BRICK1
     pmacAsynPort: BRICK1port
 
@@ -33,7 +33,7 @@ entities:
     GRP1: All
     GRP2: X
     GRP3: A
-    P: BL47P-MO-MAP-01:STAGE
+    P: BL01T-MO-MAP-01:STAGE
     PLC: 11
     PmacController: BRICK1
 
@@ -50,7 +50,7 @@ entities:
     LLM: "-25"
     M: :X
     MRES: -0.000125
-    P: BL47P-MO-MAP-01:STAGE
+    P: BL01T-MO-MAP-01:STAGE
     PREC: 3
     TWV: 1
     UEIP: "Yes"
@@ -68,7 +68,7 @@ entities:
     HLSV: NO_ALARM
     M: :A
     MRES: 0.018
-    P: BL47P-MO-MAP-01:STAGE
+    P: BL01T-MO-MAP-01:STAGE
     PREC: 3
     TWV: 18
     UEIP: "Yes"

@@ -17,18 +17,18 @@ RUN pip install -U uv
 # disable update check
 ENV UV_CHECK_UPDATE=false
 # copy files
-# * means it will only try to copy pdm.lock if it exists already
+# * means it will only try to copy uv.lock if it exists already
 COPY pyproject.toml uv.lock* README.md LICENSE /project/
 COPY src/ /project/src
 
 # install dependencies and project into the local packages directory
 WORKDIR /project
-RUN uv sync --dev
+RUN uv sync --dev --no-editable
 
 # The runtime stage copies the built venv into a slim runtime container
 FROM python:${PYTHON_VERSION}-slim AS runtime
 # Add apt-get system dependecies for runtime here if needed
-COPY --from=build /project/.venv/ /project/.venv/
+COPY --from=build /project/.venv/ /project/.venv
 ENV PATH="/project/.venv/bin:$PATH"
 
 # change this entrypoint if it is not the same as the repo

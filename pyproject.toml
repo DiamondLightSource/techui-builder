@@ -15,7 +15,7 @@ authors = [
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
-dependencies = ["pyyaml>=6.0.2"]
+dependencies = ["pyyaml>=6.0.2", "phoebusgen>=3.0.0"]
 scripts = { phoebus-guibuilder = "phoebus_guibuilder.__main__:main" }
 
 [dependency-groups]

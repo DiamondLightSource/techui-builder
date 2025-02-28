@@ -11,7 +11,7 @@ class Beamline:
 @dataclass
 class Entry:
     type: str
-    DESC: str | None
+    DESC: str
     P: str
     M: str | None
     R: str | None

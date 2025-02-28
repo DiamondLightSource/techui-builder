@@ -4,6 +4,7 @@ import re
 import yaml
 
 from phoebus_guibuilder.datatypes import Beamline, Component, Entry
+from phoebus_guibuilder.screen import TechUIScreens as Screen
 
 
 class Guibuilder:
@@ -94,7 +95,7 @@ class Guibuilder:
                     self.valid_entities.append(
                         Entry(
                             type=entity["type"],
-                            DESC=None,
+                            DESC=component.name,
                             P=entity["P"],
                             M=None,
                             R=None,
@@ -103,28 +104,26 @@ class Guibuilder:
                     if "M" in entity.keys():
                         self.valid_entities[-1].M = entity["M"]
 
-    def gui_map(self, entrys: list[Entry]):
+    def gui_map(self):
         """
         Maps the valid entities from the ioc.yaml file
         to the required screen in gui_map.yaml
         """
 
-        gui_map = "./GuiMap/gui_map.yaml"
+        gui_map = "./techui-support/gui_map.yaml"
 
         with open(gui_map) as map:
             conf = yaml.safe_load(map)
+            print(self.valid_entities)
+            Screen(self.valid_entities, conf)
+            # for entry in self.valid_entities:
+            #     if conf[entry.type]:
+            #         print(
+            #             conf[entry.type]["file"]
+            #         )  # Find correct .bob file, and injet macros
 
-            for entry in entrys:
-                print(entry.type)
-                if conf[entry.type]:
-                    print(
-                        conf[entry.type]["file"]
-                    )  # Find correct .bob file, and injet macros
-                    # TODO:  create a copy of the file, and replace the required macros
-                    # TODO:  return the file to guibuilder
-
-                else:
-                    print("No BOB available")
+            # else:
+            #     print("No BOB available")
 
     def choose_tech_support(self, branch: str):
         """

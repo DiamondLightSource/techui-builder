@@ -633,6 +633,7 @@ wheels = [
 name = "phoebus-guibuilder"
 source = { editable = "." }
 dependencies = [
+    { name = "phoebusgen" },
     { name = "pyyaml" },
 ]
 
@@ -662,7 +663,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "pyyaml", specifier = ">=6.0.2" }]
+requires-dist = [
+    { name = "phoebusgen", specifier = ">=3.0.0" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
+]
 
 [package.metadata.requires-dev]
 dev = [
@@ -687,6 +691,15 @@ dev = [
     { name = "sphinxcontrib-mermaid" },
     { name = "types-mock" },
     { name = "types-pyyaml" },
+]
+
+[[package]]
+name = "phoebusgen"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/48/0bf47985d274495b561a87d64c8396e7de1e80554b5c4a72fb3d399f1bb6/phoebusgen-3.0.0.tar.gz", hash = "sha256:801d18e845824d1e807721ae69b6d77700fc04645b8df52a6b4ba6be7c32a903", size = 75209 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1b/ad/ac938acb9a4f3c07db3c1539c822f53c0fff5d8fdb7e20a8e2fade1019e2/phoebusgen-3.0.0-py3-none-any.whl", hash = "sha256:e20c097dce12f4c0c7780cf6c463d718d626782d627af0ae8a600d1fe9fecd37", size = 49817 },
 ]
 
 [[package]]

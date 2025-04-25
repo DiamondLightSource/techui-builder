@@ -17,9 +17,7 @@ readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = ["pyyaml>=6.0.2", "phoebusgen>=3.0.0"]
 scripts = { phoebus-guibuilder = "phoebus_guibuilder.__main__:main" }
-
-[dependency-groups]
-dev = [
+optional-dependencies = { dev = [
     "basedpyright>=1.27.1",
     "hatch>=1.14.0",
     "hatch-vcs",
@@ -41,7 +39,7 @@ dev = [
     "sphinx-design",
     "types-mock",
     "types-pyyaml",
-]
+] }
 
 [build-system]
 requires = ["hatchling", "hatch-vcs"]

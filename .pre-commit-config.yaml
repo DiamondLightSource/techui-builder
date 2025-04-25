@@ -9,19 +9,19 @@ repos:
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.6.3
+    rev: 0.6.14
     hooks:
       - id: uv-lock
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.9.6
+    rev: v0.11.4
     hooks:
       # Run the linter.
       - id: ruff
         name: lint with ruff
         language: system
-        entry: ruff check --force-exclude
+        entry: ruff check --force-exclude --fix
         types: [python]
         require_serial: true
 

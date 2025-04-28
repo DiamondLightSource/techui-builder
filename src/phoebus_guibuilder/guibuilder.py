@@ -83,7 +83,11 @@ class Guibuilder:
         """
 
         entities: list[dict[str, str]] = []
-        component_match = f"{component.P}:{component.R}"
+
+        if component.R is not None:
+            component_match = f"{component.P}:{component.R}"
+        else:
+            component_match = component.P
 
         with open(ioc_yaml) as ioc:
             conf = yaml.safe_load(ioc)
@@ -102,7 +106,10 @@ class Guibuilder:
                         )
                     )
                     if "M" in entity.keys():
-                        self.valid_entities[-1].M = entity["M"]
+                        if entity["M"][1:] == ":":
+                            self.valid_entities[-1].M = entity["M"][1:]
+                        else:
+                            self.valid_entities[-1].M = entity["M"]
 
     def gui_map(self):
         """

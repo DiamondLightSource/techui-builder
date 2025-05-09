@@ -5,11 +5,11 @@ from phoebus_guibuilder import BobScreens, Guibuilder
 
 pp = PrettyPrinter()
 
-a = Path("data/BL23BSynoptic.bob")
+bob_file = Path("data/BL23BSynoptic.bob")
 
 gui = Guibuilder()
 
-b = BobScreens(a)
-b.read_bob()
-bob = b.autofill_bob(gui)
-b.write_bob()
+bob_screen = BobScreens(bob_file)
+bob_screen.read_bob()
+bob_screen.autofill_bob(gui)
+bob_screen.write_bob()

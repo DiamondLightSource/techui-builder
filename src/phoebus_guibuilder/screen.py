@@ -163,31 +163,45 @@ class BobScreens:
         self.path = bob_path
 
     def read_bob(self) -> None:
-        # with open(self.path) as f:
-        #     bob_file = f.read()
-
         parser = etree.XMLParser()
+        # Read the bob file
         self.tree: etree._ElementTree = objectify.parse(self.path, parser)
 
+        # Find the root tag (in this case: <display version="2.0.0">)
         self.root = self.tree.getroot()
 
     def autofill_bob(self, gui):
+        # Get names from component list
         comp_names = [comp.name for comp in gui.components]
 
+        # Loop over objects in the xml
+        # i.e. every tag below <display version="2.0.0">
+        # but not any nested tags below them
         for child in self.root:
+            # For type hinting
             assert isinstance(child, etree._Element)  # noqa: SLF001
+
+            # If widget is a symbol (i.e. a component)
             if child.tag == "widget" and child.get("type", default=None) == "symbol":
+                # Extract it's name
                 symbol_name = child.find("name", namespaces=None).text
+
+                # If the name exists in the component list
                 if symbol_name in comp_names:
-                    # Get first copy of component
+                    # Get first copy of component (should only be one)
                     comp = next(
                         (comp for comp in gui.components if comp.name == symbol_name),
                     )
 
-                    pv_name: str = child.find("pv_name", namespaces=None).text
+                    # Extract it's current pv_name, or if empty set to {prefix}
+                    pv_name: str = (
+                        child.find("pv_name", namespaces=None).text or "{prefix}"
+                    )
 
+                    # Replace instance of {prefix} with the component's prefix
                     pv_name = pv_name.replace("{prefix}", comp.prefix)
 
+                    # Set component's pv_name to the autofilled pv_name
                     child.find("pv_name", namespaces=None).text = pv_name
 
     def write_bob(self):

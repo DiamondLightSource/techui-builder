@@ -44,8 +44,8 @@
     </background_color>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(V1)</name>
-    <pv_name>FE23B-VA-VALVE-04:STA</pv_name>
+    <name>FEV4</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -121,8 +121,8 @@
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(FE.Absorber)</name>
-    <pv_name>FE23B-RS-ABSB-01:STA</pv_name>
+    <name>FEABSB</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/absorber 1 (copy).svg</symbol>
       <symbol>images/absorber 1 (copy).svg</symbol>
@@ -268,8 +268,8 @@ $(pv_value)</tooltip>
     </border_color>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(FE.V2)</name>
-    <pv_name>FE23B-VA-VALVE-02:STA</pv_name>
+    <name>FEV2</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -326,8 +326,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>130</x>
     <y>195</y>
-    <width>8</width>
-    <height>73</height>
+    <width>6</width>
+    <height>71</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -363,8 +363,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IMG1)</name>
-    <pv_name>FE23B-VA-IMG-04:STA</pv_name>
+    <name>IMG4</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -409,8 +409,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)</name>
-    <pv_name>FE23B-VA-IONP-04:STA</pv_name>
+    <name>IONP4</name>
+    <pv_name>{prefix}-04:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -453,8 +453,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(RGA1)</name>
-    <pv_name>FE23B-VA-RGA-02:STA.SEVR</pv_name>
+    <name>RGA2</name>
+    <pv_name>{prefix}:STA.SEVR</pv_name>
     <symbols>
       <symbol>images/rga 0.svg</symbol>
     </symbols>
@@ -848,8 +848,8 @@ Current</text>
     <tooltip>$(text)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(PIRG2)_1</name>
-    <pv_name>FE23B-VA-PIRG-04:STA</pv_name>
+    <name>PIRG4</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -1004,8 +1004,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(FE.V2)_1</name>
-    <pv_name>FE23B-VA-VALVE-03:STA</pv_name>
+    <name>FEV3</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -1052,8 +1052,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(MR)_1</name>
-    <pv_name>FE23B-OP-MR-01:DEVSTA</pv_name>
+    <name>M1</name>
+    <pv_name>{prefix}:DEVSTA</pv_name>
     <symbols>
       <symbol>images/vfm-up.svg</symbol>
     </symbols>
@@ -1086,8 +1086,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(MR)_2</name>
-    <pv_name>FE23B-OP-MR-02:DEVSTA</pv_name>
+    <name>M2</name>
+    <pv_name>{prefix}:DEVSTA</pv_name>
     <symbols>
       <symbol>images/vfm-up.svg</symbol>
     </symbols>
@@ -1137,8 +1137,8 @@ $(pv_value)</tooltip>
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(FE.Shutter)_1</name>
-    <pv_name>FE23B-PS-SHTR-01:STA</pv_name>
+    <name>SHTR1</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/shutter 1 (copy).svg</symbol>
       <symbol>images/shutter 1 (copy).svg</symbol>
@@ -1181,8 +1181,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(FE.Shutter)_2</name>
-    <pv_name>FE23B-PS-SHTR-02:STA</pv_name>
+    <name>SHTR2</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/shutter 1 (copy).svg</symbol>
       <symbol>images/shutter 1 (copy).svg</symbol>
@@ -1248,8 +1248,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(MR)_3</name>
-    <pv_name>BL23B-OP-MR-03:DEVSTA</pv_name>
+    <name>M3</name>
+    <pv_name>{prefix}:DEVSTA</pv_name>
     <symbols>
       <symbol>images/vfm-up.svg</symbol>
     </symbols>
@@ -1502,8 +1502,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>450</x>
     <y>140</y>
-    <width>6</width>
-    <height>71</height>
+    <width>4</width>
+    <height>69</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1539,8 +1539,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IMG1)_1</name>
-    <pv_name>BL23B-VA-IMG-01:STA</pv_name>
+    <name>IMG1</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -1585,8 +1585,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_10</name>
-    <pv_name>BL23B-VA-IONP-01:STA</pv_name>
+    <name>IONP1</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -1629,8 +1629,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(RGA1)_1</name>
-    <pv_name>BL23B-VA-RGA-01:STA.SEVR</pv_name>
+    <name>RGA1</name>
+    <pv_name>{prefix}:STA.SEVR</pv_name>
     <symbols>
       <symbol>images/rga 0.svg</symbol>
     </symbols>
@@ -1666,8 +1666,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(PIRG2)_2</name>
-    <pv_name>BL23B-VA-PIRG-01:STA</pv_name>
+    <name>PIRG1</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -1722,8 +1722,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>410</x>
     <y>140</y>
-    <width>4</width>
-    <height>69</height>
+    <width>2</width>
+    <height>67</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1759,8 +1759,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IMG1)_2</name>
-    <pv_name>FE23B-VA-IMG-06:STA</pv_name>
+    <name>IMG6</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -1805,8 +1805,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_11</name>
-    <pv_name>FE23B-VA-IONP-08:STA</pv_name>
+    <name>IONP8</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -1849,8 +1849,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(PIRG2)_3</name>
-    <pv_name>FE23B-VA-PIRG-06:STA</pv_name>
+    <name>PIRG6</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -1905,8 +1905,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>330</x>
     <y>140</y>
-    <width>2</width>
-    <height>67</height>
+    <width>1</width>
+    <height>65</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1942,8 +1942,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IMG1)_3</name>
-    <pv_name>FE23B-VA-IMG-05:STA</pv_name>
+    <name>IMG5</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -1988,8 +1988,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_12</name>
-    <pv_name>FE23B-VA-IONP-08:STA</pv_name>
+    <name>IONP7</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2032,8 +2032,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(PIRG2)_4</name>
-    <pv_name>FE23B-VA-PIRG-05:STA</pv_name>
+    <name>PIRG5</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -2103,8 +2103,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_13</name>
-    <pv_name>FE23B-VA-IONP-06:STA</pv_name>
+    <name>IONP6</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2172,8 +2172,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_14</name>
-    <pv_name>FE23B-VA-IONP-05:STA</pv_name>
+    <name>IONP5</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2216,8 +2216,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(V21)</name>
-    <pv_name>BL23B-VA-VALVE-21:STA</pv_name>
+    <name>GV2</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -2318,8 +2318,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IMG1)_4</name>
-    <pv_name>BL23B-VA-IMG-21:STA</pv_name>
+    <name>IMG21</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -2364,8 +2364,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_15</name>
-    <pv_name>BL23B-VA-IONP-21:STA</pv_name>
+    <name>IONP21</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2408,8 +2408,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(PIRG2)_5</name>
-    <pv_name>BL23B-VA-PIRG-21:STA</pv_name>
+    <name>PIRG21</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -2464,8 +2464,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>790</x>
     <y>40</y>
-    <width>2</width>
-    <height>67</height>
+    <width>1</width>
+    <height>65</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -2534,8 +2534,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(ABS1)_1</name>
-    <pv_name>BL23B-DI-MOD-02:DEVSTA</pv_name>
+    <name>MOD2</name>
+    <pv_name>{prefix}:DEVSTA</pv_name>
     <symbols>
       <symbol>images/aperture.svg</symbol>
     </symbols>
@@ -2585,8 +2585,8 @@ $(pv_value)</tooltip>
     <auto_size>true</auto_size>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(ABS1)_2</name>
-    <pv_name>BL23B-DI-MOD-01:DEVSTA</pv_name>
+    <name>MOD1</name>
+    <pv_name>{prefix}:DEVSTA</pv_name>
     <symbols>
       <symbol>images/aperture.svg</symbol>
     </symbols>
@@ -2644,8 +2644,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IMG1)_5</name>
-    <pv_name>BL23B-VA-IMG-11:STA</pv_name>
+    <name>IMG11</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -2690,8 +2690,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_16</name>
-    <pv_name>BL23B-VA-IONP-11:STA</pv_name>
+    <name>IONP11</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2734,8 +2734,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(PIRG2)_6</name>
-    <pv_name>BL23B-VA-PIRG-11:STA</pv_name>
+    <name>PIRG11</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -2780,8 +2780,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(V11)</name>
-    <pv_name>BL23B-VA-VALVE-11:ST</pv_name>
+    <name>GV1</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -2882,8 +2882,8 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IMG1)_6</name>
-    <pv_name>BL23B-VA-IMG-12:STA</pv_name>
+    <name>IMG12</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -2928,8 +2928,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(IONP1)_17</name>
-    <pv_name>BL23B-VA-IONP-12:STA</pv_name>
+    <name>IONP12</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2972,8 +2972,8 @@ $(pv_value)</tooltip>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(PIRG2)_7</name>
-    <pv_name>BL23B-VA-PIRG-12:STA</pv_name>
+    <name>PIRG12</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -3104,8 +3104,8 @@ $(pv_value)</tooltip>
     <auto_size>true</auto_size>
   </widget>
   <widget type="symbol" version="2.0.0">
-    <name>auto(FE.Shutter)_3</name>
-    <pv_name>FE23B-VA-FVALV-01:STA</pv_name>
+    <name>FESHTR</name>
+    <pv_name>{prefix}:STA</pv_name>
     <symbols>
       <symbol>images/shutter 1 (copy).svg</symbol>
       <symbol>images/shutter 1 (copy).svg</symbol>

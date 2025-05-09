@@ -20,9 +20,9 @@ class Entry:
 @dataclass
 class Component:
     name: str
-    desc: str
     prefix: str
     service_name: str | None = None
+    desc: str | None = None
     filename: str | None = None
 
     def __post_init__(self):
@@ -37,7 +37,7 @@ class Component:
             r"""
             ^           # start of string
             (?=         # lookahead to ensure the following pattern matches
-                [A-Za-z0-9-]{14,16} # match 14 to 16 alphanumeric characters or hyphens
+                [A-Za-z0-9-]{13,16} # match 13 to 16 alphanumeric characters or hyphens
                 [:A-Za-z0-9]* # match zero or more colons or alphanumeric characters
                 [.A-Za-z0-9]  # match a dot or alphanumeric character
             )

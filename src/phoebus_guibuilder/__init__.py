@@ -8,7 +8,7 @@
 
 from phoebus_guibuilder.datatypes import Beamline, Component, Entry
 from phoebus_guibuilder.guibuilder import Guibuilder
-from phoebus_guibuilder.screen import TechUIScreens
+from phoebus_guibuilder.screen import BobScreens, TechUIScreens
 
 from ._version import __version__
 
@@ -19,4 +19,5 @@ __all__ = [
     "Entry",
     "Guibuilder",
     "TechUIScreens",
+    "BobScreens",
 ]

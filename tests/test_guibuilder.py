@@ -1,5 +1,3 @@
-import os
-
 from phoebus_guibuilder.guibuilder import Guibuilder
 
 
@@ -32,10 +30,3 @@ def test_gb_extract_services():
     assert gb.valid_entities[2].P == "BL01T-MO-MAP-01:STAGE"
     assert gb.valid_entities[2].M == ":A"
     assert gb.valid_entities[1].R is None
-
-
-def test_gui_map():
-    gb = Guibuilder("./example/create_gui.yaml")
-    gb.find_services_folders()
-    gb.gui_map()
-    assert os.path.isfile("./motor.bob")

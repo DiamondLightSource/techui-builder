@@ -123,11 +123,3 @@ class Guibuilder:
             conf = yaml.safe_load(map)
             print(self.valid_entities)
             Screen(self.valid_entities, conf)
-            # for entry in self.valid_entities:
-            #     if conf[entry.type]:
-            #         print(
-            #             conf[entry.type]["file"]
-            #         )  # Find correct .bob file, and injet macros
-
-            # else:
-            #     print("No BOB available")

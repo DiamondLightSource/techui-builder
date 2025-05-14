@@ -13,6 +13,10 @@ STACK_GLOBAL = 3
 class TechUIScreens:
     def __init__(self, screen_components: list[Entry], screen: dict):
         def get_screen_dimensions(file: str):
+            """
+            Parses the bob files for information on the height
+            and width of the screen
+            """
             tree = ET.parse(file)
             root = tree.getroot()
             height: str | None = root.findall("height")[0].text
@@ -22,10 +26,15 @@ class TechUIScreens:
             return (height, width)
 
         def default_if_none(value: str | None) -> int:
+            """
+            Defaults to 100 if no value is returned.
+            If there's a value, casts to integer.
+            """
             if value is None:
                 return 100
             return int(value)
 
+        # Create screen object
         self.screen_components = screen_components
         self.screen_ = Screen.Screen(self.screen_components[0].DESC)
         widgets = []
@@ -118,10 +127,12 @@ class TechUIScreens:
                     )
                 )
 
+                # Add action to action button: to open related display
                 widgets[order].action_open_file(
                     f"./techui-support/bob/{screen[ui.type]['file']}"
                 )
 
+        # Add widgets to groups
         start_widget = 0
         end_widget = STACK_GLOBAL
         for group in groups:

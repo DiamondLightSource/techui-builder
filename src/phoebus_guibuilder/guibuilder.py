@@ -1,5 +1,7 @@
+import json
 import os
 import re
+import xml.etree.ElementTree as ET
 
 import yaml
 
@@ -123,3 +125,47 @@ class Guibuilder:
             conf = yaml.safe_load(map)
             print(self.valid_entities)
             Screen(self.valid_entities, conf)
+            self.generate_json_map(f"{self.valid_entities[0].DESC}.bob")
+
+    def generate_json_map(self, file_path, visited=None):
+        if visited is None:
+            visited = set()
+
+        abs_path = os.path.abspath(file_path)
+        if abs_path in visited:
+            return {"file": file_path, "note": "Already visited (cycle detected)"}
+
+        visited.add(abs_path)
+        node = {"file": file_path, "children": []}
+
+        try:
+            tree = ET.parse(abs_path)
+            root = tree.getroot()
+
+            for file_elem in root.findall(".//file"):
+                ref = file_elem.text
+                if not ref:
+                    continue
+
+                ref = ref.strip()
+                if not ref.endswith(".bob"):
+                    continue
+
+                next_file_path = os.path.normpath(
+                    os.path.join(os.path.dirname(abs_path), ref)
+                )
+                if os.path.isfile(next_file_path):
+                    child_node = self.generate_json_map(next_file_path, visited)
+                    node["children"].append(child_node)
+                else:
+                    node["children"].append({"file": ref, "error": "File not found"})
+
+        except ET.ParseError as e:
+            node["error"] = f"XML parse error: {e}"
+        except Exception as e:
+            node["error"] = str(e)
+
+        with open("map.json", "w") as outfile:
+            json.dump(node, outfile)
+
+        return node

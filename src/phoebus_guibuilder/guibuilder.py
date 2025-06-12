@@ -108,24 +108,29 @@ class Guibuilder:
                         )
                     )
                     if "M" in entity.keys():
-                        if entity["M"][1:] == ":":
+                        if entity["M"][0] == ":":
                             self.valid_entities[-1].M = entity["M"][1:]
                         else:
                             self.valid_entities[-1].M = entity["M"]
 
-    def gui_map(self):
-        """
-        Maps the valid entities from the ioc.yaml file
-        to the required screen in gui_map.yaml
-        """
+    def find_parent_widget(self, element, root):
+        """Find the nearest <widget> ancestor of a given element."""
+        path = []
 
-        gui_map = "./techui-support/gui_map.yaml"
+        def recurse(current, parent=None):
+            if current == element:
+                path.append(parent)
+                return True
+            for child in current:
+                if recurse(child, current):
+                    return True
+            return False
 
-        with open(gui_map) as map:
-            conf = yaml.safe_load(map)
-            print(self.valid_entities)
-            Screen(self.valid_entities, conf)
-            self.generate_json_map(f"{self.valid_entities[0].DESC}.bob")
+        recurse(root)
+        current = path[0]
+        while current is not None and current.tag != "widget":
+            current = path.pop() if path else None
+        return current
 
     def generate_json_map(self, file_path, visited=None):
         if visited is None:
@@ -142,23 +147,39 @@ class Guibuilder:
             tree = ET.parse(abs_path)
             root = tree.getroot()
 
+            # Find all <file> elements
             for file_elem in root.findall(".//file"):
-                ref = file_elem.text
-                if not ref:
-                    continue
-
-                ref = ref.strip()
+                ref = file_elem.text.strip() if file_elem.text else ""
                 if not ref.endswith(".bob"):
                     continue
 
                 next_file_path = os.path.normpath(
                     os.path.join(os.path.dirname(abs_path), ref)
                 )
+
+                macro_dict = {}
+                widget = self.find_parent_widget(file_elem, root)
+                if widget is not None:
+                    macros = widget.find("macros")
+                    if macros is not None:
+                        p = macros.find(".//P")
+                        print(p.text)
+                        m = macros.find(".//M")
+                        print(m.text)
+                        if p is not None and p.text:
+                            macro_dict["P"] = p.text.strip()
+                        if m is not None and m.text:
+                            macro_dict["M"] = m.text.strip()
+
+                # Crawl the next file
                 if os.path.isfile(next_file_path):
                     child_node = self.generate_json_map(next_file_path, visited)
+                    child_node.update(macro_dict)
                     node["children"].append(child_node)
                 else:
-                    node["children"].append({"file": ref, "error": "File not found"})
+                    error_node = {"file": ref, "error": "File not found"}
+                    error_node.update(macro_dict)
+                    node["children"].append(error_node)
 
         except ET.ParseError as e:
             node["error"] = f"XML parse error: {e}"
@@ -169,3 +190,16 @@ class Guibuilder:
             json.dump(node, outfile)
 
         return node
+
+    def gui_map(self):
+        """
+        Maps the valid entities from the ioc.yaml file
+        to the required screen in gui_map.yaml
+        """
+
+        gui_map = "./techui-support/gui_map.yaml"
+
+        with open(gui_map) as map:
+            conf = yaml.safe_load(map)
+            Screen(self.valid_entities, conf)
+            self.generate_json_map(f"{self.valid_entities[0].DESC}.bob")

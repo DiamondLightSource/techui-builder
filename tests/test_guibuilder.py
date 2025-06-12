@@ -1,8 +1,17 @@
+import os
+
+import pytest
+
 from phoebus_guibuilder.guibuilder import Guibuilder
 
 
-def test_guibuilder():
-    gb = Guibuilder("./example/create_gui.yaml")  #
+@pytest.fixture
+def gb():
+    Guibuilder("./example/create_gui.yaml")
+    return Guibuilder("./example/create_gui.yaml")
+
+
+def test_guibuilder(gb):
     assert gb.beamline.dom == "bl01t"
     assert gb.beamline.desc == "Test Beamline"
     assert gb.components[0].name == "fshtr"
@@ -12,8 +21,7 @@ def test_guibuilder():
     assert gb.components[0].attribute is None
 
 
-def test_gb_extract_services():
-    gb = Guibuilder("./example/create_gui.yaml")
+def test_gb_extract_services(gb):
     gb.find_services_folders()
     assert gb.valid_entities[0].type == "pmac.autohome"
     assert gb.valid_entities[0].DESC == "motor"
@@ -23,10 +31,17 @@ def test_gb_extract_services():
     assert gb.valid_entities[1].type == "pmac.dls_pmac_asyn_motor"
     assert gb.valid_entities[1].DESC == "motor"
     assert gb.valid_entities[1].P == "BL01T-MO-MAP-01:STAGE"
-    assert gb.valid_entities[1].M == ":X"
+    assert gb.valid_entities[1].M == "X"
     assert gb.valid_entities[1].R is None
     assert gb.valid_entities[2].type == "pmac.dls_pmac_asyn_motor"
     assert gb.valid_entities[2].DESC == "motor"
     assert gb.valid_entities[2].P == "BL01T-MO-MAP-01:STAGE"
-    assert gb.valid_entities[2].M == ":A"
+    assert gb.valid_entities[2].M == "A"
     assert gb.valid_entities[1].R is None
+
+
+def test_gui_map(gb):
+    gb.find_services_folders()
+    gb.gui_map()
+    assert os.path.isfile("./motor.bob")
+    assert os.path.isfile("./map.json")

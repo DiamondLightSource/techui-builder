@@ -1,8 +1,8 @@
 import json
 import os
 import re
-import xml.etree.ElementTree as ET
 
+import lxml.etree as etree
 import yaml
 
 from phoebus_guibuilder.datatypes import Beamline, Component, Entry
@@ -113,25 +113,6 @@ class Guibuilder:
                         else:
                             self.valid_entities[-1].M = entity["M"]
 
-    def find_parent_widget(self, element, root):
-        """Find the nearest <widget> ancestor of a given element."""
-        path = []
-
-        def recurse(current, parent=None):
-            if current == element:
-                path.append(parent)
-                return True
-            for child in current:
-                if recurse(child, current):
-                    return True
-            return False
-
-        recurse(root)
-        current = path[0]
-        while current is not None and current.tag != "widget":
-            current = path.pop() if path else None
-        return current
-
     def generate_json_map(self, file_path, visited=None):
         if visited is None:
             visited = set()
@@ -144,7 +125,7 @@ class Guibuilder:
         node = {"file": file_path, "children": []}
 
         try:
-            tree = ET.parse(abs_path)
+            tree = etree.parse(abs_path, None)
             root = tree.getroot()
 
             # Find all <file> elements
@@ -158,7 +139,7 @@ class Guibuilder:
                 )
 
                 macro_dict = {}
-                widget = self.find_parent_widget(file_elem, root)
+                widget = file_elem.getparent()
                 if widget is not None:
                     macros = widget.find("macros")
                     if macros is not None:
@@ -167,9 +148,9 @@ class Guibuilder:
                         m = macros.find(".//M")
                         print(m.text)
                         if p is not None and p.text:
-                            macro_dict["P"] = p.text.strip()
+                            macro_dict["P"] = p.text
                         if m is not None and m.text:
-                            macro_dict["M"] = m.text.strip()
+                            macro_dict["M"] = m.text
 
                 # Crawl the next file
                 if os.path.isfile(next_file_path):
@@ -181,7 +162,7 @@ class Guibuilder:
                     error_node.update(macro_dict)
                     node["children"].append(error_node)
 
-        except ET.ParseError as e:
+        except etree.ParseError as e:
             node["error"] = f"XML parse error: {e}"
         except Exception as e:
             node["error"] = str(e)

@@ -10,7 +10,7 @@ def beamline() -> Beamline:
 
 @pytest.fixture
 def component() -> Component:
-    return Component("TESTDEV", "Test Device", "BL01T-EA-TEST-02")
+    return Component("TESTDEV", "BL01T-EA-TEST-02", "Test Device")
 
 
 # @pytest.mark.parametrize("beamline,expected",[])

@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier
-_commit: 2.6.0
+_commit: 3.0.0-3-gd05f036
 _src_path: gh:DiamondLightSource/python-copier-template
 author_email: oliver.copping@diamond.ac.uk
 author_name: Oliver Copping
@@ -15,4 +15,5 @@ github_org: DiamondLightSource
 package_name: techui_builder
 pypi: false
 repo_name: techui-builder
+strict_typing: true
 type_checker: pyright

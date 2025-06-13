@@ -11,28 +11,26 @@ jobs:
   lint:
     needs: check
     if: needs.check.outputs.branch-pr == ''
-    uses: ./.github/workflows/_hatch.yml
+    uses: ./.github/workflows/_tox.yml
     with:
-      hatch: precommit,type-check
+      tox: pre-commit
 
   test:
     needs: check
     if: needs.check.outputs.branch-pr == ''
-    strategy:
-      matrix:
-        runs-on: ["ubuntu-latest"] # can add windows-latest, macos-latest
-        python-version: ["3.12"]
-        include:
-          # Include one that runs in the dev environment
-          - runs-on: "ubuntu-latest"
-            python-version: "dev"
-      fail-fast: false
     uses: ./.github/workflows/_test.yml
     with:
-      runs-on: ${{ matrix.runs-on }}
-      python-version: ${{ matrix.python-version }}
+      python-version: dev
+      runs-on: ubuntu-latest
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  docs:
+    needs: check
+    if: needs.check.outputs.branch-pr == ''
+    uses: ./.github/workflows/_docs.yml
+    permissions:
+      contents: write
 
   container:
     needs: check
@@ -42,14 +40,9 @@ jobs:
       contents: read
       packages: write
 
-  dist:
-    needs: check
-    if: needs.check.outputs.branch-pr == ''
-    uses: ./.github/workflows/_dist.yml
-
   release:
     if: github.ref_type == 'tag'
-    needs: [dist]
+    needs: docs
     uses: ./.github/workflows/_release.yml
     permissions:
       contents: write

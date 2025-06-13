@@ -45,7 +45,7 @@
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV4</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -122,7 +122,7 @@
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEABSB</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/absorber 1 (copy).svg</symbol>
       <symbol>images/absorber 1 (copy).svg</symbol>
@@ -269,7 +269,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV2</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -364,7 +364,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG4</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -410,7 +410,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP4</name>
-    <pv_name>{prefix}-04:STA</pv_name>
+    <pv_name>$(prefix)-04:STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -454,7 +454,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA2</name>
-    <pv_name>{prefix}:STA.SEVR</pv_name>
+    <pv_name>$(prefix):STA.SEVR</pv_name>
     <symbols>
       <symbol>images/rga 0.svg</symbol>
     </symbols>
@@ -849,7 +849,7 @@ Current</text>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG4</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -1005,7 +1005,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV3</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -1053,7 +1053,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M1</name>
-    <pv_name>{prefix}:DEVSTA</pv_name>
+    <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
       <symbol>images/vfm-up.svg</symbol>
     </symbols>
@@ -1087,7 +1087,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M2</name>
-    <pv_name>{prefix}:DEVSTA</pv_name>
+    <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
       <symbol>images/vfm-up.svg</symbol>
     </symbols>
@@ -1138,7 +1138,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR1</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/shutter 1 (copy).svg</symbol>
       <symbol>images/shutter 1 (copy).svg</symbol>
@@ -1182,7 +1182,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR2</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/shutter 1 (copy).svg</symbol>
       <symbol>images/shutter 1 (copy).svg</symbol>
@@ -1249,7 +1249,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M3</name>
-    <pv_name>{prefix}:DEVSTA</pv_name>
+    <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
       <symbol>images/vfm-up.svg</symbol>
     </symbols>
@@ -1540,7 +1540,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG1</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -1586,7 +1586,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP1</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -1630,7 +1630,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA1</name>
-    <pv_name>{prefix}:STA.SEVR</pv_name>
+    <pv_name>$(prefix):STA.SEVR</pv_name>
     <symbols>
       <symbol>images/rga 0.svg</symbol>
     </symbols>
@@ -1667,7 +1667,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG1</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -1760,7 +1760,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG6</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -1806,7 +1806,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP8</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -1850,7 +1850,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG6</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -1943,7 +1943,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG5</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -1989,7 +1989,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP7</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2033,7 +2033,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG5</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -2104,7 +2104,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP6</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2173,7 +2173,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP5</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2217,7 +2217,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV2</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -2319,7 +2319,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG21</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -2365,7 +2365,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP21</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2409,7 +2409,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG21</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -2535,7 +2535,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD2</name>
-    <pv_name>{prefix}:DEVSTA</pv_name>
+    <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
       <symbol>images/aperture.svg</symbol>
     </symbols>
@@ -2586,7 +2586,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD1</name>
-    <pv_name>{prefix}:DEVSTA</pv_name>
+    <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
       <symbol>images/aperture.svg</symbol>
     </symbols>
@@ -2645,7 +2645,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG11</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -2691,7 +2691,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP11</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2735,7 +2735,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG11</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -2781,7 +2781,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV1</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -2883,7 +2883,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG12</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/img 0 (copy).svg</symbol>
       <symbol>images/img 0 (copy).svg</symbol>
@@ -2929,7 +2929,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP12</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/ionp 4 (another copy).svg</symbol>
       <symbol>images/ionp 4 (another copy).svg</symbol>
@@ -2973,7 +2973,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG12</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/pirg 0 (copy).svg</symbol>
       <symbol>images/pirg 0 (copy).svg</symbol>
@@ -3105,7 +3105,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FESHTR</name>
-    <pv_name>{prefix}:STA</pv_name>
+    <pv_name>$(prefix):STA</pv_name>
     <symbols>
       <symbol>images/shutter 1 (copy).svg</symbol>
       <symbol>images/shutter 1 (copy).svg</symbol>

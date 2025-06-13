@@ -199,7 +199,7 @@ class BobScreens:
                     )
 
                     # Replace instance of {prefix} with the component's prefix
-                    pv_name = pv_name.replace("{prefix}", comp.prefix)
+                    pv_name = pv_name.replace("$(prefix)", comp.prefix)
 
                     # Set component's pv_name to the autofilled pv_name
                     child.find("pv_name", namespaces=None).text = pv_name

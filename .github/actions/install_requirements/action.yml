@@ -28,7 +28,7 @@ runs:
         cache-dependency-glob: "uv.lock"
 
     - name: Install packages
-      run: uv sync ${{ inputs.uv-sync }}
+      run: uv sync --dev ${{ inputs.uv-sync }}
       shell: bash
 
     - name: Report what was installed

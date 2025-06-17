@@ -65,5 +65,5 @@
     // Mount the parent as /workspaces so we can pip install peers as editable
     "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
     // After the container is created, install the uv env
-    "postCreateCommand": "uv sync && pre-commit install"
+    "postCreateCommand": "uv sync --dev && pre-commit install"
 }

@@ -11,4 +11,7 @@
     },
     "python.analysis.autoImportCompletions": true,
     "ruff.configuration": "pyproject.toml",
+    // Allow us to use basedpyright
+    "python.languageServer": "None",
+    "python.analysis.typeCheckingMode": "off",
 }

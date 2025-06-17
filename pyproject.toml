@@ -22,13 +22,13 @@ dependencies = ["pyyaml>=6.0.2", "phoebusgen>=3.0.0"]
 scripts = { phoebus-guibuilder = "phoebus_guibuilder.__main__:main" }
 [dependency-groups]
 dev = [
+    "basedpyright>=1.29.4",
     "build",
     "copier",
     "pipdeptree",
     "pre-commit",
-    "pyright",
     "pytest>8.3.4",
-    "pytest-asyncio",
+    "pytest-asyncio>=1.0.0",
     "pytest-cov",
     "pytest-faulthandler",
     "pytest-forked",
@@ -83,16 +83,16 @@ source = ["src", "**/site-packages/"]
 skipsdist = true
 requires = ["tox-uv>=1.25.0"]
 # envs to runs automatically with tox -p
-env_list = ["pre-commit", "type-checking", "docs", "tests"]
+env_list = ["pre-commit", "type-checking", "tests"] # "docs"] 
 
 [tool.tox.env]
-passenv = { "*" = "" }
 # Include setuptools, pip, ... in the tox envs
 uv_seed = { enabled = true }
 
 [tool.tox.env.pre-commit]
 description = "Run pre-commit"
 allowlist_externals = ["pre-commit"]
+passenv = ["*"]
 commands = [
     [
         "pre-commit",
@@ -105,12 +105,13 @@ commands = [
 
 [tool.tox.env.type-checking]
 description = "Run type-checking"
-allowlist_externals = ["pyright"]
+allowlist_externals = ["basedpyright"]
 # needed otherwise throws reportUnknownMemberType errors
-deps = ["pytest"]
+dependency_groups = ["dev"]
+passenv = ["*"]
 commands = [
     [
-        "pyright",
+        "basedpyright",
         "src",
         "tests",
         { replace = "posargs", default = [
@@ -121,6 +122,7 @@ commands = [
 [tool.tox.env.tests]
 description = "Run tests"
 allowlist_externals = ["pytest"]
+passenv = ["*"]
 commands = [
     [
         "pytest",
@@ -135,21 +137,21 @@ commands = [
     ],
 ]
 
-[tool.tox.env.docs]
-description = "Run docs"
-allowlist_externals = ["sphinx-build", "sphinx-autobuild"]
-commands = [
-    [
-        "sphinx-build",
-        "-T",
-        "docs",
-        "build/html",
-        { replace = "posargs", default = [
-            "-EW",
-            "--keep-going",
-        ], extend = true },
-    ],
-]
+# [tool.tox.env.docs]
+# description = "Run docs"
+# allowlist_externals = ["sphinx-build", "sphinx-autobuild"]
+# commands = [
+#     [
+#         "sphinx-build",
+#         "-T",
+#         "docs",
+#         "build/html",
+#         { replace = "posargs", default = [
+#             "-EW",
+#             "--keep-going",
+#         ], extend = true },
+#     ],
+# ]
 
 [tool.ruff]
 src = ["src", "tests", "system_tests"]

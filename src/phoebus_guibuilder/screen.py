@@ -204,9 +204,9 @@ class BobScreens:
                     # Set component's pv_name to the autofilled pv_name
                     child.find("pv_name", namespaces=None).text = pv_name
 
-    def write_bob(self):
+    def write_bob(self, filename: Path):
         self.tree.write(
-            "BL23B.bob",
+            filename,
             pretty_print=True,  # type: ignore
             encoding="utf-8",  # type: ignore
             xml_declaration=True,  # type: ignore

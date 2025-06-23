@@ -5,14 +5,14 @@ from pathlib import Path
 import lxml.etree as etree
 import yaml
 
-from phoebus_guibuilder.datatypes import Beamline, Component, Entry
-from phoebus_guibuilder.screen import TechUIScreens as Screen
+from techui_builder.datatypes import Beamline, Component, Entry
+from techui_builder.screen import TechUIScreens as Screen
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
 
 
-class Guibuilder:
+class Builder:
     """
     This class provides the functionality to process the required
     create_gui.yaml file into screens mapped from ioc.yaml and

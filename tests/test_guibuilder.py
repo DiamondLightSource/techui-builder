@@ -1,15 +1,15 @@
 import pytest
 
-from phoebus_guibuilder.guibuilder import Guibuilder
+from techui_builder.builder import Builder
 
 
 @pytest.fixture
 def gb():
-    Guibuilder("./example/create_gui.yaml")
-    return Guibuilder("./example/create_gui.yaml")
+    b = Builder("./example/create_gui.yaml")
+    return b
 
 
-def test_guibuilder(gb):
+def test_guibuilder(gb: Builder):
     assert gb.beamline.dom == "bl01t"
     assert gb.beamline.desc == "Test Beamline"
     assert gb.components[0].name == "fshtr"

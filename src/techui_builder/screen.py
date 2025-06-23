@@ -9,7 +9,7 @@ import phoebusgen.widget as Widget
 from lxml import etree, objectify  # type: ignore
 from phoebusgen.widget.widgets import Group as grp
 
-from phoebus_guibuilder.datatypes import Entry
+from techui_builder.datatypes import Entry
 
 # from phoebus_guibuilder.guibuilder import Guibuilder
 

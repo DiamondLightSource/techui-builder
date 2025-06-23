@@ -12,16 +12,16 @@ from subprocess import check_output
 
 import requests
 
-import phoebus_guibuilder
+import techui_builder
 
 # -- General configuration ------------------------------------------------
 sys.path.insert(0, os.path.abspath("../../src"))
 # General information about the project.
-project = "phoebus-guibuilder"
+project = "techui-builder"
 copyright = "2025, Diamond Light Source"
 
 # The full version, including alpha/beta/rc tags.
-release = phoebus_guibuilder.__version__
+release = techui_builder.__version__
 
 # The short X.Y version.
 if "+" in release:
@@ -89,7 +89,7 @@ autodoc_member_order = "bysource"
 autodoc_inherit_docstrings = False
 
 # Add some more modules to the top level autosummary
-phoebus_guibuilder.__all__ += []
+techui_builder.__all__ += []
 
 # Document only what is in __all__
 autosummary_ignore_module_all = False
@@ -152,9 +152,9 @@ copybutton_prompt_is_regexp = True
 # a list of builtin themes.
 #
 html_theme = "pydata_sphinx_theme"
-github_repo = "phoebus-guibuilder"
+github_repo = "techui-builder"
 github_user = "DiamondLightSource"
-switcher_json = "https://diamondlightsource.github.io/phoebus-guibuilder/switcher.json"
+switcher_json = "https://diamondlightsource.github.io/techui-builder/switcher.json"
 switcher_exists = requests.get(switcher_json).ok
 if not switcher_exists:
     print(
@@ -208,8 +208,8 @@ html_show_sphinx = False
 html_show_copyright = False
 
 # Logo
-# html_logo = "images/phoebus-guibuilder-logo.svg"
-# html_favicon = "images/phoebus-guibuilder-favicon.svg"
+# html_logo = "images/techui-builder-logo.svg"
+# html_favicon = "images/techui-builder-favicon.svg"
 
 # If False and a module has the __all__ attribute set, autosummary documents
 # every member listed in __all__ and no others. Default is True

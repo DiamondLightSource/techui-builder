@@ -58,26 +58,27 @@ class Guibuilder:
             "./example/" + self.beamline.dom + "-services/services"
         )  # TODO: rm hardcoding, map to services.
         path = f"{services_directory}"
-        files = os.listdir(path)
+        services = os.listdir(path)
 
         # Attempting to match the prefix to the files in the services directory
-        pattern = "^(.*)-(.*)-(.*)"
+        # TODO: Improve regex
+        # pattern = "^(.*)-(.*)-(.*)"
 
         for component in self.components:
-            domain: re.Match[str] | None = re.match(pattern, component.P)
-            assert domain is not None, "Empty Prefix Field"
+            if component.service_name is not None:
+                service_name = component.service_name
+            else:
+                # if service_name is not provided, resort to P being the service name
+                service_name = component.P.lower()
 
-            for file in files:
-                match = re.match(pattern, file)
-                if match:
-                    if match.group(1) == domain.group(1).lower():
-                        if os.path.exists(f"{path}/{file}/config/ioc.yaml"):
-                            self.extract_valid_entities(
-                                ioc_yaml=f"{path}/{file}/config/ioc.yaml",
-                                component=component,
-                            )
-                        else:
-                            print(f"No ioc.yaml file for service: {file}")
+            for service in services:
+                if os.path.exists(f"{path}/{service_name}/config/ioc.yaml"):
+                    self.extract_valid_entities(
+                        ioc_yaml=f"{path}/{service_name}/config/ioc.yaml",
+                        component=component,
+                    )
+                else:
+                    print(f"No ioc.yaml file for service: {service}")
 
     def extract_valid_entities(self, ioc_yaml: str, component: Component):
         """
@@ -86,17 +87,12 @@ class Guibuilder:
 
         entities: list[dict[str, str]] = []
 
-        if component.R is not None:
-            component_match = f"{component.P}:{component.R}"
-        else:
-            component_match = component.P
-
         with open(ioc_yaml) as ioc:
             conf = yaml.safe_load(ioc)
             entities = conf["entities"]
             for entity in entities:
                 if (
-                    "P" in entity.keys() and entity["P"] == component_match
+                    "P" in entity.keys() and entity["P"] == component.prefix
                 ):  # the suffix could be M, could be R
                     self.valid_entities.append(
                         Entry(

@@ -24,3 +24,4 @@ components:
   motor:
     desc: Hexapod Stage
     prefix: BL01T-MO-MAP-01:STAGE
+    service_name: bl01t-mo-ioc-01

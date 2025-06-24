@@ -20,7 +20,8 @@ COPY --from=uv-distroless /uv /uvx /bin/
 
 # The build stage installs the context into the venv
 FROM developer AS build
-COPY . /context
+# Copy only dependency files first
+COPY pyproject.toml uv.lock /context/
 WORKDIR /context
 
 # Enable bytecode compilation and copy from the cache instead of linking 
@@ -45,8 +46,12 @@ FROM python:${PYTHON_VERSION}-slim AS runtime
 # Add apt-get system dependecies for runtime here if needed
 
 # We need to keep the venv at the same absolute path as in the build stage
-COPY --from=build /context/.venv/ /context/venv/
-ENV PATH=/context/venv/bin:$PATH
+COPY --from=build /context/.venv/ /context/.venv/
+ENV PATH=/context/.venv/bin:$PATH
+
+RUN /context/.venv/bin/python -m ensurepip && /context/.venv/bin/python -m pip install --upgrade pip
+RUN /context/.venv/bin/pip list
+RUN /context/.venv/bin/phoebus-guibuilder --version
 
 # change this entrypoint if it is not the same as the repo
 ENTRYPOINT ["techui-builder"]

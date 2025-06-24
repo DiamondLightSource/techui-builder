@@ -34,6 +34,9 @@ jobs:
           load: true
           tags: tag_for_testing
 
+      - name: Test cli view context dir
+        run: docker run --rm tag_for_testing ls -la /context/.venv/bin
+
       - name: Test cli works in cached runtime image
         run: docker run --rm tag_for_testing --version
 

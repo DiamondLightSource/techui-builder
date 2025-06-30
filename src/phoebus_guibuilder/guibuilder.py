@@ -77,6 +77,8 @@ class Guibuilder:
                     ioc_yaml=f"{path}/{service_name}/config/ioc.yaml",
                     component=component,
                 )
+                self.gui_map()
+                self.entities = []
             except OSError:
                 print(f"No ioc.yaml file for service: {service_name}. Does it exist?")
 

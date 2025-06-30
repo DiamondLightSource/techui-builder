@@ -98,8 +98,12 @@ class Guibuilder:
                         type=entity["type"],
                         DESC=component.name,
                         P=entity["P"],
-                        M=entity["M"].removeprefix(":") or None,
-                        R=entity["R"].removeprefix(":") or None,
+                        M=None
+                        if (val := entity.get("M")) is None
+                        else val.removeprefix(":"),
+                        R=None
+                        if (val := entity.get("R")) is None
+                        else val.removeprefix(":"),
                     )
                     self.entities.append(entry)
 

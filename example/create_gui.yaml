@@ -10,7 +10,7 @@ components:
 
   dcm:
     desc: Double Crystal Monochromator
-    prefix: BL01T-MO-DCM-01:MIRR1
+    prefix: BL01T-MO-DCM-01
 
   d1:
     desc: Diode 1
@@ -21,6 +21,17 @@ components:
     desc: Pilatus 2M
     prefix: BL01T-EA-PILAT-01
 
+  mirrors:
+    desc: Mirrors
+    prefix: BL23B-MO-IOC-03
+    service_name: bl23b-mo-ioc-01
+
+  vacuum:
+    desc: B23 vacuum
+    prefix: BL23B-VA-IOC-01
+    service_name: bl23b-va-ioc-01
+
   motor:
     desc: Hexapod Stage
     prefix: BL01T-MO-MAP-01:STAGE
+    service_name: bl01t-mo-ioc-01

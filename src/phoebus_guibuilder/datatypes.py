@@ -22,6 +22,7 @@ class Component:
     name: str
     desc: str
     prefix: str
+    service_name: str | None = None
     filename: str | None = None
 
     def __post_init__(self):
@@ -60,7 +61,7 @@ class Component:
         match = re.match(pattern, self.prefix)
         if match:
             self.P: str = match.group(1)
-            self.R: str = match.group(2)
+            self.R: str | None = match.group(2)
             # TODO: Is this needed?
             self.attribute: str | None = match.group(3)
         else:

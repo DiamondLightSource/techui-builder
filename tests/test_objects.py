@@ -5,12 +5,12 @@ from phoebus_guibuilder.guibuilder import Beamline, Component
 
 @pytest.fixture
 def beamline() -> Beamline:
-    return Beamline("BL01T", "Test Beamline")
+    return Beamline(dom="BL01T", desc="Test Beamline")
 
 
 @pytest.fixture
 def component() -> Component:
-    return Component("TESTDEV", "Test Device", "BL01T-EA-TEST-02")
+    return Component(name="TESTDEV", prefix="BL01T-EA-TEST-02", desc="Test Device")
 
 
 # @pytest.mark.parametrize("beamline,expected",[])
@@ -22,6 +22,7 @@ def test_beamline_object(beamline):
 def test_component_object(component):
     assert component.name == "TESTDEV"
     assert component.desc == "Test Device"
+    assert component.service_name is None
     assert component.P == "BL01T-EA-TEST-02"
     assert component.R is None
     assert component.attribute is None
@@ -37,7 +38,7 @@ def test_component_repr(component):
 
 def test_component_bad_prefix():
     with pytest.raises(AttributeError):
-        Component("BL02T-BAD", "Test 2", "BAD_PREFIX")
+        Component(name="BL02T-BAD", prefix="Test 2", desc="BAD_PREFIX")
 
 
 # def test_component_regex():

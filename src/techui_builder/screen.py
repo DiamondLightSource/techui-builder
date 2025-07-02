@@ -6,7 +6,7 @@ from pprint import PrettyPrinter
 
 import phoebusgen.screen as Screen
 import phoebusgen.widget as Widget
-from lxml import etree, objectify  # type: ignore
+from lxml import etree, objectify
 from phoebusgen.widget.widgets import Group as grp
 
 from techui_builder.datatypes import Entry

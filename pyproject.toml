@@ -18,8 +18,7 @@ readme = "README.md"
 dependencies = ["pyyaml>=6.0.2", "phoebusgen>=3.0.0", "lxml>=5.4.0"]
 scripts = { techui-builder = "techui_builder.__main__:main" }
 requires-python = ">=3.12"
-dependencies = ["pyyaml>=6.0.2", "phoebusgen>=3.0.0"]
-scripts = { phoebus-guibuilder = "phoebus_guibuilder.__main__:main" }
+
 [dependency-groups]
 dev = [
     "basedpyright>=1.29.4",

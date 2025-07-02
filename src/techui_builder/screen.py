@@ -1,21 +1,19 @@
 import math
-import warnings
+
+# import warnings
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass
 from pathlib import Path
-from pprint import PrettyPrinter
 
 import phoebusgen.screen as Screen
 import phoebusgen.widget as Widget
-from lxml import etree, objectify  # type: ignore
+from lxml import etree, objectify
 from phoebusgen.widget.widgets import Group as grp
 
-from techui_builder.datatypes import Entry
-
-# from phoebus_guibuilder.guibuilder import Guibuilder
+from techui_builder.builder import Builder
+from techui_builder.datatypes import Component, Entry
 
 STACK_GLOBAL = 3
-
-pp = PrettyPrinter()
 
 
 class TechUIScreens:
@@ -152,15 +150,19 @@ class TechUIScreens:
         self.screen_.write_screen(self.screen_components[0].__class__.__name__ + ".bob")
 
 
-class BobScreens:
-    def __init__(self, bob_path: str | Path):
-        bob_path = bob_path if isinstance(bob_path, Path) else Path(bob_path)
+@dataclass
+class BobScreen:
+    path: Path
+    macros: list[str] = ["prefix", "desc", "bob_file"]
 
-        assert bob_path.exists(), warnings.warn(
-            f"Bob file {bob_path} can't be found. Does it exist?", stacklevel=1
-        )
+    # def __init__(self, bob_path: str | Path):
+    #     bob_path = bob_path if isinstance(bob_path, Path) else Path(bob_path)
 
-        self.path = bob_path
+    #     assert bob_path.exists(), warnings.warn(
+    #         f"Bob file {bob_path} can't be found. Does it exist?", stacklevel=1
+    #     )
+
+    #     self.path = bob_path
 
     def read_bob(self) -> None:
         parser = etree.XMLParser()
@@ -170,7 +172,17 @@ class BobScreens:
         # Find the root tag (in this case: <display version="2.0.0">)
         self.root = self.tree.getroot()
 
-    def autofill_bob(self, gui):
+    def replace_macro(self, macro: str, child: etree._Element, comp: Component):
+        # Extract it's current pv_name, or if empty set to {prefix}
+        pv_name: str = child.find("pv_name", namespaces=None).text or "{prefix}"
+
+        # Replace instance of {prefix} with the component's prefix
+        pv_name = pv_name.replace("$(prefix)", comp.prefix)
+
+        # Set component's pv_name to the autofilled pv_name
+        child.find("pv_name", namespaces=None).text = pv_name
+
+    def autofill_bob(self, gui: Builder):
         # Get names from component list
         comp_names = [comp.name for comp in gui.components]
 
@@ -193,16 +205,7 @@ class BobScreens:
                         (comp for comp in gui.components if comp.name == symbol_name),
                     )
 
-                    # Extract it's current pv_name, or if empty set to {prefix}
-                    pv_name: str = (
-                        child.find("pv_name", namespaces=None).text or "{prefix}"
-                    )
-
-                    # Replace instance of {prefix} with the component's prefix
-                    pv_name = pv_name.replace("$(prefix)", comp.prefix)
-
-                    # Set component's pv_name to the autofilled pv_name
-                    child.find("pv_name", namespaces=None).text = pv_name
+                    self.replace_macro(macro, child, comp)
 
     def write_bob(self, filename: Path):
         self.tree.write(

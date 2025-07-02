@@ -1,9 +1,9 @@
 import subprocess
 import sys
 
-from phoebus_guibuilder import __version__
+from techui_builder import __version__
 
 
 def test_cli_version():
-    cmd = [sys.executable, "-m", "phoebus_guibuilder", "--version"]
+    cmd = [sys.executable, "-m", "techui_builder", "--version"]
     assert subprocess.check_output(cmd).decode().strip() == __version__

@@ -1,6 +1,6 @@
 import pytest
 
-from phoebus_guibuilder.guibuilder import Beamline, Component
+from techui_builder.datatypes import Beamline, Component
 
 
 @pytest.fixture
@@ -14,12 +14,12 @@ def component() -> Component:
 
 
 # @pytest.mark.parametrize("beamline,expected",[])
-def test_beamline_object(beamline):
+def test_beamline_object(beamline: Beamline):
     assert beamline.dom == "BL01T"
     assert beamline.desc == "Test Beamline"
 
 
-def test_component_object(component):
+def test_component_object(component: Component):
     assert component.name == "TESTDEV"
     assert component.desc == "Test Device"
     assert component.service_name is None
@@ -28,7 +28,7 @@ def test_component_object(component):
     assert component.attribute is None
 
 
-def test_component_repr(component):
+def test_component_repr(component: Component):
     assert (
         str(component)
         == "Component(name=TESTDEV, desc=Test Device, \

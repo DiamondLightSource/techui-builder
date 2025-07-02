@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: phoebus-guibuilder
-  title: phoebus-guibuilder
+  name: techui-builder
+  title: techui-builder
   description: A package for building GUIs
 spec:
   type: library

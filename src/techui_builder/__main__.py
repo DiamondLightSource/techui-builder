@@ -1,10 +1,10 @@
-"""Interface for ``python -m phoebus_guibuilder``."""
+"""Interface for ``python -m techui_builder``."""
 
 from argparse import ArgumentParser
 from collections.abc import Sequence
 
 from . import __version__
-from .guibuilder import Guibuilder
+from .builder import Builder
 
 __all__ = ["main"]
 
@@ -21,7 +21,7 @@ def main(args: Sequence[str] | None = None) -> None:
     )
     _args = parser.parse_args(args)
 
-    gb = Guibuilder(_args.filename)
+    gb = Builder(_args.filename)
     gb.extract_from_create_gui()
 
 

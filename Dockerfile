@@ -40,5 +40,5 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH=$VIRTUAL_ENV/bin:$PATH
 
 # change this entrypoint if it is not the same as the repo
-ENTRYPOINT ["phoebus-guibuilder"]
+ENTRYPOINT ["techui-builder"]
 CMD ["--version"]

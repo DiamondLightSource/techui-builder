@@ -7,12 +7,12 @@ component_lifecycle: experimental
 component_owner: group:default/sscc
 component_type: library
 description: A package for building GUIs
-distribution_name: phoebus-guibuilder
+distribution_name: techui-builder
 docker: true
 docs_type: README
 git_platform: github.com
 github_org: DiamondLightSource
-package_name: phoebus_guibuilder
+package_name: techui_builder
 pypi: false
-repo_name: phoebus-guibuilder
+repo_name: techui-builder
 type_checker: pyright

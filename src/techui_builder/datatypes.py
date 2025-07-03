@@ -25,14 +25,14 @@ class Component:
     prefix: str
     service_name: str | None = None
     desc: str | None = None
-    filename: str | None = None
+    file: str | None = None
 
     def __post_init__(self):
         self._extract_p_and_r()
 
     def __repr__(self) -> str:
         return f"Component(name={self.name}, desc={self.desc}, \
-            prefix={self.P}, suffix={self.R}, filename={self.filename})"
+            prefix={self.P}, suffix={self.R}, filename={self.file})"
 
     def _extract_p_and_r(self):
         pattern = re.compile(

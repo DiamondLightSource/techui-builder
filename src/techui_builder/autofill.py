@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from lxml import etree, objectify
+from lxml import etree, objectify  # type: ignore
 
 from techui_builder.builder import Builder
 from techui_builder.datatypes import Component

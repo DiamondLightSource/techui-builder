@@ -44,7 +44,7 @@ class TechUIScreens:
 
         # Create screen object
         self.screen_components = screen_components
-        self.screen_ = Screen.Screen(self.screen_components[0].DESC)
+        self.screen_ = Screen.Screen(self.screen_components[0].__class__.__name__)
         widgets = []
         groups = []
 
@@ -149,7 +149,7 @@ class TechUIScreens:
             end_widget += STACK_GLOBAL
 
         self.screen_.add_widget(groups)
-        self.screen_.write_screen(self.screen_components[0].DESC + ".bob")
+        self.screen_.write_screen(self.screen_components[0].__class__.__name__ + ".bob")
 
 
 class BobScreens:

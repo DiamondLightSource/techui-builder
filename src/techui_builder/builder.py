@@ -102,7 +102,11 @@ class Builder:
                     # Create Entry and append to entity list
                     entry = Entry(
                         type=entity["type"],
-                        DESC=component.name,
+                        desc=component.desc,
+                        # TODO: Implement gui_map screen path
+                        file=Path(".")
+                        if component.filename is None
+                        else Path(component.filename),
                         P=entity["P"],
                         M=None
                         if (val := entity.get("M")) is None

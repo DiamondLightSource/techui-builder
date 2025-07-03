@@ -7,9 +7,9 @@ pp = PrettyPrinter()
 
 dom = "BL23B"
 
-bob_file = Path(f"data/{dom}-synoptic-src.bob")
+bob_file = Path(f"example-synoptic/data/{dom}-synoptic-src.bob")
 
-gui = Builder()
+gui = Builder(create_gui_yaml=Path("example-synoptic/create_gui.yaml"))
 
 bob_screen = BobScreen(bob_file)
 bob_screen.read_bob()

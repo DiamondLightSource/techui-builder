@@ -10,9 +10,7 @@ from techui_builder.datatypes import Component
 @dataclass
 class BobScreen:
     path: Path
-    macros: list[str] = field(
-        default=["prefix", "desc", "bob_file"],
-    )
+    macros: list[str] = field(default_factory=lambda: ["prefix", "desc", "file"])
 
     # def __init__(self, bob_path: str | Path):
     #     bob_path = bob_path if isinstance(bob_path, Path) else Path(bob_path)
@@ -54,7 +52,7 @@ class BobScreen:
                         (comp for comp in gui.components if comp.name == symbol_name),
                     )
 
-                    self.replace_macro(widget=child, component=comp)
+                    self.replace_macros(widget=child, component=comp)
 
     def write_bob(self, filename: Path):
         self.tree.write(
@@ -65,31 +63,51 @@ class BobScreen:
         )
 
     def _sub_macro(
-        self, tag_name: str, macro: str, element: etree._Element, comp: Component
+        self, tag_name: str, macro: str, element: etree._Element, current_macro: str
     ) -> None:
         # Extract it's current tag text, or if empty set to $(<macro>)
         old: str = element.find(tag_name, namespaces=None).text or f"$({macro})"
 
         # Replace instance of {<macro>} with the component's corresponding attribute
-        new: str = old.replace(f"$({macro})", getattr(comp, f"{macro}"))
+        new: str = old.replace(f"$({macro})", current_macro)
 
         # Set component's tag text to the autofilled macro
         element.find(tag_name, namespaces=None).text = new
 
-    def replace_macro(self, widget: etree._Element, component: Component):
+    def replace_macros(self, widget: etree._Element, component: Component):
+        def _get_action_group(element: etree._Element) -> etree._Element:
+            actions: etree._Element = element.find("actions", namespaces=None)
+            for action in actions.iterchildren("action"):
+                if action.get("type", default=None) == "open_display":
+                    return action
+
+            # TODO: Find better way of handling there being no "actions" group
+            raise Exception(f"Actions group not found in component: {component.name}")
+
         for macro in self.macros:
+            # Get current component attribute
+            component_attr = getattr(component, f"{macro}")
+            # If it is None, then it was not provided so ignore
+            if component_attr is None:
+                continue
+
+            # Fix to make sure widget is reverted back to widget that was passed in
+            current_widget = widget
             match macro:
                 case "prefix":
                     tag_name = "pv_name"
                 case "desc":
                     tag_name = "description"
-                case "bob_file":
-                    # actions: etree._Element = element.find("actions", namespaces=None)
-                    # for action in actions.iterchildren("action"):
-                    #     if action.get("type", default=None) == "open_display":
-                    #         ...
+                    current_widget = _get_action_group(widget)
+                case "file":
                     tag_name = "file"
+                    current_widget = _get_action_group(widget)
                 case _:
                     raise ValueError("The provided macro type is not supported.")
 
-            self._sub_macro(tag_name, macro, widget, component)
+            self._sub_macro(
+                tag_name=tag_name,
+                macro=macro,
+                element=current_widget,
+                current_macro=component_attr,
+            )

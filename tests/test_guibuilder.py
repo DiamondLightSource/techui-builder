@@ -19,8 +19,10 @@ def test_guibuilder(gb: Builder):
     assert gb.components[0].attribute is None
 
 
-# def test_gb_extract_services(gb):
-#     gb.find_services_folders()
+def test_gb_extract_services(gb):
+    gb.find_services_folders()
+
+
 #     assert gb.entities[0].type == "pmac.autohome"
 #     assert gb.entities[0].DESC == "motor"
 #     assert gb.entities[0].P == "BL01T-MO-MAP-01:STAGE"

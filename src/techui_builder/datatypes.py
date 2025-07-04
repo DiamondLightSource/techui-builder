@@ -1,5 +1,6 @@
 import re
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass
@@ -11,7 +12,8 @@ class Beamline:
 @dataclass
 class Entry:
     type: str
-    DESC: str
+    desc: str | None
+    file: Path
     P: str
     M: str | None
     R: str | None
@@ -20,23 +22,24 @@ class Entry:
 @dataclass
 class Component:
     name: str
-    desc: str
     prefix: str
-    filename: str | None = None
+    service_name: str | None = None
+    desc: str | None = None
+    file: str | None = None
 
     def __post_init__(self):
         self._extract_p_and_r()
 
     def __repr__(self) -> str:
         return f"Component(name={self.name}, desc={self.desc}, \
-            prefix={self.P}, suffix={self.R}, filename={self.filename})"
+            prefix={self.P}, suffix={self.R}, filename={self.file})"
 
     def _extract_p_and_r(self):
         pattern = re.compile(
             r"""
             ^           # start of string
             (?=         # lookahead to ensure the following pattern matches
-                [A-Za-z0-9-]{14,16} # match 14 to 16 alphanumeric characters or hyphens
+                [A-Za-z0-9-]{13,16} # match 13 to 16 alphanumeric characters or hyphens
                 [:A-Za-z0-9]* # match zero or more colons or alphanumeric characters
                 [.A-Za-z0-9]  # match a dot or alphanumeric character
             )
@@ -60,7 +63,7 @@ class Component:
         match = re.match(pattern, self.prefix)
         if match:
             self.P: str = match.group(1)
-            self.R: str = match.group(2)
+            self.R: str | None = match.group(2)
             # TODO: Is this needed?
             self.attribute: str | None = match.group(3)
         else:

@@ -1,0 +1,129 @@
+# create_gui example for Phoebus GuiBuilder
+beamline:
+  dom: bl01t
+  desc: Test Beamline
+
+components:
+  # Vacuum
+  FESHTR:
+    prefix: FE23B-VA-FVALV-01
+
+  SHTR1:
+    desc: FE Shutter
+    prefix: FE23B-PS-SHTR-01
+
+  SHTR2:
+    desc: FE Shutter 2
+    prefix: FE23B-PS-SHTR-01
+
+  FEV2:
+    prefix: FE23B-VA-VALVE-02
+
+  FEV3:
+    prefix: FE23B-VA-VALVE-03
+
+  FEV4:
+    prefix: FE23B-VA-VALVE-04
+    desc: TEST DESCRIPTION
+    file: TEST_FILE.bob
+
+  GV1:
+    prefix: BL23B-VA-VALVE-11
+
+  GV2:
+    prefix: BL23B-VA-VALVE-21
+
+  FEABSB:
+    prefix: FE23B-RS-ABSB-01
+
+  IMG1:
+    prefix: BL23B-VA-IMG-01
+
+  IMG4:
+    prefix: FE23B-VA-IMG-04
+
+  IMG5:
+    prefix: FE23B-VA-IMG-05
+
+  IMG6:
+    prefix: BL23B-VA-IMG-06
+
+  IMG11:
+    prefix: BL23B-VA-IMG-11
+
+  IMG12:
+    prefix: BL23B-VA-IMG-12
+
+  IMG21:
+    prefix: BL23B-VA-IMG-21
+
+  IONP1:
+    prefix: BL23B-VA-IONP-01
+
+  IONP4:
+    prefix: FE23B-VA-IONP-04
+
+  IONP5:
+    prefix: FE23B-VA-IONP-05
+
+  IONP6:
+    prefix: FE23B-VA-IONP-06
+
+  IONP7:
+    prefix: FE23B-VA-IONP-07
+
+  IONP8:
+    prefix: FE23B-VA-IONP-08
+
+  IONP11:
+    prefix: BL23B-VA-IONP-11
+
+  IONP12:
+    prefix: BL23B-VA-IONP-12
+
+  IONP21:
+    prefix: BL23B-VA-IONP-21
+
+  RGA1:
+    prefix: BL23B-VA-RGA-01
+
+  RGA2:
+    prefix: FE23B-VA-RGA-02
+
+  PIRG1:
+    prefix: BL23B-VA-PIRG-01
+
+  PIRG4:
+    prefix: FE23B-VA-PIRG-04
+
+  PIRG5:
+    prefix: FE23B-VA-PIRG-05
+
+  PIRG6:
+    prefix: FE23B-VA-PIRG-06
+
+  PIRG11:
+    prefix: BL23B-VA-PIRG-11
+
+  PIRG12:
+    prefix: BL23B-VA-PIRG-12
+
+  PIRG21:
+    prefix: BL23B-VA-PIRG-21
+
+  # Mirrors
+  M1:
+    prefix: FE23B-OP-MR-01
+
+  M2:
+    prefix: FE23B-OP-MR-02
+
+  M3:
+    prefix: BL23B-OP-MR-03
+
+  # MODs
+  MOD1:
+    prefix: BL23B-DI-MOD-01
+
+  MOD2:
+    prefix: BL23B-DI-MOD-02

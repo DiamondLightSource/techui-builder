@@ -6,9 +6,10 @@
     Version number as calculated by poetry-dynamic-versioning
 """
 
-from phoebus_guibuilder.datatypes import Beamline, Component, Entry
-from phoebus_guibuilder.guibuilder import Guibuilder
-from phoebus_guibuilder.screen import TechUIScreens
+from techui_builder.autofill import BobScreen
+from techui_builder.builder import Builder
+from techui_builder.datatypes import Beamline, Component, Entry
+from techui_builder.screen import TechUIScreens
 
 from ._version import __version__
 
@@ -17,6 +18,7 @@ __all__ = [
     "Beamline",
     "Component",
     "Entry",
-    "Guibuilder",
+    "Builder",
     "TechUIScreens",
+    "BobScreen",
 ]

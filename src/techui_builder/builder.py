@@ -183,16 +183,22 @@ class Builder:
 
         return node
 
-    # TODO: change default Path
-    def gui_map(self, file_name: Path = Path("motor.bob")):
-        """
-        Maps the valid entities from the ioc.yaml file
-        to the required screen in gui_map.yaml
-        """
-
+    def read_gui_map(self):
+        """Read the gui_map.yaml file from techui-support."""
         gui_map = "./techui-support/gui_map.yaml"
 
         with open(gui_map) as map:
             conf = yaml.safe_load(map)
-            Screen(self.entities, conf)
-            self.generate_json_map(file_name)
+            # TODO: Why is this here? It doesn't seem like it is doing anything
+            # Screen(self.entities, conf)
+            self.gui_map = conf
+            print(self.gui_map)
+
+    # TODO: change default Path
+    def get_json_map(self, file_name: Path = Path("motor.bob")):
+        """
+        Maps the valid entities from the ioc.yaml file
+        to the required screen in gui_map.yaml
+        """
+        map = self.generate_json_map(file_name)
+        print(map)

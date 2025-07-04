@@ -1,6 +1,6 @@
-import math
 import warnings
-import xml.etree.ElementTree as ET
+
+# import xml.etree.ElementTree as etree
 from pathlib import Path
 from pprint import PrettyPrinter
 
@@ -20,27 +20,66 @@ pp = PrettyPrinter()
 
 class TechUIScreens:
     def __init__(self, screen_components: list[Entry], screen: dict):
-        def get_screen_dimensions(file: str):
+        self.default_size = 100
+
+        def get_screen_dimensions(file: str) -> tuple[int, int]:
             """
             Parses the bob files for information on the height
             and width of the screen
             """
-            tree = ET.parse(file)
+            tree = etree.parse(file, None)
             root = tree.getroot()
-            height: str | None = root.findall("height")[0].text
+            height_element: etree._Element | None = root.find("height")
+            if height_element is not None:
+                height = (
+                    self.default_size
+                    if (val := height_element.text) is None
+                    else int(val)
+                )
+            else:
+                height = self.default_size
+                # Assert that could not obtaint the sizes of the widget
 
-            width: str | None = root.findall("width")[0].text
+            width_element: etree._Element | None = root.find("width")
+            if width_element is not None:
+                width = (
+                    self.default_size
+                    if (val := width_element.text) is None
+                    else int(val)
+                )
+            else:
+                width = self.default_size
+                # Assert that could not obtaint the sizes of the widget
 
             return (height, width)
 
-        def default_if_none(value: str | None) -> int:
+        # Make groups
+        def get_group_dimensions(widget_list: list[etree._Element]):
             """
-            Defaults to 100 if no value is returned.
-            If there's a value, casts to integer.
+            Takes in a list of widget screens and finds the
+            maximum height in the list
             """
-            if value is None:
-                return 100
-            return int(value)
+            height_list = []
+            width_list = []
+            for widget in widget_list:
+                root = etree.fromstring(str(widget), None)
+                height: etree._Element | None = root.find("height")
+                if height is not None:
+                    height_list.append(
+                        self.default_size if (val := height.text) is None else int(val)
+                    )
+                else:
+                    height_list.append(self.default_size)
+
+                width: etree._Element | None = root.find("width")
+                if width is not None:
+                    width_list.append(
+                        self.default_size if (val := width.text) is None else int(val)
+                    )
+                else:
+                    width_list.append(self.default_size)
+
+            return (max(height_list) + group_padding, sum(width_list) + group_padding)
 
         # Create screen object
         self.screen_components = screen_components
@@ -48,18 +87,19 @@ class TechUIScreens:
         widgets = []
         groups = []
 
-        # group parameters
-        group_padding: int = 30
-        group_width: int = group_padding
-        group_height: int = group_padding
-
         self.P: str = "P"
         self.M: str = "M"
 
-        no_of_groups = math.ceil(len(self.screen_components) / STACK_GLOBAL)
+        # create widget and group objects
+        widgets = []
+        groups = []
 
-        for _grps in range(no_of_groups):
-            groups.append(grp("empty", 0, 0, 0, 0))
+        # Add group padding, and widget_x for placing widget in x direction relative to
+        # other widgets, with a widget count to reset the widget_x dimension when the
+        # allowed number of horizontal stacks is exceeded.
+        group_padding = 40
+        widget_x = 0
+        widget_count = 0
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
@@ -80,74 +120,82 @@ class TechUIScreens:
                 )
 
                 if height or width is not None:
-                    # Overwrite the group width to match the width of the
-                    # Embedded  displays making their way into the group.
-                    # Add height of the group box with padding based off widget size
-
-                    group_width += default_if_none(width) * (order % 3)
-                    group_height = group_padding + default_if_none(
-                        height
-                    )  # TODO: Make guibuilder pick the height from the largest screen
-
-                    # Create a group based off the number of stacks
-                    groups[math.floor(order / STACK_GLOBAL)] = grp(
-                        name,
-                        math.floor(order / STACK_GLOBAL),
-                        math.floor(order / STACK_GLOBAL) * group_height,
-                        group_width,
-                        group_height,
-                    )
-
-                    # Create a widget based off the contents of screen
-                    # components
-
                     widgets.append(
                         Widget.EmbeddedDisplay(
                             name,
                             "./techui-support/bob/" + screen[ui.type]["file"],
-                            (default_if_none(width) * (order % 3)),
+                            widget_x,
                             0,  # Change depending on the order
-                            default_if_none(width),
-                            default_if_none(height),
+                            width,
+                            height,
                         )
                     )
+                    widget_x += width
+                    widget_count += 1
 
-                    # If the group box is changed, reset the width
-                    for i in range(len(self.screen_components)):
-                        if order == STACK_GLOBAL * i:
-                            group_width = group_padding
+                    # Reset X position after STACK_GLOBAL widgets
+                    if widget_count % STACK_GLOBAL == 0:
+                        widget_x = 0
 
                     # Add macros to the widgets
                     widgets[order].macro(self.P, ui.P)
                     widgets[order].macro(self.M, ui.M)
 
             if screen[ui.type]["type"] == "related":
-                # TODO: Add grouping action for related screens
+                height, width = (40, 100)
                 widgets.append(
                     Widget.ActionButton(
                         name,
                         name,
                         "{self.P:self.M}",
-                        (70 * order),
-                        (50 * math.floor(order / STACK_GLOBAL)),
-                        60,
-                        40,
+                        widget_x,
+                        0,
+                        width,
+                        height,
                     )
                 )
+                widget_x += width
+                widget_count += 1
+
+                # Reset X position after STACK_GLOBAL widgets
+                if widget_count % STACK_GLOBAL == 0:
+                    widget_x = 0
 
                 # Add action to action button: to open related display
                 widgets[order].action_open_file(
                     f"./techui-support/bob/{screen[ui.type]['file']}"
                 )
 
-        # Add widgets to groups
-        start_widget = 0
-        end_widget = STACK_GLOBAL
-        for group in groups:
-            group.add_widget(widgets[start_widget:end_widget])
-            start_widget += STACK_GLOBAL
-            end_widget += STACK_GLOBAL
+        # Create a widget list of widgets to be grouped based off how many can be tiled
+        # together.
+        widget_lists = [
+            widgets[i : i + STACK_GLOBAL] for i in range(0, len(widgets), STACK_GLOBAL)
+        ]
 
+        # Create a list of dimensions for the groups
+        # that will be created.
+        group_heights_widths = []
+        for widget_list in widget_lists:
+            group_heights_widths.append(get_group_dimensions(widget_list))
+
+        # Create the groups using the dimensions obtained from
+        # group_heights_widths, making sure to stack the next group
+        # vertically below the previous by incrementing the "y" value
+        stack_height = 0
+        for id, height_and_width in enumerate(group_heights_widths):
+            groups.append(
+                grp(
+                    self.screen_components[0].__class__.__name__,
+                    0,
+                    stack_height,
+                    height_and_width[1],
+                    height_and_width[0],
+                )
+            )
+            stack_height += height_and_width[0]
+            groups[id].add_widget(widget_lists[id])
+
+        # Add the created groups to the screen and write the screen
         self.screen_.add_widget(groups)
         self.screen_.write_screen(self.screen_components[0].__class__.__name__ + ".bob")
 

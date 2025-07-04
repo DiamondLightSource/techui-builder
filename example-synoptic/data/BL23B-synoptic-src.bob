@@ -64,7 +64,7 @@
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <DESC>BL23B-VA-VALVE-01</DESC>
           <device>BL23B-VA-VALVE-01</device>
@@ -104,7 +104,7 @@
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>

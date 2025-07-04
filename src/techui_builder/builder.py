@@ -105,8 +105,8 @@ class Builder:
                         desc=component.desc,
                         # TODO: Implement gui_map screen path
                         file=Path(".")
-                        if component.filename is None
-                        else Path(component.filename),
+                        if component.file is None
+                        else Path(component.file),
                         P=entity["P"],
                         M=None
                         if (val := entity.get("M")) is None

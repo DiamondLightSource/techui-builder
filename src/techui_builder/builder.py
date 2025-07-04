@@ -6,7 +6,8 @@ import lxml.etree as etree
 import yaml
 
 from techui_builder.datatypes import Beamline, Component, Entry
-from techui_builder.screen import TechUIScreens as Screen
+
+# from techui_builder.screen import TechUIScreens as Screen
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
@@ -104,7 +105,7 @@ class Builder:
                         type=entity["type"],
                         desc=component.desc,
                         # TODO: Implement gui_map screen path
-                        file=Path(".")
+                        file=Path(component.name + ".bob")
                         if component.file is None
                         else Path(component.file),
                         P=entity["P"],

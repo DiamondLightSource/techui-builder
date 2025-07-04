@@ -1,5 +1,6 @@
 import warnings
-import xml.etree.ElementTree as ET
+
+# import xml.etree.ElementTree as etree
 from pathlib import Path
 from pprint import PrettyPrinter
 
@@ -19,31 +20,66 @@ pp = PrettyPrinter()
 
 class TechUIScreens:
     def __init__(self, screen_components: list[Entry], screen: dict):
-        def get_screen_dimensions(file: str):
+        self.default_size = 100
+
+        def get_screen_dimensions(file: str) -> tuple[int, int]:
             """
             Parses the bob files for information on the height
             and width of the screen
             """
-            tree = ET.parse(file)
+            tree = etree.parse(file, None)
             root = tree.getroot()
-            height = root.find("height")
-            if height is not None:
-                height = height.text
+            height_element: etree._Element | None = root.find("height")
+            if height_element is not None:
+                height = (
+                    self.default_size
+                    if (val := height_element.text) is None
+                    else int(val)
+                )
+            else:
+                height = self.default_size
+                # Assert that could not obtaint the sizes of the widget
 
-            width = root.find("width")
-            if width is not None:
-                width = width.text
+            width_element: etree._Element | None = root.find("width")
+            if width_element is not None:
+                width = (
+                    self.default_size
+                    if (val := width_element.text) is None
+                    else int(val)
+                )
+            else:
+                width = self.default_size
+                # Assert that could not obtaint the sizes of the widget
 
             return (height, width)
 
-        def default_if_none(value: str | None) -> int:
+        # Make groups
+        def get_group_dimensions(widget_list: list[etree._Element]):
             """
-            Defaults to 100 if no value is returned.
-            If there's a value, casts to integer.
+            Takes in a list of widget screens and finds the
+            maximum height in the list
             """
-            if value is None:
-                return 100
-            return int(value)
+            height_list = []
+            width_list = []
+            for widget in widget_list:
+                root = etree.fromstring(str(widget), None)
+                height: etree._Element | None = root.find("height")
+                if height is not None:
+                    height_list.append(
+                        self.default_size if (val := height.text) is None else int(val)
+                    )
+                else:
+                    height_list.append(self.default_size)
+
+                width: etree._Element | None = root.find("width")
+                if width is not None:
+                    width_list.append(
+                        self.default_size if (val := width.text) is None else int(val)
+                    )
+                else:
+                    width_list.append(self.default_size)
+
+            return (max(height_list) + group_padding, sum(width_list) + group_padding)
 
         # Create screen object
         self.screen_components = screen_components
@@ -54,8 +90,17 @@ class TechUIScreens:
         self.P: str = "P"
         self.M: str = "M"
 
+        # create widget and group objects
+        widgets = []
+        groups = []
+
+        # Add group padding, and widget_x for placing widget in x direction relative to
+        # other widgets, with a widget count to reset the widget_x dimension when the
+        # allowed number of horizontal stacks is exceeded.
+        group_padding = 40
         widget_x = 0
         widget_count = 0
+
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
         for order, ui in enumerate(self.screen_components):
@@ -81,11 +126,11 @@ class TechUIScreens:
                             "./techui-support/bob/" + screen[ui.type]["file"],
                             widget_x,
                             0,  # Change depending on the order
-                            default_if_none(width),
-                            default_if_none(height),
+                            width,
+                            height,
                         )
                     )
-                    widget_x += default_if_none(width)
+                    widget_x += width
                     widget_count += 1
 
                     # Reset X position after STACK_GLOBAL widgets
@@ -121,42 +166,36 @@ class TechUIScreens:
                     f"./techui-support/bob/{screen[ui.type]['file']}"
                 )
 
-        widget_list = [
+        # Create a widget list of widgets to be grouped based off how many can be tiled
+        # together.
+        widget_lists = [
             widgets[i : i + STACK_GLOBAL] for i in range(0, len(widgets), STACK_GLOBAL)
         ]
 
-        # Make groups
-        def getGroupHeightandWidth(list):
-            """
-            Takes in a list of widget screens and finds the
-            maximum height in the list
-            """
-            height = []
-            width = []
-            for widget in list:
-                root = ET.fromstring(str(widget))
-                height_1 = root.find("height")
-                if height_1 is not None:
-                    height.append(default_if_none(height_1.text))
-
-                width_1 = root.find("width")
-                if width_1 is not None:
-                    width.append(default_if_none(width_1.text))
-
-            return [max(height) + 40, sum(width) + 40]
-
+        # Create a list of dimensions for the groups
+        # that will be created.
         group_heights_widths = []
+        for widget_list in widget_lists:
+            group_heights_widths.append(get_group_dimensions(widget_list))
 
-        for lists in widget_list:
-            group_heights_widths.append(getGroupHeightandWidth(lists))
-
-        print(group_heights_widths)
+        # Create the groups using the dimensions obtained from
+        # group_heights_widths, making sure to stack the next group
+        # vertically below the previous by incrementing the "y" value
         stack_height = 0
-        for no, list in enumerate(group_heights_widths):
-            groups.append(grp("anything", 0, stack_height, list[1], list[0]))
-            stack_height += list[0]
-            groups[no].add_widget(widget_list[no])
+        for id, height_and_width in enumerate(group_heights_widths):
+            groups.append(
+                grp(
+                    self.screen_components[0].__class__.__name__,
+                    0,
+                    stack_height,
+                    height_and_width[1],
+                    height_and_width[0],
+                )
+            )
+            stack_height += height_and_width[0]
+            groups[id].add_widget(widget_lists[id])
 
+        # Add the created groups to the screen and write the screen
         self.screen_.add_widget(groups)
         self.screen_.write_screen(self.screen_components[0].__class__.__name__ + ".bob")
 

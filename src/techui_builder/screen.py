@@ -157,7 +157,9 @@ class TechUIScreens:
 
     def build_groups(self):
         # Create screen object
-        self.screen_ = Screen.Screen(self.screen_components[0].__class__.__name__)
+        self.screen_ = Screen.Screen(
+            str(self.screen_components[0].file).removesuffix(".bob")
+        )
 
         # create widget and group objects
         widgets: list[EmbeddedDisplay | ActionButton] = []
@@ -190,7 +192,7 @@ class TechUIScreens:
             height, width = dims
             self.groups.append(
                 Group(
-                    self.screen_components[0].__class__.__name__,
+                    str(self.screen_components[0].file).removesuffix(".bob"),
                     0,
                     stack_height,
                     width,
@@ -203,4 +205,4 @@ class TechUIScreens:
     def write_screen(self):
         # Add the created groups to the screen and write the screen
         self.screen_.add_widget(self.groups)
-        self.screen_.write_screen(self.screen_components[0].__class__.__name__ + ".bob")
+        self.screen_.write_screen(str(self.screen_components[0].file))

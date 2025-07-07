@@ -1067,9 +1067,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>GBC1.opi</file>
+        <file>$(file)</file>
         <target>tab</target>
-        <description>Open component screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>BL23B-RS-GBC-01:DEVSTA.PROC</pv_name>
@@ -1561,14 +1561,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/img_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>

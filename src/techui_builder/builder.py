@@ -1,18 +1,19 @@
 import json
 from collections.abc import MutableMapping
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import lxml.etree as etree
 import yaml
 
 from techui_builder.datatypes import Beamline, Component, Entry
-
-# from techui_builder.screen import TechUIScreens as Screen
+from techui_builder.screen import TechUIScreens as Screen
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
 
 
+@dataclass
 class Builder:
     """
     This class provides the functionality to process the required
@@ -25,20 +26,19 @@ class Builder:
 
     """
 
-    def __init__(self, create_gui_yaml: str | Path = Path("create_gui.yaml")):
-        self.components: list[Component] = []
+    create_gui: str | Path = field(default=Path("create_gui.yaml"))
 
-        self.beamline: Beamline
+    components: list[Component] = field(default_factory=list, init=False)
+    entities: list[Entry] = field(default_factory=list, init=False)
+    beamline: Beamline = field(init=False)
 
-        self.entities: list[Entry] = []
+    def setup(self):
+        """Run intial setup, e.g. extracting components from create_gui.yaml."""
+        self._extract_from_create_gui()
+        self._find_services_folders()
+        # self._read_gui_map()
 
-        self.create_gui = create_gui_yaml
-
-        self.extract_from_create_gui()
-
-    def extract_from_create_gui(
-        self,
-    ):
+    def _extract_from_create_gui(self):
         """
         Extracts from the create_gui.yaml file to generate
         the required Beamline and components structures.
@@ -54,9 +54,7 @@ class Builder:
             for key, comp in comps.items():
                 self.components.append(Component(key, **comp))
 
-    def find_services_folders(
-        self,
-    ):
+    def _find_services_folders(self):
         """
         Finds the related folders in the services directory
         and extracts the related entites with the matching prefixes
@@ -78,16 +76,16 @@ class Builder:
 
             # If service doesn't exist, file open will fail throwing exception
             try:
-                self.extract_entities(
+                self._extract_entities(
                     ioc_yaml=f"{path}/{service_name}/config/ioc.yaml",
                     component=component,
                 )
-                self.gui_map()
+                self._read_gui_map()
                 self.entities = []
             except OSError:
                 print(f"No ioc.yaml file for service: {service_name}. Does it exist?")
 
-    def extract_entities(self, ioc_yaml: str, component: Component):
+    def _extract_entities(self, ioc_yaml: str, component: Component):
         """
         Extracts the entities in ioc.yaml matching the defined prefix
         """
@@ -118,7 +116,19 @@ class Builder:
                     )
                     self.entities.append(entry)
 
-    def generate_json_map(
+    def _read_gui_map(self):
+        """Read the gui_map.yaml file from techui-support."""
+        gui_map = "./techui-support/gui_map.yaml"
+
+        with open(gui_map) as map:
+            conf = yaml.safe_load(map)
+            # TODO: Why is this here? It doesn't seem like it is doing anything
+            screen = Screen(self.entities, conf)
+            screen.build_groups()
+            screen.write_screen()
+            self.gui_map = conf
+
+    def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None
     ) -> json_map:
         if visited is None:
@@ -163,7 +173,7 @@ class Builder:
                 # Crawl the next file
                 if next_file_path.is_file():
                     # TODO: investigate non-recursive approaches?
-                    next_node = self.generate_json_map(next_file_path, visited)
+                    next_node = self._generate_json_map(next_file_path, visited)
                 else:
                     next_node = {"file": str(file_path), "error": "File not found"}
 
@@ -184,22 +194,11 @@ class Builder:
 
         return node
 
-    def read_gui_map(self):
-        """Read the gui_map.yaml file from techui-support."""
-        gui_map = "./techui-support/gui_map.yaml"
-
-        with open(gui_map) as map:
-            conf = yaml.safe_load(map)
-            # TODO: Why is this here? It doesn't seem like it is doing anything
-            # Screen(self.entities, conf)
-            self.gui_map = conf
-            print(self.gui_map)
-
     # TODO: change default Path
     def get_json_map(self, file_name: Path = Path("motor.bob")):
         """
         Maps the valid entities from the ioc.yaml file
         to the required screen in gui_map.yaml
         """
-        map = self.generate_json_map(file_name)
+        map = self._generate_json_map(file_name)
         print(map)

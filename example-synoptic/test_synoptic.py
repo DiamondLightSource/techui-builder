@@ -1,0 +1,23 @@
+from pathlib import Path
+from pprint import PrettyPrinter
+
+from techui_builder import BobScreen, Builder
+
+pp = PrettyPrinter()
+
+# Currently doesn't check for this to be consistent formatting, e.g. .lower()
+dom = "bl23b"
+
+bob_file = Path(f"example-synoptic/data/{dom}-synoptic-src.bob")
+create_gui_file = Path("example/create_gui.yaml")
+
+gui = Builder(create_gui=create_gui_file)
+
+gui.setup()
+
+# TODO: figure out the in-between steps
+
+bob_screen = BobScreen(bob_file)
+bob_screen.read_bob()
+bob_screen.autofill_bob(gui)
+bob_screen.write_bob(Path(f"example-synoptic/{dom}-synoptic.bob"))

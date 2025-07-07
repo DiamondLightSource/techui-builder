@@ -108,7 +108,7 @@ class TechUIScreens:
 
             new_widget = Widget.EmbeddedDisplay(
                 name,
-                "./techui-support/bob/" + self.screen[component.type]["file"],
+                "../techui-support/bob/" + self.screen[component.type]["file"],
                 self.widget_x,
                 0,  # Change depending on the order
                 width,
@@ -134,7 +134,7 @@ class TechUIScreens:
             new_widget = Widget.ActionButton(
                 name,
                 name,
-                "{self.P:self.M}",
+                f"{component.P}:{component.M}",
                 self.widget_x,
                 0,
                 width,
@@ -149,8 +149,10 @@ class TechUIScreens:
                 self.widget_x = 0
 
             # Add action to action button: to open related display
-            new_widget.action_open_file(
-                f"./techui-support/bob/{self.screen[component.type]['file']}"
+            new_widget.action_open_display(
+                file=f"../techui-support/bob/{self.screen[component.type]['file']}",
+                target="tab",
+                macros={"P": component.P, "M": component.M},
             )
 
         return new_widget
@@ -205,4 +207,6 @@ class TechUIScreens:
     def write_screen(self):
         # Add the created groups to the screen and write the screen
         self.screen_.add_widget(self.groups)
-        self.screen_.write_screen(str(self.screen_components[0].file))
+        self.screen_.write_screen(
+            "./example-synoptic/" + str(self.screen_components[0].file)
+        )

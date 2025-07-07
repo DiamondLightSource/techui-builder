@@ -26,7 +26,7 @@ components:
     prefix: BL23B-MO-IOC-03
     service_name: bl23b-mo-ioc-01
 
-  IMG1:
+  GCTLR1:
     desc: B23 vacuum
     prefix: BL23B-VA-IOC-01
     service_name: bl23b-va-ioc-01

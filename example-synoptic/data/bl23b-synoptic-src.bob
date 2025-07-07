@@ -326,8 +326,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>130</x>
     <y>195</y>
-    <width>6</width>
-    <height>71</height>
+    <width>2</width>
+    <height>67</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1502,8 +1502,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>450</x>
     <y>140</y>
-    <width>4</width>
-    <height>69</height>
+    <width>1</width>
+    <height>65</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1722,8 +1722,8 @@ $(pv_value)</tooltip>
     <file>opi/gauge_embed.opi</file>
     <x>410</x>
     <y>140</y>
-    <width>2</width>
-    <height>67</height>
+    <width>1</width>
+    <height>63</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1906,7 +1906,7 @@ $(pv_value)</tooltip>
     <x>330</x>
     <y>140</y>
     <width>1</width>
-    <height>65</height>
+    <height>61</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -2465,7 +2465,7 @@ $(pv_value)</tooltip>
     <x>790</x>
     <y>40</y>
     <width>1</width>
-    <height>65</height>
+    <height>61</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -3132,6 +3132,52 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>Open detail screen</description>
+      </action>
+      <action type="write_pv">
+        <pv_name>$(pv_name).PROC</pv_name>
+        <value>1</value>
+        <description>Clear alarm status</description>
+      </action>
+      <action type="write_pv">
+        <pv_name>$(pv_name):CALC.PROC</pv_name>
+        <value>1</value>
+        <description>Restore alarm status</description>
+      </action>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+  </widget>
+  <widget type="symbol" version="2.0.0">
+    <name>GCTLR1</name>
+    <pv_name>$(prefix):STA</pv_name>
+    <symbols>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>images/pirg 0 (copy).svg</symbol>
+    </symbols>
+    <x>485</x>
+    <y>230</y>
+    <width>20</width>
+    <height>20</height>
+    <background_color>
+      <color name="Canvas" red="200" green="200" blue="200">
+      </color>
+    </background_color>
+    <actions>
+      <action type="open_display">
+        <file>$(file)</file>
+        <macros>
+          <desc>BL23B-VA-PIRG-02</desc>
+          <device>BL23B-VA-PIRG-02</device>
+          <name>PIRG2</name>
+        </macros>
+        <target>tab</target>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>

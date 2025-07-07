@@ -202,25 +202,12 @@ class TechUIScreens:
                 )
             )
             stack_height += height
+            self.groups[id].version("2.0.0")
             self.groups[id].add_widget(widget_groups[id])
-
-    def remove_group_version(self, file):
-        tree = etree.parse(file, None)
-        # root: etree._ElementTree = tree.getroot()
-
-        widgets = tree.xpath('//widget[@type="group" and @version="3.0.0"]')
-
-        for widget in widgets:
-            widget.set("version", "2.0.0")
-
-        tree.write(file, pretty_print=True, xml_declaration=True, encoding="UTF-8")
 
     def write_screen(self):
         # Add the created groups to the screen and write the screen
         self.screen_.add_widget(self.groups)
         self.screen_.write_screen(
-            "./example-synoptic/" + str(self.screen_components[0].file)
-        )
-        self.remove_group_version(
             "./example-synoptic/" + str(self.screen_components[0].file)
         )

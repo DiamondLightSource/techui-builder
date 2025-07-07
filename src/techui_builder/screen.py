@@ -8,7 +8,7 @@ from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.datatypes import Entry
 
-STACK_GLOBAL = 3
+STACK_GLOBAL = 5
 
 
 @dataclass

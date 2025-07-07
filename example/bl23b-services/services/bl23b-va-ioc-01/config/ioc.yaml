@@ -167,10 +167,10 @@ entities:
     name: GCTLR-01
     port: ty_60_0
 
-  - type: mks937a.mks937a
-    P: BL23B-VA-GCTLR-02
-    name: GCTLR-02
-    port: ty_60_1
+  # - type: mks937a.mks937a
+  #   P: BL23B-VA-GCTLR-02
+  #   name: GCTLR-02
+  #   port: ty_60_1
 
   - type: mks937a.mks937aImg
     GCTLR: GCTLR-01
@@ -184,17 +184,17 @@ entities:
     P: BL23B-VA-IMG-11
     ilk_write_access_pv: BL23B-VA-GAUGE-11:ILKSETSP:NOWRITE
 
-  - type: mks937a.mks937aImg
-    GCTLR: GCTLR-02
-    channel: 1
-    P: BL23B-VA-IMG-21
-    ilk_write_access_pv: BL23B-VA-GAUGE-21:ILKSETSP:NOWRITE
+  # - type: mks937a.mks937aImg
+  #   GCTLR: GCTLR-02
+  #   channel: 1
+  #   P: BL23B-VA-IMG-21
+  #   ilk_write_access_pv: BL23B-VA-GAUGE-21:ILKSETSP:NOWRITE
 
-  - type: mks937a.mks937aImg
-    GCTLR: GCTLR-02
-    channel: 2
-    P: BL23B-VA-IMG-12
-    ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
+  # - type: mks937a.mks937aImg
+  #   GCTLR: GCTLR-02
+  #   channel: 2
+  #   P: BL23B-VA-IMG-12
+  #   ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
 
   - type: mks937a.mks937aPirg
     GCTLR: GCTLR-01
@@ -208,49 +208,49 @@ entities:
     P: BL23B-VA-PIRG-11
     ilk_write_access_pv: BL23B-VA-GAUGE-11:ILKSETSP:NOWRITE
 
-  - type: mks937a.mks937aPirg
-    GCTLR: GCTLR-02
-    channel: 4
-    P: BL23B-VA-PIRG-21
-    ilk_write_access_pv: BL23B-VA-GAUGE-21:ILKSETSP:NOWRITE
+  # - type: mks937a.mks937aPirg
+  #   GCTLR: GCTLR-02
+  #   channel: 4
+  #   P: BL23B-VA-PIRG-21
+  #   ilk_write_access_pv: BL23B-VA-GAUGE-21:ILKSETSP:NOWRITE
 
-  - type: mks937a.mks937aPirg
-    GCTLR: GCTLR-02
-    channel: 5
-    P: BL23B-VA-PIRG-12
-    ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
+  # - type: mks937a.mks937aPirg
+  #   GCTLR: GCTLR-02
+  #   channel: 5
+  #   P: BL23B-VA-PIRG-12
+  #   ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
 
-  - type: mks937a.mks937aGauge
-    P: BL23B-VA-GCTLR-01
-    c: 50
-    dom: BL23B
-    id: 1
-    name: GAUGE1
-    s: 1
+  # - type: mks937a.mks937aGauge
+  #   P: BL23B-VA-GCTLR-01
+  #   c: 50
+  #   dom: BL23B
+  #   id: 1
+  #   name: GAUGE1
+  #   s: 1
 
-  - type: mks937a.mks937aGauge
-    P: BL23B-VA-GCTLR-01
-    c: 50
-    dom: BL23B
-    id: 11
-    name: GAUGE11
-    s: 0
+  # - type: mks937a.mks937aGauge
+  #   P: BL23B-VA-GCTLR-01
+  #   c: 50
+  #   dom: BL23B
+  #   id: 11
+  #   name: GAUGE11
+  #   s: 0
 
-  - type: mks937a.mks937aGauge
-    P: BL23B-VA-GCTLR-02
-    c: 50
-    dom: BL23B
-    id: 21
-    name: GAUGE21
-    s: 2
+  # - type: mks937a.mks937aGauge
+  #   P: BL23B-VA-GCTLR-02
+  #   c: 50
+  #   dom: BL23B
+  #   id: 21
+  #   name: GAUGE21
+  #   s: 2
 
-  - type: mks937a.mks937aGauge
-    P: BL23B-VA-GCTLR-02
-    c: 50
-    dom: BL23B
-    id: 12
-    name: GAUGE12
-    s: 3
+  # - type: mks937a.mks937aGauge
+  #   P: BL23B-VA-GCTLR-02
+  #   c: 50
+  #   dom: BL23B
+  #   id: 12
+  #   name: GAUGE12
+  #   s: 3
 
   - type: dlsPLC.read100
     century: 0

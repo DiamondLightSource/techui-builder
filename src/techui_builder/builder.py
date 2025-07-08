@@ -6,8 +6,8 @@ from pathlib import Path
 import lxml.etree as etree
 import yaml
 
-from techui_builder.datatypes import Beamline, Component, Entry
-from techui_builder.screen import Generator
+from techui_builder.generate import Generator
+from techui_builder.objects import Beamline, Component, Entry
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]

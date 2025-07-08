@@ -4,7 +4,7 @@ from pathlib import Path
 from lxml import etree, objectify  # type: ignore
 
 from techui_builder.builder import Builder
-from techui_builder.datatypes import Component
+from techui_builder.objects import Component
 
 
 @dataclass

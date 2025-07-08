@@ -1,6 +1,6 @@
 import pytest
 
-from techui_builder.datatypes import Beamline, Component
+from techui_builder.objects import Beamline, Component
 
 
 @pytest.fixture

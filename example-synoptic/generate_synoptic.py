@@ -1,7 +1,8 @@
 from pathlib import Path
 from pprint import PrettyPrinter
 
-from techui_builder import Autofiller, Builder
+from techui_builder import Builder
+from techui_builder.autofill import Autofiller
 
 pp = PrettyPrinter()
 

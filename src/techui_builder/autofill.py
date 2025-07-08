@@ -8,18 +8,9 @@ from techui_builder.datatypes import Component
 
 
 @dataclass
-class BobScreen:
+class Autofiller:
     path: Path
     macros: list[str] = field(default_factory=lambda: ["prefix", "desc", "file"])
-
-    # def __init__(self, bob_path: str | Path):
-    #     bob_path = bob_path if isinstance(bob_path, Path) else Path(bob_path)
-
-    #     assert bob_path.exists(), warnings.warn(
-    #         f"Bob file {bob_path} can't be found. Does it exist?", stacklevel=1
-    #     )
-
-    #     self.path = bob_path
 
     def read_bob(self) -> None:
         parser = etree.XMLParser()
@@ -75,6 +66,8 @@ class BobScreen:
         element.find(tag_name, namespaces=None).text = new
 
     def replace_macros(self, widget: etree._Element, component: Component):
+        # File and desc are under the "actions",
+        # so the corresponding tag needs to be found
         def _get_action_group(element: etree._Element) -> etree._Element:
             actions: etree._Element = element.find("actions", namespaces=None)
             for action in actions.iterchildren("action"):

@@ -1,7 +1,7 @@
 from pathlib import Path
 from pprint import PrettyPrinter
 
-from techui_builder import BobScreen, Builder
+from techui_builder import Autofiller, Builder
 
 pp = PrettyPrinter()
 
@@ -17,7 +17,7 @@ gui.setup()
 
 # TODO: figure out the in-between steps
 
-bob_screen = BobScreen(bob_file)
-bob_screen.read_bob()
-bob_screen.autofill_bob(gui)
-bob_screen.write_bob(Path(f"example-synoptic/{dom}-synoptic.bob"))
+autofiller = Autofiller(bob_file)
+autofiller.read_bob()
+autofiller.autofill_bob(gui)
+autofiller.write_bob(Path(f"example-synoptic/{dom}-synoptic.bob"))

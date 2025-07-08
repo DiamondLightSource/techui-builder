@@ -21,15 +21,15 @@ components:
     desc: Pilatus 2M
     prefix: BL01T-EA-PILAT-01
 
-  mirrors:
-    desc: Mirrors
-    prefix: BL23B-MO-IOC-03
-    service_name: bl23b-mo-ioc-01
+  # M1:
+  #   desc: Mirrors
+  #   prefix: BL23B-MO-IOC-03
+  #   service_name: bl23b-mo-ioc-01
 
-  vacuum:
-    desc: B23 vacuum
-    prefix: BL23B-VA-IOC-01
-    service_name: bl23b-va-ioc-01
+  # GCTLR1:
+  #   desc: B23 vacuum
+  #   prefix: BL23B-VA-IOC-01
+  #   service_name: bl23b-va-ioc-01
 
   motor:
     desc: Hexapod Stage

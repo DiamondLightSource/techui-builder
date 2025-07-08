@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 
 # import warnings
-from lxml import etree, objectify
+from lxml import etree, objectify  # type: ignore
 from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.datatypes import Entry
 
-STACK_GLOBAL = 3
+STACK_GLOBAL = 5
 
 
 @dataclass
@@ -108,7 +108,7 @@ class TechUIScreens:
 
             new_widget = Widget.EmbeddedDisplay(
                 name,
-                "./techui-support/bob/" + self.screen[component.type]["file"],
+                "../techui-support/bob/" + self.screen[component.type]["file"],
                 self.widget_x,
                 0,  # Change depending on the order
                 width,
@@ -134,7 +134,7 @@ class TechUIScreens:
             new_widget = Widget.ActionButton(
                 name,
                 name,
-                "{self.P:self.M}",
+                f"{component.P}:{component.M}",
                 self.widget_x,
                 0,
                 width,
@@ -149,19 +149,22 @@ class TechUIScreens:
                 self.widget_x = 0
 
             # Add action to action button: to open related display
-            new_widget.action_open_file(
-                f"./techui-support/bob/{self.screen[component.type]['file']}"
+            new_widget.action_open_display(
+                file=f"../techui-support/bob/{self.screen[component.type]['file']}",
+                target="tab",
+                macros={"P": component.P, "M": component.M},
             )
 
         return new_widget
 
     def build_groups(self):
         # Create screen object
-        self.screen_ = Screen.Screen(self.screen_components[0].__class__.__name__)
+        self.screen_ = Screen.Screen(
+            str(self.screen_components[0].file).removesuffix(".bob")
+        )
 
         # create widget and group objects
         widgets: list[EmbeddedDisplay | ActionButton] = []
-        self.groups: list[Group] = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
@@ -190,7 +193,7 @@ class TechUIScreens:
             height, width = dims
             self.groups.append(
                 Group(
-                    self.screen_components[0].__class__.__name__,
+                    str(self.screen_components[0].file).removesuffix(".bob"),
                     0,
                     stack_height,
                     width,
@@ -198,9 +201,12 @@ class TechUIScreens:
                 )
             )
             stack_height += height
+            self.groups[id].version("2.0.0")
             self.groups[id].add_widget(widget_groups[id])
 
     def write_screen(self):
         # Add the created groups to the screen and write the screen
         self.screen_.add_widget(self.groups)
-        self.screen_.write_screen(self.screen_components[0].__class__.__name__ + ".bob")
+        self.screen_.write_screen(
+            "./example-synoptic/" + str(self.screen_components[0].file)
+        )

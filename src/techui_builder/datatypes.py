@@ -1,5 +1,5 @@
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -25,9 +25,10 @@ class Component:
     prefix: str
     service_name: str | None = None
     desc: str | None = None
-    file: str | None = None
+    file: str | None = field(default=None)
 
     def __post_init__(self):
+        self.file = self.name + ".bob" if self.file is None else self.file
         self._extract_p_and_r()
 
     def __repr__(self) -> str:

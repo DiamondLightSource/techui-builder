@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
 # import warnings
-from lxml import etree, objectify
+from lxml import etree, objectify  # type: ignore
 from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
@@ -165,7 +165,6 @@ class TechUIScreens:
 
         # create widget and group objects
         widgets: list[EmbeddedDisplay | ActionButton] = []
-        self.groups: list[Group] = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.

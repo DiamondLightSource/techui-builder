@@ -22,7 +22,7 @@ def main(args: Sequence[str] | None = None) -> None:
     _args = parser.parse_args(args)
 
     gb = Builder(_args.filename)
-    gb.extract_from_create_gui()
+    gb.setup()
 
 
 if __name__ == "__main__":

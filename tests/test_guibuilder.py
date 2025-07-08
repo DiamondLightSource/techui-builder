@@ -6,6 +6,7 @@ from techui_builder.builder import Builder
 @pytest.fixture
 def gb():
     b = Builder("./example/create_gui.yaml")
+    b.setup()
     return b
 
 
@@ -20,7 +21,7 @@ def test_guibuilder(gb: Builder):
 
 
 def test_gb_extract_services(gb):
-    gb.find_services_folders()
+    gb._find_services_folders()
 
 
 #     assert gb.entities[0].type == "pmac.autohome"

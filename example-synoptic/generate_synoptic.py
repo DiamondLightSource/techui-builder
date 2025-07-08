@@ -9,7 +9,7 @@ pp = PrettyPrinter()
 dom = "bl23b"
 
 bob_file = Path(f"example-synoptic/data/{dom}-synoptic-src.bob")
-create_gui_file = Path("example/create_gui.yaml")
+create_gui_file = Path("example-synoptic/create_gui.yaml")
 
 gui = Builder(create_gui=create_gui_file)
 

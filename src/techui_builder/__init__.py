@@ -9,7 +9,7 @@
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
 from techui_builder.datatypes import Beamline, Component, Entry
-from techui_builder.screen import TechUIScreens
+from techui_builder.screen import Generator
 
 from ._version import __version__
 
@@ -19,6 +19,6 @@ __all__ = [
     "Component",
     "Entry",
     "Builder",
-    "TechUIScreens",
+    "Generator",
     "Autofiller",
 ]

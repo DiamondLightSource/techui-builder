@@ -7,7 +7,7 @@ import lxml.etree as etree
 import yaml
 
 from techui_builder.datatypes import Beamline, Component, Entry
-from techui_builder.screen import TechUIScreens as Screen
+from techui_builder.screen import Generator
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
@@ -123,9 +123,9 @@ class Builder:
         with open(gui_map) as map:
             conf = yaml.safe_load(map)
             # TODO: Why is this here? It doesn't seem like it is doing anything
-            screen = Screen(self.entities, conf)
-            screen.build_groups()
-            screen.write_screen()
+            generator = Generator(self.entities, conf)
+            generator.build_groups()
+            generator.write_screen()
             self.gui_map = conf
 
     def _generate_json_map(

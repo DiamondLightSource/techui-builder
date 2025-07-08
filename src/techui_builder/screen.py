@@ -12,7 +12,7 @@ STACK_GLOBAL = 5
 
 
 @dataclass
-class TechUIScreens:
+class Generator:
     screen_components: list[Entry]
     # TODO: Fix type of screen
     screen: dict

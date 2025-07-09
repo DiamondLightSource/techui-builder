@@ -10,7 +10,7 @@ from techui_builder.datatypes import Beamline, Component, Entry
 from techui_builder.screen import TechUIScreens as Screen
 
 # Recursive type for Json map file
-type json_map = MutableMapping[str, str | list["json_map"]]
+type json_map = MutableMapping[str, str | list["json_map"] | list[str]]
 
 
 @dataclass
@@ -81,6 +81,9 @@ class Builder:
                     component=component,
                 )
                 self._read_gui_map()
+                self.get_json_map(
+                    file_name=Path(f"./example-synoptic/{component.name}.bob")
+                )
                 self.entities = []
             except OSError:
                 print(f"No ioc.yaml file for service: {service_name}. Does it exist?")
@@ -129,17 +132,32 @@ class Builder:
             self.gui_map = conf
 
     def _generate_json_map(
-        self, file_path: Path, visited: set[Path] | None = None
+        self,
+        file_path: Path,
+        visited: set[Path] | None = None,
+        breadcrumb: list[str] | None = None,
     ) -> json_map:
         if visited is None:
             visited = set()
+        if breadcrumb is None:
+            breadcrumb = []
 
         abs_path = file_path.absolute()
+        name = file_path.with_suffix(".json").name
+
         if abs_path in visited:
-            return {"file": str(file_path), "note": "Already visited (cycle detected)"}
+            return {
+                "file": str(file_path),
+                "breadcrumb": breadcrumb + [str(file_path)],
+                "note": "Already visited (cycle detected)",
+            }
 
         visited.add(abs_path)
-        node: json_map = {"file": str(file_path), "children": []}
+        node: json_map = {
+            "file": str(file_path),
+            "breadcrumb": breadcrumb + [str(file_path)],
+            "children": [],
+        }
 
         try:
             tree = etree.parse(abs_path, None)
@@ -173,9 +191,15 @@ class Builder:
                 # Crawl the next file
                 if next_file_path.is_file():
                     # TODO: investigate non-recursive approaches?
-                    next_node = self._generate_json_map(next_file_path, visited)
+                    next_node = self._generate_json_map(
+                        next_file_path, visited, breadcrumb=node["breadcrumb"]
+                    )
                 else:
-                    next_node = {"file": str(file_path), "error": "File not found"}
+                    next_node = {
+                        "file": str(file_path),
+                        "error": "No further files down this path",
+                        "breadcrumb": node["breadcrumb"] + [str(file_path)],
+                    }
 
                 next_node.update(macro_dict)
                 # TODO: make this work for only list[json_map]
@@ -189,13 +213,14 @@ class Builder:
             node["error"] = str(e)
 
         # Write json map to file
-        with open("map.json", "w") as outfile:
-            json.dump(node, outfile)
+        with open((str(name)), "w") as outfile:
+            data = json.loads(str(node).replace("'", '"'))
+            json.dump(data, outfile)
 
         return node
 
     # TODO: change default Path
-    def get_json_map(self, file_name: Path = Path("motor.bob")):
+    def get_json_map(self, file_name: Path = Path("./example-synoptic/M1.bob")):
         """
         Maps the valid entities from the ioc.yaml file
         to the required screen in gui_map.yaml

@@ -23,8 +23,8 @@ class Entry:
 class Component:
     name: str
     prefix: str
-    service_name: str | None = None
-    desc: str | None = None
+    service_name: str | None = field(default=None)
+    desc: str | None = field(default=None)
     file: str | None = field(default=None)
 
     def __post_init__(self):
@@ -33,7 +33,7 @@ class Component:
 
     def __repr__(self) -> str:
         return f"Component(name={self.name}, desc={self.desc}, \
-            prefix={self.P}, suffix={self.R}, filename={self.file})"
+prefix={self.P}, suffix={self.R}, filename={self.file})"
 
     def _extract_p_and_r(self):
         pattern = re.compile(

@@ -6,13 +6,13 @@ from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.datatypes import Entry
+from techui_builder.objects import Entry
 
 STACK_GLOBAL = 5
 
 
 @dataclass
-class TechUIScreens:
+class Generator:
     screen_components: list[Entry]
     # TODO: Fix type of screen
     screen: dict

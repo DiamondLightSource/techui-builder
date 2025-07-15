@@ -1,10 +1,11 @@
 # create_gui example for Phoebus GuiBuilder
 beamline:
-  dom: bl01t
-  desc: Test Beamline
+  dom: bl23b
+  desc: B23 Beamline
 
 components:
-  # Vacuum
+  # ----- VACUUM -----
+
   FESHTR:
     prefix: FE23B-VA-FVALV-01
 
@@ -35,6 +36,11 @@ components:
 
   FEABSB:
     prefix: FE23B-RS-ABSB-01
+
+  GCTLR1:
+    desc: Gauge Controller 1
+    prefix: BL23B-VA-IOC-01
+    service_name: bl23b-va-ioc-01
 
   IMG1:
     prefix: BL23B-VA-IMG-01
@@ -111,9 +117,11 @@ components:
   PIRG21:
     prefix: BL23B-VA-PIRG-21
 
-  # Mirrors
+  # ----- MIRRORS -----
+
   M1:
     prefix: FE23B-OP-MR-01
+    service_name: bl23b-mo-ioc-01
 
   M2:
     prefix: FE23B-OP-MR-02
@@ -121,7 +129,8 @@ components:
   M3:
     prefix: BL23B-OP-MR-03
 
-  # MODs
+  # ----- MOD -----
+
   MOD1:
     prefix: BL23B-DI-MOD-01
 

@@ -21,7 +21,7 @@ def test_guibuilder(gb: Builder):
 
 
 def test_gb_extract_services(gb):
-    gb._find_services_folders()
+    gb._extract_services()
 
 
 #     assert gb.entities[0].type == "pmac.autohome"

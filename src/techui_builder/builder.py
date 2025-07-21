@@ -28,15 +28,19 @@ class Builder:
 
     create_gui: str | Path = field(default=Path("create_gui.yaml"))
 
+    beamline: Beamline = field(init=False)
     components: list[Component] = field(default_factory=list, init=False)
     entities: list[Entry] = field(default_factory=list, init=False)
-    beamline: Beamline = field(init=False)
 
-    def setup(self):
-        """Run intial setup, e.g. extracting components from create_gui.yaml."""
+    _services_dir: Path = field(init=False, repr=False)
+
+    def __post_init__(self):
+        # Populate beamline and components
         self._extract_from_create_gui()
-        self._find_services_folders()
-        # self._read_gui_map()
+
+        # Get list of services from services_directory
+        # Requires beamline has already been read from create_gui.yaml
+        self._services_dir = Path(f"{self.beamline.dom}-services")
 
     def _extract_from_create_gui(self):
         """
@@ -54,17 +58,16 @@ class Builder:
             for key, comp in comps.items():
                 self.components.append(Component(key, **comp))
 
-    def _find_services_folders(self):
+    def setup(self):
+        """Run intial setup, e.g. extracting entities from service ioc.yaml."""
+        self._extract_services()
+        # self._read_gui_map()
+
+    def _extract_services(self):
         """
         Finds the related folders in the services directory
         and extracts the related entites with the matching prefixes
         """
-
-        # Get list of services from services_directory
-        services_directory = (
-            "./example/" + self.beamline.dom + "-services/services"
-        )  # TODO: rm hardcoding, map to services.
-        path = f"{services_directory}"
 
         # For each component extracted from create_gui.yaml
         for component in self.components:
@@ -77,7 +80,7 @@ class Builder:
             # If service doesn't exist, file open will fail throwing exception
             try:
                 self._extract_entities(
-                    ioc_yaml=f"{path}/{service_name}/config/ioc.yaml",
+                    ioc_yaml=f"{self._services_dir}/{service_name}/config/ioc.yaml",
                     component=component,
                 )
                 self._read_gui_map()

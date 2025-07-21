@@ -1,3 +1,4 @@
+from collections import defaultdict
 from dataclasses import dataclass, field
 
 # import warnings
@@ -28,7 +29,7 @@ class Generator:
     # allowed number of horizontal stacks is exceeded.
     widget_x: int = field(default=0, init=False, repr=False)
     widget_count: int = field(default=0, init=False, repr=False)
-    group_padding: int = field(default=40, init=False, repr=False)
+    group_padding: int = field(default=50, init=False, repr=False)
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
@@ -59,16 +60,55 @@ class Generator:
 
         return (height, width)
 
+    def _get_screen_dimensions_object(
+        self, object: EmbeddedDisplay | ActionButton
+    ) -> tuple[int, int]:
+        """
+        Parses the bob files for information on the height
+        and width of the screen
+        """
+        # Read the bob file
+        root: etree._Element = etree.fromstring(str(object), None)
+        height_element: etree._Element | None = root.find("height", namespaces=None)
+        if height_element is not None:
+            height = (
+                self.default_size if (val := height_element.text) is None else int(val)
+            )
+        else:
+            height = self.default_size
+            # Assert that could not obtaint the sizes of the widget
+
+        width_element: etree._Element | None = root.find("width", namespaces=None)
+        if width_element is not None:
+            width = (
+                self.default_size if (val := width_element.text) is None else int(val)
+            )
+        else:
+            width = self.default_size
+            # Assert that could not obtaint the sizes of the widget
+
+        return (height, width)
+
     # Make groups
     def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
         """
         Takes in a list of widget screens and finds the
         maximum height in the list
         """
+        x_list: list[int] = []
+        y_list: list[int] = []
         height_list: list[int] = []
         width_list: list[int] = []
         for widget in widget_list:
             root = etree.fromstring(str(widget), None)
+            x: etree._Element | None = root.find("x")
+            if x is not None:
+                x_list.append(
+                    self.default_size if (val := x.text) is None else int(val)
+                )
+            else:
+                x_list.append(self.default_size)
+
             height: etree._Element | None = root.find("height")
             if height is not None:
                 height_list.append(
@@ -85,9 +125,17 @@ class Generator:
             else:
                 width_list.append(self.default_size)
 
+            y: etree._Element | None = root.find("y")
+            if y is not None:
+                y_list.append(
+                    self.default_size if (val := y.text) is None else int(val)
+                )
+            else:
+                y_list.append(self.default_size)
+
         return (
-            max(height_list) + self.group_padding,
-            sum(width_list) + self.group_padding,
+            max(y_list) + max(height_list) + self.group_padding,
+            max(x_list) + min(width_list) + self.group_padding,
         )
 
     def _create_widget(self, component: Entry) -> EmbeddedDisplay | ActionButton:
@@ -109,44 +157,28 @@ class Generator:
             new_widget = Widget.EmbeddedDisplay(
                 name,
                 "../techui-support/bob/" + self.screen[component.type]["file"],
-                self.widget_x,
+                0,
                 0,  # Change depending on the order
                 width,
                 height,
             )
+            # Add macros to the widgets
+            new_widget.macro(self.P, component.P)
+            new_widget.macro(self.M, component.M or "")
 
-            if height or width is not None:
-                self.widget_x += width
-                self.widget_count += 1
-
-                # Reset X position after STACK_GLOBAL widgets
-                if self.widget_count % STACK_GLOBAL == 0:
-                    self.widget_x = 0
-
-                # Add macros to the widgets
-                new_widget.macro(self.P, component.P)
-                new_widget.macro(self.M, component.M or "")
-
-        # elif self.screen[component.type]["type"] == "related":
+        # The only other option is for related displays
         else:
             height, width = (40, 100)
 
             new_widget = Widget.ActionButton(
                 name,
-                name,
+                component.P,
                 f"{component.P}:{component.M}",
-                self.widget_x,
+                0,
                 0,
                 width,
                 height,
             )
-
-            self.widget_x += width
-            self.widget_count += 1
-
-            # Reset X position after STACK_GLOBAL widgets
-            if self.widget_count % STACK_GLOBAL == 0:
-                self.widget_x = 0
 
             # Add action to action button: to open related display
             new_widget.action_open_display(
@@ -156,6 +188,38 @@ class Generator:
             )
 
         return new_widget
+
+    def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
+        group_spacing = 30
+        max_group_height = 800
+        spacing_x = 20
+        spacing_y = 30
+        # Group tiles by size
+        groups = defaultdict(list)
+        for widget in widgets:
+            key = self._get_screen_dimensions_object(widget)
+
+            groups[key].append(widget)
+
+        # Sort groups by width (optional)
+        sorted_widgets = []
+        sorted_groups = sorted(groups.items(), key=lambda g: g[0][0], reverse=True)
+        current_x = 0
+        for (h, w), group in sorted_groups:
+            x = current_x
+            y = 0
+            for widget in group:
+                if max_group_height and y + h > max_group_height:
+                    x += w + spacing_x
+                    y = 0
+
+                widget.x(x)
+                widget.y(y)
+                y += h + spacing_y
+                sorted_widgets.append(widget)
+
+            current_x = x + w + group_spacing
+        return sorted_widgets
 
     def build_groups(self):
         # Create screen object
@@ -172,41 +236,27 @@ class Generator:
             new_widget = self._create_widget(component=component)
 
             widgets.append(new_widget)
-
-        # Create a widget list of widgets to be grouped based off how many can be tiled
-        # together.
-        widget_groups = [
-            widgets[i : i + STACK_GLOBAL] for i in range(0, len(widgets), STACK_GLOBAL)
-        ]
+        widgets = self.layout_widgets(widgets)
 
         # Create a list of dimensions for the groups
         # that will be created.
-        group_dims = []
-        for widget_list in widget_groups:
-            group_dims.append(self._get_group_dimensions(widget_list))
+        height, width = self._get_group_dimensions(widgets)
+        print(height, width)
 
-        # Create the groups using the dimensions obtained from
-        # group_dims, making sure to stack the next group
-        # vertically below the previous by incrementing the "y" value
-        stack_height: int = 0
-        for id, dims in enumerate(group_dims):
-            height, width = dims
-            self.groups.append(
-                Group(
-                    str(self.screen_components[0].file).removesuffix(".bob"),
-                    0,
-                    stack_height,
-                    width,
-                    height,
-                )
-            )
-            stack_height += height
-            self.groups[id].version("2.0.0")
-            self.groups[id].add_widget(widget_groups[id])
+        self.group = Group(
+            str(self.screen_components[0].file).removesuffix(".bob"),
+            0,
+            0,
+            width,
+            height,
+        )
+
+        self.group.version("2.0.0")
+        self.group.add_widget(widgets)
 
     def write_screen(self):
         # Add the created groups to the screen and write the screen
-        self.screen_.add_widget(self.groups)
+        self.screen_.add_widget(self.group)
         self.screen_.write_screen(
             "./example-synoptic/" + str(self.screen_components[0].file)
         )

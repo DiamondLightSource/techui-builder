@@ -89,6 +89,31 @@ class Generator:
 
         return (height, width)
 
+    def _get_screen_position_object(
+        self, object: EmbeddedDisplay | ActionButton
+    ) -> tuple[int, int]:
+        """
+        Parses the bob files for information on the y
+        and x of the screen
+        """
+        # Read the bob file
+        root: etree._Element = etree.fromstring(str(object), None)
+        y_element: etree._Element | None = root.find("y", namespaces=None)
+        if y_element is not None:
+            y = self.default_size if (val := y_element.text) is None else int(val)
+        else:
+            y = self.default_size
+            # Assert that could not obtaint the sizes of the widget
+
+        x_element: etree._Element | None = root.find("x", namespaces=None)
+        if x_element is not None:
+            x = self.default_size if (val := x_element.text) is None else int(val)
+        else:
+            x = self.default_size
+            # Assert that could not obtaint the sizes of the widget
+
+        return (y, x)
+
     # Make groups
     def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
         """
@@ -135,7 +160,7 @@ class Generator:
 
         return (
             max(y_list) + max(height_list) + self.group_padding,
-            max(x_list) + min(width_list) + self.group_padding,
+            max(x_list) + max(width_list) + self.group_padding,
         )
 
     def _create_widget(self, component: Entry) -> EmbeddedDisplay | ActionButton:
@@ -168,7 +193,7 @@ class Generator:
 
         # The only other option is for related displays
         else:
-            height, width = (40, 100)
+            height, width = (40, 60)
 
             new_widget = Widget.ActionButton(
                 name,
@@ -205,20 +230,50 @@ class Generator:
         sorted_widgets = []
         sorted_groups = sorted(groups.items(), key=lambda g: g[0][0], reverse=True)
         current_x = 0
-        for (h, w), group in sorted_groups:
-            x = current_x
-            y = 0
-            for widget in group:
-                if max_group_height and y + h > max_group_height:
-                    x += w + spacing_x
-                    y = 0
+        current_y = 0
+        column_width = 0
+        column_levels = []
 
-                widget.x(x)
-                widget.y(y)
-                y += h + spacing_y
+        for (h, w), group in sorted_groups:
+            for widget in group:
+                placed = False
+                for level in column_levels:
+                    level_y, level_x = self._get_screen_position_object(level[0])
+                    widget_height, widget_width = self._get_screen_dimensions_object(
+                        widget
+                    )
+                    level_width = (
+                        sum(
+                            (self._get_screen_dimensions_object(t))[1] + spacing_x
+                            for t in level
+                        )
+                        - spacing_x
+                    )
+                    if (
+                        level_y + h <= max_group_height
+                        and level_width + widget_width <= column_width
+                    ):
+                        hh, width_1 = self._get_screen_dimensions_object(level[-1])
+                        y_1, x_1 = self._get_screen_position_object(level[-1])
+                        widget.x(x_1 + width_1 + spacing_x)
+                        widget.y(level_y)
+                        level.append(widget)
+                        placed = True
+                        break
+
+                if not placed:
+                    if current_y + h > max_group_height:
+                        current_x += column_width + group_spacing
+                        current_y = 0
+                        column_width = 0
+                        column_levels = []
+                    widget.x(current_x)
+                    widget.y(current_y)
+                    column_levels.append([widget])
+                    current_y += h + spacing_y
+                    column_width = max(column_width, w)
                 sorted_widgets.append(widget)
 
-            current_x = x + w + group_spacing
         return sorted_widgets
 
     def build_groups(self):

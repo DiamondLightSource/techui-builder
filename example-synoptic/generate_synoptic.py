@@ -9,7 +9,7 @@ pp = PrettyPrinter()
 # Currently doesn't check for this to be consistent formatting, e.g. .lower()
 dom = "bl23b"
 
-bob_file = Path(f"example-synoptic/data/{dom}-synoptic-src.bob")
+bob_file = Path(f"example-synoptic/bob-src/{dom}-synoptic-src.bob")
 create_gui_file = Path("example-synoptic/create_gui.yaml")
 
 gui = Builder(create_gui=create_gui_file)

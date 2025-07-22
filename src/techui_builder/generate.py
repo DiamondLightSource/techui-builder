@@ -92,7 +92,7 @@ class Generator:
         self, object: EmbeddedDisplay | ActionButton
     ) -> tuple[int, int]:
         """
-        Parses the bob files for information on the y
+        Parses the widget for information on the y
         and x of the widget
         """
         # Read the bob file
@@ -116,7 +116,7 @@ class Generator:
     # Make groups
     def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
         """
-        Takes in a list of widget screens and finds the
+        Takes in a list of widgets and finds the
         maximum height in the list
         """
         x_list: list[int] = []

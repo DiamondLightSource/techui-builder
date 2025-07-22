@@ -60,12 +60,12 @@ class Generator:
 
         return (height, width)
 
-    def _get_widget_screen_dimensions(
+    def _get_widget_dimensions(
         self, widget: EmbeddedDisplay | ActionButton
     ) -> tuple[int, int]:
         """
         Parses the widget for information on the height
-        and width of the screen
+        and width of the widget
         """
         # Read the bob file
         root: etree._Element = etree.fromstring(str(widget), None)
@@ -89,12 +89,12 @@ class Generator:
 
         return (height, width)
 
-    def _get_screen_position_object(
+    def _get_widget_position(
         self, object: EmbeddedDisplay | ActionButton
     ) -> tuple[int, int]:
         """
         Parses the bob files for information on the y
-        and x of the screen
+        and x of the widget
         """
         # Read the bob file
         root: etree._Element = etree.fromstring(str(object), None)
@@ -215,36 +215,34 @@ class Generator:
         return new_widget
 
     def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
-        group_spacing = 30
-        max_group_height = 800
-        spacing_x = 20
-        spacing_y = 30
+        group_spacing: int = 30
+        max_group_height: int = 800
+        spacing_x: int = 20
+        spacing_y: int = 30
         # Group tiles by size
         groups = defaultdict(list)
         for widget in widgets:
-            key = self._get_widget_screen_dimensions(widget)
+            key = self._get_widget_dimensions(widget)
 
             groups[key].append(widget)
 
         # Sort groups by width (optional)
-        sorted_widgets = []
+        sorted_widgets: list[EmbeddedDisplay | ActionButton] = []
         sorted_groups = sorted(groups.items(), key=lambda g: g[0][0], reverse=True)
-        current_x = 0
-        current_y = 0
-        column_width = 0
-        column_levels = []
+        current_x: int = 0
+        current_y: int = 0
+        column_width: int = 0
+        column_levels: list[list[EmbeddedDisplay | ActionButton]] = []
 
         for (h, w), group in sorted_groups:
             for widget in group:
                 placed = False
                 for level in column_levels:
-                    level_y, level_x = self._get_screen_position_object(level[0])
-                    widget_height, widget_width = self._get_widget_screen_dimensions(
-                        widget
-                    )
+                    level_y, _ = self._get_widget_position(level[0])
+                    _, widget_width = self._get_widget_dimensions(widget)
                     level_width = (
                         sum(
-                            (self._get_widget_screen_dimensions(t))[1] + spacing_x
+                            (self._get_widget_dimensions(t))[1] + spacing_x
                             for t in level
                         )
                         - spacing_x
@@ -253,8 +251,8 @@ class Generator:
                         level_y + h <= max_group_height
                         and level_width + widget_width <= column_width
                     ):
-                        hh, width_1 = self._get_widget_screen_dimensions(level[-1])
-                        y_1, x_1 = self._get_screen_position_object(level[-1])
+                        _, width_1 = self._get_widget_dimensions(level[-1])
+                        _, x_1 = self._get_widget_position(level[-1])
                         widget.x(x_1 + width_1 + spacing_x)
                         widget.y(level_y)
                         level.append(widget)

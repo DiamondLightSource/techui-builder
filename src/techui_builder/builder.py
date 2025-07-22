@@ -80,7 +80,7 @@ class Builder:
             # If service doesn't exist, file open will fail throwing exception
             try:
                 self._extract_entities(
-                    ioc_yaml=f"{self._services_dir}/{service_name}/config/ioc.yaml",
+                    ioc_yaml=f"{self._services_dir}/services/{service_name}/config/ioc.yaml",
                     component=component,
                 )
                 self._read_gui_map()

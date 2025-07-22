@@ -76,7 +76,7 @@ class Generator:
             )
         else:
             height = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         width_element: etree._Element | None = root.find("width", namespaces=None)
         if width_element is not None:
@@ -85,7 +85,7 @@ class Generator:
             )
         else:
             width = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         return (height, width)
 
@@ -103,14 +103,14 @@ class Generator:
             y = self.default_size if (val := y_element.text) is None else int(val)
         else:
             y = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         x_element: etree._Element | None = root.find("x", namespaces=None)
         if x_element is not None:
             x = self.default_size if (val := x_element.text) is None else int(val)
         else:
             x = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         return (y, x)
 
@@ -193,7 +193,7 @@ class Generator:
 
         # The only other option is for related displays
         else:
-            height, width = (40, 60)
+            height, width = (40, 100)
 
             new_widget = Widget.ActionButton(
                 name,
@@ -296,7 +296,6 @@ class Generator:
         # Create a list of dimensions for the groups
         # that will be created.
         height, width = self._get_group_dimensions(widgets)
-        print(height, width)
 
         self.group = Group(
             str(self.screen_components[0].file).removesuffix(".bob"),
@@ -314,4 +313,4 @@ class Generator:
         self.screen_.add_widget(self.group)
         self.screen_.write_screen(
             "./example-synoptic/" + str(self.screen_components[0].file)
-        )
+        )  # TODO: Make this into a directory without example synoptic

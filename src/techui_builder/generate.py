@@ -9,14 +9,13 @@ from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.objects import Entry
 
-STACK_GLOBAL = 5
-
 
 @dataclass
 class Generator:
     screen_components: list[Entry]
     # TODO: Fix type of screen
     screen: dict
+    screen_name: str
 
     # These are global params for the class (not accessible by user)
     default_size: int = field(default=100, init=False, repr=False)
@@ -31,7 +30,7 @@ class Generator:
     widget_count: int = field(default=0, init=False, repr=False)
     group_padding: int = field(default=50, init=False, repr=False)
 
-    def _get_file_screen_dimensions(self, file: str) -> tuple[int, int]:
+    def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
         Parses the bob files for information on the height
         and width of the screen
@@ -175,7 +174,7 @@ class Generator:
 
         # Get dimensions of screen from TechUI repository
         if self.screen[component.type]["type"] == "embedded":
-            height, width = self._get_file_screen_dimensions(
+            height, width = self._get_screen_dimensions(
                 f"./techui-support/bob/{self.screen[component.type]['file']}"
             )
 
@@ -280,9 +279,7 @@ class Generator:
 
     def build_groups(self):
         # Create screen object
-        self.screen_ = Screen.Screen(
-            str(self.screen_components[0].file).removesuffix(".bob")
-        )
+        self.screen_ = Screen.Screen(self.screen_name)
 
         # create widget and group objects
         widgets: list[EmbeddedDisplay | ActionButton] = []
@@ -300,7 +297,7 @@ class Generator:
         height, width = self._get_group_dimensions(widgets)
 
         self.group = Group(
-            str(self.screen_components[0].file).removesuffix(".bob"),
+            self.screen_name,
             0,
             0,
             width,
@@ -314,5 +311,5 @@ class Generator:
         # Add the created groups to the screen and write the screen
         self.screen_.add_widget(self.group)
         self.screen_.write_screen(
-            "./example-synoptic/" + str(self.screen_components[0].file)
+            "./example-synoptic/" + self.screen_name + ".bob"
         )  # TODO: Make this into a directory without example synoptic

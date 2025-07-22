@@ -83,7 +83,7 @@ class Builder:
                     ioc_yaml=f"{self._services_dir}/services/{service_name}/config/ioc.yaml",
                     component=component,
                 )
-                self._read_gui_map()
+                self._read_gui_map(screen_name=component.name)
                 self.entities = []
             except OSError:
                 print(f"No ioc.yaml file for service: {service_name}. Does it exist?")
@@ -119,14 +119,14 @@ class Builder:
                     )
                     self.entities.append(entry)
 
-    def _read_gui_map(self):
+    def _read_gui_map(self, screen_name: str):
         """Read the gui_map.yaml file from techui-support."""
         gui_map = "./techui-support/gui_map.yaml"
 
         with open(gui_map) as map:
             conf = yaml.safe_load(map)
             # TODO: Why is this here? It doesn't seem like it is doing anything
-            generator = Generator(self.entities, conf)
+            generator = Generator(self.entities, conf, screen_name)
             generator.build_groups()
             generator.write_screen()
             self.gui_map = conf

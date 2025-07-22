@@ -220,7 +220,9 @@ class Generator:
         spacing_x: int = 20
         spacing_y: int = 30
         # Group tiles by size
-        groups = defaultdict(list)
+        groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton]] = (
+            defaultdict(list)
+        )
         for widget in widgets:
             key = self._get_widget_dimensions(widget)
 
@@ -246,7 +248,7 @@ class Generator:
                             for t in level
                         )
                         - spacing_x
-                    )
+                    )  # Find the width of the row
                     if (
                         level_y + h <= max_group_height
                         and level_width + widget_width <= column_width
@@ -261,10 +263,12 @@ class Generator:
 
                 if not placed:
                     if current_y + h > max_group_height:
+                        # Moves to the next column
                         current_x += column_width + group_spacing
                         current_y = 0
                         column_width = 0
                         column_levels = []
+                    # Places widgets in rows in one column
                     widget.x(current_x)
                     widget.y(current_y)
                     column_levels.append([widget])

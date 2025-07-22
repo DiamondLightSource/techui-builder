@@ -31,7 +31,7 @@ class Generator:
     widget_count: int = field(default=0, init=False, repr=False)
     group_padding: int = field(default=50, init=False, repr=False)
 
-    def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
+    def _get_file_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
         Parses the bob files for information on the height
         and width of the screen
@@ -47,7 +47,7 @@ class Generator:
             )
         else:
             height = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         width_element: etree._Element | None = root.find("width", namespaces=None)
         if width_element is not None:
@@ -56,19 +56,19 @@ class Generator:
             )
         else:
             width = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         return (height, width)
 
-    def _get_screen_dimensions_object(
-        self, object: EmbeddedDisplay | ActionButton
+    def _get_widget_screen_dimensions(
+        self, widget: EmbeddedDisplay | ActionButton
     ) -> tuple[int, int]:
         """
-        Parses the bob files for information on the height
+        Parses the widget for information on the height
         and width of the screen
         """
         # Read the bob file
-        root: etree._Element = etree.fromstring(str(object), None)
+        root: etree._Element = etree.fromstring(str(widget), None)
         height_element: etree._Element | None = root.find("height", namespaces=None)
         if height_element is not None:
             height = (
@@ -175,7 +175,7 @@ class Generator:
 
         # Get dimensions of screen from TechUI repository
         if self.screen[component.type]["type"] == "embedded":
-            height, width = self._get_screen_dimensions(
+            height, width = self._get_file_screen_dimensions(
                 f"./techui-support/bob/{self.screen[component.type]['file']}"
             )
 
@@ -222,7 +222,7 @@ class Generator:
         # Group tiles by size
         groups = defaultdict(list)
         for widget in widgets:
-            key = self._get_screen_dimensions_object(widget)
+            key = self._get_widget_screen_dimensions(widget)
 
             groups[key].append(widget)
 
@@ -239,12 +239,12 @@ class Generator:
                 placed = False
                 for level in column_levels:
                     level_y, level_x = self._get_screen_position_object(level[0])
-                    widget_height, widget_width = self._get_screen_dimensions_object(
+                    widget_height, widget_width = self._get_widget_screen_dimensions(
                         widget
                     )
                     level_width = (
                         sum(
-                            (self._get_screen_dimensions_object(t))[1] + spacing_x
+                            (self._get_widget_screen_dimensions(t))[1] + spacing_x
                             for t in level
                         )
                         - spacing_x
@@ -253,7 +253,7 @@ class Generator:
                         level_y + h <= max_group_height
                         and level_width + widget_width <= column_width
                     ):
-                        hh, width_1 = self._get_screen_dimensions_object(level[-1])
+                        hh, width_1 = self._get_widget_screen_dimensions(level[-1])
                         y_1, x_1 = self._get_screen_position_object(level[-1])
                         widget.x(x_1 + width_1 + spacing_x)
                         widget.y(level_y)

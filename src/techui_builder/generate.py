@@ -1,3 +1,4 @@
+from collections import defaultdict
 from dataclasses import dataclass, field
 
 # import warnings
@@ -8,14 +9,13 @@ from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.objects import Entry
 
-STACK_GLOBAL = 5
-
 
 @dataclass
 class Generator:
     screen_components: list[Entry]
     # TODO: Fix type of screen
     screen: dict
+    screen_name: str
 
     # These are global params for the class (not accessible by user)
     default_size: int = field(default=100, init=False, repr=False)
@@ -28,7 +28,7 @@ class Generator:
     # allowed number of horizontal stacks is exceeded.
     widget_x: int = field(default=0, init=False, repr=False)
     widget_count: int = field(default=0, init=False, repr=False)
-    group_padding: int = field(default=40, init=False, repr=False)
+    group_padding: int = field(default=50, init=False, repr=False)
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
@@ -46,7 +46,7 @@ class Generator:
             )
         else:
             height = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         width_element: etree._Element | None = root.find("width", namespaces=None)
         if width_element is not None:
@@ -55,20 +55,84 @@ class Generator:
             )
         else:
             width = self.default_size
-            # Assert that could not obtaint the sizes of the widget
+            assert "Could not obtain the size of the widget"
 
         return (height, width)
+
+    def _get_widget_dimensions(
+        self, widget: EmbeddedDisplay | ActionButton
+    ) -> tuple[int, int]:
+        """
+        Parses the widget for information on the height
+        and width of the widget
+        """
+        # Read the bob file
+        root: etree._Element = etree.fromstring(str(widget), None)
+        height_element: etree._Element | None = root.find("height", namespaces=None)
+        if height_element is not None:
+            height = (
+                self.default_size if (val := height_element.text) is None else int(val)
+            )
+        else:
+            height = self.default_size
+            assert "Could not obtain the size of the widget"
+
+        width_element: etree._Element | None = root.find("width", namespaces=None)
+        if width_element is not None:
+            width = (
+                self.default_size if (val := width_element.text) is None else int(val)
+            )
+        else:
+            width = self.default_size
+            assert "Could not obtain the size of the widget"
+
+        return (height, width)
+
+    def _get_widget_position(
+        self, object: EmbeddedDisplay | ActionButton
+    ) -> tuple[int, int]:
+        """
+        Parses the widget for information on the y
+        and x of the widget
+        """
+        # Read the bob file
+        root: etree._Element = etree.fromstring(str(object), None)
+        y_element: etree._Element | None = root.find("y", namespaces=None)
+        if y_element is not None:
+            y = self.default_size if (val := y_element.text) is None else int(val)
+        else:
+            y = self.default_size
+            assert "Could not obtain the size of the widget"
+
+        x_element: etree._Element | None = root.find("x", namespaces=None)
+        if x_element is not None:
+            x = self.default_size if (val := x_element.text) is None else int(val)
+        else:
+            x = self.default_size
+            assert "Could not obtain the size of the widget"
+
+        return (y, x)
 
     # Make groups
     def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
         """
-        Takes in a list of widget screens and finds the
+        Takes in a list of widgets and finds the
         maximum height in the list
         """
+        x_list: list[int] = []
+        y_list: list[int] = []
         height_list: list[int] = []
         width_list: list[int] = []
         for widget in widget_list:
             root = etree.fromstring(str(widget), None)
+            x: etree._Element | None = root.find("x")
+            if x is not None:
+                x_list.append(
+                    self.default_size if (val := x.text) is None else int(val)
+                )
+            else:
+                x_list.append(self.default_size)
+
             height: etree._Element | None = root.find("height")
             if height is not None:
                 height_list.append(
@@ -85,9 +149,17 @@ class Generator:
             else:
                 width_list.append(self.default_size)
 
+            y: etree._Element | None = root.find("y")
+            if y is not None:
+                y_list.append(
+                    self.default_size if (val := y.text) is None else int(val)
+                )
+            else:
+                y_list.append(self.default_size)
+
         return (
-            max(height_list) + self.group_padding,
-            sum(width_list) + self.group_padding,
+            max(y_list) + max(height_list) + self.group_padding,
+            max(x_list) + max(width_list) + self.group_padding,
         )
 
     def _create_widget(self, component: Entry) -> EmbeddedDisplay | ActionButton:
@@ -109,44 +181,28 @@ class Generator:
             new_widget = Widget.EmbeddedDisplay(
                 name,
                 "../techui-support/bob/" + self.screen[component.type]["file"],
-                self.widget_x,
+                0,
                 0,  # Change depending on the order
                 width,
                 height,
             )
+            # Add macros to the widgets
+            new_widget.macro(self.P, component.P)
+            new_widget.macro(self.M, component.M or "")
 
-            if height or width is not None:
-                self.widget_x += width
-                self.widget_count += 1
-
-                # Reset X position after STACK_GLOBAL widgets
-                if self.widget_count % STACK_GLOBAL == 0:
-                    self.widget_x = 0
-
-                # Add macros to the widgets
-                new_widget.macro(self.P, component.P)
-                new_widget.macro(self.M, component.M or "")
-
-        # elif self.screen[component.type]["type"] == "related":
+        # The only other option is for related displays
         else:
             height, width = (40, 100)
 
             new_widget = Widget.ActionButton(
                 name,
-                name,
+                component.P,
                 f"{component.P}:{component.M}",
-                self.widget_x,
+                0,
                 0,
                 width,
                 height,
             )
-
-            self.widget_x += width
-            self.widget_count += 1
-
-            # Reset X position after STACK_GLOBAL widgets
-            if self.widget_count % STACK_GLOBAL == 0:
-                self.widget_x = 0
 
             # Add action to action button: to open related display
             new_widget.action_open_display(
@@ -157,11 +213,73 @@ class Generator:
 
         return new_widget
 
+    def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
+        group_spacing: int = 30
+        max_group_height: int = 800
+        spacing_x: int = 20
+        spacing_y: int = 30
+        # Group tiles by size
+        groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton]] = (
+            defaultdict(list)
+        )
+        for widget in widgets:
+            key = self._get_widget_dimensions(widget)
+
+            groups[key].append(widget)
+
+        # Sort groups by width (optional)
+        sorted_widgets: list[EmbeddedDisplay | ActionButton] = []
+        sorted_groups = sorted(groups.items(), key=lambda g: g[0][0], reverse=True)
+        current_x: int = 0
+        current_y: int = 0
+        column_width: int = 0
+        column_levels: list[list[EmbeddedDisplay | ActionButton]] = []
+
+        for (h, w), group in sorted_groups:
+            for widget in group:
+                placed = False
+                for level in column_levels:
+                    level_y, _ = self._get_widget_position(level[0])
+                    _, widget_width = self._get_widget_dimensions(widget)
+                    level_width = (
+                        sum(
+                            (self._get_widget_dimensions(t))[1] + spacing_x
+                            for t in level
+                        )
+                        - spacing_x
+                    )  # Find the width of the row
+                    if (
+                        level_y + h <= max_group_height
+                        and level_width + widget_width <= column_width
+                    ):
+                        _, width_1 = self._get_widget_dimensions(level[-1])
+                        _, x_1 = self._get_widget_position(level[-1])
+                        widget.x(x_1 + width_1 + spacing_x)
+                        widget.y(level_y)
+                        level.append(widget)
+                        placed = True
+                        break
+
+                if not placed:
+                    if current_y + h > max_group_height:
+                        # Moves to the next column
+                        current_x += column_width + group_spacing
+                        current_y = 0
+                        column_width = 0
+                        column_levels = []
+                    # Places widgets in rows in one column
+                    widget.x(current_x)
+                    widget.y(current_y)
+                    column_levels.append([widget])
+                    current_y += h + spacing_y
+                    column_width = max(column_width, w)
+                sorted_widgets.append(widget)
+
+        return sorted_widgets
+
     def build_groups(self):
         # Create screen object
-        self.screen_ = Screen.Screen(
-            str(self.screen_components[0].file).removesuffix(".bob")
-        )
+        self.screen_ = Screen.Screen(self.screen_name)
 
         # create widget and group objects
         widgets: list[EmbeddedDisplay | ActionButton] = []
@@ -172,41 +290,26 @@ class Generator:
             new_widget = self._create_widget(component=component)
 
             widgets.append(new_widget)
-
-        # Create a widget list of widgets to be grouped based off how many can be tiled
-        # together.
-        widget_groups = [
-            widgets[i : i + STACK_GLOBAL] for i in range(0, len(widgets), STACK_GLOBAL)
-        ]
+        widgets = self.layout_widgets(widgets)
 
         # Create a list of dimensions for the groups
         # that will be created.
-        group_dims = []
-        for widget_list in widget_groups:
-            group_dims.append(self._get_group_dimensions(widget_list))
+        height, width = self._get_group_dimensions(widgets)
 
-        # Create the groups using the dimensions obtained from
-        # group_dims, making sure to stack the next group
-        # vertically below the previous by incrementing the "y" value
-        stack_height: int = 0
-        for id, dims in enumerate(group_dims):
-            height, width = dims
-            self.groups.append(
-                Group(
-                    str(self.screen_components[0].file).removesuffix(".bob"),
-                    0,
-                    stack_height,
-                    width,
-                    height,
-                )
-            )
-            stack_height += height
-            self.groups[id].version("2.0.0")
-            self.groups[id].add_widget(widget_groups[id])
+        self.group = Group(
+            self.screen_name,
+            0,
+            0,
+            width,
+            height,
+        )
+
+        self.group.version("2.0.0")
+        self.group.add_widget(widgets)
 
     def write_screen(self):
         # Add the created groups to the screen and write the screen
-        self.screen_.add_widget(self.groups)
+        self.screen_.add_widget(self.group)
         self.screen_.write_screen(
-            "./example-synoptic/" + str(self.screen_components[0].file)
-        )
+            "./example-synoptic/" + self.screen_name + ".bob"
+        )  # TODO: Make this into a directory without example synoptic

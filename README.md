@@ -7,26 +7,40 @@
 
 A package for building GUIs
 
-This is where you should write a short paragraph that describes what your module does,
-how it does it, and why people should use it.
+Techui-builder is a module for building and organising phoebus gui screens using a builder-ibek yaml description of an IOC, with a user created create_gui.yaml file containing a description of the screens the user wants to create.
 
 Source          | <https://github.com/DiamondLightSource/techui-builder>
 :---:           | :---:
 Docker          | `docker run ghcr.io/diamondlightsource/techui-builder:latest`
 Releases        | <https://github.com/DiamondLightSource/techui-builder/releases>
 
-This is where you should put some images or code snippets that illustrate
-some relevant examples. If it is a library then you might put some
-introductory code here:
+The process to use this module goes as follows (WIP): 
 
-```python
-from techui_builder import __version__
+# Requirements
+    1. Docker
+    2. VSCode
 
-print(f"Hello techui_builder {__version__}")
-```
+# Starting the module
+    1. Recursively pull the project ensuring you pull submodules too. 
+    1. Open the project using vscode
+    2. Reopen the project in a container. Make sure you are using the vscode extension: Dev Containers by Microsoft.
+    
+# Running the module
+    1. With your ioc.yaml file in the folder format for services at diamond, as shown in the example-synoptics folder
+    2. Create a create_gui.yaml file as shown in the example folder of your beamline with a description as follows:
 
-Or if it is a commandline tool then you might put some example commands here:
+    ```
+    beamline:
+        dom: {beamline name}
+        desc: {beamline description}
 
-```
-python -m techui_builder --version
-```
+    components:
+        {component name}:
+            desc: {component description}
+            prefix: {PV prefix}
+            service_name: {name of kubernetes service}
+    ```
+    3. Create your handmade synoptic screen and place in folder ./example-synoptic/src-bob
+
+# Running techui-builder
+    1. Run generate_synoptic.py in the example-synoptic folder

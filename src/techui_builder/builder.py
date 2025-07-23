@@ -98,14 +98,11 @@ class Builder:
             for entity in conf["entities"]:
                 if (
                     "P" in entity.keys()
-                    # TODO: think about multiple prefixes per service e.g. i19 DIFF1S
-                    ### and entity["P"] == component.prefix
                 ):
                     # Create Entry and append to entity list
                     entry = Entry(
                         type=entity["type"],
                         desc=component.desc,
-                        # TODO: Implement gui_map screen path
                         file=Path(component.name + ".bob")
                         if component.file is None
                         else Path(component.file),
@@ -125,7 +122,6 @@ class Builder:
 
         with open(gui_map) as map:
             conf = yaml.safe_load(map)
-            # TODO: Why is this here? It doesn't seem like it is doing anything
             generator = Generator(self.entities, conf, screen_name)
             generator.build_groups()
             generator.write_screen()
@@ -157,7 +153,6 @@ class Builder:
                 if not file_path.suffix == ".bob":
                     continue
 
-                # TODO: misleading var name?
                 next_file_path = abs_path.joinpath(file_path)
 
                 # Obtain macros associated with file_elem
@@ -175,15 +170,12 @@ class Builder:
 
                 # Crawl the next file
                 if next_file_path.is_file():
-                    # TODO: investigate non-recursive approaches?
                     next_node = self._generate_json_map(next_file_path, visited)
                 else:
                     next_node = {"file": str(file_path), "error": "File not found"}
 
                 next_node.update(macro_dict)
-                # TODO: make this work for only list[json_map]
                 assert isinstance(node["children"], list)
-                # TODO: fix typing
                 node["children"].append(next_node)  # type: ignore
 
         except etree.ParseError as e:
@@ -197,7 +189,6 @@ class Builder:
 
         return node
 
-    # TODO: change default Path
     def get_json_map(self, file_name: Path = Path("motor.bob")):
         """
         Maps the valid entities from the ioc.yaml file

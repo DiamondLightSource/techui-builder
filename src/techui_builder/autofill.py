@@ -74,7 +74,6 @@ class Autofiller:
                 if action.get("type", default=None) == "open_display":
                     return action
 
-            # TODO: Find better way of handling there being no "actions" group
             raise Exception(f"Actions group not found in component: {component.name}")
 
         for macro in self.macros:

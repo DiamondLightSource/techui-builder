@@ -46,7 +46,6 @@ class Generator:
             )
         else:
             height = self.default_size
-            assert "Could not obtain the size of the widget"
 
         width_element: etree._Element | None = root.find("width", namespaces=None)
         if width_element is not None:
@@ -55,7 +54,6 @@ class Generator:
             )
         else:
             width = self.default_size
-            assert "Could not obtain the size of the widget"
 
         return (height, width)
 
@@ -75,7 +73,6 @@ class Generator:
             )
         else:
             height = self.default_size
-            assert "Could not obtain the size of the widget"
 
         width_element: etree._Element | None = root.find("width", namespaces=None)
         if width_element is not None:
@@ -84,7 +81,6 @@ class Generator:
             )
         else:
             width = self.default_size
-            assert "Could not obtain the size of the widget"
 
         return (height, width)
 
@@ -102,14 +98,12 @@ class Generator:
             y = self.default_size if (val := y_element.text) is None else int(val)
         else:
             y = self.default_size
-            assert "Could not obtain the size of the widget"
 
         x_element: etree._Element | None = root.find("x", namespaces=None)
         if x_element is not None:
             x = self.default_size if (val := x_element.text) is None else int(val)
         else:
             x = self.default_size
-            assert "Could not obtain the size of the widget"
 
         return (y, x)
 
@@ -312,4 +306,4 @@ class Generator:
         self.screen_.add_widget(self.group)
         self.screen_.write_screen(
             "./example-synoptic/" + self.screen_name + ".bob"
-        )  # TODO: Make this into a directory without example synoptic
+        )

@@ -33,6 +33,7 @@ class Builder:
     entities: list[Entry] = field(default_factory=list, init=False)
 
     _services_dir: Path = field(init=False, repr=False)
+    _gui_map: dict = field(init=False, repr=False)
 
     def __post_init__(self):
         # Populate beamline and components
@@ -41,6 +42,8 @@ class Builder:
         # Get list of services from services_directory
         # Requires beamline has already been read from create_gui.yaml
         self._services_dir = Path(f"{self.beamline.dom}-services")
+
+        self._read_gui_map()
 
     def _extract_from_create_gui(self):
         """
@@ -61,7 +64,6 @@ class Builder:
     def setup(self):
         """Run intial setup, e.g. extracting entities from service ioc.yaml."""
         self._extract_services()
-        self._read_gui_map()
 
     def _extract_services(self):
         """
@@ -124,10 +126,10 @@ class Builder:
         gui_map = "./techui-support/gui_map.yaml"
 
         with open(gui_map) as map:
-            self.gui_map = yaml.safe_load(map)
+            self._gui_map = yaml.safe_load(map)
 
     def _generate_screen(self, screen_name: str):
-        generator = Generator(self.entities, self.gui_map, screen_name)
+        generator = Generator(self.entities, self._gui_map, screen_name)
         generator.build_groups()
         generator.write_screen()
 

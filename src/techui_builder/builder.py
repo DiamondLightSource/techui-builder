@@ -42,7 +42,7 @@ class Builder:
 
         # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml
-        self._services_dir = Path(f"{self.beamline.dom}-services")
+        self._services_dir = Path(f"{self.beamline.dom}-services/services")
 
         self._read_gui_map()
 
@@ -68,30 +68,19 @@ class Builder:
 
     def _extract_services(self):
         """
-        Finds the related folders in the services directory
-        and extracts the related entites with the matching prefixes
+        Finds the services folders in the services directory
+        and extracts all entites
         """
 
         # For each component extracted from create_gui.yaml
-        for component in self.components:
-            if component.service_name is not None:
-                service_name = component.service_name
-            else:
-                # if service_name is not provided, resort to P being the service name
-                service_name = component.P.lower()
-
+        for service in self._services_dir.iterdir():
             # If service doesn't exist, file open will fail throwing exception
             try:
-                self._extract_entities(
-                    ioc_yaml=f"{self._services_dir}/services/{service_name}/config/ioc.yaml",
-                    component=component,
-                )
-                self._generate_screen(screen_name=component.name)
-                self.entities = []
+                self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
             except OSError:
-                print(f"No ioc.yaml file for service: {service_name}. Does it exist?")
+                print(f"No ioc.yaml file for service: {service.name}. Does it exist?")
 
-    def _extract_entities(self, ioc_yaml: str, component: Component):
+    def _extract_entities(self, ioc_yaml: Path):
         """
         Extracts the entities in ioc.yaml matching the defined prefix
         """
@@ -107,11 +96,13 @@ class Builder:
                     # Create Entry and append to entity list
                     entry = Entry(
                         type=entity["type"],
-                        desc=component.desc,
+                        desc=entity["name"]
+                        if (val := entity.get("desc")) is None
+                        else entity["desc"],
                         # TODO: Implement gui_map screen path
-                        file=Path(component.name + ".bob")
-                        if component.file is None
-                        else Path(component.file),
+                        file=Path(entity["name"] + ".bob")
+                        if (val := entity.get("file")) is None
+                        else Path(entity["file"]),
                         P=entity["P"],
                         M=None
                         if (val := entity.get("M")) is None

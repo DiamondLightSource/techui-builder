@@ -61,7 +61,7 @@ class Builder:
     def setup(self):
         """Run intial setup, e.g. extracting entities from service ioc.yaml."""
         self._extract_services()
-        # self._read_gui_map()
+        self._read_gui_map()
 
     def _extract_services(self):
         """
@@ -83,7 +83,7 @@ class Builder:
                     ioc_yaml=f"{self._services_dir}/services/{service_name}/config/ioc.yaml",
                     component=component,
                 )
-                self._read_gui_map(screen_name=component.name)
+                self._generate_screen(screen_name=component.name)
                 self.entities = []
             except OSError:
                 print(f"No ioc.yaml file for service: {service_name}. Does it exist?")
@@ -119,17 +119,17 @@ class Builder:
                     )
                     self.entities.append(entry)
 
-    def _read_gui_map(self, screen_name: str):
+    def _read_gui_map(self):
         """Read the gui_map.yaml file from techui-support."""
         gui_map = "./techui-support/gui_map.yaml"
 
         with open(gui_map) as map:
-            conf = yaml.safe_load(map)
-            # TODO: Why is this here? It doesn't seem like it is doing anything
-            generator = Generator(self.entities, conf, screen_name)
-            generator.build_groups()
-            generator.write_screen()
-            self.gui_map = conf
+            self.gui_map = yaml.safe_load(map)
+
+    def _generate_screen(self, screen_name: str):
+        generator = Generator(self.entities, self.gui_map, screen_name)
+        generator.build_groups()
+        generator.write_screen()
 
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None

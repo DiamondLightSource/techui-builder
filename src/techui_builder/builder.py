@@ -2,6 +2,7 @@ import json
 from collections.abc import MutableMapping
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 import lxml.etree as etree
 import yaml
@@ -55,7 +56,9 @@ class Builder:
         with open(self.create_gui) as f:
             conf = yaml.safe_load(f)
             bl: dict[str, str] = conf["beamline"]
-            comps: dict[str, dict[str, str]] = conf["components"]
+            comps: dict[str, dict[str, Any]] = conf[
+                "components"
+            ]  # TODO: Fix typing from Any
 
             self.beamline = Beamline(**bl)
 

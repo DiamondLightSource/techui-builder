@@ -23,9 +23,9 @@ class Entry:
 class Component:
     name: str
     prefix: str
-    service_name: str | None = field(default=None)
     desc: str | None = field(default=None)
     file: str | None = field(default=None)
+    extras: list[str] | None = field(default=None)
 
     def __post_init__(self):
         self.file = self.name + ".bob" if self.file is None else self.file

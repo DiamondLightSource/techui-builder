@@ -22,7 +22,7 @@ def test_beamline_object(beamline: Beamline):
 def test_component_object(component: Component):
     assert component.name == "TESTDEV"
     assert component.desc == "Test Device"
-    assert component.service_name is None
+    assert component.extras is None
     assert component.P == "BL01T-EA-TEST-02"
     assert component.R is None
     assert component.attribute is None

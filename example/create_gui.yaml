@@ -25,5 +25,4 @@ components:
     desc: Hexapod Stage
     prefix: BL01T-MO-MAP-01:STAGE
     extras:
-      - BL01T-MO-MAP-02:STAGE
-      - BL01T-MO-MAP-03:STAGE
+      - BL01T-MO-BRICK-01

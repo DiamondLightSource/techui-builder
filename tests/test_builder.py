@@ -30,7 +30,7 @@ def test_guibuilder(gb: Builder):
 
 def test_gb_extract_entities(gb):
     gb._extract_entities(
-        ioc_yaml=f"example/{gb.services_dir}/services/{gb.components[4].service_name}/config/ioc.yaml",
+        ioc_yaml=f"example/{gb._services_dir}/services/{gb.components[4].service_name}/config/ioc.yaml",
         component=gb.components[4],
     )
 
@@ -57,16 +57,16 @@ def test_gb_extract_entities(gb):
 
 
 def test_setup(gb):
-    gb.services_dir = Path(f"./example/{gb.beamline.dom}-services")
-    gb.write_directory = Path("example/")
+    gb._services_dir = Path(f"./example/{gb.beamline.dom}-services")
+    gb._write_directory = Path("example/")
     gb.setup()
 
-    with open(f"./{gb.write_directory}/motor.bob") as f:
+    with open(f"./{gb._write_directory}/motor.bob") as f:
         expected = f.read()
 
     with open("./tests/test_files/motor.bob") as f:
         control = f.read()
 
     assert expected == control
-    if os.path.exists(f"./{gb.write_directory}/motor.bob"):
-        os.remove(f"./{gb.write_directory}/motor.bob")
+    if os.path.exists(f"./{gb._write_directory}/motor.bob"):
+        os.remove(f"./{gb._write_directory}/motor.bob")

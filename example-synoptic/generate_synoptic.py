@@ -15,8 +15,8 @@ create_gui_file = Path("example-synoptic/create_gui.yaml")
 gui = Builder(create_gui=create_gui_file)
 
 # Overwrite after initialised to make sure this is picked up
-gui.services_dir = Path("example-synoptic/bl23b-services")
-gui.write_directory = Path("example-synoptic")  # noqa: SLF001
+gui._services_dir = Path("example-synoptic/bl23b-services")  # noqa: SLF001
+gui._write_directory = Path("example-synoptic")  # noqa: SLF001
 
 gui.setup()
 

@@ -34,12 +34,13 @@ class Builder:
 
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
+    _write_directory: Path = field(init=False, repr=False)
 
     def __post_init__(self):
         # Populate beamline and components
         self._extract_from_create_gui()
 
-        # Get list of services from services_directory
+        # Get list of services from _services_directory
         # Requires beamline has already been read from create_gui.yaml
         self._services_dir = Path(f"{self.beamline.dom}-services")
 
@@ -131,7 +132,7 @@ class Builder:
     def _generate_screen(self, screen_name: str):
         generator = Generator(self.entities, self._gui_map, screen_name)
         generator.build_groups()
-        generator.write_screen()
+        generator.write_screen(self._write_directory)
 
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None

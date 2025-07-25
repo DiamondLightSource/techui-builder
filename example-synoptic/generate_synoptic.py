@@ -15,9 +15,10 @@ create_gui_file = Path("example-synoptic/create_gui.yaml")
 gui = Builder(create_gui=create_gui_file)
 
 # Overwrite after initialised to make sure this is picked up
-gui._services_dir = Path("example-synoptic/bl23b-services")  # noqa: SLF001
+gui._services_dir = Path("example-synoptic/bl23b-services/services")  # noqa: SLF001
 
 gui.setup()
+gui.generate_screens()
 
 # TODO: figure out the in-between steps
 

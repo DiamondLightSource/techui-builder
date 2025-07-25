@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from techui_builder.builder import Builder
@@ -6,6 +8,7 @@ from techui_builder.builder import Builder
 @pytest.fixture
 def gb():
     b = Builder("./example/create_gui.yaml")
+    b._services_dir = Path("./example/bl01t-services/services")
     b.setup()
     return b
 

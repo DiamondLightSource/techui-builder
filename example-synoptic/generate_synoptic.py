@@ -19,6 +19,7 @@ gui._services_dir = Path("example-synoptic/bl23b-services/services")  # noqa: SL
 gui._write_directory = Path("example-synoptic")  # noqa: SLF001
 
 gui.setup()
+gui.generate_screens()
 
 # TODO: figure out the in-between steps
 

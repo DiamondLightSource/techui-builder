@@ -32,8 +32,9 @@ class Builder:
     components: list[Component] = field(default_factory=list, init=False)
     entities: list[Entry] = field(default_factory=list, init=False)
 
-    _services_dir: Path = field(init=False, repr=False)
+    services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
+    write_directory: Path = field(init=False, repr=False)
 
     def __post_init__(self):
         # Populate beamline and components
@@ -41,7 +42,7 @@ class Builder:
 
         # Get list of services from services_directory
         # Requires beamline has already been read from create_gui.yaml
-        self._services_dir = Path(f"{self.beamline.dom}-services")
+        self.services_dir = Path(f"{self.beamline.dom}-services")
 
         self._read_gui_map()
 
@@ -82,7 +83,7 @@ class Builder:
             # If service doesn't exist, file open will fail throwing exception
             try:
                 self._extract_entities(
-                    ioc_yaml=f"{self._services_dir}/services/{service_name}/config/ioc.yaml",
+                    ioc_yaml=f"{self.services_dir}/services/{service_name}/config/ioc.yaml",
                     component=component,
                 )
                 self._generate_screen(screen_name=component.name)
@@ -131,7 +132,7 @@ class Builder:
     def _generate_screen(self, screen_name: str):
         generator = Generator(self.entities, self._gui_map, screen_name)
         generator.build_groups()
-        generator.write_screen()
+        generator.write_screen(self.write_directory)
 
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None

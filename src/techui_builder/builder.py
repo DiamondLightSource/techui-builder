@@ -127,6 +127,10 @@ class Builder:
         generator.build_groups()
         generator.write_screen()
 
+    def generate_screens(self):
+        for entity in self.entities:
+            print(entity)
+
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None
     ) -> json_map:

@@ -314,4 +314,4 @@ class Generator:
 
     def write_screen(self, directory: Path):
         """Write the screen to file"""
-        self.screen_.write_screen(f"{directory}/" + self.screen_name + ".bob")
+        self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")

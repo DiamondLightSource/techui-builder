@@ -40,7 +40,7 @@ class Builder:
         # Populate beamline and components
         self._extract_from_create_gui()
 
-        # Get list of services from _services_directory
+        # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml
         self._services_dir = Path(f"{self.beamline.dom}-services")
 

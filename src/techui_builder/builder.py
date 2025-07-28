@@ -124,7 +124,7 @@ class Builder:
 
     def _read_gui_map(self):
         """Read the gui_map.yaml file from techui-support."""
-        gui_map = "./techui-support/gui_map.yaml"
+        gui_map = Path("./techui-support/gui_map.yaml")
 
         with open(gui_map) as map:
             self._gui_map = yaml.safe_load(map)

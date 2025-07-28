@@ -78,7 +78,7 @@ def test_gb_extract_entities(gb: Builder, index, type, desc, P, M, R):
     gb._extract_entities(
         ioc_yaml=f"example/{gb._services_dir}/services/{gb.components[4].service_name}/config/ioc.yaml",
         component=gb.components[4],
-    )
+    )  # TODO: Change from hardcoded index
     entity = gb.entities[index]
     assert entity.type == type
     assert entity.desc == desc

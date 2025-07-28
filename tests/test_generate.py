@@ -19,8 +19,10 @@ def gb():
 
 
 def test_build_groups(gb: Builder):
-    generator = Generator(gb.entities, gb._gui_map, gb.components[4].name)
+    generator = Generator(
+        gb.entities, gb._gui_map, gb.components[4].name
+    )  # TODO: remove hardcoded index
     generator.build_groups()
     with open("./tests/test_files/group.xml") as f:
         control = f.read()
-    assert str(generator.group)[0:] == control
+    assert str(generator.group) == control

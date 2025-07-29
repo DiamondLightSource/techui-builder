@@ -2,6 +2,8 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 
 # import warnings
+from pathlib import Path
+
 from lxml import etree, objectify  # type: ignore
 from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
@@ -278,9 +280,11 @@ class Generator:
         return sorted_widgets
 
     def build_groups(self):
-        # Create screen object
+        """
+        Create a group to fill with widgets
+        """
+        # Create screen
         self.screen_ = Screen.Screen(self.screen_name)
-
         # create widget and group objects
         widgets: list[EmbeddedDisplay | ActionButton] = []
 
@@ -306,10 +310,8 @@ class Generator:
 
         self.group.version("2.0.0")
         self.group.add_widget(widgets)
-
-    def write_screen(self):
-        # Add the created groups to the screen and write the screen
         self.screen_.add_widget(self.group)
-        self.screen_.write_screen(
-            "./example-synoptic/" + self.screen_name + ".bob"
-        )  # TODO: Make this into a directory without example synoptic
+
+    def write_screen(self, directory: Path):
+        """Write the screen to file"""
+        self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")

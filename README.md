@@ -16,18 +16,29 @@ Releases        | <https://github.com/DiamondLightSource/techui-builder/releases
 
 The process to use this module goes as follows (WIP): 
 
-# Requirements
-    1. Docker
-    2. VSCode
+## Requirements
+1. Docker
+2. VSCode
+3. CS-Studio (Phoebus)
 
-# Starting the module
-    1. Recursively pull the project ensuring you pull submodules too. 
-    1. Open the project using vscode
-    2. Reopen the project in a container. Make sure you are using the vscode extension: Dev Containers by Microsoft.
+## Installation
+1. Clone this module with the `--recursive` flag to pull in [techui-support](git@github.com:DiamondLightSource/techui-support.git). 
+2. Open the project using VSCode.
+3. Reopen the project in a container. Make sure you are using the vscode extension: Dev Containers by Microsoft.
     
-# Running the module
-    1. With your ioc.yaml file in the folder format for services at diamond, as shown in the example-synoptics folder
-    2. Create a create_gui.yaml file as shown in the example folder of your beamline with a description as follows:
+## Setting Up
+[!WARNING] This module currently only works for `example-synoptic/bl23b-services` - use this directory file structure as a guideline.
+1. Add the beamline `ixx-services` repo to your VSCode workspace, ensuring each IOC service has been converted to the [ibek](git@github.com:epics-containers/ibek.git) format:
+    ```
+    |-- ixx-services
+    |   |-- services
+    |   |   |-- $(dom)-my-device-01
+    |   |   |   |   config
+    |   |   |   |   |-- ioc.yaml
+    ```
+2. Create your handmade synoptic screen in Phoebus and place in `ixx-services/src-bob/$(dom)-synoptic-src.bob`.
+3. Amend any references to `example-synoptic` with the path to your local `ixx-services` - [generate_synoptic.py](example-synoptic/generate_synoptic.py) and [generate.py](src/techui_builder/generate.py).
+4. Construct a `create_gui.yaml` file at the root of `ixx-services` containing all the components from the services:
 
     ```
     beamline:
@@ -38,9 +49,13 @@ The process to use this module goes as follows (WIP):
         {component name}:
             desc: {component description}
             prefix: {PV prefix}
-            service_name: {name of kubernetes service}
+            extras: 
+                - {extra prefix 1}
+                - {extra prefix 2}
     ```
-    3. Create your handmade synoptic screen and place in folder ./example-synoptic/src-bob
+    [!NOTE] `extras` is optional.
 
-# Running techui-builder
-    1. Run generate_synoptic.py in the example-synoptic folder
+## Generating Synoptic
+[!WARNING] Again, this is hardcoded to work for `example-synoptic/bl23b-services` so amend filepaths accordingly.
+
+`$ python example-synoptic/generate_synoptic.py`

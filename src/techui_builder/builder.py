@@ -125,6 +125,7 @@ class Builder:
         generator.write_screen(self._write_directory)
 
     def generate_screens(self):
+        """Generate the screens for each component in create_gui.yaml"""
         if self.entities is None:
             raise Exception("No entities found, has setup() been run?")
 

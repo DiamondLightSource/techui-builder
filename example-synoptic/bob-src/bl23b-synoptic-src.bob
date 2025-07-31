@@ -138,7 +138,7 @@
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <DESC>FE Absorber</DESC>
           <device>FE23B-RS-ABSB-01</device>
@@ -146,7 +146,7 @@
           <valvetype>absorber</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -291,7 +291,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <DESC>FE Valve 2</DESC>
           <device>FE23B-VA-VALVE-02</device>
@@ -299,7 +299,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -323,7 +323,7 @@ $(pv_value)</tooltip>
       <id>01</id>
       <name>GAUGE1</name>
     </macros>
-    <file>opi/gauge_embed.opi</file>
+    <file>$(file)</file>
     <x>130</x>
     <y>195</y>
     <width>2</width>
@@ -385,14 +385,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/img_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -429,14 +429,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -870,14 +870,14 @@ Current</text>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/pirg_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1027,7 +1027,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <DESC>FE Valve 2</DESC>
           <device>FE23B-VA-VALVE-02</device>
@@ -1035,7 +1035,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1164,7 +1164,7 @@ $(pv_value)</tooltip>
           <valvetype>shutter</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1208,7 +1208,7 @@ $(pv_value)</tooltip>
           <valvetype>shutter</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1605,14 +1605,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1688,14 +1688,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/pirg_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1781,14 +1781,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/img_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1825,14 +1825,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1871,14 +1871,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/pirg_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -1964,14 +1964,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/img_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2008,14 +2008,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2054,14 +2054,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/pirg_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2123,14 +2123,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2192,14 +2192,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2276,7 +2276,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2340,14 +2340,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/img_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2384,14 +2384,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2430,14 +2430,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/pirg_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2666,14 +2666,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/img_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2710,14 +2710,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2756,14 +2756,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/pirg_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2840,7 +2840,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2904,14 +2904,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/img_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2948,14 +2948,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>../digitelMpcApp_opi/ionp_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -2994,14 +2994,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../mks937bApp_opi/pirg_detail.opi</file>
+        <file>$(file)</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>
@@ -3131,7 +3131,7 @@ $(pv_value)</tooltip>
           <valvetype>shutter</valvetype>
         </macros>
         <target>tab</target>
-        <description>Open detail screen</description>
+        <description>$(desc)</description>
       </action>
       <action type="write_pv">
         <pv_name>$(pv_name).PROC</pv_name>

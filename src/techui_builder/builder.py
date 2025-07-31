@@ -93,11 +93,7 @@ class Builder:
         with open(ioc_yaml) as ioc:
             ioc_conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
             for entity in ioc_conf["entities"]:
-                if (
-                    "P" in entity.keys()
-                    # TODO: think about multiple prefixes per service e.g. i19 DIFF1S
-                    ### and entity["P"] == component.prefix
-                ):
+                if "P" in entity.keys():
                     # Create Entity and append to entity list
                     new_entity = Entity(
                         type=entity["type"],

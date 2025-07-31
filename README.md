@@ -27,13 +27,16 @@ The process to use this module goes as follows (WIP):
 3. Reopen the project in a container. Make sure you are using the vscode extension: Dev Containers by Microsoft.
     
 ## Setting Up
-[!WARNING] This module currently only works for `example-synoptic/bl23b-services` - use this directory file structure as a guideline.
+
+> [!WARNING]
+> This module currently only works for `example-synoptic/bl23b-services` - use this directory file structure as a guideline.
+
 1. Add the beamline `ixx-services` repo to your VSCode workspace, ensuring each IOC service has been converted to the [ibek](git@github.com:epics-containers/ibek.git) format:
     ```
     |-- ixx-services
     |   |-- services
     |   |   |-- $(dom)-my-device-01
-    |   |   |   |   config
+    |   |   |   |-- config
     |   |   |   |   |-- ioc.yaml
     ```
 2. Create your handmade synoptic screen in Phoebus and place in `ixx-services/src-bob/$(dom)-synoptic-src.bob`.
@@ -53,9 +56,11 @@ The process to use this module goes as follows (WIP):
                 - {extra prefix 1}
                 - {extra prefix 2}
     ```
-    [!NOTE] `extras` is optional.
+    > [!NOTE] 
+    > `extras` is optional, but allows any embedded screen to be added to one summary screen e.g. combining all imgs, pirgs and ionps associated with a vacuum space.
 
 ## Generating Synoptic
-[!WARNING] Again, this is hardcoded to work for `example-synoptic/bl23b-services` so amend filepaths accordingly.
+> [!WARNING]
+> Again, this is hardcoded to work for `example-synoptic/bl23b-services` so amend filepaths accordingly.
 
 `$ python example-synoptic/generate_synoptic.py`

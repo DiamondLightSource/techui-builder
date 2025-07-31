@@ -9,14 +9,14 @@ from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.objects import Entry
+from techui_builder.objects import Entity
 
 
 @dataclass
 class Generator:
-    screen_components: list[Entry]
+    screen_components: list[Entity]
     # TODO: Fix type of screen
-    screen: dict
+    gui_map: dict
     screen_name: str
 
     # These are global params for the class (not accessible by user)
@@ -164,7 +164,7 @@ class Generator:
             max(x_list) + max(width_list) + self.group_padding,
         )
 
-    def _create_widget(self, component: Entry) -> EmbeddedDisplay | ActionButton:
+    def _create_widget(self, component: Entity) -> EmbeddedDisplay | ActionButton:
         # if statement below is check if the suffix is
         # missing from the component description. If
         # not missing, use as name of widget, if missing,
@@ -175,14 +175,14 @@ class Generator:
             name = component.type
 
         # Get dimensions of screen from TechUI repository
-        if self.screen[component.type]["type"] == "embedded":
+        if self.gui_map[component.type]["type"] == "embedded":
             height, width = self._get_screen_dimensions(
-                f"./techui-support/bob/{self.screen[component.type]['file']}"
+                f"./techui-support/bob/{self.gui_map[component.type]['file']}"
             )
 
             new_widget = Widget.EmbeddedDisplay(
                 name,
-                "../techui-support/bob/" + self.screen[component.type]["file"],
+                "../techui-support/bob/" + self.gui_map[component.type]["file"],
                 0,
                 0,  # Change depending on the order
                 width,
@@ -208,7 +208,7 @@ class Generator:
 
             # Add action to action button: to open related display
             new_widget.action_open_display(
-                file=f"../techui-support/bob/{self.screen[component.type]['file']}",
+                file=f"../techui-support/bob/{self.gui_map[component.type]['file']}",
                 target="tab",
                 macros={"P": component.P, "M": component.M},
             )

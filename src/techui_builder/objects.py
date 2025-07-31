@@ -1,6 +1,5 @@
 import re
 from dataclasses import dataclass, field
-from pathlib import Path
 
 
 @dataclass
@@ -10,10 +9,9 @@ class Beamline:
 
 
 @dataclass
-class Entry:
+class Entity:
     type: str
     desc: str | None
-    file: Path
     P: str
     M: str | None
     R: str | None

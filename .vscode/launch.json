@@ -5,14 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Unit Test",
+            "name": "Run Generate Synoptic",
             "type": "debugpy",
             "request": "launch",
-            "justMyCode": false,
-            "program": "${file}",
-            "purpose": [
-                "debug-test"
-            ],
+            "justMyCode": true,
+            "program": "${workspaceFolder}/example-synoptic/generate_synoptic.py",
             "console": "integratedTerminal",
             "env": {
                 // Enable break on exception when debugging tests (see: tests/conftest.py)

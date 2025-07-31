@@ -32,8 +32,9 @@ class Builder:
 
     beamline: Beamline = field(init=False)
     components: list[Component] = field(default_factory=list, init=False)
-    entities: dict[str, Entity] = field(default_factory=defaultdict, init=False)
-
+    entities: defaultdict[str, list[Entity]] = field(
+        default_factory=lambda: defaultdict(list), init=False
+    )
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
     _write_directory: Path = field(init=False, repr=False)
@@ -109,7 +110,7 @@ class Builder:
                         if (val := entity.get("R")) is None
                         else val.removeprefix(":"),
                     )
-                    self.entities[new_entity.P] = new_entity
+                    self.entities[new_entity.P].append(new_entity)
 
     def _read_gui_map(self):
         """Read the gui_map.yaml file from techui-support."""
@@ -133,11 +134,11 @@ class Builder:
             screen_entities: list[Entity] = []
             # ONLY IF there is a matching component and entity, generate a screen
             if component.prefix in self.entities.keys():
-                screen_entities.append(self.entities[component.prefix])
+                screen_entities.extend(self.entities[component.prefix])
                 if component.extras is not None:
                     # If component has any extras, add them to the entries to generate
                     for extra_p in component.extras:
-                        screen_entities.append(self.entities[extra_p])
+                        screen_entities.extend(self.entities[extra_p])
 
                 self._generate_screen(component.name, screen_entities)
 

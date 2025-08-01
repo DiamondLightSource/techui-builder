@@ -223,4 +223,4 @@ class Builder:
 
         map = self._generate_json_map(synoptic)
         with open(dest, "w") as f:
-            json.dump(map, f)
+            json.dump(map, f, indent=4)

@@ -29,6 +29,4 @@ autofiller.read_bob()
 autofiller.autofill_bob(gui)
 autofiller.write_bob(generated_bob_path)
 
-gui.write_json_map(
-    synoptic=generated_bob_path, dest=Path("example-synoptic/json_map.json")
-)
+gui.write_json_map(synoptic=generated_bob_path, dest=Path("example-synoptic"))

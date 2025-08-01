@@ -26,7 +26,6 @@ components:
   FEV4:
     prefix: FE23B-VA-VALVE-04
     desc: TEST DESCRIPTION
-    file: TEST_FILE.bob
 
   GV1:
     prefix: BL23B-VA-VALVE-11

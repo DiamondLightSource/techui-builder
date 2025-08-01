@@ -1,13 +1,15 @@
 import json
+from collections import defaultdict
 from collections.abc import MutableMapping
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 import lxml.etree as etree
 import yaml
 
 from techui_builder.generate import Generator
-from techui_builder.objects import Beamline, Component, Entry
+from techui_builder.objects import Beamline, Component, Entity
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
@@ -30,8 +32,9 @@ class Builder:
 
     beamline: Beamline = field(init=False)
     components: list[Component] = field(default_factory=list, init=False)
-    entities: list[Entry] = field(default_factory=list, init=False)
-
+    entities: defaultdict[str, list[Entity]] = field(
+        default_factory=lambda: defaultdict(list), init=False
+    )
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
     _write_directory: Path = field(init=False, repr=False)
@@ -42,7 +45,7 @@ class Builder:
 
         # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml
-        self._services_dir = Path(f"{self.beamline.dom}-services")
+        self._services_dir = Path(f"{self.beamline.dom}-services/services")
 
         self._read_gui_map()
 
@@ -55,7 +58,9 @@ class Builder:
         with open(self.create_gui) as f:
             conf = yaml.safe_load(f)
             bl: dict[str, str] = conf["beamline"]
-            comps: dict[str, dict[str, str]] = conf["components"]
+            comps: dict[str, dict[str, Any]] = conf[
+                "components"
+            ]  # TODO: Fix typing from Any
 
             self.beamline = Beamline(**bl)
 
@@ -63,55 +68,36 @@ class Builder:
                 self.components.append(Component(key, **comp))
 
     def setup(self):
-        """Run intial setup, e.g. extracting entities from service ioc.yaml."""
+        """Run intial setup, e.g. extracting entries from service ioc.yaml."""
         self._extract_services()
 
     def _extract_services(self):
         """
-        Finds the related folders in the services directory
-        and extracts the related entites with the matching prefixes
+        Finds the services folders in the services directory
+        and extracts all entites
         """
 
         # For each component extracted from create_gui.yaml
-        for component in self.components:
-            if component.service_name is not None:
-                service_name = component.service_name
-            else:
-                # if service_name is not provided, resort to P being the service name
-                service_name = component.P.lower()
-
+        for service in self._services_dir.iterdir():
             # If service doesn't exist, file open will fail throwing exception
             try:
-                self._extract_entities(
-                    ioc_yaml=f"{self._services_dir}/services/{service_name}/config/ioc.yaml",
-                    component=component,
-                )
-                self._generate_screen(screen_name=component.name)
-                self.entities = []
+                self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
             except OSError:
-                print(f"No ioc.yaml file for service: {service_name}. Does it exist?")
+                print(f"No ioc.yaml file for service: {service.name}. Does it exist?")
 
-    def _extract_entities(self, ioc_yaml: str, component: Component):
+    def _extract_entities(self, ioc_yaml: Path):
         """
-        Extracts the entities in ioc.yaml matching the defined prefix
+        Extracts the entries in ioc.yaml matching the defined prefix
         """
 
         with open(ioc_yaml) as ioc:
-            conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
-            for entity in conf["entities"]:
-                if (
-                    "P" in entity.keys()
-                    # TODO: think about multiple prefixes per service e.g. i19 DIFF1S
-                    ### and entity["P"] == component.prefix
-                ):
-                    # Create Entry and append to entity list
-                    entry = Entry(
+            ioc_conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
+            for entity in ioc_conf["entities"]:
+                if "P" in entity.keys():
+                    # Create Entity and append to entity list
+                    new_entity = Entity(
                         type=entity["type"],
-                        desc=component.desc,
-                        # TODO: Implement gui_map screen path
-                        file=Path(component.name + ".bob")
-                        if component.file is None
-                        else Path(component.file),
+                        desc=entity.get("desc", None),
                         P=entity["P"],
                         M=None
                         if (val := entity.get("M")) is None
@@ -120,7 +106,7 @@ class Builder:
                         if (val := entity.get("R")) is None
                         else val.removeprefix(":"),
                     )
-                    self.entities.append(entry)
+                    self.entities[new_entity.P].append(new_entity)
 
     def _read_gui_map(self):
         """Read the gui_map.yaml file from techui-support."""
@@ -129,10 +115,35 @@ class Builder:
         with open(gui_map) as map:
             self._gui_map = yaml.safe_load(map)
 
-    def _generate_screen(self, screen_name: str):
-        generator = Generator(self.entities, self._gui_map, screen_name)
+    def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
+        generator = Generator(screen_components, self._gui_map, screen_name)
         generator.build_groups()
         generator.write_screen(self._write_directory)
+
+    def generate_screens(self):
+        """Generate the screens for each component in create_gui.yaml"""
+        if self.entities is None:
+            raise Exception("No entities found, has setup() been run?")
+
+        generated_screens: list[str] = []
+
+        # Loop over every component defined in create_gui.yaml and locate
+        # any extras defined
+        for component in self.components:
+            screen_entities: list[Entity] = []
+            # ONLY IF there is a matching component and entity, generate a screen
+            if component.prefix in self.entities.keys():
+                screen_entities.extend(self.entities[component.prefix])
+                if component.extras is not None:
+                    # If component has any extras, add them to the entries to generate
+                    for extra_p in component.extras:
+                        screen_entities.extend(self.entities[extra_p])
+
+                self._generate_screen(component.name, screen_entities)
+                # For debugging what screens have been generated
+                generated_screens.append(component.name)
+
+        print(f"Screens generated for: {generated_screens}")
 
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None
@@ -203,7 +214,7 @@ class Builder:
     # TODO: change default Path
     def get_json_map(self, file_name: Path = Path("motor.bob")):
         """
-        Maps the valid entities from the ioc.yaml file
+        Maps the valid entries from the ioc.yaml file
         to the required screen in gui_map.yaml
         """
         map = self._generate_json_map(file_name)

@@ -1,6 +1,5 @@
 import re
 from dataclasses import dataclass, field
-from pathlib import Path
 
 
 @dataclass
@@ -10,10 +9,9 @@ class Beamline:
 
 
 @dataclass
-class Entry:
+class Entity:
     type: str
     desc: str | None
-    file: Path
     P: str
     M: str | None
     R: str | None
@@ -23,9 +21,9 @@ class Entry:
 class Component:
     name: str
     prefix: str
-    service_name: str | None = field(default=None)
     desc: str | None = field(default=None)
     file: str | None = field(default=None)
+    extras: list[str] | None = field(default=None)
 
     def __post_init__(self):
         self.file = self.name + ".bob" if self.file is None else self.file

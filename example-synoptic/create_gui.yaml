@@ -40,7 +40,6 @@ components:
   GCTLR1:
     desc: Gauge Controller 1
     prefix: BL23B-VA-IOC-01
-    service_name: bl23b-va-ioc-01
 
   IMG1:
     prefix: BL23B-VA-IMG-01
@@ -121,7 +120,6 @@ components:
 
   M1:
     prefix: FE23B-OP-MR-01
-    service_name: bl23b-mo-ioc-01
 
   M2:
     prefix: FE23B-OP-MR-02

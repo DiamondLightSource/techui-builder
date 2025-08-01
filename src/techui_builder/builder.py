@@ -217,4 +217,4 @@ not match any P field in the ioc.yaml files in services"
 
         map = self._generate_json_map(synoptic)
         with open(dest, "w") as f:
-            json.dump(map, f)
+            json.dump(map, f, indent=4)

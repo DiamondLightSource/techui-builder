@@ -199,17 +199,22 @@ not match any P field in the ioc.yaml files in services"
         except Exception as e:
             node["error"] = str(e)
 
-        # Write json map to file
-        with open("map.json", "w") as outfile:
-            json.dump(node, outfile)
-
         return node
 
-    # TODO: change default Path
-    def get_json_map(self, file_name: Path = Path("motor.bob")):
+    def write_json_map(
+        self,
+        synoptic: Path = Path("example/bl01t-synoptic.bob"),
+        dest: Path = Path("example/json_map.json"),
+    ):
         """
         Maps the valid entries from the ioc.yaml file
         to the required screen in gui_map.yaml
         """
-        map = self._generate_json_map(file_name)
-        print(map)
+        if not synoptic.exists():
+            raise Exception(
+                f"Cannot generate json map for {synoptic}. Has it been generated?"
+            )
+
+        map = self._generate_json_map(synoptic)
+        with open(dest, "w") as f:
+            json.dump(map, f)

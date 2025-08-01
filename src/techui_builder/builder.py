@@ -125,6 +125,8 @@ class Builder:
         if self.entities is None:
             raise Exception("No entities found, has setup() been run?")
 
+        generated_screens: list[str] = []
+
         # Loop over every component defined in create_gui.yaml and locate
         # any extras defined
         for component in self.components:
@@ -138,6 +140,10 @@ class Builder:
                         screen_entities.extend(self.entities[extra_p])
 
                 self._generate_screen(component.name, screen_entities)
+                # For debugging what screens have been generated
+                generated_screens.append(component.name)
+
+        print(f"Screens generated for: {generated_screens}")
 
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None

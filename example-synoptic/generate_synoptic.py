@@ -16,7 +16,7 @@ gui = Builder(create_gui=create_gui_file)
 
 # Overwrite after initialised to make sure this is picked up
 gui._services_dir = Path("example-synoptic/bl23b-services/services")  # noqa: SLF001
-gui._write_directory = Path("example-synoptic")  # noqa: SLF001
+gui._write_directory = Path("example-synoptic/data")  # noqa: SLF001
 
 gui.setup()
 gui.generate_screens()
@@ -26,4 +26,4 @@ gui.generate_screens()
 autofiller = Autofiller(bob_file)
 autofiller.read_bob()
 autofiller.autofill_bob(gui)
-autofiller.write_bob(Path(f"example-synoptic/{dom}-synoptic.bob"))
+autofiller.write_bob(gui._write_directory.joinpath(f"{dom}-synoptic.bob"))  # noqa: SLF001

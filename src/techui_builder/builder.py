@@ -37,7 +37,7 @@ class Builder:
     )
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
-    _write_directory: Path = field(init=False, repr=False)
+    _write_directory: Path = field(default=Path("data"), init=False, repr=False)
 
     def __post_init__(self):
         # Populate beamline and components

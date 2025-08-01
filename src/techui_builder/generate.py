@@ -1,7 +1,6 @@
+import os
 from collections import defaultdict
 from dataclasses import dataclass, field
-
-# import warnings
 from pathlib import Path
 
 from lxml import etree, objectify  # type: ignore
@@ -314,4 +313,6 @@ class Generator:
 
     def write_screen(self, directory: Path):
         """Write the screen to file"""
+        if not directory.exists():
+            os.mkdir(directory)
         self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")

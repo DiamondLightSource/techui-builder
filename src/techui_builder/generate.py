@@ -6,7 +6,7 @@ from pathlib import Path
 from lxml import etree, objectify  # type: ignore
 from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
-from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group, Label
+from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.objects import Entity
 
@@ -61,7 +61,7 @@ class Generator:
         return (height, width)
 
     def _get_widget_dimensions(
-        self, widget: EmbeddedDisplay | ActionButton | Label
+        self, widget: EmbeddedDisplay | ActionButton
     ) -> tuple[int, int]:
         """
         Parses the widget for information on the height
@@ -90,7 +90,7 @@ class Generator:
         return (height, width)
 
     def _get_widget_position(
-        self, object: EmbeddedDisplay | ActionButton | Label
+        self, object: EmbeddedDisplay | ActionButton
     ) -> tuple[int, int]:
         """
         Parses the widget for information on the y
@@ -115,9 +115,7 @@ class Generator:
         return (y, x)
 
     # Make groups
-    def _get_group_dimensions(
-        self, widget_list: list[EmbeddedDisplay | ActionButton | Label]
-    ):
+    def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
         """
         Takes in a list of widgets and finds the
         maximum height in the list
@@ -167,7 +165,7 @@ class Generator:
 
     def _create_widget(
         self, component: Entity
-    ) -> EmbeddedDisplay | ActionButton | Label:
+    ) -> EmbeddedDisplay | ActionButton | None:
         # if statement below is check if the suffix is
         # missing from the component description. If
         # not missing, use as name of widget, if missing,
@@ -217,19 +215,17 @@ class Generator:
                 )
         except KeyError:
             print(f"No available widget for {name} in screen {self.screen_name}")
-            new_widget = Widget.Label(
-                name, f"no widget available for {name}", 0, 0, 200, 40
-            )
+            new_widget = None
 
         return new_widget
 
-    def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton | Label]):
+    def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
         group_spacing: int = 30
         max_group_height: int = 800
         spacing_x: int = 20
         spacing_y: int = 30
         # Group tiles by size
-        groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton | Label]] = (
+        groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton]] = (
             defaultdict(list)
         )
         for widget in widgets:
@@ -238,12 +234,12 @@ class Generator:
             groups[key].append(widget)
 
         # Sort groups by width (optional)
-        sorted_widgets: list[EmbeddedDisplay | ActionButton | Label] = []
+        sorted_widgets: list[EmbeddedDisplay | ActionButton] = []
         sorted_groups = sorted(groups.items(), key=lambda g: g[0][0], reverse=True)
         current_x: int = 0
         current_y: int = 0
         column_width: int = 0
-        column_levels: list[list[EmbeddedDisplay | ActionButton | Label]] = []
+        column_levels: list[list[EmbeddedDisplay | ActionButton]] = []
 
         for (h, w), group in sorted_groups:
             for widget in group:
@@ -294,14 +290,16 @@ class Generator:
         # Create screen
         self.screen_ = Screen.Screen(self.screen_name)
         # create widget and group objects
-        widgets: list[EmbeddedDisplay | ActionButton | Label] = []
+        widgets: list[EmbeddedDisplay | ActionButton] = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
         for component in self.screen_components:
             new_widget = self._create_widget(component=component)
-
+            if new_widget is None:
+                continue
             widgets.append(new_widget)
+
         widgets = self.layout_widgets(widgets)
 
         # Create a list of dimensions for the groups

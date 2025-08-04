@@ -1322,19 +1322,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>GBC1.opi</file>
+        <file>$(file)</file>
         <target>tab</target>
-        <description>Open component screen</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>BL23B-RS-GBC-01:DEVSTA.PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>BL23B-RS-GBC-01:DEVSTA:CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
+        <description>$(desc)</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>

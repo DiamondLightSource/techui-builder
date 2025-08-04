@@ -57,10 +57,19 @@ The process to use this module goes as follows (WIP):
                 - {extra prefix 2}
     ```
     > [!NOTE] 
-    > `extras` is optional, but allows any embedded screen to be added to one summary screen e.g. combining all imgs, pirgs and ionps associated with a vacuum space.
+    > `extras` is optional, but allows any embedded screen to be added to make a summary screen e.g. combining all imgs, pirgs and ionps associated with a vacuum space.
 
 ## Generating Synoptic
 > [!WARNING]
 > Again, this is hardcoded to work for `example-synoptic/bl23b-services` so amend filepaths accordingly.
 
 `$ python example-synoptic/generate_synoptic.py`
+
+This generates the filled, top level blxxx-synoptic.bob and all component screens inside `ixx-services/services/data`.
+
+## Viewing the Synoptic
+
+```
+$ module load phoebus
+$ phoebus.sh -resource /path/to/blxxx-synoptic.bob
+```

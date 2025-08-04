@@ -183,7 +183,7 @@ class Generator:
 
                 new_widget = Widget.EmbeddedDisplay(
                     name,
-                    "../techui-support/bob/" + self.gui_map[component.type]["file"],
+                    "../../techui-support/bob/" + self.gui_map[component.type]["file"],
                     0,
                     0,  # Change depending on the order
                     width,
@@ -209,7 +209,7 @@ class Generator:
 
                 # Add action to action button: to open related display
                 new_widget.action_open_display(
-                    file=f"../techui-support/bob/{self.gui_map[component.type]['file']}",
+                    file=f"../../techui-support/bob/{self.gui_map[component.type]['file']}",
                     target="tab",
                     macros={"P": component.P, "M": component.M},
                 )

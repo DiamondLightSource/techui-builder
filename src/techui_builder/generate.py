@@ -178,7 +178,7 @@ class Generator:
             # Get dimensions of screen from TechUI repository
             if self.gui_map[component.type]["type"] == "embedded":
                 height, width = self._get_screen_dimensions(
-                    f"./techui-support/bob/{self.gui_map[component.type]['file']}"
+                    f"../../techui-support/bob/{self.gui_map[component.type]['file']}"
                 )
 
                 new_widget = Widget.EmbeddedDisplay(

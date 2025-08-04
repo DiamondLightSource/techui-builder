@@ -6,7 +6,7 @@ from pathlib import Path
 from lxml import etree, objectify  # type: ignore
 from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
-from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
+from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group, Label
 
 from techui_builder.objects import Entity
 
@@ -61,7 +61,7 @@ class Generator:
         return (height, width)
 
     def _get_widget_dimensions(
-        self, widget: EmbeddedDisplay | ActionButton
+        self, widget: EmbeddedDisplay | ActionButton | Label
     ) -> tuple[int, int]:
         """
         Parses the widget for information on the height
@@ -90,7 +90,7 @@ class Generator:
         return (height, width)
 
     def _get_widget_position(
-        self, object: EmbeddedDisplay | ActionButton
+        self, object: EmbeddedDisplay | ActionButton | Label
     ) -> tuple[int, int]:
         """
         Parses the widget for information on the y
@@ -115,7 +115,9 @@ class Generator:
         return (y, x)
 
     # Make groups
-    def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
+    def _get_group_dimensions(
+        self, widget_list: list[EmbeddedDisplay | ActionButton | Label]
+    ):
         """
         Takes in a list of widgets and finds the
         maximum height in the list
@@ -163,7 +165,9 @@ class Generator:
             max(x_list) + max(width_list) + self.group_padding,
         )
 
-    def _create_widget(self, component: Entity) -> EmbeddedDisplay | ActionButton:
+    def _create_widget(
+        self, component: Entity
+    ) -> EmbeddedDisplay | ActionButton | Label:
         # if statement below is check if the suffix is
         # missing from the component description. If
         # not missing, use as name of widget, if missing,
@@ -172,55 +176,60 @@ class Generator:
             name = component.M
         else:
             name = component.type
+        try:
+            # Get dimensions of screen from TechUI repository
+            if self.gui_map[component.type]["type"] == "embedded":
+                height, width = self._get_screen_dimensions(
+                    f"./techui-support/bob/{self.gui_map[component.type]['file']}"
+                )
 
-        # Get dimensions of screen from TechUI repository
-        if self.gui_map[component.type]["type"] == "embedded":
-            height, width = self._get_screen_dimensions(
-                f"./techui-support/bob/{self.gui_map[component.type]['file']}"
-            )
+                new_widget = Widget.EmbeddedDisplay(
+                    name,
+                    "../techui-support/bob/" + self.gui_map[component.type]["file"],
+                    0,
+                    0,  # Change depending on the order
+                    width,
+                    height,
+                )
+                # Add macros to the widgets
+                new_widget.macro(self.P, component.P)
+                new_widget.macro(self.M, component.M or "")
 
-            new_widget = Widget.EmbeddedDisplay(
-                name,
-                "../techui-support/bob/" + self.gui_map[component.type]["file"],
-                0,
-                0,  # Change depending on the order
-                width,
-                height,
-            )
-            # Add macros to the widgets
-            new_widget.macro(self.P, component.P)
-            new_widget.macro(self.M, component.M or "")
+            # The only other option is for related displays
+            else:
+                height, width = (40, 100)
 
-        # The only other option is for related displays
-        else:
-            height, width = (40, 100)
+                new_widget = Widget.ActionButton(
+                    name,
+                    component.P,
+                    f"{component.P}:{component.M}",
+                    0,
+                    0,
+                    width,
+                    height,
+                )
 
-            new_widget = Widget.ActionButton(
-                name,
-                component.P,
-                f"{component.P}:{component.M}",
-                0,
-                0,
-                width,
-                height,
-            )
-
-            # Add action to action button: to open related display
-            new_widget.action_open_display(
-                file=f"../techui-support/bob/{self.gui_map[component.type]['file']}",
-                target="tab",
-                macros={"P": component.P, "M": component.M},
+                # Add action to action button: to open related display
+                new_widget.action_open_display(
+                    file=f"../techui-support/bob/{self.gui_map[component.type]['file']}",
+                    target="tab",
+                    macros={"P": component.P, "M": component.M},
+                )
+        except KeyError:
+            print(f"No available widget for {name} in screen {self.screen_name}")
+            new_widget = Widget.Label(
+                name, f"no widget available for {name}", 0, 0, 200, 40
             )
 
         return new_widget
 
-    def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
+    def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton | Label]):
         group_spacing: int = 30
         max_group_height: int = 800
         spacing_x: int = 20
         spacing_y: int = 30
         # Group tiles by size
-        groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton]] = (
+        groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton | Label]] = (
             defaultdict(list)
         )
         for widget in widgets:
@@ -229,12 +238,12 @@ class Generator:
             groups[key].append(widget)
 
         # Sort groups by width (optional)
-        sorted_widgets: list[EmbeddedDisplay | ActionButton] = []
+        sorted_widgets: list[EmbeddedDisplay | ActionButton | Label] = []
         sorted_groups = sorted(groups.items(), key=lambda g: g[0][0], reverse=True)
         current_x: int = 0
         current_y: int = 0
         column_width: int = 0
-        column_levels: list[list[EmbeddedDisplay | ActionButton]] = []
+        column_levels: list[list[EmbeddedDisplay | ActionButton | Label]] = []
 
         for (h, w), group in sorted_groups:
             for widget in group:
@@ -285,7 +294,7 @@ class Generator:
         # Create screen
         self.screen_ = Screen.Screen(self.screen_name)
         # create widget and group objects
-        widgets: list[EmbeddedDisplay | ActionButton] = []
+        widgets: list[EmbeddedDisplay | ActionButton | Label] = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.

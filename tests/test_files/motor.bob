@@ -11,7 +11,7 @@
         <name>pmac.autohome</name>
         <width>205</width>
         <height>120</height>
-        <file>../techui-support/bob/motor_embed.bob</file>
+        <file>../../techui-support/bob/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
           <M/>
@@ -23,7 +23,7 @@
         <name>X</name>
         <width>205</width>
         <height>120</height>
-        <file>../techui-support/bob/motor_embed.bob</file>
+        <file>../../techui-support/bob/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
           <M>X</M>
@@ -35,7 +35,7 @@
         <name>A</name>
         <width>205</width>
         <height>120</height>
-        <file>../techui-support/bob/motor_embed.bob</file>
+        <file>../../techui-support/bob/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
           <M>A</M>
@@ -56,7 +56,7 @@
               <P>BL01T-MO-BRICK-01</P>
               <M>None</M>
             </macros>
-            <file>../techui-support/bob/pmacController.bob</file>
+            <file>../../techui-support/bob/pmacController.bob</file>
             <target>tab</target>
           </action>
         </actions>

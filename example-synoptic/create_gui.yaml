@@ -41,6 +41,17 @@ components:
     desc: Gauge Controller 1
     prefix: BL23B-VA-IOC-01
 
+  SPACE11:
+    desc: Vacuum Space 11
+    prefix: BL23B-VA-IOC-01
+    extras:
+      - BL23B-VA-IMG-11
+      - BL23B-VA-IMG-12
+      - BL23B-VA-PIRG-11
+      - BL23B-VA-PIRG-12
+      - BL23B-VA-IONP-11
+      - BL23B-VA-IONP-12
+
   IMG1:
     prefix: BL23B-VA-IMG-01
 

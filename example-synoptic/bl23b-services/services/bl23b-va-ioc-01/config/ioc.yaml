@@ -131,7 +131,7 @@ entities:
 
   - type: digitelMpc.digitelMpcIonp
     MPC: IONPC1
-    device: BL23B-VA-IONP-11
+    P: BL23B-VA-IONP-11
     proto: digitelMpc.proto
     pump: 2
     size: 50
@@ -142,7 +142,7 @@ entities:
 
   - type: digitelMpc.digitelMpcIonp
     MPC: IONPC2
-    device: BL23B-VA-IONP-21
+    P: BL23B-VA-IONP-21
     proto: digitelMpc.proto
     pump: 1
     size: 150
@@ -153,7 +153,7 @@ entities:
 
   - type: digitelMpc.digitelMpcIonp
     MPC: IONPC2
-    device: BL23B-VA-IONP-12
+    P: BL23B-VA-IONP-12
     proto: digitelMpc.proto
     pump: 2
     size: 150
@@ -190,11 +190,11 @@ entities:
   #   P: BL23B-VA-IMG-21
   #   ilk_write_access_pv: BL23B-VA-GAUGE-21:ILKSETSP:NOWRITE
 
-  # - type: mks937a.mks937aImg
-  #   GCTLR: GCTLR-02
-  #   channel: 2
-  #   P: BL23B-VA-IMG-12
-  #   ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
+  - type: mks937a.mks937aImg
+    GCTLR: GCTLR-02
+    channel: 2
+    P: BL23B-VA-IMG-12
+    ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
 
   - type: mks937a.mks937aPirg
     GCTLR: GCTLR-01
@@ -214,11 +214,11 @@ entities:
   #   P: BL23B-VA-PIRG-21
   #   ilk_write_access_pv: BL23B-VA-GAUGE-21:ILKSETSP:NOWRITE
 
-  # - type: mks937a.mks937aPirg
-  #   GCTLR: GCTLR-02
-  #   channel: 5
-  #   P: BL23B-VA-PIRG-12
-  #   ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
+  - type: mks937a.mks937aPirg
+    GCTLR: GCTLR-02
+    channel: 5
+    P: BL23B-VA-PIRG-12
+    ilk_write_access_pv: BL23B-VA-GAUGE-12:ILKSETSP:NOWRITE
 
   # - type: mks937a.mks937aGauge
   #   P: BL23B-VA-GCTLR-01

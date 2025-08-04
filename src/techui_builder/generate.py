@@ -163,7 +163,9 @@ class Generator:
             max(x_list) + max(width_list) + self.group_padding,
         )
 
-    def _create_widget(self, component: Entity) -> EmbeddedDisplay | ActionButton:
+    def _create_widget(
+        self, component: Entity
+    ) -> EmbeddedDisplay | ActionButton | None:
         # if statement below is check if the suffix is
         # missing from the component description. If
         # not missing, use as name of widget, if missing,
@@ -172,45 +174,48 @@ class Generator:
             name = component.M
         else:
             name = component.type
+        try:
+            # Get dimensions of screen from TechUI repository
+            if self.gui_map[component.type]["type"] == "embedded":
+                height, width = self._get_screen_dimensions(
+                    f"./techui-support/bob/{self.gui_map[component.type]['file']}"
+                )
 
-        # Get dimensions of screen from TechUI repository
-        if self.gui_map[component.type]["type"] == "embedded":
-            height, width = self._get_screen_dimensions(
-                f"./techui-support/bob/{self.gui_map[component.type]['file']}"
-            )
+                new_widget = Widget.EmbeddedDisplay(
+                    name,
+                    "../techui-support/bob/" + self.gui_map[component.type]["file"],
+                    0,
+                    0,  # Change depending on the order
+                    width,
+                    height,
+                )
+                # Add macros to the widgets
+                new_widget.macro(self.P, component.P)
+                new_widget.macro(self.M, component.M or "")
 
-            new_widget = Widget.EmbeddedDisplay(
-                name,
-                "../techui-support/bob/" + self.gui_map[component.type]["file"],
-                0,
-                0,  # Change depending on the order
-                width,
-                height,
-            )
-            # Add macros to the widgets
-            new_widget.macro(self.P, component.P)
-            new_widget.macro(self.M, component.M or "")
+            # The only other option is for related displays
+            else:
+                height, width = (40, 100)
 
-        # The only other option is for related displays
-        else:
-            height, width = (40, 100)
+                new_widget = Widget.ActionButton(
+                    name,
+                    component.P,
+                    f"{component.P}:{component.M}",
+                    0,
+                    0,
+                    width,
+                    height,
+                )
 
-            new_widget = Widget.ActionButton(
-                name,
-                component.P,
-                f"{component.P}:{component.M}",
-                0,
-                0,
-                width,
-                height,
-            )
-
-            # Add action to action button: to open related display
-            new_widget.action_open_display(
-                file=f"../techui-support/bob/{self.gui_map[component.type]['file']}",
-                target="tab",
-                macros={"P": component.P, "M": component.M},
-            )
+                # Add action to action button: to open related display
+                new_widget.action_open_display(
+                    file=f"../techui-support/bob/{self.gui_map[component.type]['file']}",
+                    target="tab",
+                    macros={"P": component.P, "M": component.M},
+                )
+        except KeyError:
+            print(f"No available widget for {name} in screen {self.screen_name}")
+            new_widget = None
 
         return new_widget
 
@@ -291,8 +296,10 @@ class Generator:
         # and serves as functionality in the math for formatting.
         for component in self.screen_components:
             new_widget = self._create_widget(component=component)
-
+            if new_widget is None:
+                continue
             widgets.append(new_widget)
+
         widgets = self.layout_widgets(widgets)
 
         # Create a list of dimensions for the groups

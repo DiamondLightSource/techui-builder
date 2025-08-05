@@ -12,7 +12,7 @@ from .builder import Builder
 
 # __all__ = ["main"]
 
-app = typer.Typer()
+app = typer.Typer(pretty_exceptions_show_locals=False)
 
 default_bobfile = "bob-src/blxxi-synoptic-src.bob"
 

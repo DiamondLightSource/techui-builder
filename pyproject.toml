@@ -15,13 +15,13 @@ authors = [
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
-scripts = { techui-builder = "techui_builder.__main__:main" }
 dependencies = [
     "pyyaml>=6.0.2",
     "phoebusgen>=3.0.0",
     "lxml>=5.4.0",
     "typer>=0.16.0",
 ]
+scripts = { create-gui = "techui_builder.__main__:app" }
 optional-dependencies = { dev = [
     "basedpyright>=1.27.1",
     "hatch>=1.14.0",

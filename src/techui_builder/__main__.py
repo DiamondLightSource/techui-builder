@@ -14,7 +14,7 @@ from .builder import Builder
 
 app = typer.Typer()
 
-default_bob_file = Path("example-synoptic/bob-src/blxxi-synoptic-src.bob")
+default_bobfile = "bob-src/blxxi-synoptic-src.bob"
 
 
 def version_callback(value: bool):
@@ -28,9 +28,9 @@ def version_callback(value: bool):
 def main(
     filename: Annotated[Path, typer.Argument(help="The path to create_gui.yaml")],
     bobfile: Annotated[
-        Path,
+        Path | None,
         typer.Argument(help="Override for template bob file location."),
-    ] = default_bob_file,
+    ] = None,
     version: Annotated[
         bool | None, typer.Option("--version", callback=version_callback)
     ] = None,
@@ -39,21 +39,23 @@ def main(
 
     bob_file = bobfile
 
-    if bob_file == default_bob_file:
+    parent_dir = filename.parent.absolute()
+
+    if bob_file is None:
+        # Search default relative dir to create_gui filename
         # There will only ever be one file, but if not return None
-        bob_file = next(
-            Path("example-synoptic/bob-src").glob("*-synoptic-src.bob"), None
-        )
+        bob_file = next(parent_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None)
         if bob_file is None:
-            raise Exception(f"{default_bob_file} not found. Does it exist?")
+            raise Exception(f"{default_bobfile} not found. Does it exist?")
+    else:
+        if not bob_file.exists():
+            raise Exception(f"{bob_file} not found. Does it exist?")
 
-    create_gui_file = filename
-
-    gui = Builder(create_gui=create_gui_file)
+    gui = Builder(create_gui=filename)
 
     # # Overwrite after initialised to make sure this is picked up
-    gui._services_dir = Path("example-synoptic/bl23b-services/services")  # noqa: SLF001
-    gui._write_directory = Path("example-synoptic/data")  # noqa: SLF001
+    gui._services_dir = parent_dir.joinpath("bl23b-services/services")  # noqa: SLF001
+    gui._write_directory = parent_dir.joinpath("data")  # noqa: SLF001
 
     gui.setup()
     gui.generate_screens()

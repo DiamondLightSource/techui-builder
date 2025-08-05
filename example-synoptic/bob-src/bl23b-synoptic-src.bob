@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <name>Synoptic</name>
-  <y use_class="true">0</y>
   <width>893</width>
   <height>630</height>
-  <background_color use_class="true">
+  <background_color>
     <color name="Read_Background" red="240" green="240" blue="240">
     </color>
   </background_color>
@@ -119,7 +118,7 @@
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEABSB</name>
@@ -160,7 +159,7 @@
         <description>Restore alarm status</description>
       </action>
     </actions>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MACH</name>
@@ -180,7 +179,7 @@
     <actions>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Beam_1</name>
@@ -253,22 +252,14 @@ $(pv_value)</tooltip>
     <x>435</x>
     <y>565</y>
     <width>30</width>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
-      <color name="Background" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
-    <wrap_words use_class="true">true</wrap_words>
     <actions>
     </actions>
     <border_color>
@@ -322,7 +313,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)</name>
@@ -336,7 +327,7 @@ $(pv_value)</tooltip>
     <x>130</x>
     <y>195</y>
     <width>1</width>
-    <height>65</height>
+    <height>61</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -375,14 +366,14 @@ $(pv_value)</tooltip>
     <name>IMG4</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
     </symbols>
     <x>130</x>
     <y>310</y>
@@ -415,17 +406,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP4</name>
     <pv_name>$(prefix)-04:STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>130</x>
     <y>335</y>
@@ -459,13 +450,13 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA2</name>
     <pv_name>$(prefix):STA.SEVR</pv_name>
     <symbols>
-      <symbol>images/rga 0.svg</symbol>
+      <symbol>../images/rga 0.svg</symbol>
     </symbols>
     <x>130</x>
     <y>360</y>
@@ -496,7 +487,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_25</name>
@@ -504,22 +495,14 @@ $(pv_value)</tooltip>
     <x>150</x>
     <y>435</y>
     <width>30</width>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
-      <color name="Background" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
-    <wrap_words use_class="true">true</wrap_words>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Heading</name>
@@ -528,22 +511,18 @@ $(pv_value)</tooltip>
     <x>300</x>
     <y>475</y>
     <width>65</width>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="BOLD" size="24.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color name="Transparent" red="255" green="255" blue="255" alpha="0">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
-    <wrap_words use_class="true">true</wrap_words>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>TextUpdate_1</name>
@@ -552,21 +531,17 @@ $(pv_value)</tooltip>
     <y>535</y>
     <width>284</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="184" green="195" blue="223">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">1</horizontal_alignment>
-    <vertical_alignment use_class="true">1</vertical_alignment>
-    <border_color use_class="true">
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
       <color red="196" green="196" blue="196">
       </color>
     </border_color>
@@ -578,21 +553,17 @@ $(pv_value)</tooltip>
     <y>565</y>
     <width>66</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="184" green="195" blue="223">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">1</horizontal_alignment>
-    <vertical_alignment use_class="true">1</vertical_alignment>
-    <border_color use_class="true">
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
       <color red="196" green="196" blue="196">
       </color>
     </border_color>
@@ -604,21 +575,17 @@ $(pv_value)</tooltip>
     <y>565</y>
     <width>66</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="184" green="195" blue="223">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">1</horizontal_alignment>
-    <vertical_alignment use_class="true">1</vertical_alignment>
-    <border_color use_class="true">
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
       <color red="196" green="196" blue="196">
       </color>
     </border_color>
@@ -630,21 +597,17 @@ $(pv_value)</tooltip>
     <y>565</y>
     <width>66</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="184" green="195" blue="223">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">1</horizontal_alignment>
-    <vertical_alignment use_class="true">1</vertical_alignment>
-    <border_color use_class="true">
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
       <color red="196" green="196" blue="196">
       </color>
     </border_color>
@@ -656,21 +619,17 @@ $(pv_value)</tooltip>
     <y>535</y>
     <width>86</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="184" green="195" blue="223">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">1</horizontal_alignment>
-    <vertical_alignment use_class="true">1</vertical_alignment>
-    <border_color use_class="true">
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
       <color red="196" green="196" blue="196">
       </color>
     </border_color>
@@ -682,21 +641,17 @@ $(pv_value)</tooltip>
     <y>565</y>
     <width>66</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="184" green="195" blue="223">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">1</horizontal_alignment>
-    <vertical_alignment use_class="true">1</vertical_alignment>
-    <border_color use_class="true">
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
       <color red="196" green="196" blue="196">
       </color>
     </border_color>
@@ -708,21 +663,17 @@ $(pv_value)</tooltip>
     <y>535</y>
     <width>111</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="184" green="195" blue="223">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">1</horizontal_alignment>
-    <vertical_alignment use_class="true">1</vertical_alignment>
-    <border_color use_class="true">
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
       <color red="196" green="196" blue="196">
       </color>
     </border_color>
@@ -734,22 +685,18 @@ $(pv_value)</tooltip>
     <x>420</x>
     <y>475</y>
     <width>75</width>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="BOLD" size="24.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color name="Transparent" red="255" green="255" blue="255" alpha="0">
       </color>
     </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
-    <wrap_words use_class="true">true</wrap_words>
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>WritePV_3</name>
@@ -767,15 +714,15 @@ $(pv_value)</tooltip>
     <y>535</y>
     <width>31</width>
     <height>21</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
+    <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
@@ -903,14 +850,14 @@ Current</text>
     <name>PIRG4</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>130</x>
     <y>285</y>
@@ -943,7 +890,7 @@ Current</text>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polygon" version="2.0.0">
     <name>Polygon</name>
@@ -1059,14 +1006,14 @@ $(pv_value)</tooltip>
     <name>FEV3</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
     </symbols>
     <x>310</x>
     <y>330</y>
@@ -1101,13 +1048,13 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M1</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>images/vfm-up.svg</symbol>
+      <symbol>../images/vfm-up.svg</symbol>
     </symbols>
     <x>150</x>
     <y>402</y>
@@ -1135,13 +1082,13 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M2</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>images/vfm-up.svg</symbol>
+      <symbol>../images/vfm-up.svg</symbol>
     </symbols>
     <x>270</x>
     <y>347</y>
@@ -1170,7 +1117,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_31</name>
@@ -1178,31 +1125,23 @@ $(pv_value)</tooltip>
     <x>270</x>
     <y>380</y>
     <width>30</width>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
-      <color name="Background" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
-    <wrap_words use_class="true">true</wrap_words>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
     </symbols>
     <x>345</x>
     <y>330</y>
@@ -1237,16 +1176,16 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR2</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
     </symbols>
     <x>380</x>
     <y>330</y>
@@ -1281,7 +1220,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_10</name>
@@ -1310,7 +1249,7 @@ $(pv_value)</tooltip>
     <name>M3</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>images/vfm-up.svg</symbol>
+      <symbol>../images/vfm-up.svg</symbol>
     </symbols>
     <x>466</x>
     <y>347</y>
@@ -1328,7 +1267,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_32</name>
@@ -1336,22 +1275,14 @@ $(pv_value)</tooltip>
     <x>466</x>
     <y>380</y>
     <width>30</width>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
-      <color name="Background" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
-    <wrap_words use_class="true">true</wrap_words>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Beam_4</name>
@@ -1559,7 +1490,7 @@ $(pv_value)</tooltip>
     <x>450</x>
     <y>140</y>
     <width>1</width>
-    <height>63</height>
+    <height>59</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1598,14 +1529,14 @@ $(pv_value)</tooltip>
     <name>IMG1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
     </symbols>
     <x>450</x>
     <y>255</y>
@@ -1638,17 +1569,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>450</x>
     <y>280</y>
@@ -1682,13 +1613,13 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA1</name>
     <pv_name>$(prefix):STA.SEVR</pv_name>
     <symbols>
-      <symbol>images/rga 0.svg</symbol>
+      <symbol>../images/rga 0.svg</symbol>
     </symbols>
     <x>450</x>
     <y>305</y>
@@ -1719,20 +1650,20 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>450</x>
     <y>230</y>
@@ -1765,7 +1696,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)_2</name>
@@ -1779,7 +1710,7 @@ $(pv_value)</tooltip>
     <x>410</x>
     <y>140</y>
     <width>1</width>
-    <height>61</height>
+    <height>57</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1818,14 +1749,14 @@ $(pv_value)</tooltip>
     <name>IMG6</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
     </symbols>
     <x>410</x>
     <y>280</y>
@@ -1858,17 +1789,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP8</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>410</x>
     <y>305</y>
@@ -1902,20 +1833,20 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG6</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>410</x>
     <y>255</y>
@@ -1948,7 +1879,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)_3</name>
@@ -1962,7 +1893,7 @@ $(pv_value)</tooltip>
     <x>330</x>
     <y>140</y>
     <width>1</width>
-    <height>59</height>
+    <height>55</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -2001,14 +1932,14 @@ $(pv_value)</tooltip>
     <name>IMG5</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
     </symbols>
     <x>330</x>
     <y>280</y>
@@ -2041,17 +1972,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP7</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>330</x>
     <y>305</y>
@@ -2085,20 +2016,20 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG5</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>330</x>
     <y>255</y>
@@ -2131,7 +2062,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_5</name>
@@ -2162,11 +2093,11 @@ $(pv_value)</tooltip>
     <name>IONP6</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>294</x>
     <y>305</y>
@@ -2200,7 +2131,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_6</name>
@@ -2231,11 +2162,11 @@ $(pv_value)</tooltip>
     <name>IONP5</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>270</x>
     <y>305</y>
@@ -2269,17 +2200,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV2</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
     </symbols>
     <x>750</x>
     <y>220</y>
@@ -2346,7 +2277,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_7</name>
@@ -2377,14 +2308,14 @@ $(pv_value)</tooltip>
     <name>IMG21</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>170</y>
@@ -2417,17 +2348,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP21</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>195</y>
@@ -2461,20 +2392,20 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG21</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>145</y>
@@ -2507,7 +2438,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)_4</name>
@@ -2521,7 +2452,7 @@ $(pv_value)</tooltip>
     <x>790</x>
     <y>40</y>
     <width>1</width>
-    <height>59</height>
+    <height>55</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -2593,7 +2524,7 @@ $(pv_value)</tooltip>
     <name>MOD2</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>images/aperture.svg</symbol>
+      <symbol>../images/aperture.svg</symbol>
     </symbols>
     <x>857</x>
     <y>256</y>
@@ -2621,7 +2552,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_34</name>
@@ -2630,29 +2561,21 @@ $(pv_value)</tooltip>
     <y>396</y>
     <width>42</width>
     <height>16</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
-      <color name="Background" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
     <auto_size>true</auto_size>
-    <wrap_words use_class="true">true</wrap_words>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD1</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>images/aperture.svg</symbol>
+      <symbol>../images/aperture.svg</symbol>
     </symbols>
     <x>750</x>
     <y>365</y>
@@ -2680,7 +2603,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_8</name>
@@ -2711,14 +2634,14 @@ $(pv_value)</tooltip>
     <name>IMG11</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
     </symbols>
     <x>715</x>
     <y>281</y>
@@ -2751,17 +2674,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP11</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>715</x>
     <y>306</y>
@@ -2795,20 +2718,20 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG11</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>715</x>
     <y>256</y>
@@ -2841,17 +2764,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
-      <symbol>images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../images/valve 1 (copy).svg</symbol>
     </symbols>
     <x>685</x>
     <y>331</y>
@@ -2918,7 +2841,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_9</name>
@@ -2949,14 +2872,14 @@ $(pv_value)</tooltip>
     <name>IMG12</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
-      <symbol>images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../images/img 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>281</y>
@@ -2989,17 +2912,17 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP12</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
-      <symbol>images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../images/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>306</y>
@@ -3033,20 +2956,20 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG12</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>256</y>
@@ -3079,7 +3002,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_14</name>
@@ -3157,32 +3080,24 @@ $(pv_value)</tooltip>
     <y>286</y>
     <width>42</width>
     <height>16</height>
-    <font use_class="true">
+    <font>
       <font family="Arial" style="REGULAR" size="14.0">
       </font>
     </font>
-    <foreground_color use_class="true">
+    <foreground_color>
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color use_class="true">
-      <color name="Background" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <horizontal_alignment use_class="true">0</horizontal_alignment>
-    <vertical_alignment use_class="true">0</vertical_alignment>
-    <rotation_step use_class="true">0</rotation_step>
     <auto_size>true</auto_size>
-    <wrap_words use_class="true">true</wrap_words>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FESHTR</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
-      <symbol>images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../images/shutter 1 (copy).svg</symbol>
     </symbols>
     <x>75</x>
     <y>385</y>
@@ -3217,20 +3132,20 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GCTLR1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
-      <symbol>images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../images/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>485</x>
     <y>230</y>
@@ -3263,13 +3178,13 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SPACE11</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>images/vfm-up.svg</symbol>
+      <symbol>../images/vfm-up.svg</symbol>
     </symbols>
     <x>602</x>
     <y>158</y>
@@ -3297,6 +3212,83 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+  </widget>
+  <widget type="symbol" version="2.0.0">
+    <name>MOD1</name>
+    <pv_name>$(prefix):DEVSTA</pv_name>
+    <symbols>
+      <symbol>../images/camera-1.svg</symbol>
+    </symbols>
+    <x>695</x>
+    <y>365</y>
+    <width>30</width>
+    <height>50</height>
+    <background_color>
+      <color name="Canvas" red="200" green="200" blue="200">
+      </color>
+    </background_color>
+    <actions>
+      <action type="open_display">
+        <file>$(file)</file>
+        <target>tab</target>
+        <description>$(desc)</description>
+      </action>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_33</name>
+    <text>MOD1</text>
+    <x>691</x>
+    <y>402</y>
+    <width>49</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <text>MOD2</text>
+    <x>812</x>
+    <y>286</y>
+    <width>49</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="symbol" version="2.0.0">
+    <name>MOD2</name>
+    <pv_name>$(prefix):DEVSTA</pv_name>
+    <symbols>
+      <symbol>../images/camera-1.svg</symbol>
+    </symbols>
+    <x>816</x>
+    <y>249</y>
+    <width>30</width>
+    <height>50</height>
+    <background_color>
+      <color name="Canvas" red="200" green="200" blue="200">
+      </color>
+    </background_color>
+    <actions>
+      <action type="open_display">
+        <file>$(file)</file>
+        <target>tab</target>
+        <description>$(desc)</description>
+      </action>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
 </display>

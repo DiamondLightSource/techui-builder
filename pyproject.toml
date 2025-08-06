@@ -1,14 +1,13 @@
 [build-system]
-requires = ["setuptools>=64", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "techui-builder"
 dynamic = ["version"]
-description = "A package for building GUIs"
+description = "A package for building Phoebus GUIs"
 classifiers = [
     "Development Status :: 3 - Alpha",
-    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
@@ -16,8 +15,9 @@ urls = { GitHub = "https://github.com/DiamondLightSource/techui-builder" }
 authors = [
     { name = "Oliver Copping", email = "oliver.copping@diamond.ac.uk" },
     { name = "Adedamola Sode", email = "adedamola.sode@diamond.ac.uk" },
+    { name = "Niamh Dougan", email = "niamh.dougan@diamond.ac.uk" },
 ]
-license = { file = "LICENSE" }
+license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = [

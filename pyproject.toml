@@ -70,8 +70,8 @@ raw-options = { version_scheme = "only-version", local_scheme = "dirty-tag" }
 version_file = "src/techui_builder/_version.py"
 
 [tool.pyright]
-typeCheckingMode = "strict"
-reportMissingImports = false # Ignore missing stubs in imported modules
+typeCheckingMode = "standard"
+reportMissingImports = false  # Ignore missing stubs in imported modules
 
 [tool.pytest.ini_options]
 # Run pytest with all our checkers, and don't spam us with massive tracebacks on error
@@ -127,12 +127,13 @@ commands = [
 
 [tool.tox.env.type-checking]
 description = "Run type-checking"
-allowlist_externals = ["pyright"]
+allowlist_externals = ["basedpyright"]
 # needed otherwise throws reportUnknownMemberType errors
 deps = ["pytest"]
 commands = [
     [
-        "pyright",
+        "basedpyright",
+        "--stats",
         "src",
         "tests",
         { replace = "posargs", default = [

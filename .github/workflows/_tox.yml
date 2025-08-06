@@ -1,9 +1,9 @@
 on:
   workflow_call:
     inputs:
-      hatch:
+      tox:
         type: string
-        description: What to run under hatch
+        description: What to run under tox
         required: true
 
 
@@ -18,10 +18,5 @@ jobs:
       - name: Install python packages
         uses: ./.github/actions/install_requirements
 
-      - name: Run hatch
-        run: |
-          IFS=',' read -ra SCRIPTS <<< "${{ inputs.hatch }}"
-          for script in "${SCRIPTS[@]}"; do
-            echo "Running $script"
-            hatch run $script
-          done
+      - name: Run tox
+        run: tox -e ${{ inputs.tox }}

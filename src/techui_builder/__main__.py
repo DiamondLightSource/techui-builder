@@ -1,29 +1,70 @@
 """Interface for ``python -m techui_builder``."""
 
-from argparse import ArgumentParser
-from collections.abc import Sequence
+from pathlib import Path
+from typing import Annotated
 
-from . import __version__
+import typer
+
+from techui_builder import __version__
+from techui_builder.autofill import Autofiller
+
 from .builder import Builder
 
-__all__ = ["main"]
+# __all__ = ["main"]
+
+app = typer.Typer(pretty_exceptions_show_locals=False)
+
+default_bobfile = "bob-src/blxxi-synoptic-src.bob"
 
 
-def main(args: Sequence[str] | None = None) -> None:
+def version_callback(value: bool):
+    if value:
+        print(f"techui-builder version: {__version__}")
+        raise typer.Exit()
+
+
+# This is the default behaviour when no command provided
+@app.callback(invoke_without_command=True)
+def main(
+    filename: Annotated[Path, typer.Argument(help="The path to create_gui.yaml")],
+    bobfile: Annotated[
+        Path | None,
+        typer.Argument(help="Override for template bob file location."),
+    ] = None,
+    version: Annotated[
+        bool | None, typer.Option("--version", callback=version_callback)
+    ] = None,
+) -> None:
     """Argument parser for the CLI."""
-    parser = ArgumentParser()
-    parser.add_argument("filename", help="The path to create_gui.yaml")
-    parser.add_argument(
-        "-v",
-        "--version",
-        action="version",
-        version=__version__,
-    )
-    _args = parser.parse_args(args)
 
-    gb = Builder(_args.filename)
-    gb.setup()
+    bob_file = bobfile
+
+    parent_dir = filename.parent.absolute()
+
+    if bob_file is None:
+        # Search default relative dir to create_gui filename
+        # There will only ever be one file, but if not return None
+        bob_file = next(parent_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None)
+        if bob_file is None:
+            raise Exception(f"{default_bobfile} not found. Does it exist?")
+    else:
+        if not bob_file.exists():
+            raise Exception(f"{bob_file} not found. Does it exist?")
+
+    gui = Builder(create_gui=filename)
+
+    # # Overwrite after initialised to make sure this is picked up
+    gui._services_dir = parent_dir.joinpath("bl23b-services/services")  # noqa: SLF001
+    gui._write_directory = parent_dir.joinpath("data")  # noqa: SLF001
+
+    gui.setup()
+    gui.generate_screens()
+
+    autofiller = Autofiller(bob_file)
+    autofiller.read_bob()
+    autofiller.autofill_bob(gui)
+    autofiller.write_bob(gui._write_directory.joinpath("bl23b-synoptic.bob"))  # noqa: SLF001
 
 
 if __name__ == "__main__":
-    main()
+    app()

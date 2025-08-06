@@ -28,7 +28,7 @@ class Builder:
 
     """
 
-    create_gui: str | Path = field(default=Path("create_gui.yaml"))
+    create_gui: Path = field(default=Path("create_gui.yaml"))
 
     beamline: Beamline = field(init=False)
     components: list[Component] = field(default_factory=list, init=False)
@@ -110,7 +110,9 @@ class Builder:
 
     def _read_gui_map(self):
         """Read the gui_map.yaml file from techui-support."""
-        gui_map = Path("./techui-support/gui_map.yaml")
+        gui_map = self.create_gui.parent.absolute().joinpath(
+            "../techui-support/gui_map.yaml"
+        )
 
         with open(gui_map) as map:
             self._gui_map = yaml.safe_load(map)

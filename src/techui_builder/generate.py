@@ -22,7 +22,9 @@ class Generator:
     default_size: int = field(default=100, init=False, repr=False)
     P: str = field(default="P", init=False, repr=False)
     M: str = field(default="M", init=False, repr=False)
-    groups: list[Group] = field(default_factory=list[Group], init=False, repr=False)
+    widgets: list[ActionButton | EmbeddedDisplay] = field(
+        default_factory=list[ActionButton | EmbeddedDisplay], init=False, repr=False
+    )
 
     # Add group padding, and self.widget_x for placing widget in x direction relative to
     # other widgets, with a widget count to reset the self.widget_x dimension when the
@@ -290,7 +292,6 @@ class Generator:
         # Create screen
         self.screen_ = Screen.Screen(self.screen_name)
         # create widget and group objects
-        widgets: list[EmbeddedDisplay | ActionButton] = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
@@ -298,13 +299,20 @@ class Generator:
             new_widget = self._create_widget(component=component)
             if new_widget is None:
                 continue
-            widgets.append(new_widget)
+            self.widgets.append(new_widget)
 
-        widgets = self.layout_widgets(widgets)
+        if self.widgets == []:
+            print(
+                f"No available widget for function {self.build_groups.__name__}\
+                      for {self.screen_name}"
+            )
+            return
+
+        self.widgets = self.layout_widgets(self.widgets)
 
         # Create a list of dimensions for the groups
         # that will be created.
-        height, width = self._get_group_dimensions(widgets)
+        height, width = self._get_group_dimensions(self.widgets)
 
         self.group = Group(
             self.screen_name,
@@ -315,11 +323,19 @@ class Generator:
         )
 
         self.group.version("2.0.0")
-        self.group.add_widget(widgets)
+        self.group.add_widget(self.widgets)
         self.screen_.add_widget(self.group)
 
     def write_screen(self, directory: Path):
         """Write the screen to file"""
+
+        if self.widgets == []:
+            print(
+                f"Could not write screen: {self.screen_name}\
+                      as no widgets were available"
+            )
+            return
+
         if not directory.exists():
             os.mkdir(directory)
         self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")

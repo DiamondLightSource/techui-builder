@@ -302,10 +302,7 @@ class Generator:
             self.widgets.append(new_widget)
 
         if self.widgets == []:
-            print(
-                f"No available widget for function {self.build_groups.__name__}\
-                      for {self.screen_name}"
-            )
+            # No widgets found, so just back out
             return
 
         self.widgets = self.layout_widgets(self.widgets)

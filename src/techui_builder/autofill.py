@@ -81,7 +81,8 @@ class Autofiller:
             # Get current component attribute
             component_attr = getattr(component, f"{macro}")
             # If it is None, then it was not provided so ignore
-            if component_attr is None:
+
+            if component_attr is None and macro != "desc":
                 continue
 
             # Fix to make sure widget is reverted back to widget that was passed in
@@ -92,6 +93,8 @@ class Autofiller:
                 case "desc":
                     tag_name = "description"
                     current_widget = _get_action_group(widget)
+                    if component_attr is None:
+                        component_attr = component.name
                 case "file":
                     tag_name = "file"
                     current_widget = _get_action_group(widget)

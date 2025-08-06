@@ -81,7 +81,6 @@ class Autofiller:
             # Get current component attribute
             component_attr = getattr(component, f"{macro}")
             # If it is None, then it was not provided so ignore
-
             if component_attr is None and macro != "desc":
                 continue
 

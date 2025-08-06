@@ -15,7 +15,7 @@ components:
 
   SHTR2:
     desc: FE Shutter 2
-    prefix: FE23B-PS-SHTR-01
+    prefix: FE23B-PS-SHTR-02
 
   FEV2:
     prefix: FE23B-VA-VALVE-02

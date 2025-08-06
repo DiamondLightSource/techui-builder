@@ -17,7 +17,7 @@ entities:
     IOC: "{{ ioc_name | upper }}"
 
   - type: IOCinfo.IOCinfo
-    device: BL23B-VA-IOC-01
+    P: BL23B-VA-IOC-01
 
   - type: devIocStats.auto_ioc_vxworks
     IOCNAME: BL23B-VA-IOC-01
@@ -107,20 +107,20 @@ entities:
     stop: 2
 
   - type: digitelMpc.digitelMpc
-    device: BL23B-VA-MPC-01
+    P: BL23B-VA-MPC-01
     name: IONPC1
     port: ty_60_2
     unit: "01"
 
   - type: digitelMpc.digitelMpc
-    device: BL23B-VA-MPC-02
+    P: BL23B-VA-MPC-02
     name: IONPC2
     port: ty_60_3
     unit: "01"
 
   - type: digitelMpc.digitelMpcIonp
     MPC: IONPC1
-    device: BL23B-VA-IONP-01
+    P: BL23B-VA-IONP-01
     proto: digitelMpc.proto
     pump: 1
     size: 300
@@ -254,12 +254,12 @@ entities:
 
   - type: dlsPLC.read100
     century: 0
-    device: BL23B-VA-VLVCC-01
+    P: BL23B-VA-VLVCC-01
     port: ty_60_4
 
   - type: dlsPLC.vacValve
     addr: 10
-    device: BL23B-VA-VALVE-11
+    P: BL23B-VA-VALVE-11
     gilk0: ""
     gilk1: ""
     gilk10: ""
@@ -298,7 +298,7 @@ entities:
 
   - type: dlsPLC.vacValve
     addr: 20
-    device: BL23B-VA-VALVE-21
+    P: BL23B-VA-VALVE-21
     gilk0: ""
     gilk1: ""
     gilk10: ""
@@ -337,7 +337,7 @@ entities:
 
   - type: dlsPLC.vacValve
     addr: 30
-    device: BL23B-VA-VALVE-31
+    P: BL23B-VA-VALVE-31
     gilk0: ""
     gilk1: ""
     gilk10: ""
@@ -375,23 +375,23 @@ entities:
     vlvcc: VLVCC1
 
   - type: vacuumValve.externalValve
-    device: FE23B-VA-VALVE-04
+    P: FE23B-VA-VALVE-04
     name: FEV4
 
   - type: vacuumValve.externalValve
-    device: FE23B-RS-ABSB-01
+    P: FE23B-RS-ABSB-01
     name: FAB
 
   - type: vacuumValve.externalValve
-    device: FE23B-PS-SHTR-01
+    P: FE23B-PS-SHTR-01
     name: SHTR1
 
   - type: vacuumValve.externalValve
-    device: FE23B-PS-SHTR-02
+    P: FE23B-PS-SHTR-02
     name: SHTR2
 
   - type: vacuumSpace.space
-    device: BL23B-VA-SPACE-01
+    P: BL23B-VA-SPACE-01
     gauge0: GAUGE1
     img0: IMG1
     ionp0: IONP1
@@ -400,7 +400,7 @@ entities:
     valve0: FEV4
 
   - type: vacuumSpace.space
-    device: BL23B-VA-SPACE-11
+    P: BL23B-VA-SPACE-11
     gauge0: GAUGE11
     gauge1: GAUGE12
     img0: IMG11
@@ -413,7 +413,7 @@ entities:
     valve0: GV1
 
   - type: vacuumSpace.space
-    device: BL23B-VA-SPACE-21
+    P: BL23B-VA-SPACE-21
     gauge0: GAUGE21
     img0: IMG21
     ionp0: IONP21
@@ -424,7 +424,7 @@ entities:
   - type: dlsPLC.interlock
     addr: 9
     desc: Front End Permit
-    device: BL23B-VA-VLVCC-01
+    P: BL23B-VA-VLVCC-01
     ilk0: IMG1 A2 Rly
     ilk1: ""
     ilk10: ""
@@ -447,35 +447,35 @@ entities:
 
   - type: rackFan.rackFan
     c: 40
-    device: BL23B-MO-FANC-01
+    P: BL23B-MO-FANC-01
     s: 0
 
   - type: rackFan.rackFan
     c: 40
-    device: BL23B-VA-FANC-01
+    P: BL23B-VA-FANC-01
     s: 1
 
   - type: rackFan.rackFan
     c: 40
-    device: BL23B-PS-PSU-01
+    P: BL23B-PS-PSU-01
     s: 4
 
   - type: rackFan.rackFan
     c: 40
-    device: BL23B-PS-FANC-01
+    P: BL23B-PS-FANC-01
     s: 5
 
   - type: rackFan.rackFan
     c: 40
-    device: BL23B-NT-FANC-01
+    P: BL23B-NT-FANC-01
     s: 6
 
   - type: rackFan.rackFan
     c: 40
-    device: BL23B-DA-FANC-01
+    P: BL23B-DA-FANC-01
     s: 7
 
   - type: rackFan.rackFan
     c: 40
-    device: BL23B-VA-RACK-01:PSU-01
+    P: BL23B-VA-RACK-01:PSU-01
     s: 8

@@ -9,7 +9,7 @@ from techui_builder.builder import Builder
 
 @pytest.fixture
 def gb():
-    b = Builder("./example/create_gui.yaml")
+    b = Builder(Path("example/create_gui.yaml)"))
     b._services_dir = Path(f"./example/{b.beamline.dom}-services")
     b._write_directory = Path("example/")
     b._extract_entities(

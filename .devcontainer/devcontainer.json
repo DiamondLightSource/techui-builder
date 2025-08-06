@@ -8,24 +8,10 @@
     "remoteEnv": {
         // Allow X11 apps to run inside the container
         "DISPLAY": "${localEnv:DISPLAY}",
-        // Add venv to path for cmd line tools to be recognised by default, e.g. tox
-        "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}"
+        "PATH": "${containerEnv:PATH}:/workspaces/${localWorkspaceFolderBasename}/.venv/bin"
     },
     "customizations": {
         "vscode": {
-            // Set *default* container specific settings.json values on container create.
-            "settings": {
-                "python.defaultInterpreterPath": "/venv/bin/python",
-                "python.testing.unittestEnabled": false,
-                "python.testing.pytestEnabled": true,
-                "editor.formatOnSave": true,
-                "editor.codeActionsOnSave": {
-                    "source.organizeImports": "explicit"
-                },
-                "[python]": {
-                    "editor.defaultFormatter": "charliermarsh.ruff"
-                }
-            },
             // Add the IDs of extensions you want installed when the container is created.
             "extensions": [
                 "ms-python.python",
@@ -35,19 +21,32 @@
                 "ryanluker.vscode-coverage-gutters",
                 "charliermarsh.ruff",
                 "ms-azuretools.vscode-docker"
-            ]
+            ],
+            // Set *default* container specific settings.json values on container create.
+            "settings": {
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff"
+                },
+                "editor.codeActionsOnSave": {
+                    "source.organizeImports": "explicit"
+                },
+                "editor.formatOnSave": true,
+                "python.defaultInterpreterPath": "/venv/bin/python",
+                "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false
+            }
         }
     },
     "features": {
-        // add in eternal history and other bash features
-        "ghcr.io/diamondlightsource/devcontainer-features/bash-config:1.0.2": {},
         "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": true,
             "configureZshAsDefaultShell": true,
             "installOhMyZsh": true,
             "installOhMyZshConfig": true,
+            "installZsh": true,
             "upgradePackages": true
-        }
+        },
+        // add in eternal history and other bash features
+        "ghcr.io/diamondlightsource/devcontainer-features/bash-config:1": {}
     },
     // Create the config folder for the bash-config feature
     "initializeCommand": "mkdir -p ${localEnv:HOME}/.config/bash-config",
@@ -57,8 +56,14 @@
         // Make sure SELinux does not disable with access to host filesystems like tmp
         "--security-opt=label=disable"
     ],
+    "mounts": [
+        {
+            "target": "/workspaces/${localWorkspaceFolderBasename}/.venv",
+            "type": "volume"
+        }
+    ],
     // Mount the parent as /workspaces so we can pip install peers as editable
     "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
     // After the container is created, install the uv env
-    "postCreateCommand": "uv sync --extra dev --active && pre-commit install"
+    "postCreateCommand": "uv sync && pre-commit install"
 }

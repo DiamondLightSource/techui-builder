@@ -22,7 +22,9 @@ dependencies = [
     "typer>=0.16.0",
 ]
 scripts = { create-gui = "techui_builder.__main__:app" }
-optional-dependencies = { dev = [
+
+[dependency-groups]
+dev = [
     "basedpyright>=1.27.1",
     "hatch>=1.14.0",
     "hatch-vcs",
@@ -44,14 +46,11 @@ optional-dependencies = { dev = [
     "sphinx-design",
     "types-mock",
     "types-pyyaml",
-] }
+]
 
 [build-system]
 requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
-
-[tool.uv]
-default-groups = []
 
 [tool.hatch.version]
 source = "vcs"

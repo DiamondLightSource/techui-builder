@@ -328,8 +328,8 @@ class Generator:
 
         if self.widgets == []:
             print(
-                f"Could not write screen: {self.screen_name}\
-                      as no widgets were available"
+                f"Could not write screen: {self.screen_name} \
+as no widgets were available"
             )
             return
 

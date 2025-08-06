@@ -105,7 +105,7 @@ source = ["src", "**/site-packages/"]
 skipsdist = true
 requires = ["tox-uv>=1.25.0"]
 # envs to runs automatically with tox -p
-env_list = ["pre-commit", "type-checking", "docs"] # "tests"]
+env_list = ["pre-commit", "type-checking", "tests"] # "docs"]
 
 [tool.tox.env]
 passenv = { "*" = "" }

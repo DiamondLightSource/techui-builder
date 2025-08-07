@@ -336,3 +336,6 @@ as no widgets were available"
         if not directory.exists():
             os.mkdir(directory)
         self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")
+
+        # For debugging what screens have been generated
+        print(f"Screen generated for: {self.screen_name}")

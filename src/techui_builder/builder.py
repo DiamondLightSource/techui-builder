@@ -1,4 +1,6 @@
 import json
+import logging
+import sys
 from collections import defaultdict
 from collections.abc import MutableMapping
 from dataclasses import dataclass, field
@@ -13,6 +15,9 @@ from techui_builder.objects import Beamline, Component, Entity
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.INFO)
+LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @dataclass
@@ -83,7 +88,9 @@ class Builder:
             try:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
             except OSError:
-                print(f"No ioc.yaml file for service: {service.name}. Does it exist?")
+                LOGGER.error(
+                    f"No ioc.yaml file for service: {service.name}. Does it exist?"
+                )
 
     def _extract_entities(self, ioc_yaml: Path):
         """
@@ -127,8 +134,6 @@ class Builder:
         if self.entities is None:
             raise Exception("No entities found, has setup() been run?")
 
-        generated_screens: list[str] = []
-
         # Loop over every component defined in create_gui.yaml and locate
         # any extras defined
         for component in self.components:
@@ -142,10 +147,6 @@ class Builder:
                         screen_entities.extend(self.entities[extra_p])
 
                 self._generate_screen(component.name, screen_entities)
-                # For debugging what screens have been generated
-                generated_screens.append(component.name)
-
-        print(f"Screens generated for: {generated_screens}")
 
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None

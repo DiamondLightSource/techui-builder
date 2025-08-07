@@ -3,7 +3,7 @@ kind: Component
 metadata:
   name: techui-builder
   title: techui-builder
-  description: A package for building GUIs
+  description: A package for building Phoebus GUIs
 spec:
   type: library
   lifecycle: experimental

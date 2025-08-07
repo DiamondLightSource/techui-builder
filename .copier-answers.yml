@@ -1,19 +1,19 @@
 # Changes here will be overwritten by Copier
-_commit: 3.0.0-4-g0cb66d4
+_commit: 4.1.0-7-gb8b3f90
 _src_path: gh:DiamondLightSource/python-copier-template
 author_email: oliver.copping@diamond.ac.uk
 author_name: Oliver Copping
 component_lifecycle: experimental
 component_owner: group:default/sscc
 component_type: library
-description: A package for building GUIs
+description: A package for building Phoebus GUIs
 distribution_name: techui-builder
-docker: true
+docker: false
 docs_type: README
 git_platform: github.com
 github_org: DiamondLightSource
 package_name: techui_builder
-pypi: false
+pypi: true
 repo_name: techui-builder
-strict_typing: true
+strict_typing: false
 type_checker: pyright

@@ -46,7 +46,7 @@ dev = [
     "tox-uv",
     "twine",
     "types-mock",
-    "uv~=0.7.0",
+    "uv~=0.8.5",
 ]
 
 [tool.setuptools_scm]

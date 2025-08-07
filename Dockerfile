@@ -11,6 +11,8 @@ FROM developer AS build
 COPY pyproject.toml uv.lock /assets/
 WORKDIR /assets
 
+ENV UV_LINK_MODE=copy
+
 # Install the project's dependencies using the lockfile and settings
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \

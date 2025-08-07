@@ -1,4 +1,6 @@
+import logging
 import os
+import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -10,6 +12,9 @@ from phoebusgen import widget as Widget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.objects import Entity
+
+LOGGER = logging.getLogger(__name__)
+LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @dataclass
@@ -229,7 +234,7 @@ class Generator:
                     macros={"P": component.P, "M": component.M},
                 )
         except KeyError:
-            print(f"No available widget for {name} in screen {self.screen_name}")
+            LOGGER.info(f"No available widget for {name} in screen {self.screen_name}")
             new_widget = None
 
         return new_widget
@@ -340,7 +345,7 @@ class Generator:
         """Write the screen to file"""
 
         if self.widgets == []:
-            print(
+            LOGGER.info(
                 f"Could not write screen: {self.screen_name} \
 as no widgets were available"
             )
@@ -349,6 +354,4 @@ as no widgets were available"
         if not directory.exists():
             os.mkdir(directory)
         self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")
-
-        # For debugging what screens have been generated
-        print(f"Screen generated for: {self.screen_name}")
+        LOGGER.info(f"{self.screen_name}.bob has been created successfully")

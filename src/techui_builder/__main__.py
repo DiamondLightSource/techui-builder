@@ -1,5 +1,7 @@
 """Interface for ``python -m techui_builder``."""
 
+import logging
+from enum import Enum
 from pathlib import Path
 from typing import Annotated
 
@@ -23,6 +25,13 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
+def log_level(level: str):
+    logging.basicConfig(
+        level=level,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+    )
+
+
 # This is the default behaviour when no command provided
 @app.callback(invoke_without_command=True)
 def main(
@@ -34,6 +43,15 @@ def main(
     version: Annotated[
         bool | None, typer.Option("--version", callback=version_callback)
     ] = None,
+    loglevel: Annotated[
+        str,
+        typer.Option(
+            "--log-level",
+            help="Set log level to INFO, DEBUG, WARNING, ERROR or CRITICAL",
+            case_sensitive=False,
+            callback=log_level,
+        ),
+    ] = "INFO",
 ) -> None:
     """Argument parser for the CLI."""
 

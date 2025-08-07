@@ -1,9 +1,9 @@
 # The developer stage is used as a devcontainer including dev versions
 # of the build dependencies
 FROM ghcr.io/diamondlightsource/ubuntu-devcontainer:noble AS developer
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
-    libevent-dev \
-    libreadline-dev
+# RUN apt-get update -y && apt-get install -y --no-install-recommends \
+#     libevent-dev \
+#     libreadline-dev
 
 # The build stage makes some assets using the developer tools
 FROM developer AS build
@@ -26,10 +26,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # The runtime stage installs runtime deps then copies in built assets
 # This time we remove the apt lists to save disk space
 FROM ubuntu:noble AS runtime
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
-    libevent-2.1-7t64 \
-    libreadline8 \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update -y && apt-get install -y --no-install-recommends \
+#     libevent-2.1-7t64 \
+#     libreadline8 \
+#     && rm -rf /var/lib/apt/lists/*
 COPY --from=build /assets /
 
 # We need to keep the venv at the same absolute path as in the build stage

@@ -15,9 +15,9 @@ from techui_builder.objects import Beamline, Component, Entity
 
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.addHandler(logging.StreamHandler(sys.stdout))
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.INFO)
+LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @dataclass
@@ -86,7 +86,7 @@ class Builder:
             try:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
             except OSError:
-                logger.error(
+                LOGGER.error(
                     f"No ioc.yaml file for service: {service.name}. Does it exist?"
                 )
 

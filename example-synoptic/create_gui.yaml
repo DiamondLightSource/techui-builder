@@ -137,6 +137,8 @@ components:
 
   M3:
     prefix: BL23B-OP-MR-03
+    extras:
+      - BL23B-MO-PMAC-01
 
   # ----- MOD -----
 

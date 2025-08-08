@@ -113,7 +113,9 @@ class Builder:
                     self.entities[new_entity.P].append(new_entity)
 
     def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
-        generator = Generator(screen_components, screen_name)
+        generator = Generator(
+            screen_components, screen_name, self._services_dir.parent.parent.parent
+        )
         generator.build_groups()
         generator.write_screen(self._write_directory)
 

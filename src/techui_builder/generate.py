@@ -3,6 +3,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import yaml
 from lxml import etree, objectify  # type: ignore
 from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
@@ -15,10 +16,10 @@ from techui_builder.objects import Entity
 class Generator:
     screen_components: list[Entity]
     # TODO: Fix type of screen
-    gui_map: dict
     screen_name: str
 
     # These are global params for the class (not accessible by user)
+    gui_map: dict = field(init=False, repr=False)
     default_size: int = field(default=100, init=False, repr=False)
     P: str = field(default="P", init=False, repr=False)
     M: str = field(default="M", init=False, repr=False)
@@ -32,6 +33,18 @@ class Generator:
     widget_x: int = field(default=0, init=False, repr=False)
     widget_count: int = field(default=0, init=False, repr=False)
     group_padding: int = field(default=50, init=False, repr=False)
+
+    def __post_init__(self):
+        self._read_gui_map()
+
+    def _read_gui_map(self):
+        """Read the gui_map.yaml file from techui-support."""
+        gui_map = Path(__file__).parent.parent.joinpath(
+            "../techui-support/gui_map.yaml"
+        )
+
+        with open(gui_map) as map:
+            self.gui_map = yaml.safe_load(map)
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """

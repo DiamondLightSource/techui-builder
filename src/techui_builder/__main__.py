@@ -52,9 +52,10 @@ def main(
             raise Exception(f"{bob_file} not found. Does it exist?")
 
     gui = Builder(create_gui=filename)
+    dom = gui.beamline.dom
 
     # # Overwrite after initialised to make sure this is picked up
-    gui._services_dir = parent_dir.joinpath("bl23b-services/services")  # noqa: SLF001
+    gui._services_dir = parent_dir.joinpath("services")  # noqa: SLF001
     gui._write_directory = parent_dir.joinpath("data")  # noqa: SLF001
 
     gui.setup()
@@ -63,7 +64,7 @@ def main(
     autofiller = Autofiller(bob_file)
     autofiller.read_bob()
     autofiller.autofill_bob(gui)
-    autofiller.write_bob(gui._write_directory.joinpath("bl23b-synoptic.bob"))  # noqa: SLF001
+    autofiller.write_bob(gui._write_directory.joinpath(f"{dom}-synoptic.bob"))  # noqa: SLF001
 
 
 if __name__ == "__main__":

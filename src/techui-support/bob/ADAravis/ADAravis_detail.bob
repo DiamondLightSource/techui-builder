@@ -1,0 +1,1972 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>ADAravis Camera</name>
+  <width>862</width>
+  <height>916</height>
+  <grid_step_x>4</grid_step_x>
+  <grid_step_y>4</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <class>TITLE</class>
+    <text>ADAravis Camera</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>862</width>
+    <height>26</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Aravis</name>
+    <x>4</x>
+    <y>30</y>
+    <width>282</width>
+    <height>318</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Frames Completed</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARFramesCompleted</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Frame Failures</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARFrameFailures</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Frame Underruns</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARFrameUnderruns</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Missing Packets</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARMissingPackets</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Resent Packets</text>
+      <y>96</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARResentPackets</pv_name>
+      <x>124</x>
+      <y>96</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Packet Resend Enable</text>
+      <y>120</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ARPacketResendEnable</pv_name>
+      <x>124</x>
+      <y>120</y>
+      <width>124</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Packet Timeout</text>
+      <y>144</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ARPacketTimeout</pv_name>
+      <x>124</x>
+      <y>144</y>
+      <width>124</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Frame Retention</text>
+      <y>168</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ARFrameRetention</pv_name>
+      <x>124</x>
+      <y>168</y>
+      <width>124</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Reset Camera</text>
+      <y>192</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ARResetCamera</pv_name>
+      <x>124</x>
+      <y>192</y>
+      <width>124</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Convert Pixel Format</text>
+      <y>216</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ARConvertPixelFormat</pv_name>
+      <x>124</x>
+      <y>216</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARConvertPixelFormat_RBV</pv_name>
+      <x>188</x>
+      <y>216</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Shift Dir</text>
+      <y>240</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ARShiftDir</pv_name>
+      <x>124</x>
+      <y>240</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARShiftDir_RBV</pv_name>
+      <x>188</x>
+      <y>240</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Shift Bits</text>
+      <y>264</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ARShiftBits</pv_name>
+      <x>124</x>
+      <y>264</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ARShiftBits_RBV</pv_name>
+      <x>188</x>
+      <y>264</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>arvFeature Ungrouped</name>
+    <x>4</x>
+    <y>352</y>
+    <width>282</width>
+    <height>54</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AR Connect Camera</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ARConnectCamera</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Collect</name>
+    <x>4</x>
+    <y>410</y>
+    <width>282</width>
+    <height>390</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Acquire Time</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)AcquireTime</pv_name>
+      <x>124</x>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)AcquireTime_RBV</pv_name>
+      <x>188</x>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Acquire Period</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)AcquirePeriod</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)AcquirePeriod_RBV</pv_name>
+      <x>188</x>
+      <y>24</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Images Counter</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NumImagesCounter_RBV</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Images</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)NumImages</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NumImages_RBV</pv_name>
+      <x>188</x>
+      <y>72</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Exposures</text>
+      <y>96</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)NumExposures</pv_name>
+      <x>124</x>
+      <y>96</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NumExposures_RBV</pv_name>
+      <x>188</x>
+      <y>96</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Image Mode</text>
+      <y>120</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ImageMode</pv_name>
+      <x>124</x>
+      <y>120</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ImageMode_RBV</pv_name>
+      <x>188</x>
+      <y>120</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Trigger Mode</text>
+      <y>144</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)TriggerMode</pv_name>
+      <x>124</x>
+      <y>144</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)TriggerMode_RBV</pv_name>
+      <x>188</x>
+      <y>144</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Detector State</text>
+      <y>168</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)DetectorState_RBV</pv_name>
+      <x>124</x>
+      <y>168</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Status Message</text>
+      <y>192</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)StatusMessage_RBV</pv_name>
+      <x>124</x>
+      <y>192</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <format>6</format>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Time Remaining</text>
+      <y>216</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)TimeRemaining_RBV</pv_name>
+      <x>124</x>
+      <y>216</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Queued Arrays</text>
+      <y>240</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NumQueuedArrays</pv_name>
+      <x>124</x>
+      <y>240</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Wait For Plugins</text>
+      <y>264</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)WaitForPlugins</pv_name>
+      <x>124</x>
+      <y>264</y>
+      <width>124</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Acquire</text>
+      <y>288</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)Acquire</pv_name>
+      <x>124</x>
+      <y>288</y>
+      <width>60</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)Acquire_RBV</pv_name>
+      <x>208</x>
+      <y>288</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Array Counter</text>
+      <y>312</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ArrayCounter</pv_name>
+      <x>124</x>
+      <y>312</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ArrayCounter_RBV</pv_name>
+      <x>188</x>
+      <y>312</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Array Callbacks</text>
+      <y>336</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)ArrayCallbacks</pv_name>
+      <x>124</x>
+      <y>336</y>
+      <width>60</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)ArrayCallbacks_RBV</pv_name>
+      <x>208</x>
+      <y>336</y>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Epics Shutter</name>
+    <x>4</x>
+    <y>804</y>
+    <width>282</width>
+    <height>54</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Shutter Status</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)ShutterStatus_RBV</pv_name>
+      <x>176</x>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Readout</name>
+    <x>290</x>
+    <y>30</y>
+    <width>282</width>
+    <height>414</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Max Size X</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)MaxSizeX_RBV</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Max Size Y</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)MaxSizeY_RBV</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Bin X</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)BinX</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)BinX_RBV</pv_name>
+      <x>188</x>
+      <y>48</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Bin Y</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)BinY</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)BinY_RBV</pv_name>
+      <x>188</x>
+      <y>72</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Min Y</text>
+      <y>96</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)MinY</pv_name>
+      <x>124</x>
+      <y>96</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)MinY_RBV</pv_name>
+      <x>188</x>
+      <y>96</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Min X</text>
+      <y>120</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)MinX</pv_name>
+      <x>124</x>
+      <y>120</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)MinX_RBV</pv_name>
+      <x>188</x>
+      <y>120</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Reverse X</text>
+      <y>144</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)ReverseX</pv_name>
+      <x>124</x>
+      <y>144</y>
+      <width>64</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)ReverseX_RBV</pv_name>
+      <x>208</x>
+      <y>144</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Reverse Y</text>
+      <y>168</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)ReverseY</pv_name>
+      <x>124</x>
+      <y>168</y>
+      <width>64</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)ReverseY_RBV</pv_name>
+      <x>208</x>
+      <y>168</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Size X</text>
+      <y>192</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)SizeX</pv_name>
+      <x>124</x>
+      <y>192</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)SizeX_RBV</pv_name>
+      <x>188</x>
+      <y>192</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Size Y</text>
+      <y>216</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)SizeY</pv_name>
+      <x>124</x>
+      <y>216</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)SizeY_RBV</pv_name>
+      <x>188</x>
+      <y>216</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Gain</text>
+      <y>240</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)Gain</pv_name>
+      <x>124</x>
+      <y>240</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)Gain_RBV</pv_name>
+      <x>188</x>
+      <y>240</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Array Size X</text>
+      <y>264</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ArraySizeX_RBV</pv_name>
+      <x>124</x>
+      <y>264</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Array Size Y</text>
+      <y>288</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ArraySizeY_RBV</pv_name>
+      <x>124</x>
+      <y>288</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Array Size</text>
+      <y>312</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ArraySize_RBV</pv_name>
+      <x>124</x>
+      <y>312</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Data Type</text>
+      <y>336</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)DataType</pv_name>
+      <x>124</x>
+      <y>336</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)DataType_RBV</pv_name>
+      <x>188</x>
+      <y>336</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Color Mode</text>
+      <y>360</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ColorMode</pv_name>
+      <x>124</x>
+      <y>360</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ColorMode_RBV</pv_name>
+      <x>188</x>
+      <y>360</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Shutter</name>
+    <x>290</x>
+    <y>448</y>
+    <width>282</width>
+    <height>126</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Shutter Mode</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ShutterMode</pv_name>
+      <x>124</x>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ShutterMode_RBV</pv_name>
+      <x>188</x>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Shutter Control</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)ShutterControl</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>64</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)ShutterControl_RBV</pv_name>
+      <x>208</x>
+      <y>24</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Shutter Open Delay</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ShutterOpenDelay</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ShutterOpenDelay_RBV</pv_name>
+      <x>188</x>
+      <y>48</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Shutter Close Delay</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ShutterCloseDelay</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ShutterCloseDelay_RBV</pv_name>
+      <x>188</x>
+      <y>72</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>ADDriver Ungrouped</name>
+    <x>290</x>
+    <y>578</y>
+    <width>282</width>
+    <height>222</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Read Status</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)ReadStatus</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Exposures Counter</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NumExposuresCounter_RBV</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>String To Server</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)StringToServer_RBV</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <format>6</format>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>String From Server</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)StringFromServer_RBV</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <format>6</format>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Shutter Control EPICS</text>
+      <y>96</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)ShutterControlEPICS</pv_name>
+      <x>176</x>
+      <y>96</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Temperature Actual</text>
+      <y>120</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)TemperatureActual</pv_name>
+      <x>124</x>
+      <y>120</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Frame Type</text>
+      <y>144</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)FrameType</pv_name>
+      <x>124</x>
+      <y>144</y>
+      <width>60</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)FrameType_RBV</pv_name>
+      <x>188</x>
+      <y>144</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Temperature</text>
+      <y>168</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)Temperature</pv_name>
+      <x>124</x>
+      <y>168</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)Temperature_RBV</pv_name>
+      <x>188</x>
+      <y>168</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Attr File</name>
+    <x>290</x>
+    <y>804</y>
+    <width>282</width>
+    <height>102</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>ND Attributes File</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)NDAttributesFile</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <format>6</format>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>ND Attributes Macros</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)NDAttributesMacros</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>124</width>
+      <format>6</format>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>ND Attributes Status</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NDAttributesStatus</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Buffers</name>
+    <x>576</x>
+    <y>30</y>
+    <width>282</width>
+    <height>222</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pre Alloc Buffers</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)PreAllocBuffers</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Pre Alloc Buffers</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)NumPreAllocBuffers</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NumPreAllocBuffers_RBV</pv_name>
+      <x>188</x>
+      <y>24</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pool Alloc Buffers</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)PoolAllocBuffers</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pool Free Buffers</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)PoolFreeBuffers</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pool Max Mem</text>
+      <y>96</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)PoolMaxMem</pv_name>
+      <x>124</x>
+      <y>96</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pool Used Mem</text>
+      <y>120</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)PoolUsedMem</pv_name>
+      <x>124</x>
+      <y>120</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pool Poll Stats</text>
+      <y>144</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)PoolPollStats</pv_name>
+      <x>124</x>
+      <y>144</y>
+      <width>124</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Empty Free List</text>
+      <y>168</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)EmptyFreeList</pv_name>
+      <x>124</x>
+      <y>168</y>
+      <width>124</width>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Plugins</name>
+    <x>576</x>
+    <y>256</y>
+    <width>282</width>
+    <height>54</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Codec</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)Codec_RBV</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>AD Setup</name>
+    <x>576</x>
+    <y>314</y>
+    <width>282</width>
+    <height>222</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Port Name</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)PortName_RBV</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Manufacturer</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)Manufacturer_RBV</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Model</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)Model_RBV</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Serial Number</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)SerialNumber_RBV</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Firmware Version</text>
+      <y>96</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)FirmwareVersion_RBV</pv_name>
+      <x>124</x>
+      <y>96</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SDK Version</text>
+      <y>120</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)SDKVersion_RBV</pv_name>
+      <x>124</x>
+      <y>120</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Driver Version</text>
+      <y>144</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)DriverVersion_RBV</pv_name>
+      <x>124</x>
+      <y>144</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>AD Core Version</text>
+      <y>168</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ADCoreVersion_RBV</pv_name>
+      <x>124</x>
+      <y>168</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>ND Circular Buff</name>
+    <x>576</x>
+    <y>540</y>
+    <width>282</width>
+    <height>126</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>N Dimensions</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)NDimensions</pv_name>
+      <x>124</x>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NDimensions_RBV</pv_name>
+      <x>188</x>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Dimensions</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)Dimensions</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>60</width>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)Dimensions_RBV</pv_name>
+      <x>188</x>
+      <y>24</y>
+      <width>60</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Unique Id</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)UniqueId_RBV</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Time Stamp</text>
+      <y>72</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)TimeStamp_RBV</pv_name>
+      <x>124</x>
+      <y>72</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>ND Plugin Base Full</name>
+    <x>576</x>
+    <y>670</y>
+    <width>282</width>
+    <height>78</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Compressed Size</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)CompressedSize_RBV</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Bayer Pattern</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)BayerPattern_RBV</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>NDROI</name>
+    <x>576</x>
+    <y>752</y>
+    <width>282</width>
+    <height>54</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Array Size Z</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)ArraySizeZ_RBV</pv_name>
+      <x>124</x>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>NDArrayBase Ungrouped</name>
+    <x>576</x>
+    <y>810</y>
+    <width>282</width>
+    <height>102</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Acquire Busy CB</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)AcquireBusyCB</pv_name>
+      <x>176</x>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Epics TS Sec</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)EpicsTSSec_RBV</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Epics TS Nsec</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)EpicsTSNsec_RBV</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>124</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+</display>

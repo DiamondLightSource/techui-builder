@@ -1,4 +1,4 @@
 
 [submodule "techui-support"]
-	path = techui-support
+	path = src/techui-support
 	url = https://github.com/DiamondLightSource/techui-support.git

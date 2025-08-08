@@ -47,8 +47,6 @@ class Builder:
         # Requires beamline has already been read from create_gui.yaml
         self._services_dir = Path(f"{self.beamline.dom}-services/services")
 
-        self._read_gui_map()
-
     def _extract_from_create_gui(self):
         """
         Extracts from the create_gui.yaml file to generate
@@ -108,17 +106,8 @@ class Builder:
                     )
                     self.entities[new_entity.P].append(new_entity)
 
-    def _read_gui_map(self):
-        """Read the gui_map.yaml file from techui-support."""
-        gui_map = self.create_gui.parent.absolute().joinpath(
-            "../techui-support/gui_map.yaml"
-        )
-
-        with open(gui_map) as map:
-            self._gui_map = yaml.safe_load(map)
-
     def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
-        generator = Generator(screen_components, self._gui_map, screen_name)
+        generator = Generator(screen_components, screen_name)
         generator.build_groups()
         generator.write_screen(self._write_directory)
 

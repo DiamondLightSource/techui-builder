@@ -5,12 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run Generate Synoptic",
+            "name": "Run create-gui",
             "type": "debugpy",
             "request": "launch",
             "justMyCode": true,
-            "program": "${workspaceFolder}/example-synoptic/generate_synoptic.py",
+            "program": "${workspaceFolder}/src/techui_builder/__main__.py",
             "console": "integratedTerminal",
-        }
+            "args": "${workspaceFolder}/example-synoptic/create_gui.yaml"
+        },
     ]
 }

@@ -1,6 +1,5 @@
 import logging
 import os
-import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -14,7 +13,6 @@ from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 from techui_builder.objects import Entity
 
 LOGGER = logging.getLogger(__name__)
-LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @dataclass
@@ -22,7 +20,7 @@ class Generator:
     screen_components: list[Entity]
     # TODO: Fix type of screen
     screen_name: str
-    base_dir: Path = field(repr=False)
+    services_dir: Path = field(repr=False)
 
     # These are global params for the class (not accessible by user)
     gui_map: dict = field(init=False, repr=False)
@@ -46,7 +44,10 @@ class Generator:
 
     def _read_gui_map(self):
         """Read the gui_map.yaml file from techui-support."""
-        gui_map = self.base_dir.joinpath("src/techui_support/gui_map.yaml")
+        gui_map = self.services_dir.parent.parent.joinpath(
+            "src/techui_support/gui_map.yaml"
+        )
+        logging.log(msg=f"gui map location: {gui_map}", level=logging.DEBUG)
 
         with open(gui_map) as map:
             self.gui_map = yaml.safe_load(map)
@@ -203,17 +204,20 @@ class Generator:
             suffix = ""
             suffix_label = None
 
+        # Get the relative path to techui-support
+        support_path = self.services_dir.joinpath("techui-support")
+
+        # Get relative path to screen
+        scrn_path = support_path.joinpath(f"bob/{self.gui_map[component.type]['file']}")
+        logging.log(msg=f"Screen path: {scrn_path}", level=logging.DEBUG)
+
         try:
             # Get dimensions of screen from TechUI repository
             if self.gui_map[component.type]["type"] == "embedded":
-                height, width = self._get_screen_dimensions(
-                    f"{self.base_dir}/src/techui_support/bob/{self.gui_map[component.type]['file']}"
-                )
-
+                height, width = self._get_screen_dimensions(str(scrn_path))
                 new_widget = Widget.EmbeddedDisplay(
                     name,
-                    f"{self.base_dir}/src/techui_support/bob/"
-                    + self.gui_map[component.type]["file"],
+                    str(scrn_path),
                     0,
                     0,  # Change depending on the order
                     width,
@@ -241,7 +245,7 @@ class Generator:
                 # Add action to action button: to open related display
                 if suffix_label is not None:
                     new_widget.action_open_display(
-                        file=f"../../techui-support/bob/{self.gui_map[component.type]['file']}",
+                        file=str(scrn_path),
                         target="tab",
                         macros={
                             "P": component.P,
@@ -250,7 +254,7 @@ class Generator:
                     )
                 else:
                     new_widget.action_open_display(
-                        file=f"../../techui-support/bob/{self.gui_map[component.type]['file']}",
+                        file=str(scrn_path),
                         target="tab",
                         macros={
                             "P": component.P,

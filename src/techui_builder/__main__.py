@@ -1,9 +1,9 @@
 """Interface for ``python -m techui_builder``."""
 
-import logging
 from pathlib import Path
 from typing import Annotated
 
+import coloredlogs
 import typer
 
 from techui_builder import __version__
@@ -25,9 +25,9 @@ def version_callback(value: bool):
 
 
 def log_level(level: str):
-    logging.basicConfig(
+    coloredlogs.install(
         level=level,
-        format="%(asctime)s - %(levelname)s - %(message)s",
+        fmt="%(asctime)s - %(levelname)s - %(message)s",
     )
 
 

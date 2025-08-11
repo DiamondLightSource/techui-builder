@@ -204,14 +204,17 @@ class Generator:
             suffix = ""
             suffix_label = None
 
+        base_dir = self.services_dir.parent.parent.parent
+
         # Get the relative path to techui-support
-        support_path = self.services_dir.parent.parent.parent.joinpath(
-            "src/techui_support"
-        )
+        support_path = base_dir.joinpath("src/techui_support")
 
         # Get relative path to screen
         scrn_path = support_path.joinpath(f"bob/{self.gui_map[component.type]['file']}")
         logging.log(msg=f"Screen path: {scrn_path}", level=logging.DEBUG)
+
+        # Path of screen relative to data/ so it knows where to open the file from
+        data_scrn_path = scrn_path.relative_to(self.services_dir, walk_up=True)
 
         try:
             # Get dimensions of screen from TechUI repository
@@ -219,7 +222,7 @@ class Generator:
                 height, width = self._get_screen_dimensions(str(scrn_path))
                 new_widget = Widget.EmbeddedDisplay(
                     name,
-                    str(scrn_path),
+                    str(data_scrn_path),
                     0,
                     0,  # Change depending on the order
                     width,
@@ -247,7 +250,7 @@ class Generator:
                 # Add action to action button: to open related display
                 if suffix_label is not None:
                     new_widget.action_open_display(
-                        file=str(scrn_path),
+                        file=str(data_scrn_path),
                         target="tab",
                         macros={
                             "P": component.P,
@@ -256,7 +259,7 @@ class Generator:
                     )
                 else:
                     new_widget.action_open_display(
-                        file=str(scrn_path),
+                        file=str(data_scrn_path),
                         target="tab",
                         macros={
                             "P": component.P,

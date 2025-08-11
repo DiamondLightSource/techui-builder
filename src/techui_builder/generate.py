@@ -1,6 +1,5 @@
 import logging
 import os
-import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -14,7 +13,6 @@ from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 from techui_builder.objects import Entity
 
 LOGGER = logging.getLogger(__name__)
-LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @dataclass

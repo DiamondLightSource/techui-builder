@@ -1,6 +1,5 @@
 import json
 import logging
-import sys
 from collections import defaultdict
 from collections.abc import MutableMapping
 from dataclasses import dataclass, field
@@ -16,7 +15,6 @@ from techui_builder.objects import Beamline, Component, Entity
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
 LOGGER = logging.getLogger(__name__)
-LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @dataclass

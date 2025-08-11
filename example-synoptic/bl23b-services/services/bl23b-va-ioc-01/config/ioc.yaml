@@ -16,8 +16,8 @@ entities:
   - type: devIocStats.iocAdminSoft
     IOC: "{{ ioc_name | upper }}"
 
-  - type: IOCinfo.IOCinfo
-    P: BL23B-VA-IOC-01
+  # - type: IOCinfo.IOCinfo
+  #   P: BL23B-VA-IOC-01
 
   - type: devIocStats.auto_ioc_vxworks
     IOCNAME: BL23B-VA-IOC-01
@@ -257,138 +257,138 @@ entities:
     P: BL23B-VA-VLVCC-01
     port: ty_60_4
 
-  - type: dlsPLC.vacValve
-    addr: 10
-    P: BL23B-VA-VALVE-11
-    gilk0: ""
-    gilk1: ""
-    gilk10: ""
-    gilk11: ""
-    gilk12: ""
-    gilk13: ""
-    gilk14: ""
-    gilk15: ""
-    gilk2: ""
-    gilk3: ""
-    gilk4: ""
-    gilk5: ""
-    gilk6: ""
-    gilk7: ""
-    gilk8: ""
-    gilk9: ""
-    ilk0: Air pressure
-    ilk1: IMG-01
-    ilk10: ""
-    ilk11: ""
-    ilk12: ""
-    ilk13: ""
-    ilk14: ""
-    ilk15: Valve Fault
-    ilk2: IMG-11
-    ilk3: PIRG-01
-    ilk4: PIRG-11
-    ilk5: ""
-    ilk6: ""
-    ilk7: ""
-    ilk8: ""
-    ilk9: ""
-    name: GV1
-    port: ty_60_4
-    vlvcc: VLVCC1
+  # - type: dlsPLC.vacValve
+  #   addr: 10
+  #   P: BL23B-VA-VALVE-11
+  #   gilk0: ""
+  #   gilk1: ""
+  #   gilk10: ""
+  #   gilk11: ""
+  #   gilk12: ""
+  #   gilk13: ""
+  #   gilk14: ""
+  #   gilk15: ""
+  #   gilk2: ""
+  #   gilk3: ""
+  #   gilk4: ""
+  #   gilk5: ""
+  #   gilk6: ""
+  #   gilk7: ""
+  #   gilk8: ""
+  #   gilk9: ""
+  #   ilk0: Air pressure
+  #   ilk1: IMG-01
+  #   ilk10: ""
+  #   ilk11: ""
+  #   ilk12: ""
+  #   ilk13: ""
+  #   ilk14: ""
+  #   ilk15: Valve Fault
+  #   ilk2: IMG-11
+  #   ilk3: PIRG-01
+  #   ilk4: PIRG-11
+  #   ilk5: ""
+  #   ilk6: ""
+  #   ilk7: ""
+  #   ilk8: ""
+  #   ilk9: ""
+  #   name: GV1
+  #   port: ty_60_4
+  #   vlvcc: VLVCC1
 
-  - type: dlsPLC.vacValve
-    addr: 20
-    P: BL23B-VA-VALVE-21
-    gilk0: ""
-    gilk1: ""
-    gilk10: ""
-    gilk11: ""
-    gilk12: ""
-    gilk13: ""
-    gilk14: ""
-    gilk15: ""
-    gilk2: ""
-    gilk3: ""
-    gilk4: ""
-    gilk5: ""
-    gilk6: ""
-    gilk7: ""
-    gilk8: ""
-    gilk9: ""
-    ilk0: Air pressure
-    ilk1: IMG-01
-    ilk10: ""
-    ilk11: ""
-    ilk12: ""
-    ilk13: ""
-    ilk14: ""
-    ilk15: Valve Fault
-    ilk2: IMG-21
-    ilk3: PIRG-01
-    ilk4: PIRG-21
-    ilk5: ""
-    ilk6: ""
-    ilk7: ""
-    ilk8: ""
-    ilk9: ""
-    name: GV2
-    port: ty_60_4
-    vlvcc: VLVCC1
+  # - type: dlsPLC.vacValve
+  #   addr: 20
+  #   P: BL23B-VA-VALVE-21
+  #   gilk0: ""
+  #   gilk1: ""
+  #   gilk10: ""
+  #   gilk11: ""
+  #   gilk12: ""
+  #   gilk13: ""
+  #   gilk14: ""
+  #   gilk15: ""
+  #   gilk2: ""
+  #   gilk3: ""
+  #   gilk4: ""
+  #   gilk5: ""
+  #   gilk6: ""
+  #   gilk7: ""
+  #   gilk8: ""
+  #   gilk9: ""
+  #   ilk0: Air pressure
+  #   ilk1: IMG-01
+  #   ilk10: ""
+  #   ilk11: ""
+  #   ilk12: ""
+  #   ilk13: ""
+  #   ilk14: ""
+  #   ilk15: Valve Fault
+  #   ilk2: IMG-21
+  #   ilk3: PIRG-01
+  #   ilk4: PIRG-21
+  #   ilk5: ""
+  #   ilk6: ""
+  #   ilk7: ""
+  #   ilk8: ""
+  #   ilk9: ""
+  #   name: GV2
+  #   port: ty_60_4
+  #   vlvcc: VLVCC1
 
-  - type: dlsPLC.vacValve
-    addr: 30
-    P: BL23B-VA-VALVE-31
-    gilk0: ""
-    gilk1: ""
-    gilk10: ""
-    gilk11: ""
-    gilk12: ""
-    gilk13: ""
-    gilk14: ""
-    gilk15: ""
-    gilk2: ""
-    gilk3: ""
-    gilk4: ""
-    gilk5: ""
-    gilk6: ""
-    gilk7: ""
-    gilk8: ""
-    gilk9: ""
-    ilk0: Air pressure
-    ilk1: IMG-01
-    ilk10: ""
-    ilk11: ""
-    ilk12: ""
-    ilk13: ""
-    ilk14: ""
-    ilk15: Valve Fault
-    ilk2: IMG-12
-    ilk3: PIRG-01
-    ilk4: PIRG-12
-    ilk5: ""
-    ilk6: ""
-    ilk7: ""
-    ilk8: ""
-    ilk9: ""
-    name: GV3
-    port: ty_60_4
-    vlvcc: VLVCC1
+  # - type: dlsPLC.vacValve
+  #   addr: 30
+  #   P: BL23B-VA-VALVE-31
+  #   gilk0: ""
+  #   gilk1: ""
+  #   gilk10: ""
+  #   gilk11: ""
+  #   gilk12: ""
+  #   gilk13: ""
+  #   gilk14: ""
+  #   gilk15: ""
+  #   gilk2: ""
+  #   gilk3: ""
+  #   gilk4: ""
+  #   gilk5: ""
+  #   gilk6: ""
+  #   gilk7: ""
+  #   gilk8: ""
+  #   gilk9: ""
+  #   ilk0: Air pressure
+  #   ilk1: IMG-01
+  #   ilk10: ""
+  #   ilk11: ""
+  #   ilk12: ""
+  #   ilk13: ""
+  #   ilk14: ""
+  #   ilk15: Valve Fault
+  #   ilk2: IMG-12
+  #   ilk3: PIRG-01
+  #   ilk4: PIRG-12
+  #   ilk5: ""
+  #   ilk6: ""
+  #   ilk7: ""
+  #   ilk8: ""
+  #   ilk9: ""
+  #   name: GV3
+  #   port: ty_60_4
+  #   vlvcc: VLVCC1
 
-  - type: vacuumValve.externalValve
-    P: FE23B-VA-VALVE-04
-    name: FEV4
+  # - type: vacuumValve.externalValve
+  #   P: FE23B-VA-VALVE-04
+  #   name: FEV4
 
-  - type: vacuumValve.externalValve
-    P: FE23B-RS-ABSB-01
-    name: FAB
+  # - type: vacuumValve.externalValve
+  #   P: FE23B-RS-ABSB-01
+  #   name: FAB
 
-  - type: vacuumValve.externalValve
-    P: FE23B-PS-SHTR-01
-    name: SHTR1
+  # - type: vacuumValve.externalValve
+  #   P: FE23B-PS-SHTR-01
+  #   name: SHTR1
 
-  - type: vacuumValve.externalValve
-    P: FE23B-PS-SHTR-02
-    name: SHTR2
+  # - type: vacuumValve.externalValve
+  #   P: FE23B-PS-SHTR-02
+  #   name: SHTR2
 
   - type: vacuumSpace.space
     P: BL23B-VA-SPACE-01

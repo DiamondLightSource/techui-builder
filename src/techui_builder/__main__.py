@@ -1,7 +1,6 @@
 """Interface for ``python -m techui_builder``."""
 
 import logging
-from enum import Enum
 from pathlib import Path
 from typing import Annotated
 

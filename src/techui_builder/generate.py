@@ -47,7 +47,7 @@ class Generator:
         gui_map = self.services_dir.parent.parent.joinpath(
             "src/techui_support/gui_map.yaml"
         )
-        logging.log(msg=f"gui map location: {gui_map}", level=logging.DEBUG)
+        LOGGER.debug(f"gui map location: {gui_map}")
 
         with open(gui_map) as map:
             self.gui_map = yaml.safe_load(map)
@@ -220,10 +220,12 @@ class Generator:
 
         # Get relative path to screen
         scrn_path = support_path.joinpath(f"bob/{scrn_mapping['file']}")
-        logging.log(msg=f"Screen path: {scrn_path}", level=logging.DEBUG)
+        LOGGER.debug(f"Screen path: {scrn_path}")
 
         # Path of screen relative to data/ so it knows where to open the file from
-        data_scrn_path = scrn_path.relative_to(self.services_dir, walk_up=True)
+        data_scrn_path = scrn_path.relative_to(
+            self.services_dir.joinpath("synoptic/data"), walk_up=True
+        )
 
         # Get dimensions of screen from TechUI repository
         if scrn_mapping["type"] == "embedded":

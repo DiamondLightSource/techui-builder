@@ -14,7 +14,6 @@
         <file>../../techui-support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
-          <M/>
         </macros>
         <x>0</x>
         <y>0</y>
@@ -54,7 +53,6 @@
             <description>Open Display</description>
             <macros>
               <P>BL01T-MO-BRICK-01</P>
-              <M>None</M>
             </macros>
             <file>../../techui-support/bob/pmac/pmacController.bob</file>
             <target>tab</target>

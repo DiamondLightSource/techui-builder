@@ -196,12 +196,12 @@ class Generator:
             suffix: str = component.M
             suffix_label: str | None = self.M
         elif component.R is not None:
-            name: str = component.R
-            suffix: str = component.R
+            name = component.R
+            suffix = component.R
             suffix_label = self.R
         else:
             name = component.type
-            suffix: str = ""
+            suffix = ""
             suffix_label = None
 
         try:

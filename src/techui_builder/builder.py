@@ -16,7 +16,6 @@ from techui_builder.objects import Beamline, Component, Entity
 # Recursive type for Json map file
 type json_map = MutableMapping[str, str | list["json_map"]]
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.INFO)
 LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 

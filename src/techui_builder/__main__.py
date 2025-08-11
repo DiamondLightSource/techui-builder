@@ -56,7 +56,7 @@ def main(
 
     bob_file = bobfile
 
-    parent_dir = filename.parent.absolute()
+    parent_dir = filename.parent
 
     if bob_file is None:
         # Search default relative dir to create_gui filename

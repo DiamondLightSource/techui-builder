@@ -205,7 +205,9 @@ class Generator:
             suffix_label = None
 
         # Get the relative path to techui-support
-        support_path = self.services_dir.joinpath("techui-support")
+        support_path = self.services_dir.parent.parent.parent.joinpath(
+            "src/techui_support"
+        )
 
         # Get relative path to screen
         scrn_path = support_path.joinpath(f"bob/{self.gui_map[component.type]['file']}")

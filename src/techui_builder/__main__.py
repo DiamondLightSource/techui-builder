@@ -28,6 +28,15 @@ def log_level(level: str):
     coloredlogs.install(
         level=level,
         fmt="%(asctime)s - %(levelname)s - %(message)s",
+        milliseconds=False,
+        field_styles={
+            "asctime": {"color": "white", "faint": True},
+            "hostname": {"color": "magenta"},
+            "levelname": {"bold": True, "color": "black"},
+            "name": {"color": "blue"},
+            "programname": {"color": "cyan"},
+            "username": {"color": "yellow"},
+        },
     )
 
 

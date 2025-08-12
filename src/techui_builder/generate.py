@@ -209,8 +209,17 @@ class Generator:
         # Get the relative path to techui-support
         support_path = base_dir.joinpath("src/techui_support")
 
+        try:
+            scrn_mapping = self.gui_map[component.type]
+        except KeyError:
+            LOGGER.warning(
+                f"No available widget for {component.type} in screen \
+{self.screen_name}. Skipping..."
+            )
+            return None
+
         # Get relative path to screen
-        scrn_path = support_path.joinpath(f"bob/{self.gui_map[component.type]['file']}")
+        scrn_path = support_path.joinpath(f"bob/{scrn_mapping['file']}")
         logging.log(msg=f"Screen path: {scrn_path}", level=logging.DEBUG)
 
         # Path of screen relative to data/ so it knows where to open the file from
@@ -218,7 +227,7 @@ class Generator:
 
         try:
             # Get dimensions of screen from TechUI repository
-            if self.gui_map[component.type]["type"] == "embedded":
+            if scrn_mapping["type"] == "embedded":
                 height, width = self._get_screen_dimensions(str(scrn_path))
                 new_widget = Widget.EmbeddedDisplay(
                     name,
@@ -270,7 +279,7 @@ class Generator:
             LOGGER.warning(
                 f"No available widget for {name} in screen {self.screen_name}"
             )
-            new_widget = None
+            return None
 
         return new_widget
 

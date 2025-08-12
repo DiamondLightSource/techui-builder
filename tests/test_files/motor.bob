@@ -11,7 +11,7 @@
         <name>pmac.autohome</name>
         <width>205</width>
         <height>120</height>
-        <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
+        <file>../../src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
         </macros>
@@ -22,7 +22,7 @@
         <name>X</name>
         <width>205</width>
         <height>120</height>
-        <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
+        <file>../../src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
           <M>X</M>
@@ -34,7 +34,7 @@
         <name>A</name>
         <width>205</width>
         <height>120</height>
-        <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
+        <file>../../src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
           <M>A</M>
@@ -46,7 +46,7 @@
         <name>pmac.autohome</name>
         <width>205</width>
         <height>120</height>
-        <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
+        <file>../../src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
         </macros>
@@ -57,7 +57,7 @@
         <name>X</name>
         <width>205</width>
         <height>120</height>
-        <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
+        <file>../../src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
           <M>X</M>
@@ -69,7 +69,7 @@
         <name>A</name>
         <width>205</width>
         <height>120</height>
-        <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
+        <file>../../src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
           <M>A</M>
@@ -89,7 +89,7 @@
             <macros>
               <P>BL01T-MO-BRICK-01</P>
             </macros>
-            <file>../../techui-support/bob/pmac/pmacController.bob</file>
+            <file>../../src/techui_support/bob/pmac/pmacController.bob</file>
             <target>tab</target>
           </action>
         </actions>
@@ -108,7 +108,7 @@
             <macros>
               <P>BL01T-MO-BRICK-01</P>
             </macros>
-            <file>../../techui-support/bob/pmac/pmacController.bob</file>
+            <file>../../src/techui_support/bob/pmac/pmacController.bob</file>
             <target>tab</target>
           </action>
         </actions>

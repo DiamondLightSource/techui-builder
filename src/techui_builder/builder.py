@@ -79,8 +79,8 @@ class Builder:
         and extracts all entites
         """
 
-        # For each component extracted from create_gui.yaml
-        for service in self._services_dir.iterdir():
+        # Loop over every dir in services, ignoring anything that isn't a service
+        for service in self._services_dir.glob(f"{self.beamline.dom}-*-*-*"):
             # If service doesn't exist, file open will fail throwing exception
             try:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
@@ -113,9 +113,7 @@ class Builder:
                     self.entities[new_entity.P].append(new_entity)
 
     def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
-        generator = Generator(
-            screen_components, screen_name, self._services_dir.parent.parent.parent
-        )
+        generator = Generator(screen_components, screen_name, self._services_dir.parent)
         generator.build_groups()
         generator.write_screen(self._write_directory)
 

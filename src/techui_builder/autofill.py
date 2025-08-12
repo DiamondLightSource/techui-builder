@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -5,6 +6,8 @@ from lxml import etree, objectify  # type: ignore
 
 from techui_builder.builder import Builder
 from techui_builder.objects import Component
+
+LOGGER = logging.getLogger(__name__)
 
 
 @dataclass
@@ -52,6 +55,7 @@ class Autofiller:
             encoding="utf-8",  # type: ignore
             xml_declaration=True,  # type: ignore
         )
+        LOGGER.debug(f"Screen filled for {filename}")
 
     def _sub_macro(
         self, tag_name: str, macro: str, element: etree._Element, current_macro: str

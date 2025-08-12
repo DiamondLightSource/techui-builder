@@ -1,5 +1,6 @@
 """Interface for ``python -m techui_builder``."""
 
+import logging
 from pathlib import Path
 from typing import Annotated
 
@@ -8,10 +9,7 @@ import typer
 
 from techui_builder import __version__
 from techui_builder.autofill import Autofiller
-
-from .builder import Builder
-
-# __all__ = ["main"]
+from techui_builder.builder import Builder
 
 app = typer.Typer(pretty_exceptions_show_locals=False)
 
@@ -64,33 +62,66 @@ def main(
 ) -> None:
     """Argument parser for the CLI."""
 
+    LOGGER = logging.getLogger(__name__)
+
     bob_file = bobfile
 
-    parent_dir = filename.parent
+    # Get the current working dir
+    cwd = Path.cwd()
+    LOGGER.debug("CWD: {cwd}")
+
+    # Get the relative path to the create_gui file from working dir
+    rel_path = filename.absolute().relative_to(cwd, walk_up=True)
+    LOGGER.debug(f"create_gui relative path: {rel_path}")
+
+    # Get the relative path of ixx-services to create_gui.yaml
+    ixx_services_dir = next(rel_path.parent.glob("*-services"))
+    LOGGER.debug(f"ixx-services relative path: {ixx_services_dir}")
 
     if bob_file is None:
         # Search default relative dir to create_gui filename
         # There will only ever be one file, but if not return None
-        bob_file = next(parent_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None)
+        bob_file = next(
+            rel_path.parent.joinpath("bob-src").glob("*-synoptic-src.bob"), None
+        )
         if bob_file is None:
-            raise Exception(f"{default_bobfile} not found. Does it exist?")
+            raise Exception(
+                f"{default_bobfile} not found in \
+{rel_path.parent.joinpath('bob-src')}. Does it exist?"
+            )
     else:
         if not bob_file.exists():
             raise Exception(f"{bob_file} not found. Does it exist?")
 
+    LOGGER.debug(f"bob file: {bob_file}")
+
     gui = Builder(create_gui=filename)
+    dom = gui.beamline.dom
 
     # # Overwrite after initialised to make sure this is picked up
-    gui._services_dir = parent_dir.joinpath("bl23b-services/services")  # noqa: SLF001
-    gui._write_directory = parent_dir.joinpath("data")  # noqa: SLF001
+    gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
+    gui._write_directory = rel_path.parent.joinpath("data")  # noqa: SLF001
+
+    LOGGER.debug(
+        f"""
+
+Builder created for {gui.beamline.dom}.
+Services directory: {gui._services_dir}
+Write directory: {gui._write_directory}
+""",  # noqa: SLF001
+    )
 
     gui.setup()
     gui.generate_screens()
 
+    LOGGER.info(f"Screens generated for {gui.beamline.dom}.")
+
     autofiller = Autofiller(bob_file)
     autofiller.read_bob()
     autofiller.autofill_bob(gui)
-    autofiller.write_bob(gui._write_directory.joinpath("bl23b-synoptic.bob"))  # noqa: SLF001
+    autofiller.write_bob(gui._write_directory.joinpath(f"{dom}-synoptic.bob"))  # noqa: SLF001
+
+    LOGGER.info(f"Screens autofilled for {gui.beamline.dom}.")
 
 
 if __name__ == "__main__":

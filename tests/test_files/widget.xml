@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<widget type="embedded" version="2.0.0">
+  <name>X</name>
+  <x>0</x>
+  <y>0</y>
+  <width>205</width>
+  <height>120</height>
+  <file>src/techui_support/bob/pmac/motor_embed.bob</file>
+  <macros>
+    <P>BL01T-MO-MAP-01:STAGE</P>
+    <M>X</M>
+  </macros>
+</widget>

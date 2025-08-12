@@ -14,7 +14,6 @@
         <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
-          <M/>
         </macros>
         <x>0</x>
         <y>0</y>
@@ -50,7 +49,6 @@
         <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
         <macros>
           <P>BL01T-MO-MAP-01:STAGE</P>
-          <M/>
         </macros>
         <x>0</x>
         <y>450</y>
@@ -90,9 +88,8 @@
             <description>Open Display</description>
             <macros>
               <P>BL01T-MO-BRICK-01</P>
-              <M>None</M>
             </macros>
-            <file>./src/techui_support/bob/pmac/pmacController.bob</file>
+            <file>../../techui-support/bob/pmac/pmacController.bob</file>
             <target>tab</target>
           </action>
         </actions>
@@ -110,9 +107,8 @@
             <description>Open Display</description>
             <macros>
               <P>BL01T-MO-BRICK-01</P>
-              <M>None</M>
             </macros>
-            <file>./src/techui_support/bob/pmac/pmacController.bob</file>
+            <file>../../techui-support/bob/pmac/pmacController.bob</file>
             <target>tab</target>
           </action>
         </actions>

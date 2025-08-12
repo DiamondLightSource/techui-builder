@@ -29,6 +29,7 @@ class Generator:
     default_size: int = field(default=100, init=False, repr=False)
     P: str = field(default="P", init=False, repr=False)
     M: str = field(default="M", init=False, repr=False)
+    R: str = field(default="R", init=False, repr=False)
     widgets: list[ActionButton | EmbeddedDisplay] = field(
         default_factory=list[ActionButton | EmbeddedDisplay], init=False, repr=False
     )
@@ -190,9 +191,18 @@ class Generator:
         # not missing, use as name of widget, if missing,
         # use type as name.
         if component.M is not None:
-            name = component.M
+            name: str = component.M
+            suffix: str = component.M
+            suffix_label: str | None = self.M
+        elif component.R is not None:
+            name = component.R
+            suffix = component.R
+            suffix_label = self.R
         else:
             name = component.type
+            suffix = ""
+            suffix_label = None
+
         try:
             # Get dimensions of screen from TechUI repository
             if self.gui_map[component.type]["type"] == "embedded":
@@ -211,7 +221,8 @@ class Generator:
                 )
                 # Add macros to the widgets
                 new_widget.macro(self.P, component.P)
-                new_widget.macro(self.M, component.M or "")
+                if suffix_label is not None:
+                    new_widget.macro(f"{suffix_label}", suffix)
 
             # The only other option is for related displays
             else:
@@ -220,7 +231,7 @@ class Generator:
                 new_widget = Widget.ActionButton(
                     name,
                     component.P,
-                    f"{component.P}:{component.M}",
+                    f"{component.P}:{suffix_label}",
                     0,
                     0,
                     width,
@@ -228,11 +239,24 @@ class Generator:
                 )
 
                 # Add action to action button: to open related display
-                new_widget.action_open_display(
-                    file=f"{self.base_dir}/src/techui_support/bob/{self.gui_map[component.type]['file']}",
-                    target="tab",
-                    macros={"P": component.P, "M": component.M},
-                )
+                if suffix_label is not None:
+                    new_widget.action_open_display(
+                        file=f"../../techui-support/bob/{self.gui_map[component.type]['file']}",
+                        target="tab",
+                        macros={
+                            "P": component.P,
+                            f"{suffix_label}": suffix,
+                        },
+                    )
+                else:
+                    new_widget.action_open_display(
+                        file=f"../../techui-support/bob/{self.gui_map[component.type]['file']}",
+                        target="tab",
+                        macros={
+                            "P": component.P,
+                        },
+                    )
+
         except KeyError:
             LOGGER.info(f"No available widget for {name} in screen {self.screen_name}")
             new_widget = None

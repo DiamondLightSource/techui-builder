@@ -43,7 +43,7 @@ components:
 
   SPACE11:
     desc: Vacuum Space 11
-    prefix: BL23B-VA-IOC-01
+    prefix: BL23B-VA-SPACE-11
     extras:
       - BL23B-VA-IMG-11
       - BL23B-VA-IMG-12

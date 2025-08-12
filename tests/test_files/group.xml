@@ -4,15 +4,14 @@
   <x>0</x>
   <y>0</y>
   <width>255</width>
-  <height>620</height>
+  <height>470</height>
   <widget type="embedded" version="2.0.0">
     <name>pmac.autohome</name>
     <width>205</width>
     <height>120</height>
-    <file>../../techui-support/bob/motor_embed.bob</file>
+    <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
     <macros>
       <P>BL01T-MO-MAP-01:STAGE</P>
-      <M/>
     </macros>
     <x>0</x>
     <y>0</y>
@@ -21,7 +20,7 @@
     <name>X</name>
     <width>205</width>
     <height>120</height>
-    <file>../../techui-support/bob/motor_embed.bob</file>
+    <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
     <macros>
       <P>BL01T-MO-MAP-01:STAGE</P>
       <M>X</M>
@@ -33,32 +32,12 @@
     <name>A</name>
     <width>205</width>
     <height>120</height>
-    <file>../../techui-support/bob/motor_embed.bob</file>
+    <file>./src/techui_support/bob/pmacUtil/motor_embed.bob</file>
     <macros>
       <P>BL01T-MO-MAP-01:STAGE</P>
       <M>A</M>
     </macros>
     <x>0</x>
     <y>300</y>
-  </widget>
-  <widget type="action_button" version="2.0.0">
-    <name>pmac.GeoBrick</name>
-    <width>100</width>
-    <height>40</height>
-    <pv_name>BL01T-MO-BRICK-01:None</pv_name>
-    <text>BL01T-MO-BRICK-01</text>
-    <actions>
-      <action type="open_display">
-        <description>Open Display</description>
-        <macros>
-          <P>BL01T-MO-BRICK-01</P>
-          <M>None</M>
-        </macros>
-        <file>../../techui-support/bob/pmacController.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <x>0</x>
-    <y>450</y>
   </widget>
 </widget>

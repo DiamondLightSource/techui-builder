@@ -267,7 +267,9 @@ class Generator:
                     )
 
         except KeyError:
-            LOGGER.info(f"No available widget for {name} in screen {self.screen_name}")
+            LOGGER.warning(
+                f"No available widget for {name} in screen {self.screen_name}"
+            )
             new_widget = None
 
         return new_widget
@@ -378,7 +380,7 @@ class Generator:
         """Write the screen to file"""
 
         if self.widgets == []:
-            LOGGER.info(
+            LOGGER.warning(
                 f"Could not write screen: {self.screen_name} \
 as no widgets were available"
             )

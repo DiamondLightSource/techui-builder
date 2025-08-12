@@ -85,7 +85,7 @@ def test_gb_extract_entities(gb: Builder, index, type, desc, P, M, R):
 
 
 def test_setup(gb: Builder):
-    gb._services_dir = Path(f"./example/{gb.beamline.dom}-services")
+    gb._services_dir = Path(f"example/{gb.beamline.dom}-services/services")
     gb._write_directory = Path("example/data")
     gb.setup()
     gb.generate_screens()

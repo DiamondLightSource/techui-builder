@@ -22,6 +22,7 @@ class Generator:
     screen_components: list[Entity]
     # TODO: Fix type of screen
     screen_name: str
+    base_dir: Path = field(repr=False)
 
     # These are global params for the class (not accessible by user)
     gui_map: dict = field(init=False, repr=False)
@@ -45,9 +46,7 @@ class Generator:
 
     def _read_gui_map(self):
         """Read the gui_map.yaml file from techui-support."""
-        gui_map = Path(__file__).parent.parent.joinpath(
-            "../techui-support/gui_map.yaml"
-        )
+        gui_map = self.base_dir.joinpath("src/techui_support/gui_map.yaml")
 
         with open(gui_map) as map:
             self.gui_map = yaml.safe_load(map)
@@ -208,12 +207,13 @@ class Generator:
             # Get dimensions of screen from TechUI repository
             if self.gui_map[component.type]["type"] == "embedded":
                 height, width = self._get_screen_dimensions(
-                    f"./techui-support/bob/{self.gui_map[component.type]['file']}"
+                    f"{self.base_dir}/src/techui_support/bob/{self.gui_map[component.type]['file']}"
                 )
 
                 new_widget = Widget.EmbeddedDisplay(
                     name,
-                    "../../techui-support/bob/" + self.gui_map[component.type]["file"],
+                    f"{self.base_dir}/src/techui_support/bob/"
+                    + self.gui_map[component.type]["file"],
                     0,
                     0,  # Change depending on the order
                     width,
@@ -256,6 +256,7 @@ class Generator:
                             "P": component.P,
                         },
                     )
+
         except KeyError:
             LOGGER.info(f"No available widget for {name} in screen {self.screen_name}")
             new_widget = None

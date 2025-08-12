@@ -209,66 +209,70 @@ class Generator:
         # Get the relative path to techui-support
         support_path = base_dir.joinpath("src/techui_support")
 
+        try:
+            scrn_mapping = self.gui_map[component.type]
+        except KeyError:
+            LOGGER.warning(
+                f"No available widget for {component.type} in screen \
+{self.screen_name}. Skipping..."
+            )
+            return None
+
         # Get relative path to screen
-        scrn_path = support_path.joinpath(f"bob/{self.gui_map[component.type]['file']}")
+        scrn_path = support_path.joinpath(f"bob/{scrn_mapping['file']}")
         logging.log(msg=f"Screen path: {scrn_path}", level=logging.DEBUG)
 
         # Path of screen relative to data/ so it knows where to open the file from
         data_scrn_path = scrn_path.relative_to(self.services_dir, walk_up=True)
 
-        try:
-            # Get dimensions of screen from TechUI repository
-            if self.gui_map[component.type]["type"] == "embedded":
-                height, width = self._get_screen_dimensions(str(scrn_path))
-                new_widget = Widget.EmbeddedDisplay(
-                    name,
-                    str(data_scrn_path),
-                    0,
-                    0,  # Change depending on the order
-                    width,
-                    height,
-                )
-                # Add macros to the widgets
-                new_widget.macro(self.P, component.P)
-                if suffix_label is not None:
-                    new_widget.macro(f"{suffix_label}", suffix)
+        # Get dimensions of screen from TechUI repository
+        if scrn_mapping["type"] == "embedded":
+            height, width = self._get_screen_dimensions(str(scrn_path))
+            new_widget = Widget.EmbeddedDisplay(
+                name,
+                str(data_scrn_path),
+                0,
+                0,  # Change depending on the order
+                width,
+                height,
+            )
+            # Add macros to the widgets
+            new_widget.macro(self.P, component.P)
+            if suffix_label is not None:
+                new_widget.macro(f"{suffix_label}", suffix)
 
-            # The only other option is for related displays
+        # The only other option is for related displays
+        else:
+            height, width = (40, 100)
+
+            new_widget = Widget.ActionButton(
+                name,
+                component.P,
+                f"{component.P}:{suffix_label}",
+                0,
+                0,
+                width,
+                height,
+            )
+
+            # Add action to action button: to open related display
+            if suffix_label is not None:
+                new_widget.action_open_display(
+                    file=str(data_scrn_path),
+                    target="tab",
+                    macros={
+                        "P": component.P,
+                        f"{suffix_label}": suffix,
+                    },
+                )
             else:
-                height, width = (40, 100)
-
-                new_widget = Widget.ActionButton(
-                    name,
-                    component.P,
-                    f"{component.P}:{suffix_label}",
-                    0,
-                    0,
-                    width,
-                    height,
+                new_widget.action_open_display(
+                    file=str(data_scrn_path),
+                    target="tab",
+                    macros={
+                        "P": component.P,
+                    },
                 )
-
-                # Add action to action button: to open related display
-                if suffix_label is not None:
-                    new_widget.action_open_display(
-                        file=str(data_scrn_path),
-                        target="tab",
-                        macros={
-                            "P": component.P,
-                            f"{suffix_label}": suffix,
-                        },
-                    )
-                else:
-                    new_widget.action_open_display(
-                        file=str(data_scrn_path),
-                        target="tab",
-                        macros={
-                            "P": component.P,
-                        },
-                    )
-
-        except KeyError:
-            LOGGER.info(f"No available widget for {name} in screen {self.screen_name}")
-            new_widget = None
 
         return new_widget
 
@@ -378,7 +382,7 @@ class Generator:
         """Write the screen to file"""
 
         if self.widgets == []:
-            LOGGER.info(
+            LOGGER.warning(
                 f"Could not write screen: {self.screen_name} \
 as no widgets were available"
             )

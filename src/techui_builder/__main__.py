@@ -24,19 +24,20 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
+logging_field_styles = coloredlogs.DEFAULT_FIELD_STYLES
+logging_field_styles.update({"asctime": {"color": "white", "faint": True}})
+
+logging_level_styles = coloredlogs.DEFAULT_LEVEL_STYLES
+logging_level_styles.update({"debug": {"color": "green"}})
+
+
 def log_level(level: str):
     coloredlogs.install(
         level=level,
         fmt="%(asctime)s - %(levelname)s - %(message)s",
         milliseconds=False,
-        field_styles={
-            "asctime": {"color": "white", "faint": True},
-            "hostname": {"color": "magenta"},
-            "levelname": {"bold": True, "color": "black"},
-            "name": {"color": "blue"},
-            "programname": {"color": "cyan"},
-            "username": {"color": "yellow"},
-        },
+        field_styles=logging_field_styles,
+        level_styles=logging_level_styles,
     )
 
 

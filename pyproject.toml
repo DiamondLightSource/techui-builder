@@ -25,6 +25,7 @@ dependencies = [
     "phoebusgen>=3.0.0",
     "lxml>=5.4.0",
     "typer>=0.16.0",
+    "coloredlogs>=15.0.1",
 ]
 scripts = { create-gui = "techui_builder.__main__:app" }
 

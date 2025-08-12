@@ -1,9 +1,9 @@
 """Interface for ``python -m techui_builder``."""
 
-import logging
 from pathlib import Path
 from typing import Annotated
 
+import coloredlogs
 import typer
 
 from techui_builder import __version__
@@ -24,10 +24,20 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
+logging_field_styles = coloredlogs.DEFAULT_FIELD_STYLES
+logging_field_styles.update({"asctime": {"color": "white", "faint": True}})
+
+logging_level_styles = coloredlogs.DEFAULT_LEVEL_STYLES
+logging_level_styles.update({"debug": {"color": "green"}})
+
+
 def log_level(level: str):
-    logging.basicConfig(
+    coloredlogs.install(
         level=level,
-        format="%(asctime)s - %(levelname)s - %(message)s",
+        fmt="%(asctime)s - %(levelname)s - %(message)s",
+        milliseconds=False,
+        field_styles=logging_field_styles,
+        level_styles=logging_level_styles,
     )
 
 

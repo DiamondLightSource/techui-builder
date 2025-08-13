@@ -8,7 +8,7 @@ from techui_builder.builder import Builder
 
 @pytest.fixture
 def gb():
-    path = Path("example/create_gui.yaml")
+    path = Path("example/bl01t-services/synoptic/create_gui.yaml")
     b = Builder(path)
     b._services_dir = Path("./example/bl01t-services/services")
     b.setup()

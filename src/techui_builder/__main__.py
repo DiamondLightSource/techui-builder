@@ -11,7 +11,29 @@ from techui_builder import __version__
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
 
-app = typer.Typer(pretty_exceptions_show_locals=False)
+app = typer.Typer(
+    pretty_exceptions_show_locals=False,
+    help="""
+    A script for building Phoebus GUIs.
+
+    This is the required file structure:\n
+\n
+    ixx-services\n
+    |-- services\n
+    |   |-- blxxi-ea-device-01\n
+    |   |   `-- config\n
+    |   |       `-- ioc.yaml\n
+    |   |-- ...\n
+    |   `-- blxxi-va-device-01\n
+    |       `-- config\n
+    |           `-- ioc.yaml\n
+    `-- synoptic\n
+    .   |-- bob-src\n
+    .   |   `-- blxxi-synoptic-src.bob\n
+    .   |-- create_gui.yaml\n
+    .   `-- data\n
+""",
+)
 
 default_bobfile = "bob-src/blxxi-synoptic-src.bob"
 
@@ -60,34 +82,56 @@ def main(
         ),
     ] = "INFO",
 ) -> None:
-    """Argument parser for the CLI."""
+    """Default function called from cmd line tool."""
 
     LOGGER = logging.getLogger(__name__)
 
     bob_file = bobfile
 
+    # This next part is assuming the file structure:
+    #
+    # ixx-services
+    # |-- services
+    # |   |-- blxxi-ea-device-01
+    # |   |   `-- config
+    # |   |       `-- ioc.yaml
+    # |   |-- ...
+    # |   `-- blxxi-va-device-01
+    # |       `-- config
+    # |           `-- ioc.yaml
+    # `-- synoptic
+    #     |-- bob-src
+    #     |   `-- blxxi-synoptic-src.bob
+    #     |-- create_gui.yaml
+    #     `-- data
+    #
+
     # Get the current working dir
     cwd = Path.cwd()
-    LOGGER.debug("CWD: {cwd}")
+    LOGGER.debug(f"CWD: {cwd}")
 
     # Get the relative path to the create_gui file from working dir
     rel_path = filename.absolute().relative_to(cwd, walk_up=True)
     LOGGER.debug(f"create_gui relative path: {rel_path}")
 
     # Get the relative path of ixx-services to create_gui.yaml
-    ixx_services_dir = next(rel_path.parent.glob("*-services"))
+    ixx_services_dir = next(rel_path.parent.parent.parent.glob("*-services"))
     LOGGER.debug(f"ixx-services relative path: {ixx_services_dir}")
+
+    # Get the synoptic dir relative to the parent dir
+    synoptic_dir = ixx_services_dir.joinpath("synoptic")
+    LOGGER.debug(f"synoptic relative path: {synoptic_dir}")
 
     if bob_file is None:
         # Search default relative dir to create_gui filename
         # There will only ever be one file, but if not return None
         bob_file = next(
-            rel_path.parent.joinpath("bob-src").glob("*-synoptic-src.bob"), None
+            synoptic_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None
         )
         if bob_file is None:
             raise Exception(
-                f"{default_bobfile} not found in \
-{rel_path.parent.joinpath('bob-src')}. Does it exist?"
+                f"{default_bobfile} not found in {synoptic_dir.joinpath('bob-src')}. \
+Does it exist?"
             )
     else:
         if not bob_file.exists():

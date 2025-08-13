@@ -65,7 +65,7 @@ target/
 venv*
 
 # Built bob files
-example-synoptic/data/
+**/data/
 
 # further build artifacts
 lockfiles/

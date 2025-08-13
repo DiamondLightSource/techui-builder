@@ -9,9 +9,10 @@
             "type": "debugpy",
             "request": "launch",
             "justMyCode": true,
+            "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}/src/techui_builder/__main__.py",
             "console": "integratedTerminal",
-            "args": "${workspaceFolder}/example-synoptic/create_gui.yaml"
+            "args": "${workspaceFolder}/example-synoptic/b23-services/synoptic/create_gui.yaml"
         },
     ]
 }

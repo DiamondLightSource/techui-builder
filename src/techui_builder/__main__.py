@@ -4,8 +4,8 @@ import logging
 from pathlib import Path
 from typing import Annotated
 
-import coloredlogs
 import typer
+from rich.logging import RichHandler
 
 from techui_builder import __version__
 from techui_builder.autofill import Autofiller
@@ -44,20 +44,11 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
-logging_field_styles = coloredlogs.DEFAULT_FIELD_STYLES
-logging_field_styles.update({"asctime": {"color": "white", "faint": True}})
-
-logging_level_styles = coloredlogs.DEFAULT_LEVEL_STYLES
-logging_level_styles.update({"debug": {"color": "green"}})
-
-
 def log_level(level: str):
-    coloredlogs.install(
+    logging.basicConfig(
         level=level,
-        fmt="%(asctime)s - %(levelname)s - %(message)s",
-        milliseconds=False,
-        field_styles=logging_field_styles,
-        level_styles=logging_level_styles,
+        format="%(message)s",
+        handlers=[RichHandler(omit_repeated_times=False, markup=True)],
     )
 
 

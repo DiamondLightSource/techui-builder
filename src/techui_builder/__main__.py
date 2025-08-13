@@ -106,7 +106,10 @@ def main(
     LOGGER.debug(f"create_gui relative path: {rel_path}")
 
     # Get the relative path of ixx-services to create_gui.yaml
-    ixx_services_dir = next(rel_path.parent.parent.parent.glob("*-services"))
+    ixx_services_dir = next(rel_path.parent.parent.parent.glob("*-services"), None)
+    if ixx_services_dir is None:
+        logging.critical("ixx-services not found. Is you file structure correct?")
+        exit()
     LOGGER.debug(f"ixx-services relative path: {ixx_services_dir}")
 
     # Get the synoptic dir relative to the parent dir
@@ -120,13 +123,14 @@ def main(
             synoptic_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None
         )
         if bob_file is None:
-            raise Exception(
-                f"{default_bobfile} not found in {synoptic_dir.joinpath('bob-src')}. \
-Does it exist?"
+            logging.critical(
+                f"Source bob file '{default_bobfile}' not found in \
+{rel_path.parent.joinpath('bob-src')}. Does it exist?"
             )
-    else:
-        if not bob_file.exists():
-            raise Exception(f"{bob_file} not found. Does it exist?")
+            exit()
+    elif not bob_file.exists():
+        logging.critical(f"Source bob file '{bob_file}' not found. Does it exist?")
+        exit()
 
     LOGGER.debug(f"bob file: {bob_file}")
 

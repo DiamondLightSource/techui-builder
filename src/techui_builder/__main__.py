@@ -99,7 +99,7 @@ def main(
 
     # Get the current working dir
     cwd = Path.cwd()
-    LOGGER.debug(f"CWD: {cwd}")
+    LOGGER.debug(f"Working directory: {cwd}")
 
     # Get the relative path to the create_gui file from working dir
     rel_path = filename.absolute().relative_to(cwd, walk_up=True)

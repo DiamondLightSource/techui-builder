@@ -133,6 +133,11 @@ class Builder:
                         screen_entities.extend(self.entities[extra_p])
 
                 self._generate_screen(component.name, screen_entities)
+            else:
+                LOGGER.warning(
+                    f"{self.create_gui.name}: The prefix set in {component.name} does \
+not match any P field in the ioc.yaml files in services"
+                )
 
     def _generate_json_map(
         self, file_path: Path, visited: set[Path] | None = None

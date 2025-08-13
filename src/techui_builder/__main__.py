@@ -11,7 +11,29 @@ from techui_builder import __version__
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
 
-app = typer.Typer(pretty_exceptions_show_locals=False)
+app = typer.Typer(
+    pretty_exceptions_show_locals=False,
+    help="""
+    A script for building Phoebus GUIs.
+
+    This is the required file structure:\n
+\n
+    ixx-services\n
+    |-- services\n
+    |   |-- blxxi-ea-device-01\n
+    |   |   `-- config\n
+    |   |       `-- ioc.yaml\n
+    |   |-- ...\n
+    |   `-- blxxi-va-device-01\n
+    |       `-- config\n
+    |           `-- ioc.yaml\n
+    `-- synoptic\n
+    .   |-- bob-src\n
+    .   |   `-- blxxi-synoptic-src.bob\n
+    .   |-- create_gui.yaml\n
+    .   `-- data\n
+""",
+)
 
 default_bobfile = "bob-src/blxxi-synoptic-src.bob"
 
@@ -60,11 +82,29 @@ def main(
         ),
     ] = "INFO",
 ) -> None:
-    """Argument parser for the CLI."""
+    """Default function called from cmd line tool."""
 
     LOGGER = logging.getLogger(__name__)
 
     bob_file = bobfile
+
+    # This next part is assuming the file structure:
+    #
+    # ixx-services
+    # |-- services
+    # |   |-- blxxi-ea-device-01
+    # |   |   `-- config
+    # |   |       `-- ioc.yaml
+    # |   |-- ...
+    # |   `-- blxxi-va-device-01
+    # |       `-- config
+    # |           `-- ioc.yaml
+    # `-- synoptic
+    #     |-- bob-src
+    #     |   `-- blxxi-synoptic-src.bob
+    #     |-- create_gui.yaml
+    #     `-- data
+    #
 
     # Get the current working dir
     cwd = Path.cwd()

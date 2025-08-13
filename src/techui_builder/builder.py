@@ -84,7 +84,8 @@ class Builder:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
             except OSError:
                 LOGGER.error(
-                    f"No ioc.yaml file for service: {service.name}. Does it exist?"
+                    f"No ioc.yaml file for service: [bold]{service.name}[/bold]. \
+Does it exist?"
                 )
 
     def _extract_entities(self, ioc_yaml: Path):
@@ -118,7 +119,8 @@ class Builder:
     def generate_screens(self):
         """Generate the screens for each component in create_gui.yaml"""
         if self.entities is None:
-            raise Exception("No entities found, has setup() been run?")
+            LOGGER.critical("No ioc entities found, has setup() been run?")
+            exit()
 
         # Loop over every component defined in create_gui.yaml and locate
         # any extras defined
@@ -135,8 +137,9 @@ class Builder:
                 self._generate_screen(component.name, screen_entities)
             else:
                 LOGGER.warning(
-                    f"{self.create_gui.name}: The prefix set in {component.name} does \
-not match any P field in the ioc.yaml files in services"
+                    f"{self.create_gui.name}: The prefix set in \
+[bold]{component.name}[/bold] does not match any P field in the ioc.yaml \
+files in services"
                 )
 
     def _generate_json_map(

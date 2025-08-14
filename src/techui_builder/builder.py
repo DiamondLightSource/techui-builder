@@ -132,6 +132,12 @@ Does it exist?"
                 if component.extras is not None:
                     # If component has any extras, add them to the entries to generate
                     for extra_p in component.extras:
+                        if extra_p not in self.entities.keys():
+                            LOGGER.error(
+                                f"Extra prefix {extra_p} for {component.name} does not \
+exist."
+                            )
+                            continue
                         screen_entities.extend(self.entities[extra_p])
 
                 self._generate_screen(component.name, screen_entities)

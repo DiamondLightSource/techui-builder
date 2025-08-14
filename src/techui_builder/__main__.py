@@ -4,8 +4,8 @@ import logging
 from pathlib import Path
 from typing import Annotated
 
-import coloredlogs
 import typer
+from rich.logging import RichHandler
 
 from techui_builder import __version__
 from techui_builder.autofill import Autofiller
@@ -44,20 +44,11 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
-logging_field_styles = coloredlogs.DEFAULT_FIELD_STYLES
-logging_field_styles.update({"asctime": {"color": "white", "faint": True}})
-
-logging_level_styles = coloredlogs.DEFAULT_LEVEL_STYLES
-logging_level_styles.update({"debug": {"color": "green"}})
-
-
 def log_level(level: str):
-    coloredlogs.install(
+    logging.basicConfig(
         level=level,
-        fmt="%(asctime)s - %(levelname)s - %(message)s",
-        milliseconds=False,
-        field_styles=logging_field_styles,
-        level_styles=logging_level_styles,
+        format="%(message)s",
+        handlers=[RichHandler(omit_repeated_times=False, markup=True)],
     )
 
 
@@ -108,14 +99,17 @@ def main(
 
     # Get the current working dir
     cwd = Path.cwd()
-    LOGGER.debug(f"CWD: {cwd}")
+    LOGGER.debug(f"Working directory: {cwd}")
 
     # Get the relative path to the create_gui file from working dir
     rel_path = filename.absolute().relative_to(cwd, walk_up=True)
     LOGGER.debug(f"create_gui relative path: {rel_path}")
 
     # Get the relative path of ixx-services to create_gui.yaml
-    ixx_services_dir = next(rel_path.parent.parent.parent.glob("*-services"))
+    ixx_services_dir = next(rel_path.parent.parent.parent.glob("*-services"), None)
+    if ixx_services_dir is None:
+        logging.critical("ixx-services not found. Is you file structure correct?")
+        exit()
     LOGGER.debug(f"ixx-services relative path: {ixx_services_dir}")
 
     # Get the synoptic dir relative to the parent dir
@@ -129,13 +123,14 @@ def main(
             synoptic_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None
         )
         if bob_file is None:
-            raise Exception(
-                f"{default_bobfile} not found in {synoptic_dir.joinpath('bob-src')}. \
-Does it exist?"
+            logging.critical(
+                f"Source bob file '{default_bobfile}' not found in \
+{rel_path.parent.joinpath('bob-src')}. Does it exist?"
             )
-    else:
-        if not bob_file.exists():
-            raise Exception(f"{bob_file} not found. Does it exist?")
+            exit()
+    elif not bob_file.exists():
+        logging.critical(f"Source bob file '{bob_file}' not found. Does it exist?")
+        exit()
 
     LOGGER.debug(f"bob file: {bob_file}")
 

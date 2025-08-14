@@ -163,9 +163,15 @@ Write directory: {gui._write_directory}
     autofiller = Autofiller(bob_file)
     autofiller.read_bob()
     autofiller.autofill_bob(gui)
-    autofiller.write_bob(gui._write_directory.joinpath(f"{dom}-synoptic.bob"))  # noqa: SLF001
+
+    dest_bob = gui._write_directory.joinpath(f"{dom}-synoptic.bob")  # noqa: SLF001
+
+    autofiller.write_bob(dest_bob)
 
     LOGGER.info(f"Screens autofilled for {gui.beamline.dom}.")
+
+    gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
+    LOGGER.info(f"Json map generated for {dom}-synoptic.bob")
 
 
 if __name__ == "__main__":

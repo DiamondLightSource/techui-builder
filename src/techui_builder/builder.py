@@ -140,17 +140,21 @@ not match any P field in the ioc.yaml files in services"
                 )
 
     def _generate_json_map(
-        self, file_path: Path, visited: set[Path] | None = None
+        self, screen_path: Path, dest_path: Path, visited: set[Path] | None = None
     ) -> json_map:
         if visited is None:
             visited = set()
 
-        abs_path = file_path.absolute()
+        abs_path = screen_path
+        dest_path = dest_path
         if abs_path in visited:
-            return {"file": str(file_path), "note": "Already visited (cycle detected)"}
+            return {
+                "file": str(screen_path),
+                "note": "Already visited (cycle detected)",
+            }
 
         visited.add(abs_path)
-        node: json_map = {"file": str(file_path), "children": []}
+        node: json_map = {"file": str(screen_path), "children": []}
 
         try:
             tree = etree.parse(abs_path, None)
@@ -166,7 +170,7 @@ not match any P field in the ioc.yaml files in services"
                     continue
 
                 # TODO: misleading var name?
-                next_file_path = abs_path.joinpath(file_path)
+                next_file_path = dest_path.joinpath(file_path)
 
                 # Obtain macros associated with file_elem
                 macro_dict: dict[str, str] = {}
@@ -184,7 +188,9 @@ not match any P field in the ioc.yaml files in services"
                 # Crawl the next file
                 if next_file_path.is_file():
                     # TODO: investigate non-recursive approaches?
-                    next_node = self._generate_json_map(next_file_path, visited)
+                    next_node = self._generate_json_map(
+                        next_file_path, dest_path, visited
+                    )
                 else:
                     next_node = {"file": str(file_path), "error": "File not found"}
 
@@ -199,17 +205,22 @@ not match any P field in the ioc.yaml files in services"
         except Exception as e:
             node["error"] = str(e)
 
-        # Write json map to file
-        with open("map.json", "w") as outfile:
-            json.dump(node, outfile)
-
         return node
 
-    # TODO: change default Path
-    def get_json_map(self, file_name: Path = Path("motor.bob")):
+    def write_json_map(
+        self,
+        synoptic: Path = Path("example/bl01t-synoptic.bob"),
+        dest: Path = Path("example/json_map.json"),
+    ):
         """
         Maps the valid entries from the ioc.yaml file
         to the required screen in gui_map.yaml
         """
-        map = self._generate_json_map(file_name)
-        print(map)
+        if not synoptic.exists():
+            raise Exception(
+                f"Cannot generate json map for {synoptic}. Has it been generated?"
+            )
+
+        map = self._generate_json_map(synoptic, dest)
+        with open(dest.joinpath("json_map.json"), "w") as f:
+            json.dump(map, f, indent=4)

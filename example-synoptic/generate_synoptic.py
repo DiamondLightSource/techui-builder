@@ -11,6 +11,7 @@ dom = "bl23b"
 
 bob_file = Path(f"example-synoptic/bob-src/{dom}-synoptic-src.bob")
 create_gui_file = Path("example-synoptic/create_gui.yaml")
+generated_bob_path = Path(f"example-synoptic/{dom}-synoptic.bob")
 
 gui = Builder(create_gui=create_gui_file)
 
@@ -26,4 +27,6 @@ gui.generate_screens()
 autofiller = Autofiller(bob_file)
 autofiller.read_bob()
 autofiller.autofill_bob(gui)
-autofiller.write_bob(gui._write_directory.joinpath(f"{dom}-synoptic.bob"))  # noqa: SLF001
+autofiller.write_bob(generated_bob_path)
+
+gui.write_json_map(synoptic=generated_bob_path, dest=Path("example-synoptic"))

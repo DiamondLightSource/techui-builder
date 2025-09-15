@@ -6,8 +6,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import lxml.etree as etree
 import yaml
+from lxml import etree, objectify
+from lxml.objectify import ObjectifiedElement
 
 from techui_builder.generate import Generator
 from techui_builder.objects import Beamline, Component, Entity
@@ -166,8 +167,8 @@ files in services"
         node: json_map = {"file": str(screen_path), "children": []}
 
         try:
-            tree = etree.parse(abs_path, None)
-            root: etree._ElementTree = tree.getroot()
+            tree: etree._ElementTree = objectify.parse(abs_path, etree.XMLParser())
+            root: ObjectifiedElement = tree.getroot()
 
             # Find all <file> elements
             for file_elem in root.findall(".//file", namespaces=None):
@@ -183,12 +184,18 @@ files in services"
 
                 # Obtain macros associated with file_elem
                 macro_dict: dict[str, str] = {}
-                widget: etree._Element = file_elem.getparent()
+                widget: ObjectifiedElement | None = file_elem.getparent()
                 if widget is not None:
-                    macros: etree._Element = widget.find("macros", namespaces=None)
+                    macros: ObjectifiedElement | None = widget.find(
+                        "macros", namespaces=None
+                    )
                     if macros is not None:
-                        p: etree._Element = macros.find(".//P", namespaces=None)
-                        m: etree._Element = macros.find(".//M", namespaces=None)
+                        p: ObjectifiedElement | None = macros.find(
+                            ".//P", namespaces=None
+                        )
+                        m: ObjectifiedElement | None = macros.find(
+                            ".//M", namespaces=None
+                        )
                         if p is not None and p.text:
                             macro_dict["P"] = p.text
                         if m is not None and m.text:

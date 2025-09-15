@@ -46,6 +46,7 @@ dev = [
     "ruff",
     "tox-uv",
     "twine",
+    "types-lxml",
     "types-mock",
     "uv~=0.8.5",
 ]

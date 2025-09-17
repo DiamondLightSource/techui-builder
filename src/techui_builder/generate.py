@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import yaml
-from lxml import etree, objectify  # type: ignore
+from lxml import objectify
 from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
@@ -57,11 +57,10 @@ class Generator:
         Parses the bob files for information on the height
         and width of the screen
         """
-        parser = etree.XMLParser()
         # Read the bob file
-        tree: etree._ElementTree = objectify.parse(file, parser)
-        root: etree._Element = tree.getroot()
-        height_element: etree._Element | None = root.find("height", namespaces=None)
+        tree = objectify.parse(file)
+        root = tree.getroot()
+        height_element = root.height
         if height_element is not None:
             height = (
                 self.default_size if (val := height_element.text) is None else int(val)
@@ -70,7 +69,7 @@ class Generator:
             height = self.default_size
             assert "Could not obtain the size of the widget"
 
-        width_element: etree._Element | None = root.find("width", namespaces=None)
+        width_element = root.width
         if width_element is not None:
             width = (
                 self.default_size if (val := width_element.text) is None else int(val)
@@ -89,8 +88,8 @@ class Generator:
         and width of the widget
         """
         # Read the bob file
-        root: etree._Element = etree.fromstring(str(widget), None)
-        height_element: etree._Element | None = root.find("height", namespaces=None)
+        root = objectify.fromstring(str(widget))
+        height_element = root.height
         if height_element is not None:
             height = (
                 self.default_size if (val := height_element.text) is None else int(val)
@@ -99,7 +98,7 @@ class Generator:
             height = self.default_size
             assert "Could not obtain the size of the widget"
 
-        width_element: etree._Element | None = root.find("width", namespaces=None)
+        width_element = root.width
         if width_element is not None:
             width = (
                 self.default_size if (val := width_element.text) is None else int(val)
@@ -118,15 +117,15 @@ class Generator:
         and x of the widget
         """
         # Read the bob file
-        root: etree._Element = etree.fromstring(str(object), None)
-        y_element: etree._Element | None = root.find("y", namespaces=None)
+        root = objectify.fromstring(str(object))
+        y_element = root.y
         if y_element is not None:
             y = self.default_size if (val := y_element.text) is None else int(val)
         else:
             y = self.default_size
             assert "Could not obtain the size of the widget"
 
-        x_element: etree._Element | None = root.find("x", namespaces=None)
+        x_element = root.x
         if x_element is not None:
             x = self.default_size if (val := x_element.text) is None else int(val)
         else:
@@ -146,8 +145,8 @@ class Generator:
         height_list: list[int] = []
         width_list: list[int] = []
         for widget in widget_list:
-            root = etree.fromstring(str(widget), None)
-            x: etree._Element | None = root.find("x")
+            root = objectify.fromstring(str(widget))
+            x = root.x
             if x is not None:
                 x_list.append(
                     self.default_size if (val := x.text) is None else int(val)
@@ -155,7 +154,7 @@ class Generator:
             else:
                 x_list.append(self.default_size)
 
-            height: etree._Element | None = root.find("height")
+            height = root.height
             if height is not None:
                 height_list.append(
                     self.default_size if (val := height.text) is None else int(val)
@@ -163,7 +162,7 @@ class Generator:
             else:
                 height_list.append(self.default_size)
 
-            width: etree._Element | None = root.find("width")
+            width = root.width
             if width is not None:
                 width_list.append(
                     self.default_size if (val := width.text) is None else int(val)
@@ -171,7 +170,7 @@ class Generator:
             else:
                 width_list.append(self.default_size)
 
-            y: etree._Element | None = root.find("y")
+            y = root.y
             if y is not None:
                 y_list.append(
                     self.default_size if (val := y.text) is None else int(val)

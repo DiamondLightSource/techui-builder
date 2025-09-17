@@ -173,12 +173,21 @@ files in services"
         visited.add(abs_path)
 
         try:
-            tree: etree._ElementTree = objectify.parse(abs_path, etree.XMLParser())
+            tree = objectify.parse(abs_path)
             root: ObjectifiedElement = tree.getroot()
 
-            # Find all <file> elements
-            for file_elem in root.findall(".//file", namespaces=None):
-                file_elem: etree._Element
+            # Find all <widget> elements
+            widgets = [
+                w
+                for w in root.findall(".//widget")
+                if w.get("type", default=None) == "symbol"
+            ]
+
+            for widget_elem in widgets:
+                open_display = _get_action_group(widget_elem)
+                if open_display is None:
+                    continue
+                file_elem = open_display.file
                 # Extract file path from file_elem
                 file_path = Path(file_elem.text.strip() if file_elem.text else "")
                 # If file is already a .bob file, skip it
@@ -190,11 +199,9 @@ files in services"
 
                 # Obtain macros associated with file_elem
                 macro_dict: dict[str, str] = {}
-                widget: ObjectifiedElement | None = file_elem.getparent()
-                if widget is not None:
-                    macros: ObjectifiedElement | None = widget.find(
-                        "macros", namespaces=None
-                    )
+
+                if hasattr(open_display, "macros"):
+                    macros = open_display.macros.getchildren()
                     if macros is not None:
                         for macro in macros:
                             macro_dict[macro.tag] = macro.text  # type: ignore
@@ -264,3 +271,14 @@ def _serialise_json_map(map: json_map) -> dict[str, Any]:
     # only include any items if they are not the default value
     d = {k: v for (k, v) in map.__dict__.items() if not _check_default(k, v)}
     return d
+
+
+# File and desc are under the "actions",
+# so the corresponding tag needs to be found
+def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
+    actions = element.actions
+    assert actions is not None
+    for action in actions.iterchildren("action"):
+        if action.get("type", default=None) == "open_display":
+            return action
+    return None

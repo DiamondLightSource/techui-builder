@@ -1,4 +1,5 @@
 import logging
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -49,6 +50,11 @@ class Autofiller:
                     self.replace_macros(widget=child, component=comp)
 
     def write_bob(self, filename: Path):
+        # Check if data/ dir exists and if not, make it
+        data_dir = filename.parent
+        if not data_dir.exists():
+            os.mkdir(data_dir)
+
         self.tree.write(
             filename,
             pretty_print=True,  # type: ignore

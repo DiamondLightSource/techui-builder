@@ -180,14 +180,36 @@ files in services"
             widgets = [
                 w
                 for w in root.findall(".//widget")
-                if w.get("type", default=None) == "symbol"
+                if w.get("type", default=None)
+                in ["symbol", "embedded", "action_button"]
             ]
 
             for widget_elem in widgets:
-                open_display = _get_action_group(widget_elem)
-                if open_display is None:
-                    continue
-                file_elem = open_display.file
+                # Obtain macros associated with file_elem
+                macro_dict: dict[str, str] = {}
+                widget_type = widget_elem.get("type", default=None)
+
+                match widget_type:
+                    case "symbol" | "action_button":
+                        open_display = _get_action_group(widget_elem)
+                        if open_display is None:
+                            continue
+                        file_elem = open_display.file
+
+                        if hasattr(open_display, "macros"):
+                            macros = open_display.macros.getchildren()
+                            if macros is not None:
+                                macro_dict = {
+                                    str(macro.tag): macro.text
+                                    for macro in macros
+                                    if macro.text is not None
+                                }
+
+                    case "embedded":
+                        file_elem = widget_elem.file
+                    case _:
+                        continue
+
                 # Extract file path from file_elem
                 file_path = Path(file_elem.text.strip() if file_elem.text else "")
                 # If file is already a .bob file, skip it
@@ -196,15 +218,6 @@ files in services"
 
                 # TODO: misleading var name?
                 next_file_path = dest_path.joinpath(file_path)
-
-                # Obtain macros associated with file_elem
-                macro_dict: dict[str, str] = {}
-
-                if hasattr(open_display, "macros"):
-                    macros = open_display.macros.getchildren()
-                    if macros is not None:
-                        for macro in macros:
-                            macro_dict[macro.tag] = macro.text  # type: ignore
 
                 # Crawl the next file
                 if next_file_path.is_file():

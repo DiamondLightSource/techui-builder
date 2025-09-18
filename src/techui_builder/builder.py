@@ -159,6 +159,17 @@ files in services"
     def _generate_json_map(
         self, screen_path: Path, dest_path: Path, visited: set[Path] | None = None
     ) -> json_map:
+        def _get_macros(element: ObjectifiedElement):
+            if hasattr(element, "macros"):
+                macros = element.macros.getchildren()
+                if macros is not None:
+                    return {
+                        str(macro.tag): macro.text
+                        for macro in macros
+                        if macro.text is not None
+                    }
+            return {}
+
         if visited is None:
             visited = set()
 
@@ -196,17 +207,10 @@ files in services"
                             continue
                         file_elem = open_display.file
 
-                        if hasattr(open_display, "macros"):
-                            macros = open_display.macros.getchildren()
-                            if macros is not None:
-                                macro_dict = {
-                                    str(macro.tag): macro.text
-                                    for macro in macros
-                                    if macro.text is not None
-                                }
-
+                        macro_dict = _get_macros(open_display)
                     case "embedded":
                         file_elem = widget_elem.file
+                        macro_dict = _get_macros(widget_elem)
                     case _:
                         continue
 

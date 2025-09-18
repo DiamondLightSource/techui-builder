@@ -289,9 +289,13 @@ def _serialise_json_map(map: json_map) -> dict[str, Any]:
 # File and desc are under the "actions",
 # so the corresponding tag needs to be found
 def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
-    actions = element.actions
-    assert actions is not None
-    for action in actions.iterchildren("action"):
-        if action.get("type", default=None) == "open_display":
-            return action
-    return None
+    try:
+        actions = element.actions
+        assert actions is not None
+        for action in actions.iterchildren("action"):
+            if action.get("type", default=None) == "open_display":
+                return action
+        return None
+    except AttributeError:
+        # TODO: Find better way of handling there being no "actions" group
+        LOGGER.error(f"Actions group not found in component: {element.text}")

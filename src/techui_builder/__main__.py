@@ -99,19 +99,19 @@ def main(
     #     `-- data
     #
 
+    # Get the relative path to the create_gui file from working dir
+    abs_path = filename.absolute()
+    LOGGER.debug(f"create_gui absolute path: {abs_path}")
+
     # Get the current working dir
     cwd = Path.cwd()
     LOGGER.debug(f"Working directory: {cwd}")
 
-    # Get the relative path to the create_gui file from working dir
-    rel_path = filename.absolute().relative_to(cwd, walk_up=True)
-    LOGGER.debug(f"create_gui relative path: {rel_path}")
-
     # Get the relative path of ixx-services to create_gui.yaml
     ixx_services_dir = next(
         (
-            ixx_services
-            for parent in rel_path.parents
+            ixx_services.relative_to(cwd, walk_up=True)
+            for parent in abs_path.parents
             for ixx_services in parent.glob(f"{gui.beamline.short_dom}-services")
         ),
         None,
@@ -137,7 +137,7 @@ def main(
         if bob_file is None:
             logging.critical(
                 f"Source bob file '{default_bobfile}' not found in \
-{rel_path.parent.joinpath('bob-src')}. Does it exist?"
+{synoptic_dir.joinpath('bob-src')}. Does it exist?"
             )
             exit()
     elif not bob_file.exists():
@@ -148,7 +148,7 @@ def main(
 
     # # Overwrite after initialised to make sure this is picked up
     gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
-    gui._write_directory = rel_path.parent.joinpath("data")  # noqa: SLF001
+    gui._write_directory = synoptic_dir.joinpath("data")  # noqa: SLF001
 
     LOGGER.debug(
         f"""

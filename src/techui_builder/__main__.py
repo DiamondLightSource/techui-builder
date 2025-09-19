@@ -109,7 +109,14 @@ def main(
     LOGGER.debug(f"create_gui relative path: {rel_path}")
 
     # Get the relative path of ixx-services to create_gui.yaml
-    ixx_services_dir = next(rel_path.parent.parent.parent.glob(f"{dom}-services"), None)
+    ixx_services_dir = next(
+        (
+            ixx_services
+            for parent in rel_path.parents
+            for ixx_services in parent.glob(f"{dom}-services")
+        ),
+        None,
+    )
     if ixx_services_dir is None:
         logging.critical("ixx-services not found. Is you file structure correct?")
         exit()

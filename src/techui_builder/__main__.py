@@ -79,6 +79,9 @@ def main(
 
     bob_file = bobfile
 
+    gui = Builder(create_gui=filename)
+    dom = gui.beamline.dom
+
     # This next part is assuming the file structure:
     #
     # ixx-services
@@ -106,7 +109,7 @@ def main(
     LOGGER.debug(f"create_gui relative path: {rel_path}")
 
     # Get the relative path of ixx-services to create_gui.yaml
-    ixx_services_dir = next(rel_path.parent.parent.parent.glob("*-services"), None)
+    ixx_services_dir = next(rel_path.parent.parent.parent.glob(f"{dom}-services"), None)
     if ixx_services_dir is None:
         logging.critical("ixx-services not found. Is you file structure correct?")
         exit()
@@ -133,9 +136,6 @@ def main(
         exit()
 
     LOGGER.debug(f"bob file: {bob_file}")
-
-    gui = Builder(create_gui=filename)
-    dom = gui.beamline.dom
 
     # # Overwrite after initialised to make sure this is picked up
     gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001

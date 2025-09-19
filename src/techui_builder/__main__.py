@@ -80,7 +80,6 @@ def main(
     bob_file = bobfile
 
     gui = Builder(create_gui=filename)
-    dom = gui.beamline.dom
 
     # This next part is assuming the file structure:
     #
@@ -113,7 +112,7 @@ def main(
         (
             ixx_services
             for parent in rel_path.parents
-            for ixx_services in parent.glob(f"{dom}-services")
+            for ixx_services in parent.glob(f"{gui.beamline.short_dom}-services")
         ),
         None,
     )
@@ -130,7 +129,10 @@ def main(
         # Search default relative dir to create_gui filename
         # There will only ever be one file, but if not return None
         bob_file = next(
-            synoptic_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None
+            synoptic_dir.joinpath("bob-src").glob(
+                f"{gui.beamline.long_dom}-synoptic-src.bob"
+            ),
+            None,
         )
         if bob_file is None:
             logging.critical(
@@ -151,7 +153,7 @@ def main(
     LOGGER.debug(
         f"""
 
-Builder created for {gui.beamline.dom}.
+Builder created for {gui.beamline.short_dom}.
 Services directory: {gui._services_dir}
 Write directory: {gui._write_directory}
 """,  # noqa: SLF001
@@ -160,20 +162,20 @@ Write directory: {gui._write_directory}
     gui.setup()
     gui.generate_screens()
 
-    LOGGER.info(f"Screens generated for {gui.beamline.dom}.")
+    LOGGER.info(f"Screens generated for {gui.beamline.short_dom}.")
 
     autofiller = Autofiller(bob_file)
     autofiller.read_bob()
     autofiller.autofill_bob(gui)
 
-    dest_bob = gui._write_directory.joinpath(f"{dom}-synoptic.bob")  # noqa: SLF001
+    dest_bob = gui._write_directory.joinpath(f"{gui.beamline.long_dom}-synoptic.bob")  # noqa: SLF001
 
     autofiller.write_bob(dest_bob)
 
-    LOGGER.info(f"Screens autofilled for {gui.beamline.dom}.")
+    LOGGER.info(f"Screens autofilled for {gui.beamline.short_dom}.")
 
     gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    LOGGER.info(f"Json map generated for {dom}-synoptic.bob")
+    LOGGER.info(f"Json map generated for {gui.beamline.long_dom}-synoptic.bob")
 
 
 if __name__ == "__main__":

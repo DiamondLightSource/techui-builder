@@ -134,11 +134,16 @@ components:
 
   M2:
     prefix: FE23B-OP-MR-02
+    devsta:
+      - FE23B-OP-MR-02:MOTORSTA
 
   M3:
     prefix: BL23B-OP-MR-03
     extras:
       - BL23B-MO-PMAC-01
+    devsta:
+      - BL23B-OP-MR-03:MOTORSTA
+      - BL23B-MO-PMAC-01:MOTORSTA
 
   # ----- MOD -----
 

@@ -7,8 +7,10 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from epicsdbbuilder.recordbase import Record
 from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
+from softioc.builder import records
 
 from techui_builder.generate import Generator
 from techui_builder.models import Entity, TechUi
@@ -45,6 +47,7 @@ class Builder:
     entities: defaultdict[str, list[Entity]] = field(
         default_factory=lambda: defaultdict(list), init=False
     )
+    devsta_pvs: dict[str, Record] = field(default_factory=dict, init=False)
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
     _write_directory: Path = field(default=Path("opis"), init=False, repr=False)
@@ -95,6 +98,38 @@ class Builder:
         for file_ in generated_files:
             logger_.debug(f"Removing generated file: {file_.name}")
             os.remove(file_)
+
+    def _create_devsta_pv(self, prefix: str, inputs: list[str]):
+        # Extract all input PVs, provided a default "" if not provided
+        values = [(inputs[i] if i < len(inputs) else "") for i in range(12)]
+        inpa, inpb, inpc, inpd, inpe, inpf, inpg, inph, inpi, inpj, inpk, inpl = values
+
+        devsta_pv = records.calc(  # pyright: ignore[reportAttributeAccessIssue]
+            f"{prefix}:DEVSTA",
+            CALC="(A|B|C|D|E|F|G|H|I|J|K|L)>0?1:0",
+            SCAN="1 second",
+            ACKT="NO",
+            INPA=inpa,
+            INPB=inpb,
+            INPC=inpc,
+            INPD=inpd,
+            INPE=inpe,
+            INPF=inpf,
+            INPG=inpg,
+            INPH=inph,
+            INPI=inpi,
+            INPJ=inpj,
+            INPK=inpk,
+            INPL=inpl,
+        )
+
+        self.devsta_pvs[prefix] = devsta_pv
+
+    def write_devsta_pvs(self):
+        devsta_file = self._write_directory.parent.joinpath("config/ioc.db")
+        with open(devsta_file, "w") as f:
+            for dpv in self.devsta_pvs.values():
+                dpv.Print(f)
 
     def _extract_services(self):
         """
@@ -154,6 +189,10 @@ Does it exist?"
         # any extras defined
         for component_name, component in self.conf.components.items():
             screen_entities: list[Entity] = []
+
+            if component.devsta is not None:
+                self._create_devsta_pv(component.prefix, component.devsta)
+
             # ONLY IF there is a matching component and entity, generate a screen
             if component.prefix in self.entities.keys():
                 screen_entities.extend(self.entities[component.prefix])

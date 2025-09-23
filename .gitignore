@@ -64,8 +64,9 @@ target/
 .venv*
 venv*
 
-# Built bob files
+# Built synoptic files
 **/data/
+**/config/
 
 # further build artifacts
 lockfiles/

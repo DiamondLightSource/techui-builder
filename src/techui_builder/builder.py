@@ -126,8 +126,10 @@ class Builder:
         self.devsta_pvs[prefix] = devsta_pv
 
     def write_devsta_pvs(self):
-        devsta_file = self._write_directory.parent.joinpath("config/ioc.db")
-        with open(devsta_file, "w") as f:
+        conf_dir = self._write_directory.parent.joinpath("config")
+        if not conf_dir.exists():
+            os.mkdir(conf_dir)
+        with open(conf_dir.joinpath("ioc.db"), "w") as f:
             for dpv in self.devsta_pvs.values():
                 dpv.Print(f)
 

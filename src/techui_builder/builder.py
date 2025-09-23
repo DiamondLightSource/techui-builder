@@ -192,7 +192,8 @@ files in services"
                 w
                 for w in root.findall(".//widget")
                 if w.get("type", default=None)
-                in ["symbol", "embedded", "action_button"]
+                # in ["symbol", "embedded", "action_button"]
+                in ["symbol", "action_button"]
             ]
 
             for widget_elem in widgets:
@@ -208,9 +209,9 @@ files in services"
                         file_elem = open_display.file
 
                         macro_dict = _get_macros(open_display)
-                    case "embedded":
-                        file_elem = widget_elem.file
-                        macro_dict = _get_macros(widget_elem)
+                    # case "embedded":
+                    #     file_elem = widget_elem.file
+                    #     macro_dict = _get_macros(widget_elem)
                     case _:
                         continue
 

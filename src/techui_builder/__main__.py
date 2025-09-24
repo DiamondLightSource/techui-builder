@@ -152,6 +152,7 @@ Write directory: {gui._write_directory}
 
     gui.setup()
     gui.generate_screens()
+    gui.write_devsta_pvs()
 
     LOGGER.info(f"Screens generated for {gui.beamline.dom}.")
 

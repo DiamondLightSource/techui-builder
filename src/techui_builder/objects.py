@@ -23,6 +23,7 @@ class Component:
     prefix: str
     desc: str | None = field(default=None)
     file: str | None = field(default=None)
+    devsta: list[str] | None = field(default=None)
     extras: list[str] | None = field(default=None)
 
     def __post_init__(self):

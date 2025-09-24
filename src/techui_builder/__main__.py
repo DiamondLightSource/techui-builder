@@ -28,10 +28,9 @@ app = typer.Typer(
     |       `-- config\n
     |           `-- ioc.yaml\n
     `-- synoptic\n
-    .   |-- bob-src\n
-    .   |   `-- blxxi-synoptic-src.bob\n
-    .   |-- create_gui.yaml\n
-    .   `-- data\n
+    .   |-- techui.yaml\n
+    .   `-- opis-src\n
+    .       `-- blxxi-synoptic-src.bob\n
 """,
 )
 
@@ -55,7 +54,7 @@ def log_level(level: str):
 # This is the default behaviour when no command provided
 @app.callback(invoke_without_command=True)
 def main(
-    filename: Annotated[Path, typer.Argument(help="The path to create_gui.yaml")],
+    filename: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
     bobfile: Annotated[
         Path | None,
         typer.Argument(help="Override for template bob file location."),
@@ -79,7 +78,7 @@ def main(
 
     bob_file = bobfile
 
-    gui = Builder(create_gui=filename)
+    gui = Builder(techui=filename)
 
     # This next part is assuming the file structure:
     #
@@ -93,15 +92,14 @@ def main(
     # |       `-- config
     # |           `-- ioc.yaml
     # `-- synoptic
-    #     |-- bob-src
-    #     |   `-- blxxi-synoptic-src.bob
-    #     |-- create_gui.yaml
-    #     `-- data
+    # .   |-- techui.yaml
+    # .   `-- opis-src
+    # .       `-- blxxi-synoptic-src.bob
     #
 
     # Get the relative path to the create_gui file from working dir
     abs_path = filename.absolute()
-    LOGGER.debug(f"create_gui absolute path: {abs_path}")
+    LOGGER.debug(f"techui.yaml absolute path: {abs_path}")
 
     # Get the current working dir
     cwd = Path.cwd()
@@ -126,10 +124,10 @@ def main(
     LOGGER.debug(f"synoptic relative path: {synoptic_dir}")
 
     if bob_file is None:
-        # Search default relative dir to create_gui filename
+        # Search default relative dir to techui filename
         # There will only ever be one file, but if not return None
         bob_file = next(
-            synoptic_dir.joinpath("bob-src").glob(
+            synoptic_dir.joinpath("opis-src").glob(
                 f"{gui.beamline.long_dom}-synoptic-src.bob"
             ),
             None,
@@ -137,7 +135,7 @@ def main(
         if bob_file is None:
             logging.critical(
                 f"Source bob file '{default_bobfile}' not found in \
-{synoptic_dir.joinpath('bob-src')}. Does it exist?"
+{synoptic_dir.joinpath('opis-src')}. Does it exist?"
             )
             exit()
     elif not bob_file.exists():
@@ -148,7 +146,7 @@ def main(
 
     # # Overwrite after initialised to make sure this is picked up
     gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
-    gui._write_directory = synoptic_dir.joinpath("data")  # noqa: SLF001
+    gui._write_directory = synoptic_dir.joinpath("opis")  # noqa: SLF001
 
     LOGGER.debug(
         f"""

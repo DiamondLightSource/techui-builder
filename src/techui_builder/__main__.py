@@ -30,11 +30,11 @@ app = typer.Typer(
     `-- synoptic\n
     .   |-- techui.yaml\n
     .   `-- opis-src\n
-    .       `-- blxxi-synoptic-src.bob\n
+    .       `-- index-src.bob\n
 """,
 )
 
-default_bobfile = "bob-src/blxxi-synoptic-src.bob"
+default_bobfile = "index-src.bob"
 
 
 def version_callback(value: bool):
@@ -94,7 +94,7 @@ def main(
     # `-- synoptic
     # .   |-- techui.yaml
     # .   `-- opis-src
-    # .       `-- blxxi-synoptic-src.bob
+    # .       `-- index-src.bob
     #
 
     # Get the relative path to the create_gui file from working dir
@@ -127,9 +127,7 @@ def main(
         # Search default relative dir to techui filename
         # There will only ever be one file, but if not return None
         bob_file = next(
-            synoptic_dir.joinpath("opis-src").glob(
-                f"{gui.beamline.long_dom}-synoptic-src.bob"
-            ),
+            synoptic_dir.joinpath("opis-src").glob("index-src.bob"),
             None,
         )
         if bob_file is None:
@@ -166,14 +164,14 @@ Write directory: {gui._write_directory}
     autofiller.read_bob()
     autofiller.autofill_bob(gui)
 
-    dest_bob = gui._write_directory.joinpath(f"{gui.beamline.long_dom}-synoptic.bob")  # noqa: SLF001
+    dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
 
     autofiller.write_bob(dest_bob)
 
     LOGGER.info(f"Screens autofilled for {gui.beamline.short_dom}.")
 
     gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    LOGGER.info(f"Json map generated for {gui.beamline.long_dom}-synoptic.bob")
+    LOGGER.info(f"Json map generated for {gui.beamline.long_dom} (from index.bob)")
 
 
 if __name__ == "__main__":

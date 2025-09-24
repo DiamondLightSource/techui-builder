@@ -247,9 +247,7 @@ files in services"
 
     def write_json_map(
         self,
-        synoptic: Path = Path(
-            "example/bl01t-services/synoptic/opis/bl01t-synoptic.bob"
-        ),
+        synoptic: Path = Path("example/bl01t-services/synoptic/opis/index.bob"),
         dest: Path = Path("example/bl01t-services/synoptic/opis/json_map.json"),
     ):
         """

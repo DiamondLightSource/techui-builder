@@ -45,9 +45,9 @@ class Generator:
     def _read_gui_map(self):
         """Read the ibek-mapping.yaml file from techui-support."""
         ibek_map = self.services_dir.parent.parent.joinpath(
-            "src/techui_support/ibek-mapping.yaml"
+            "src/techui_support/ibek_mapping.yaml"
         )
-        LOGGER.debug(f"ibek-mapping.yaml location: {ibek_map}")
+        LOGGER.debug(f"ibek_mapping.yaml location: {ibek_map}")
 
         with open(ibek_map) as map:
             self.ibek_map = yaml.safe_load(map)

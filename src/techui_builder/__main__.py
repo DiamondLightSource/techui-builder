@@ -11,6 +11,8 @@ from techui_builder import __version__
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
 
+LOGGER = logging.getLogger(__name__)
+
 app = typer.Typer(
     pretty_exceptions_show_locals=False,
     help="""
@@ -73,8 +75,6 @@ def main(
     ] = "INFO",
 ) -> None:
     """Default function called from cmd line tool."""
-
-    LOGGER = logging.getLogger(__name__)
 
     bob_file = bobfile
 

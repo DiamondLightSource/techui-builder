@@ -8,7 +8,7 @@ from techui_builder.builder import Builder
 
 @pytest.fixture
 def gb():
-    path = Path("example/bl01t-services/synoptic/create_gui.yaml")
+    path = Path("example/bl01t-services/synoptic/techui.yaml")
     b = Builder(path)
     b._services_dir = Path("./example/bl01t-services/services")
     b.setup()
@@ -27,7 +27,7 @@ def test_beamline_attributes(gb: Builder, attr, expected):
 
 
 @pytest.mark.parametrize(
-    "index, name, desc, P, R, attribute, extras",
+    "index, name, desc, p, r, attribute, extras",
     [
         (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None),
         (
@@ -41,19 +41,19 @@ def test_beamline_attributes(gb: Builder, attr, expected):
         ),
     ],
 )
-def test_component_attributes(gb: Builder, index, name, desc, P, R, attribute, extras):
+def test_component_attributes(gb: Builder, index, name, desc, p, r, attribute, extras):
     component = gb.components[index]
     assert component.name == name
     assert component.desc == desc
-    assert component.P == P
-    assert component.R == R
+    assert component.P == p
+    assert component.R == r
     assert component.attribute == attribute
     if extras is not None:
         assert component.extras == extras
 
 
 @pytest.mark.parametrize(
-    "index, type, desc, P, M, R",
+    "index, type, desc, p, m, r",
     [
         (0, "pmac.GeoBrick", None, "BL01T-MO-BRICK-01", None, None),
         (0, "pmac.autohome", None, "BL01T-MO-MAP-01:STAGE", None, None),
@@ -75,18 +75,18 @@ def test_component_attributes(gb: Builder, index, name, desc, P, R, attribute, e
         ),
     ],
 )
-def test_gb_extract_entities(gb: Builder, index, type, desc, P, M, R):
-    entity = gb.entities[P][index]
+def test_gb_extract_entities(gb: Builder, index, type, desc, p, m, r):
+    entity = gb.entities[p][index]
     assert entity.type == type
     assert entity.desc == desc
-    assert entity.P == P
-    assert entity.M == M
-    assert entity.R == R
+    assert entity.P == p
+    assert entity.M == m
+    assert entity.R == r
 
 
 def test_setup(gb: Builder):
     gb._services_dir = Path(f"example/{gb.beamline.dom}-services/services")
-    gb._write_directory = Path("example/data")
+    gb._write_directory = gb._services_dir.parent.joinpath("synoptic/opis")
     gb.generate_screens()
 
     with open(f"./{gb._write_directory}/motor.bob") as f:

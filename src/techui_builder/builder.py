@@ -16,11 +16,11 @@ LOGGER = logging.getLogger(__name__)
 
 
 @dataclass
-class json_map:
-    file: str
+class JsonMap:
+    path: str
     exists: bool = True
     duplicate: bool = False
-    children: list["json_map"] = field(default_factory=list)
+    children: list["JsonMap"] = field(default_factory=list)
     macros: dict[str, str] = field(default_factory=dict)
     error: str = ""
 
@@ -32,8 +32,8 @@ class Builder:
     techui.yaml file into screens mapped from ioc.yaml and
     *-mapping.yaml files.
 
-    By default it looks for a `create_gui.yaml` file in the same dir
-    of the script Guibuilder is called in. Optionally a custom path
+    By default it looks for a `techui.yaml` file in the same dir
+    of the script techui-builder is called in. Optionally a custom path
     can be declared.
 
     """
@@ -158,7 +158,7 @@ files in services"
 
     def _generate_json_map(
         self, screen_path: Path, dest_path: Path, visited: set[Path] | None = None
-    ) -> json_map:
+    ) -> JsonMap:
         def _get_macros(element: ObjectifiedElement):
             if hasattr(element, "macros"):
                 macros = element.macros.getchildren()
@@ -173,7 +173,7 @@ files in services"
         if visited is None:
             visited = set()
 
-        current_node = json_map(str(screen_path))
+        current_node = JsonMap(str(screen_path))
 
         abs_path = screen_path
         dest_path = dest_path
@@ -230,10 +230,10 @@ files in services"
                         next_file_path, dest_path, visited
                     )
                 else:
-                    child_node = json_map(str(file_path), exists=False)
+                    child_node = JsonMap(str(file_path), exists=False)
 
                 child_node.macros = macro_dict
-                # TODO: make this work for only list[json_map]
+                # TODO: make this work for only list[JsonMap]
                 assert isinstance(current_node.children, list)
                 # TODO: fix typing
                 current_node.children.append(child_node)
@@ -264,25 +264,25 @@ files in services"
             f.write(json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o)))
 
 
-# Function to convert the json_map objects into dictionaries,
+# Function to convert the JsonMap objects into dictionaries,
 # while ignoring default values
-def _serialise_json_map(map: json_map) -> dict[str, Any]:
+def _serialise_json_map(map: JsonMap) -> dict[str, Any]:
     def _check_default(key: str, value: Any):
         # Is a default factory used? (e.g. list, dict, ...)
         if not isinstance(
-            json_map.__dataclass_fields__[key].default_factory, _MISSING_TYPE
+            JsonMap.__dataclass_fields__[key].default_factory, _MISSING_TYPE
         ):
             # If so, check if value is the same as default factory
-            default = json_map.__dataclass_fields__[key].default_factory()
+            default = JsonMap.__dataclass_fields__[key].default_factory()
         else:
             # If not, check if value is the default value
-            default = json_map.__dataclass_fields__[key].default
+            default = JsonMap.__dataclass_fields__[key].default
         return value == default
 
     # Loop over everything in the json map object's dictionary
     for val in map.__dict__.values():
-        # If a value is another nedted json_map object, serialise that too
-        if isinstance(val, json_map):
+        # If a value is another nedted JsonMap object, serialise that too
+        if isinstance(val, JsonMap):
             val = _serialise_json_map(val)
 
     # only include any items if they are not the default value

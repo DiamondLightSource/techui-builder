@@ -11,7 +11,7 @@
         // We put venv on a different volume to cache so have to copy
         "UV_LINK_MODE": "copy",
         // Do the equivalent of "activate" the venv so we don't have to "uv run" everything
-        "PATH": "/workspaces/${localWorkspaceFolderBasename}/.venv/bin:${localEnv:PATH}"
+        "PATH": "/workspaces/${localWorkspaceFolderBasename}/.venv/bin:${containerEnv:PATH}"
     },
     "customizations": {
         "vscode": {
@@ -20,16 +20,7 @@
                 "python.defaultInterpreterPath": "/workspaces/${localWorkspaceFolderBasename}/.venv/bin/python",
                 "python.terminal.activateEnvInCurrentTerminal": false,
                 "python.terminal.activateEnvironment": false,
-                "python.testing.unittestEnabled": false,
-                "python.testing.pytestEnabled": true,
-                "editor.formatOnSave": true,
-                "editor.codeActionsOnSave": {
-                    "source.organizeImports": "explicit"
-                },
-                "remote.autoForwardPorts": false,
-                "[python]": {
-                    "editor.defaultFormatter": "charliermarsh.ruff"
-                }
+                "remote.autoForwardPorts": false
             },
             // Add the IDs of extensions you want installed when the container is created.
             "extensions": [
@@ -51,8 +42,6 @@
         // Make sure SELinux does not disable with access to host filesystems like tmp
         "--security-opt=label=disable"
     ],
-    // Populate the user's terminal config folder with default config if it is blank
-    "onCreateCommand": "/root/terminal-config/ensure-user-terminal-config.sh",
     "mounts": [
         // Mount in the user terminal config folder so it can be edited
         {
@@ -75,5 +64,5 @@
     // Mount the parent as /workspaces so we can pip install peers as editable
     "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
     // After the container is created, install the python project in editable form
-    "postCreateCommand": "uv sync && uv run pre-commit install"
+    "postCreateCommand": "uv sync && uv run pre-commit install --install-hooks"
 }

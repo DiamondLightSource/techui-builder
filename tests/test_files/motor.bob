@@ -31,7 +31,7 @@
         <x>0</x>
         <y>150</y>
       </widget>
-      <widget type="action_button" version="2.0.0">
+      <widget type="action_button" version="3.0.0">
         <name>pmac.GeoBrick</name>
         <width>100</width>
         <height>40</height>

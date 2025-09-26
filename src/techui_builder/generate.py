@@ -6,8 +6,8 @@ from pathlib import Path
 
 import yaml
 from lxml import objectify
-from phoebusgen import screen as Screen
-from phoebusgen import widget as Widget
+from phoebusgen import widget
+from phoebusgen.screen import Screen
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.objects import Entity
@@ -144,8 +144,8 @@ class Generator:
         y_list: list[int] = []
         height_list: list[int] = []
         width_list: list[int] = []
-        for widget in widget_list:
-            root = objectify.fromstring(str(widget))
+        for widget_ in widget_list:
+            root = objectify.fromstring(str(widget_))
             x = root.x
             if x is not None:
                 x_list.append(
@@ -229,7 +229,7 @@ class Generator:
         # Get dimensions of screen from TechUI repository
         if scrn_mapping["type"] == "embedded":
             height, width = self._get_screen_dimensions(str(scrn_path))
-            new_widget = Widget.EmbeddedDisplay(
+            new_widget = widget.EmbeddedDisplay(
                 name,
                 str(data_scrn_path),
                 0,
@@ -246,7 +246,7 @@ class Generator:
         else:
             height, width = (40, 100)
 
-            new_widget = Widget.ActionButton(
+            new_widget = widget.ActionButton(
                 name,
                 component.P,
                 f"{component.P}:{suffix_label}",
@@ -286,10 +286,10 @@ class Generator:
         groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton]] = (
             defaultdict(list)
         )
-        for widget in widgets:
-            key = self._get_widget_dimensions(widget)
+        for widget_ in widgets:
+            key = self._get_widget_dimensions(widget_)
 
-            groups[key].append(widget)
+            groups[key].append(widget_)
 
         # Sort groups by width (optional)
         sorted_widgets: list[EmbeddedDisplay | ActionButton] = []
@@ -300,11 +300,11 @@ class Generator:
         column_levels: list[list[EmbeddedDisplay | ActionButton]] = []
 
         for (h, w), group in sorted_groups:
-            for widget in group:
+            for widget_ in group:
                 placed = False
                 for level in column_levels:
                     level_y, _ = self._get_widget_position(level[0])
-                    _, widget_width = self._get_widget_dimensions(widget)
+                    _, widget_width = self._get_widget_dimensions(widget_)
                     level_width = (
                         sum(
                             (self._get_widget_dimensions(t))[1] + spacing_x
@@ -318,9 +318,9 @@ class Generator:
                     ):
                         _, width_1 = self._get_widget_dimensions(level[-1])
                         _, x_1 = self._get_widget_position(level[-1])
-                        widget.x(x_1 + width_1 + spacing_x)
-                        widget.y(level_y)
-                        level.append(widget)
+                        widget_.x(x_1 + width_1 + spacing_x)
+                        widget_.y(level_y)
+                        level.append(widget_)
                         placed = True
                         break
 
@@ -332,12 +332,12 @@ class Generator:
                         column_width = 0
                         column_levels = []
                     # Places widgets in rows in one column
-                    widget.x(current_x)
-                    widget.y(current_y)
-                    column_levels.append([widget])
+                    widget_.x(current_x)
+                    widget_.y(current_y)
+                    column_levels.append([widget_])
                     current_y += h + spacing_y
                     column_width = max(column_width, w)
-                sorted_widgets.append(widget)
+                sorted_widgets.append(widget_)
 
         return sorted_widgets
 
@@ -346,7 +346,7 @@ class Generator:
         Create a group to fill with widgets
         """
         # Create screen
-        self.screen_ = Screen.Screen(self.screen_name)
+        self.screen_ = Screen(self.screen_name)
         # create widget and group objects
 
         # order is an enumeration of the components, used to list them,

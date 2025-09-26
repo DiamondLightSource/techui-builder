@@ -29,8 +29,8 @@ class json_map:
 class Builder:
     """
     This class provides the functionality to process the required
-    create_gui.yaml file into screens mapped from ioc.yaml and
-    gui_map.yaml files.
+    techui.yaml file into screens mapped from ioc.yaml and
+    *-mapping.yaml files.
 
     By default it looks for a `create_gui.yaml` file in the same dir
     of the script Guibuilder is called in. Optionally a custom path
@@ -38,7 +38,7 @@ class Builder:
 
     """
 
-    create_gui: Path = field(default=Path("create_gui.yaml"))
+    techui: Path = field(default=Path("techui.yaml"))
 
     beamline: Beamline = field(init=False)
     components: list[Component] = field(default_factory=list, init=False)
@@ -47,7 +47,7 @@ class Builder:
     )
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
-    _write_directory: Path = field(default=Path("data"), init=False, repr=False)
+    _write_directory: Path = field(default=Path("opis"), init=False, repr=False)
 
     def __post_init__(self):
         # Populate beamline and components
@@ -63,7 +63,7 @@ class Builder:
         the required Beamline and components structures.
         """
 
-        with open(self.create_gui) as f:
+        with open(self.techui) as f:
             conf = yaml.safe_load(f)
             bl: dict[str, str] = conf["beamline"]
             comps: dict[str, dict[str, Any]] = conf[
@@ -125,12 +125,12 @@ Does it exist?"
         generator.write_screen(self._write_directory)
 
     def generate_screens(self):
-        """Generate the screens for each component in create_gui.yaml"""
+        """Generate the screens for each component in techui.yaml"""
         if self.entities is None:
             LOGGER.critical("No ioc entities found, has setup() been run?")
             exit()
 
-        # Loop over every component defined in create_gui.yaml and locate
+        # Loop over every component defined in techui.yaml and locate
         # any extras defined
         for component in self.components:
             screen_entities: list[Entity] = []
@@ -151,7 +151,7 @@ exist."
                 self._generate_screen(component.name, screen_entities)
             else:
                 LOGGER.warning(
-                    f"{self.create_gui.name}: The prefix set in \
+                    f"{self.techui.name}: The prefix set in \
 [bold]{component.name}[/bold] does not match any P field in the ioc.yaml \
 files in services"
                 )
@@ -247,12 +247,12 @@ files in services"
 
     def write_json_map(
         self,
-        synoptic: Path = Path("example/bl01t-synoptic.bob"),
-        dest: Path = Path("example/json_map.json"),
+        synoptic: Path = Path("example/bl01t-services/synoptic/opis/index.bob"),
+        dest: Path = Path("example/bl01t-services/synoptic/opis/json_map.json"),
     ):
         """
         Maps the valid entries from the ioc.yaml file
-        to the required screen in gui_map.yaml
+        to the required screen in *-mapping.yaml
         """
         if not synoptic.exists():
             raise Exception(

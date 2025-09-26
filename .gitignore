@@ -65,7 +65,7 @@ target/
 venv*
 
 # Built bob files
-**/data/
+**/opis/
 
 # further build artifacts
 lockfiles/

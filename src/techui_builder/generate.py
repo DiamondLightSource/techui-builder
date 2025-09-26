@@ -23,7 +23,7 @@ class Generator:
     services_dir: Path = field(repr=False)
 
     # These are global params for the class (not accessible by user)
-    gui_map: dict = field(init=False, repr=False)
+    ibek_map: dict = field(init=False, repr=False)
     default_size: int = field(default=100, init=False, repr=False)
     P: str = field(default="P", init=False, repr=False)
     M: str = field(default="M", init=False, repr=False)
@@ -43,14 +43,14 @@ class Generator:
         self._read_gui_map()
 
     def _read_gui_map(self):
-        """Read the gui_map.yaml file from techui-support."""
-        gui_map = self.services_dir.parent.parent.joinpath(
-            "src/techui_support/gui_map.yaml"
+        """Read the ibek-mapping.yaml file from techui-support."""
+        ibek_map = self.services_dir.parent.parent.joinpath(
+            "src/techui_support/ibek_mapping.yaml"
         )
-        LOGGER.debug(f"gui map location: {gui_map}")
+        LOGGER.debug(f"ibek_mapping.yaml location: {ibek_map}")
 
-        with open(gui_map) as map:
-            self.gui_map = yaml.safe_load(map)
+        with open(ibek_map) as map:
+            self.ibek_map = yaml.safe_load(map)
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
@@ -209,7 +209,7 @@ class Generator:
         support_path = base_dir.joinpath("src/techui_support")
 
         try:
-            scrn_mapping = self.gui_map[component.type]
+            scrn_mapping = self.ibek_map[component.type]
         except KeyError:
             LOGGER.warning(
                 f"No available widget for {component.type} in screen \
@@ -223,7 +223,7 @@ class Generator:
 
         # Path of screen relative to data/ so it knows where to open the file from
         data_scrn_path = scrn_path.relative_to(
-            self.services_dir.joinpath("synoptic/data"), walk_up=True
+            self.services_dir.joinpath("synoptic/opis"), walk_up=True
         )
 
         # Get dimensions of screen from TechUI repository

@@ -1,23 +1,15 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
+        args: ["--maxkb=1000"] # uv.lock is more than 500kB
       - id: check-yaml
       - id: check-merge-conflict
       - id: end-of-file-fixer
 
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    # uv version.
-    rev: 0.6.14
+  - repo: local
     hooks:
-      - id: uv-lock
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version.
-    rev: v0.11.4
-    hooks:
-      # Run the linter.
       - id: ruff
         name: lint with ruff
         language: system
@@ -25,10 +17,21 @@ repos:
         types: [python]
         require_serial: true
 
-      # Run the formatter.
       - id: ruff-format
         name: format with ruff
         language: system
         entry: ruff format --force-exclude
         types: [python]
         require_serial: true
+
+      - id: uv-sync
+        name: update uv.lock and venv
+        pass_filenames: false
+        language: system
+        entry: uv sync
+        files: ^(uv\.lock|pyproject\.toml)$
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
+    hooks:
+      - id: gitleaks

@@ -12,6 +12,7 @@ Techui-builder is a module for building and organising phoebus gui screens using
 Source          | <https://github.com/DiamondLightSource/techui-builder>
 :---:           | :---:
 PyPI            | `pip install techui-builder`
+Docker          | `docker run ghcr.io/diamondlightsource/techui-builder:latest`
 Releases        | <https://github.com/DiamondLightSource/techui-builder/releases>
 
 The process to use this module goes as follows (WIP): 

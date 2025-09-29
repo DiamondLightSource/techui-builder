@@ -57,6 +57,8 @@ class Builder:
         # Requires beamline has already been read from create_gui.yaml
         self._services_dir = Path(f"{self.beamline.dom}-services/services")
 
+        self.generator = Generator(self._services_dir.parent)
+
     def _extract_from_create_gui(self):
         """
         Extracts from the create_gui.yaml file to generate
@@ -120,9 +122,9 @@ Does it exist?"
                     self.entities[new_entity.P].append(new_entity)
 
     def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
-        generator = Generator(screen_components, screen_name, self._services_dir.parent)
-        generator.build_groups()
-        generator.write_screen(self._write_directory)
+        self.generator.load_screen(screen_name, screen_components)
+        self.generator.build_groups()
+        self.generator.write_screen(self._write_directory)
 
     def generate_screens(self):
         """Generate the screens for each component in techui.yaml"""

@@ -17,10 +17,10 @@ LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class Generator:
-    screen_components: list[Entity]
-    # TODO: Fix type of screen
-    screen_name: str
     services_dir: Path = field(repr=False)
+
+    screen_name: str = field(init=False)
+    screen_components: list[Entity] = field(init=False)
 
     # These are global params for the class (not accessible by user)
     ibek_map: dict = field(init=False, repr=False)
@@ -40,17 +40,21 @@ class Generator:
     group_padding: int = field(default=50, init=False, repr=False)
 
     def __post_init__(self):
-        self._read_gui_map()
+        self._read_map()
 
-    def _read_gui_map(self):
+    def _read_map(self):
         """Read the ibek-mapping.yaml file from techui-support."""
         ibek_map = self.services_dir.parent.parent.joinpath(
             "src/techui_support/ibek_mapping.yaml"
-        )
+        ).absolute()
         LOGGER.debug(f"ibek_mapping.yaml location: {ibek_map}")
 
         with open(ibek_map) as map:
             self.ibek_map = yaml.safe_load(map)
+
+    def load_screen(self, screen_name: str, screen_components: list[Entity]):
+        self.screen_name = screen_name
+        self.screen_components = screen_components
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """

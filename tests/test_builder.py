@@ -7,12 +7,12 @@ import pytest
 @pytest.mark.parametrize(
     "attr, expected",
     [
-        ("beamline.dom", "bl01t"),
-        ("beamline.desc", "Test Beamline"),
+        ("dom", "bl01t"),
+        ("desc", "Test Beamline"),
     ],
 )
 def test_beamline_attributes(builder, attr, expected):
-    assert getattr(builder, attr) == expected
+    assert getattr(builder.beamline, attr) == expected
 
 
 @pytest.mark.parametrize(
@@ -22,9 +22,9 @@ def test_beamline_attributes(builder, attr, expected):
         (
             4,
             "motor",
-            "Hexapod Stage",
-            "BL01T-MO-MAP-01",
-            "STAGE",
+            "Motor Stage",
+            "BL01T-MO-MOTOR-01",
+            None,
             None,
             None,
         ),
@@ -45,12 +45,12 @@ def test_component_attributes(builder, index, name, desc, P, R, attribute, extra
     "index, type, desc, P, M, R",
     [
         (0, "pmac.GeoBrick", None, "BL01T-MO-BRICK-01", None, None),
-        (0, "pmac.autohome", None, "BL01T-MO-MAP-01:STAGE", None, None),
+        (0, "pmac.autohome", None, "BL01T-MO-MOTOR-01", None, None),
         (
             1,
             "pmac.dls_pmac_asyn_motor",
             None,
-            "BL01T-MO-MAP-01:STAGE",
+            "BL01T-MO-MOTOR-01",
             "X",
             None,
         ),
@@ -58,13 +58,16 @@ def test_component_attributes(builder, index, name, desc, P, R, attribute, extra
             2,
             "pmac.dls_pmac_asyn_motor",
             None,
-            "BL01T-MO-MAP-01:STAGE",
+            "BL01T-MO-MOTOR-01",
             "A",
             None,
         ),
     ],
 )
 def test_gb_extract_entities(builder, index, type, desc, P, M, R):
+    builder._extract_entities(
+        builder._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml")
+    )
     entity = builder.entities[P][index]
     assert entity.type == type
     assert entity.desc == desc

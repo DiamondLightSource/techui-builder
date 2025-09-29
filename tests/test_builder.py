@@ -3,17 +3,6 @@ from pathlib import Path
 
 import pytest
 
-from techui_builder.builder import Builder
-
-
-@pytest.fixture
-def gb():
-    path = Path("example/bl01t-services/synoptic/create_gui.yaml")
-    b = Builder(path)
-    b._services_dir = Path("./example/bl01t-services/services")
-    b.setup()
-    return b
-
 
 @pytest.mark.parametrize(
     "attr, expected",
@@ -22,8 +11,8 @@ def gb():
         ("beamline.desc", "Test Beamline"),
     ],
 )
-def test_beamline_attributes(gb: Builder, attr, expected):
-    assert eval(f"gb.{attr}") == expected
+def test_beamline_attributes(builder, attr, expected):
+    assert getattr(builder, attr) == expected
 
 
 @pytest.mark.parametrize(
@@ -41,8 +30,8 @@ def test_beamline_attributes(gb: Builder, attr, expected):
         ),
     ],
 )
-def test_component_attributes(gb: Builder, index, name, desc, P, R, attribute, extras):
-    component = gb.components[index]
+def test_component_attributes(builder, index, name, desc, P, R, attribute, extras):
+    component = builder.components[index]
     assert component.name == name
     assert component.desc == desc
     assert component.P == P
@@ -75,8 +64,8 @@ def test_component_attributes(gb: Builder, index, name, desc, P, R, attribute, e
         ),
     ],
 )
-def test_gb_extract_entities(gb: Builder, index, type, desc, P, M, R):
-    entity = gb.entities[P][index]
+def test_gb_extract_entities(builder, index, type, desc, P, M, R):
+    entity = builder.entities[P][index]
     assert entity.type == type
     assert entity.desc == desc
     assert entity.P == P
@@ -84,17 +73,16 @@ def test_gb_extract_entities(gb: Builder, index, type, desc, P, M, R):
     assert entity.R == R
 
 
-def test_setup(gb: Builder):
-    gb._services_dir = Path(f"example/{gb.beamline.dom}-services/services")
-    gb._write_directory = Path("example/data")
-    gb.generate_screens()
+def test_generate_screens(builder):
+    builder.setup()
+    builder.generate_screens()
 
-    with open(f"./{gb._write_directory}/motor.bob") as f:
+    with open(f"{builder._write_directory}/motor.bob") as f:
         expected = f.read()
 
-    with open("./tests/test_files/motor.bob") as f:
+    with open("tests/test_files/motor.bob") as f:
         control = f.read()
 
     assert expected == control
-    if Path.exists(Path(f"./{gb._write_directory}/motor.bob")):
-        os.remove(f"./{gb._write_directory}/motor.bob")
+    if Path.exists(Path(f"{builder._write_directory}/motor.bob")):
+        os.remove(f"{builder._write_directory}/motor.bob")

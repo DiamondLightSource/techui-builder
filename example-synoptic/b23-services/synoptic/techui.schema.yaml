@@ -1,0 +1,62 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://example.org/schemas/phoebus-gui-builder.schema.json"
+title: "Techui-Builder techui.yaml configuration"
+type: object
+required: [beamline, components]
+additionalProperties: false
+
+properties:
+  # Optional: allow instances to include a $schema hint
+  $schema:
+    type: string
+
+  beamline:
+    type: object
+    description: beamline
+    required: [dom, desc]
+    additionalProperties: false
+    properties:
+      dom:
+        type: string
+        description: "beamline domain like 'bl23b'."
+        pattern: "^[a-z]{2}\\d{2}[a-z]$"
+      desc:
+        description: "beamline description"
+        type: string
+        minLength: 1
+
+  components:
+    type: object
+    description: "Map of component names (e.g., SHTR1, IMG11) to component PVs, definitions and extras."
+    # Restrict component keys to uppercase letters, digits, and underscores
+    propertyNames:
+      type: string
+      pattern: "^[A-Z0-9_]+$"
+    # Every value must conform to the component schema
+    additionalProperties:
+      $ref: "#/$defs/component"
+
+$defs:
+  # DLS-style device name, e.g. FE23B-VA-FVALV-01 or BL23B-OP-MR-03
+  dlsPrefix:
+    type: string
+    description: >
+      Device naming convention: [A-Z]{2}\d{2}[A-Z]-[A-Z]{2}-[A-Z0-9]+-\d{2}
+      Examples: FE23B-VA-FVALV-01, BL23B-VA-SPACE-11, BL23B-OP-MR-03, BL23B-MO-PMAC-01.
+    pattern: "^[A-Z]{2}\\d{2}[A-Z]-[A-Z]{2}-[A-Z0-9]+-\\d{2}$"
+
+  component:
+    type: object
+    required: [prefix]
+    additionalProperties: false
+    properties:
+      desc:
+        type: string
+      prefix:
+        $ref: "#/$defs/dlsPrefix"
+      extras:
+        type: array
+        description: "Optional list of related device PVs/prefixes."
+        items:
+          $ref: "#/$defs/dlsPrefix"
+        uniqueItems: true

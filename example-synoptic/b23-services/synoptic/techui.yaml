@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=/workspaces/techui-builder/example-synoptic/b23-services/synoptic/techui.schema.yaml
+
 # create_gui example for Phoebus GuiBuilder
 beamline:
   dom: bl23b

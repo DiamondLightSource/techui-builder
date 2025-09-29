@@ -10,7 +10,9 @@ from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.generate import Generator
-from techui_builder.objects import Beamline, Component, Entity
+from techui_builder.loader import load_all
+from techui_builder.models import Beamline
+from techui_builder.objects import Component, Entity
 
 LOGGER = logging.getLogger(__name__)
 
@@ -48,9 +50,15 @@ class Builder:
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
     _write_directory: Path = field(default=Path("opis"), init=False, repr=False)
+    techui_schema: Path = field(
+        default=Path(
+            "/workspaces/techui-builder/example-synoptic/b23-services/synoptic/techui.schema.yaml"
+        )
+    )
 
     def __post_init__(self):
         # Populate beamline and components
+        self.conf = load_all(self.techui, self.techui_schema)
         self._extract_from_create_gui()
 
         # Get list of services from the services directory
@@ -64,18 +72,10 @@ class Builder:
         Extracts from the create_gui.yaml file to generate
         the required Beamline and components structures.
         """
-
-        with open(self.techui) as f:
-            conf = yaml.safe_load(f)
-            bl: dict[str, str] = conf["beamline"]
-            comps: dict[str, dict[str, Any]] = conf[
-                "components"
-            ]  # TODO: Fix typing from Any
-
-            self.beamline = Beamline(**bl)
-
-            for key, comp in comps.items():
-                self.components.append(Component(key, **comp))
+        bl = self.conf.beamline
+        LOGGER.debug(bl)
+        comps = self.conf.components
+        LOGGER.debug(comps)
 
     def setup(self):
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""

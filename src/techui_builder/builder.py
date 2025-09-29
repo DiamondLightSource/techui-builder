@@ -63,7 +63,7 @@ class Builder:
 
         # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml
-        self._services_dir = Path(f"{self.beamline.dom}-services/services")
+        self._services_dir = Path(f"{self.conf.beamline.dom}-services/services")
 
         self.generator = Generator(self._services_dir.parent)
 

@@ -110,7 +110,7 @@ def main(
         (
             ixx_services.relative_to(cwd, walk_up=True)
             for parent in abs_path.parents
-            for ixx_services in parent.glob(f"{gui.beamline.short_dom}-services")
+            for ixx_services in parent.glob(f"{gui.conf.beamline.dom}-services")
         ),
         None,
     )

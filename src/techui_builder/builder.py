@@ -227,8 +227,8 @@ exist."
 
     def write_json_map(
         self,
-        synoptic: Path = Path("example/bl01t-services/synoptic/opis/index.bob"),
-        dest: Path = Path("example/bl01t-services/synoptic/opis/json_map.json"),
+        synoptic: Path = Path("example/t01-services/synoptic/opis-src/index-src.bob"),
+        dest: Path = Path("example/t01-services/synoptic/opis/json_map.json"),
     ):
         """
         Maps the valid entries from the ioc.yaml file

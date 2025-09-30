@@ -17,21 +17,25 @@ def test_beamline_attributes(builder, attr, expected):
 
 
 @pytest.mark.parametrize(
-    "index, name, desc, P, R, attribute, extras",
+    "index, name, desc, P, R, attribute, file, extras",
     [
-        (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None),
+        (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None),
+        (1, "d1", "Diode 1", "BL01T-DI-PHDGN-01", None, None, "test.bob", None),
         (
-            4,
+            2,
             "motor",
             "Motor Stage",
             "BL01T-MO-MOTOR-01",
             None,
             None,
             None,
+            None,
         ),
     ],
 )
-def test_component_attributes(builder, index, name, desc, P, R, attribute, extras):
+def test_component_attributes(
+    builder, index, name, desc, P, R, attribute, file, extras
+):
     components = list(builder.conf.components.keys())
     component = builder.conf.components[components[index]]
     assert components[index] == name
@@ -39,7 +43,8 @@ def test_component_attributes(builder, index, name, desc, P, R, attribute, extra
     assert component.P == P
     assert component.R == R
     assert component.attribute == attribute
-
+    if file is not None:
+        assert component.file == file
     if extras is not None:
         assert component.extras == extras
 

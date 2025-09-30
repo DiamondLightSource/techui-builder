@@ -7,8 +7,6 @@ from jsonschema import Draft202012Validator
 
 from techui_builder.models import CreateGui
 
-# from models.gui_map_models import GuiMap
-
 
 def _validate_json_schema(schema_path: Path, data: dict) -> None:
     import yaml as _yaml
@@ -30,13 +28,6 @@ def load_create_gui(path: Path, schema_path: Path | None = None) -> CreateGui:
     if schema_path:
         _validate_json_schema(schema_path, data)
     return CreateGui.model_validate(data)
-
-
-# def load_gui_map(path: Path, schema_path: Path | None = None) -> GuiMap:
-#     data = yaml.safe_load(path.read_text(encoding="utf-8"))
-#     if schema_path:
-#         _validate_json_schema(schema_path, data)
-#     return GuiMap.model_validate(data)
 
 
 def load_all(

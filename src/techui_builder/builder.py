@@ -88,7 +88,7 @@ class Builder:
         """
 
         # Loop over every dir in services, ignoring anything that isn't a service
-        for service in self._services_dir.glob(f"{self.beamline.long_dom}-*-*-*"):
+        for service in self._services_dir.glob(f"{self.conf.beamline.long_dom}-*-*-*"):
             # If service doesn't exist, file open will fail throwing exception
             try:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))

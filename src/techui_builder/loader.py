@@ -34,6 +34,6 @@ def load_all(
     tech_ui_path: Path,
     tech_ui_schema: Path | None = None,
 ) -> TechUi:
-    cg = load_tech_ui(tech_ui_path, tech_ui_schema)
+    tu = load_tech_ui(tech_ui_path, tech_ui_schema)
 
-    return cg
+    return tu

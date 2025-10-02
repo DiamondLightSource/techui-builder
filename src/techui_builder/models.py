@@ -23,8 +23,19 @@ LOGGER = logging.getLogger(__name__)
 #   branch short: 'j23'
 _DLS_PREFIX_RE = re.compile(r"^[A-Z]{2}\d{2}[A-Z]-[A-Z]{2}-[A-Z0-9]+-\d{2}$")
 _LONG_DOM_RE = re.compile(r"^[a-z]{2}\d{2}[a-z]$")
-_SHORT_DOM_RE = re.compile(r"^[a-ik-z]\d{2}$")  # letters except 'j'
-_BRANCH_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}$")
+_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}$")  # letters except 'j'
+_BRANCH_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}-\d$")
+
+BobPath = Annotated[
+    str, StringConstraints(pattern=r"^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.bob$")
+]
+# Must contain at least one $(NAME) macro
+MacroString = Annotated[
+    str,
+    StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
+]
+EntryType = Literal["embedded", "related"]
+KeyPattern = r"^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$"  # e.g. ADAravis.aravisCamera
 
 
 class Beamline(BaseModel):
@@ -103,18 +114,6 @@ class TechUi(BaseModel):
             if not re.match(r"^[A-Z0-9_]+$", k):
                 raise ValueError(f"component key '{k}' must match ^[A-Z0-9_]+$")
         return comps
-
-
-BobPath = Annotated[
-    str, StringConstraints(pattern=r"^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.bob$")
-]
-# Must contain at least one $(NAME) macro
-MacroString = Annotated[
-    str,
-    StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
-]
-EntryType = Literal["embedded", "related"]
-KeyPattern = r"^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$"  # e.g. ADAravis.aravisCamera
 
 
 class GuiComponentEntry(BaseModel):

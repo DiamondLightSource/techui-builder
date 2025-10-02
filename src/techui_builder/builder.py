@@ -10,7 +10,7 @@ from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.generate import Generator
-from techui_builder.loader import load_all
+from techui_builder.models import TechUi
 from techui_builder.objects import Entity
 
 LOGGER = logging.getLogger(__name__)
@@ -47,15 +47,11 @@ class Builder:
     _services_dir: Path = field(init=False, repr=False)
     _gui_map: dict = field(init=False, repr=False)
     _write_directory: Path = field(default=Path("opis"), init=False, repr=False)
-    techui_schema: Path = field(
-        default=Path(
-            "/workspaces/techui-builder/src/techui_builder/schemas/techui.schema.yml"
-        )
-    )
 
     def __post_init__(self):
         # Populate beamline and components
-        self.conf = load_all(self.techui, self.techui_schema)
+        self.conf = yaml.safe_load(self.techui.read_text(encoding="utf-8"))
+        self.conf = TechUi.model_validate(self.conf)
 
         # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml

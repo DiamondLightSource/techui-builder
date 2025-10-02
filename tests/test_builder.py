@@ -1,3 +1,4 @@
+import logging
 import os
 from pathlib import Path
 from unittest.mock import Mock
@@ -106,6 +107,18 @@ def test_generate_screens(builder_with_setup):
     assert expected == control
     if Path.exists(Path(f"{builder_with_setup._write_directory}/motor.bob")):
         os.remove(f"{builder_with_setup._write_directory}/motor.bob")
+
+
+def test_generate_screens_no_entities(builder, caplog):
+    builder.entities = []
+
+    # We only wan't to capture CRITICAL output in this test
+    with caplog.at_level(logging.CRITICAL):
+        with pytest.raises(SystemExit):
+            builder.generate_screens()
+
+    for log_output in caplog.records:
+        assert "No ioc entities found, has setup() been run?" in log_output.message
 
 
 def test_serialise_json_map():

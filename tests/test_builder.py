@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
+from lxml import objectify
 
 from techui_builder.builder import _serialise_json_map, json_map  # type: ignore
 
@@ -159,15 +160,25 @@ def test_write_json_map(builder):
         os.remove(dest_path)
 
 
-def test_serialise_json_map():
-    # Create test json map with child json map
-    test_map_child = json_map("test_child_bob.bob")
-    test_map = json_map("test_bob.bob")
-    test_map.children.append(test_map_child)
+def test_generate_json_map(builder, example_json_map):
+    screen_path = Path("tests/test_files/test_bob.bob")
+    dest_path = Path("tests/test_files/")
 
-    json_ = _serialise_json_map(test_map)  # type: ignore
+    # We don't want to access the _get_action_group function in this test
+    with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
+        mock_xml = objectify.Element("action")
+        mock_xml["file"] = "test_child_bob.bob"
+        mock_get_action_group.return_value = mock_xml
+
+        test_json_map = builder._generate_json_map(screen_path, dest_path)
+
+        assert test_json_map == example_json_map
+
+
+def test_serialise_json_map(example_json_map):
+    json_ = _serialise_json_map(example_json_map)  # type: ignore
 
     assert json_ == {
-        "file": "test_bob.bob",
-        "children": [{"file": "test_child_bob.bob"}],
+        "file": "tests/test_files/test_bob.bob",
+        "children": [{"file": "test_child_bob.bob", "exists": False}],
     }

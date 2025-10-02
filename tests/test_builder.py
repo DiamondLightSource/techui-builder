@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -138,6 +138,25 @@ def test_generate_screens_extra_p_does_not_exist(builder_with_setup, caplog):
 def test_write_json_map_no_synoptic(builder):
     with pytest.raises(FileNotFoundError):
         builder.write_json_map(synoptic=Path("bad-synoptic.bob"))
+
+
+def test_write_json_map(builder):
+    test_map = json_map("test_bob.bob")
+
+    # We don't want cover _generate_json_map in this test
+    builder._generate_json_map = Mock(return_value=test_map)
+
+    # We don't want to access the _serialise_json_map function in this test
+    with patch("techui_builder.builder._serialise_json_map") as mock_serialise_json_map:
+        mock_serialise_json_map.return_value = {"test": "test"}
+
+        builder.write_json_map()
+
+    dest_path = Path("example/t01-services/synoptic/opis/json_map.json")
+    assert Path.exists(dest_path)
+
+    if Path.exists(dest_path):
+        os.remove(dest_path)
 
 
 def test_serialise_json_map():

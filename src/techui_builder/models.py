@@ -6,22 +6,14 @@ import re
 
 from pydantic import BaseModel, Field, computed_field, field_validator
 
-# import re
-
-# from pydantic import BaseModel, Field, PrivateAttr, computed_field, field_validator
-
 LOGGER = logging.getLogger(__name__)
-
-_DLS_PREFIX_RE = re.compile(r"^[A-Z]{2}\d{2}[A-Z]-[A-Z]{2}-[A-Z0-9]+-\d{2}$")
-# _LONG_DOM_RE = re.compile(r"^([a-z]{2})([0-9]{2})([a-z])$")
-# _SHORT_DOM_RE = re.compile(r"^([a-z])([0-9]{2})$")
-# branch_short_dom_re = "^([a-z])([0-9]{2})-([0-9])$"
 
 
 # Patterns:
 #   long:  'bl23b'
 #   short: 'b23'   (non-branch)
 #   branch short: 'j23'
+_DLS_PREFIX_RE = re.compile(r"^[A-Z]{2}\d{2}[A-Z]-[A-Z]{2}-[A-Z0-9]+-\d{2}$")
 _LONG_DOM_RE = re.compile(r"^[a-z]{2}\d{2}[a-z]$")
 _SHORT_DOM_RE = re.compile(r"^[a-ik-z]\d{2}$")  # letters except 'j'
 _BRANCH_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}$")
@@ -66,6 +58,7 @@ class Component(BaseModel):
     desc: str | None = None
     prefix: str
     extras: list[str] | None = None
+    file: str | None = None
 
     @field_validator("prefix")
     @classmethod

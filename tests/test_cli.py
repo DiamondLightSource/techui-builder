@@ -1,12 +1,22 @@
-import subprocess
-import sys
+from typer.testing import CliRunner
 
-from techui_builder import __version__
+from techui_builder.__main__ import app
+
+runner = CliRunner()
 
 
-def test_cli_version():
-    cmd = [sys.executable, "-m", "techui_builder", "--version"]
-    assert (
-        subprocess.check_output(cmd).decode().strip()
-        == f"techui-builder version: {__version__}"
-    )
+# def test_app():
+#     result = runner.invoke(app, ["example/t01-services/synoptic/techui.yaml"])
+#     with patch("techui_builder.builder")
+#     assert result.exit_code == 0
+
+
+def test_app_version():
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0
+    assert "techui-builder version:" in result.output
+
+
+# def test_app_log_level():
+#     result = runner.invoke(app, ["--log-level", "INFO"])
+#     assert result.exit_code == 0

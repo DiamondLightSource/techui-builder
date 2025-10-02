@@ -135,6 +135,11 @@ def test_generate_screens_extra_p_does_not_exist(builder_with_setup, caplog):
         assert "Extra prefix BAD-PV" in log_output.message
 
 
+def test_write_json_map_no_synoptic(builder):
+    with pytest.raises(FileNotFoundError):
+        builder.write_json_map(synoptic=Path("bad-synoptic.bob"))
+
+
 def test_serialise_json_map():
     # Create test json map with child json map
     test_map_child = json_map("test_child_bob.bob")

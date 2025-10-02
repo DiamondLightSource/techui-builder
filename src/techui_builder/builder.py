@@ -235,7 +235,7 @@ exist."
         to the required screen in *-mapping.yaml
         """
         if not synoptic.exists():
-            raise Exception(
+            raise FileNotFoundError(
                 f"Cannot generate json map for {synoptic}. Has it been generated?"
             )
 

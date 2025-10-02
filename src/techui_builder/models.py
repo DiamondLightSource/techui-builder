@@ -21,7 +21,30 @@ LOGGER = logging.getLogger(__name__)
 #   long:  'bl23b'
 #   short: 'b23'   (non-branch)
 #   branch short: 'j23'
-_DLS_PREFIX_RE = re.compile(r"^[A-Z]{2}\d{2}[A-Z]-[A-Z]{2}-[A-Z0-9]+-\d{2}$")
+_DLS_PREFIX_RE = re.compile(
+    r"""
+            ^           # start of string
+            (?=         # lookahead to ensure the following pattern matches
+                [A-Za-z0-9-]{13,16} # match 13 to 16 alphanumeric characters or hyphens
+                [:A-Za-z0-9]* # match zero or more colons or alphanumeric characters
+                [.A-Za-z0-9]  # match a dot or alphanumeric character
+            )
+            (?!.*--)    # negative lookahead to ensure no double hyphens
+            (?!.*:\..)  # negative lookahead to ensure no colon followed by a dot
+            (           # start of capture group 1
+                (?:[A-Za-z0-9]{2,5}-){3} # match 2 to 5 alphanumeric characters followed
+                                    # by a hyphen, repeated 3 times
+                [\d]*   # match zero or more digits
+                [^:]?   # match zero or one non-colon character
+            )
+            (?::([a-zA-Z0-9:]*))? # match zero or one colon followed by zero or more
+                                # alphanumeric characters or colons (capture group 2)
+            (?:\.([a-zA-Z0-9]+))? # match zero or one dot followed by one or more
+                                # alphanumeric characters (capture group 3)
+            $           # end of string
+        """,
+    re.VERBOSE,
+)
 _LONG_DOM_RE = re.compile(r"^[a-z]{2}\d{2}[a-z]$")
 _SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}$")  # letters except 'j'
 _BRANCH_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}-\d$")
@@ -35,7 +58,6 @@ MacroString = Annotated[
     StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
 ]
 EntryType = Literal["embedded", "related"]
-KeyPattern = r"^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$"  # e.g. ADAravis.aravisCamera
 
 
 class Beamline(BaseModel):
@@ -102,18 +124,31 @@ class Component(BaseModel):
             raise ValueError("extras must contain unique items")
         return v
 
+    @computed_field
+    @property
+    def P(self) -> str | None:
+        match = re.match(_DLS_PREFIX_RE, self.prefix)
+        if match:
+            return match.group(1)
+
+    @computed_field
+    @property
+    def R(self) -> str | None:
+        match = re.match(_DLS_PREFIX_RE, self.prefix)
+        if match:
+            return match.group(2)
+
+    @computed_field
+    @property
+    def attribute(self) -> str | None:
+        match = re.match(_DLS_PREFIX_RE, self.prefix)
+        if match:
+            return match.group(3)
+
 
 class TechUi(BaseModel):
     beamline: Beamline
     components: dict[str, Component]
-
-    @field_validator("components")
-    @classmethod
-    def _check_component_keys(cls, comps: dict[str, Component]) -> dict[str, Component]:
-        for k in comps.keys():
-            if not re.match(r"^[A-Z0-9_]+$", k):
-                raise ValueError(f"component key '{k}' must match ^[A-Z0-9_]+$")
-        return comps
 
 
 class GuiComponentEntry(BaseModel):

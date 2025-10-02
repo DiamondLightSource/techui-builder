@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
 
@@ -49,6 +50,13 @@ def test_component_attributes(
         assert component.file == file
     if extras is not None:
         assert component.extras == extras
+
+
+def test_missing_service(builder, caplog):
+    builder._extract_entities = Mock(side_effect=OSError())
+    builder._extract_services()
+    for log_output in caplog.records:
+        assert "No ioc.yaml file for service:" in log_output.message
 
 
 @pytest.mark.parametrize(

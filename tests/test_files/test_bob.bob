@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Display</name>
+  <widget type="symbol" version="2.0.0">
+    <name>Detector</name>
+    <pv_name>test_device</pv_name>
+    <x>60</x>
+    <y>150</y>
+    <width>50</width>
+    <height>50</height>
+    <actions>
+      <action type="open_display">
+        <file>test_child_bob.bob</file>
+        <target>replace</target>
+        <description>Open Display</description>
+      </action>
+    </actions>
+  </widget>
+</display>

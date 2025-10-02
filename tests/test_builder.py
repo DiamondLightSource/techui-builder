@@ -5,15 +5,16 @@ import pytest
 
 from techui_builder.builder import _serialise_json_map, json_map  # type: ignore
 
-@pytest.mark.parametrize(
-    "attr, expected",
-    [
-        ("dom", "bl01t"),
-        ("desc", "Test Beamline"),
-    ],
-)
-def test_beamline_attributes(builder, attr, expected):
-    assert getattr(builder.beamline, attr) == expected
+
+def test_builder_beamline_attributes(builder):
+    short_dom = "t01"
+    long_dom = "bl01t"
+    desc = "Test Beamline"
+
+    beamline = builder.beamline
+    assert beamline.short_dom == short_dom
+    assert beamline.long_dom == long_dom
+    assert beamline.desc == desc
 
 
 @pytest.mark.parametrize(

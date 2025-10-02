@@ -49,7 +49,7 @@ class Builder:
     _write_directory: Path = field(default=Path("opis"), init=False, repr=False)
     techui_schema: Path = field(
         default=Path(
-            "/workspaces/techui-builder/example-synoptic/b23-services/synoptic/techui.schema.yaml"
+            "/workspaces/techui-builder/src/techui_builder/schemas/techui.schema.yml"
         )
     )
 

@@ -3,8 +3,16 @@ from __future__ import annotations
 
 import logging
 import re
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, Field, computed_field, field_validator
+from pydantic import (
+    BaseModel,
+    Field,
+    RootModel,
+    StringConstraints,
+    computed_field,
+    field_validator,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -84,7 +92,7 @@ class Component(BaseModel):
         return v
 
 
-class CreateGui(BaseModel):
+class TechUi(BaseModel):
     beamline: Beamline
     components: dict[str, Component]
 
@@ -95,3 +103,25 @@ class CreateGui(BaseModel):
             if not re.match(r"^[A-Z0-9_]+$", k):
                 raise ValueError(f"component key '{k}' must match ^[A-Z0-9_]+$")
         return comps
+
+
+BobPath = Annotated[
+    str, StringConstraints(pattern=r"^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.bob$")
+]
+# Must contain at least one $(NAME) macro
+MacroString = Annotated[
+    str,
+    StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
+]
+EntryType = Literal["embedded", "related"]
+KeyPattern = r"^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$"  # e.g. ADAravis.aravisCamera
+
+
+class GuiComponentEntry(BaseModel):
+    file: BobPath
+    prefix: MacroString
+    type: EntryType
+
+
+class GuiComponents(RootModel[dict[str, GuiComponentEntry]]):
+    pass

@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from techui_builder.builder import _serialise_json_map, json_map  # type: ignore
 
 @pytest.mark.parametrize(
     "attr, expected",
@@ -97,3 +98,17 @@ def test_generate_screens(builder):
     assert expected == control
     if Path.exists(Path(f"{builder._write_directory}/motor.bob")):
         os.remove(f"{builder._write_directory}/motor.bob")
+
+
+def test_serialise_json_map():
+    # Create test json map with child json map
+    test_map_child = json_map("test_child_bob.bob")
+    test_map = json_map("test_bob.bob")
+    test_map.children.append(test_map_child)
+
+    json_ = _serialise_json_map(test_map)  # type: ignore
+
+    assert json_ == {
+        "file": "test_bob.bob",
+        "children": [{"file": "test_child_bob.bob"}],
+    }

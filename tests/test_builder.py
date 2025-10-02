@@ -94,19 +94,18 @@ def test_gb_extract_entities(builder, index, type, desc, P, M, R):
     assert entity.R == R
 
 
-def test_generate_screens(builder):
-    builder.setup()
-    builder.generate_screens()
+def test_generate_screens(builder_with_setup):
+    builder_with_setup.generate_screens()
 
-    with open(f"{builder._write_directory}/motor.bob") as f:
+    with open(f"{builder_with_setup._write_directory}/motor.bob") as f:
         expected = f.read()
 
     with open("tests/test_files/motor.bob") as f:
         control = f.read()
 
     assert expected == control
-    if Path.exists(Path(f"{builder._write_directory}/motor.bob")):
-        os.remove(f"{builder._write_directory}/motor.bob")
+    if Path.exists(Path(f"{builder_with_setup._write_directory}/motor.bob")):
+        os.remove(f"{builder_with_setup._write_directory}/motor.bob")
 
 
 def test_serialise_json_map():

@@ -121,6 +121,20 @@ def test_generate_screens_no_entities(builder, caplog):
         assert "No ioc entities found, has setup() been run?" in log_output.message
 
 
+def test_generate_screens_extra_p_does_not_exist(builder_with_setup, caplog):
+    # We don't want to actually generate a screen
+    builder_with_setup._generate_screen = Mock(side_effect=None)
+
+    builder_with_setup.components[2].extras = ["BAD-PV"]
+
+    # We only want to capture the ERROR output in this test
+    with caplog.at_level(logging.ERROR):
+        builder_with_setup.generate_screens()
+
+    for log_output in caplog.records:
+        assert "Extra prefix BAD-PV" in log_output.message
+
+
 def test_serialise_json_map():
     # Create test json map with child json map
     test_map_child = json_map("test_child_bob.bob")

@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 from jsonschema import Draft202012Validator
 
-from techui_builder.models import CreateGui
+from techui_builder.models import TechUi
 
 
 def _validate_json_schema(schema_path: Path, data: dict) -> None:
@@ -23,17 +23,17 @@ def _validate_json_schema(schema_path: Path, data: dict) -> None:
         raise ValueError(f"Schema validation failed for {schema_path.name}:\n{msgs}")
 
 
-def load_create_gui(path: Path, schema_path: Path | None = None) -> CreateGui:
+def load_tech_ui(path: Path, schema_path: Path | None = None) -> TechUi:
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
     if schema_path:
         _validate_json_schema(schema_path, data)
-    return CreateGui.model_validate(data)
+    return TechUi.model_validate(data)
 
 
 def load_all(
-    create_gui_path: Path,
-    create_gui_schema: Path | None = None,
-) -> CreateGui:
-    cg = load_create_gui(create_gui_path, create_gui_schema)
+    tech_ui_path: Path,
+    tech_ui_schema: Path | None = None,
+) -> TechUi:
+    cg = load_tech_ui(tech_ui_path, tech_ui_schema)
 
     return cg

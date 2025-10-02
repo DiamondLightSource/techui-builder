@@ -5,6 +5,7 @@ import pytest
 
 from techui_builder.builder import _serialise_json_map, json_map  # type: ignore
 
+
 @pytest.mark.parametrize(
     "attr, expected",
     [

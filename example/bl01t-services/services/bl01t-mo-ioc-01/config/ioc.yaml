@@ -33,7 +33,7 @@ entities:
     GRP1: All
     GRP2: X
     GRP3: A
-    P: BL01T-MO-MAP-01:STAGE
+    P: BL01T-MO-MOTOR-01
     PLC: 11
     PmacController: BRICK1
 
@@ -50,7 +50,7 @@ entities:
     LLM: "-25"
     M: :X
     MRES: -0.000125
-    P: BL01T-MO-MAP-01:STAGE
+    P: BL01T-MO-MOTOR-01
     PREC: 3
     TWV: 1
     UEIP: "Yes"
@@ -68,7 +68,7 @@ entities:
     HLSV: NO_ALARM
     M: :A
     MRES: 0.018
-    P: BL01T-MO-MAP-01:STAGE
+    P: BL01T-MO-MOTOR-01
     PREC: 3
     TWV: 18
     UEIP: "Yes"

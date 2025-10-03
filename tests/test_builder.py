@@ -6,7 +6,11 @@ from unittest.mock import Mock, patch
 import pytest
 from lxml import objectify
 
-from techui_builder.builder import _serialise_json_map, json_map  # type: ignore
+from techui_builder.builder import (
+    _get_action_group,  # type: ignore
+    _serialise_json_map,  # type: ignore
+    json_map,
+)
 
 
 @pytest.mark.parametrize(
@@ -182,3 +186,37 @@ def test_serialise_json_map(example_json_map):
         "file": "tests/test_files/test_bob.bob",
         "children": [{"file": "test_child_bob.bob", "exists": False}],
     }
+
+
+def test_get_action_group():
+    test_bob = objectify.parse("tests/test_files/test_bob.bob")
+
+    widget = test_bob.find(".//widget")
+    assert widget is not None
+
+    action_group = _get_action_group(widget)
+    assert action_group is not None
+
+
+def test_get_action_group_no_action_elements():
+    test_bob = objectify.parse("tests/test_files/test_bob.bob")
+
+    widget = test_bob.find(".//widget")
+    assert widget is not None
+
+    # Clear the actions element
+    widget.actions = objectify.ObjectifiedElement()
+
+    action_group = _get_action_group(widget)
+    assert action_group is None
+
+
+def test_get_action_group_no_actions_group(caplog):
+    # Use a blank xml element
+    widget = objectify.ObjectifiedElement()
+
+    with caplog.at_level(logging.ERROR):
+        _get_action_group(widget)
+
+    for log_output in caplog.records:
+        assert "Actions group not found" in log_output.message

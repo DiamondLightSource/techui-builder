@@ -179,6 +179,19 @@ def test_generate_json_map(builder, example_json_map):
         assert test_json_map == example_json_map
 
 
+# TODO: write this test
+# def test_generate_json_map_embedded_screen(builder, example_json_map):
+#     screen_path = Path("tests/test_files/test_bob.bob")
+#     dest_path = Path("tests/test_files/")
+
+#     # Set widget type to embedded
+#     ...
+
+#     test_json_map = builder._generate_json_map(screen_path, dest_path)
+
+#     assert test_json_map == example_json_map
+
+
 def test_generate_json_map_get_macros(builder, example_json_map):
     screen_path = Path("tests/test_files/test_bob.bob")
     dest_path = Path("tests/test_files/")

@@ -12,7 +12,7 @@ import pytest
     ],
 )
 def test_beamline_attributes(builder, attr, expected):
-    assert getattr(builder.beamline, attr) == expected
+    assert getattr(builder.conf.beamline, attr) == expected
 
 
 @pytest.mark.parametrize(
@@ -31,14 +31,15 @@ def test_beamline_attributes(builder, attr, expected):
     ],
 )
 def test_component_attributes(builder, index, name, desc, P, R, attribute, extras):
-    component = builder.components[index]
-    assert component.name == name
-    assert component.desc == desc
-    assert component.P == P
-    assert component.R == R
-    assert component.attribute == attribute
+    components = list(builder.conf.components.keys())
+    assert components[index] == name
+    assert builder.conf.components[components[index]].desc == desc
+    assert builder.conf.components[components[index]].P == P
+    assert builder.conf.components[components[index]].R == R
+    assert builder.conf.components[components[index]].attribute == attribute
+
     if extras is not None:
-        assert component.extras == extras
+        assert builder.conf.components[components[index]].extras == extras
 
 
 @pytest.mark.parametrize(
@@ -76,7 +77,7 @@ def test_gb_extract_entities(builder, index, type, desc, P, M, R):
     assert entity.R == R
 
 
-def test_generate_screens(builder):
+def test_setup(builder):
     builder.setup()
     builder.generate_screens()
 

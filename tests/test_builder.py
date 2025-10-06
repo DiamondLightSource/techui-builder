@@ -200,6 +200,42 @@ def test_generate_json_map_get_macros(builder, example_json_map):
         assert test_json_map == example_json_map
 
 
+def test_generate_json_map_visited_node(builder, example_json_map):
+    screen_path = Path("tests/test_files/test_bob.bob")
+    dest_path = Path("tests/test_files/")
+
+    visited = {screen_path}
+    # Clear children as they will never be read
+    example_json_map.children = []
+    # Need to set this to true too
+    example_json_map.duplicate = True
+
+    test_json_map = builder._generate_json_map(screen_path, dest_path, visited)
+
+    assert test_json_map == example_json_map
+
+
+def test_generate_json_map_xml_parse_error(builder):
+    screen_path = Path("tests/test_files/test_bob_bad.bob")
+    dest_path = Path("tests/test_files/")
+
+    test_json_map = builder._generate_json_map(screen_path, dest_path)
+
+    assert test_json_map.error.startswith("XML parse error:")
+
+
+def test_generate_json_map_other_exception(builder):
+    screen_path = Path("tests/test_files/test_bob.bob")
+    dest_path = Path("tests/test_files/")
+
+    with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
+        mock_get_action_group.side_effect = Exception("Some exception")
+
+        test_json_map = builder._generate_json_map(screen_path, dest_path)
+
+        assert test_json_map.error != ""
+
+
 def test_serialise_json_map(example_json_map):
     json_ = _serialise_json_map(example_json_map)  # type: ignore
 

@@ -179,6 +179,27 @@ def test_generate_json_map(builder, example_json_map):
         assert test_json_map == example_json_map
 
 
+def test_generate_json_map_get_macros(builder, example_json_map):
+    screen_path = Path("tests/test_files/test_bob.bob")
+    dest_path = Path("tests/test_files/")
+
+    # Set a custom macro to test against
+    example_json_map.children[0].macros = {"macro": "value"}
+
+    # We don't want to access the _get_action_group function in this test
+    with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
+        mock_xml = objectify.Element("action")
+        mock_xml["file"] = "test_child_bob.bob"
+        macros = objectify.SubElement(mock_xml, "macros")
+        # Set a macro to test
+        macros["macro"] = "value"
+        mock_get_action_group.return_value = mock_xml
+
+        test_json_map = builder._generate_json_map(screen_path, dest_path)
+
+        assert test_json_map == example_json_map
+
+
 def test_serialise_json_map(example_json_map):
     json_ = _serialise_json_map(example_json_map)  # type: ignore
 

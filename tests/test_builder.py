@@ -101,17 +101,11 @@ def test_gb_extract_entities(builder, index, type, desc, P, M, R):
 
 
 def test_generate_screens(builder_with_setup):
+    # We don't want to access Generator in this test
+    builder_with_setup._generate_screen = Mock()
     builder_with_setup.generate_screens()
 
-    with open(f"{builder_with_setup._write_directory}/motor.bob") as f:
-        expected = f.read()
-
-    with open("tests/test_files/motor.bob") as f:
-        control = f.read()
-
-    assert expected == control
-    if Path.exists(Path(f"{builder_with_setup._write_directory}/motor.bob")):
-        os.remove(f"{builder_with_setup._write_directory}/motor.bob")
+    builder_with_setup._generate_screen.assert_called()
 
 
 def test_generate_screens_no_entities(builder, caplog):

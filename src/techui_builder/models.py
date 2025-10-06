@@ -21,6 +21,8 @@ LOGGER = logging.getLogger(__name__)
 #   long:  'bl23b'
 #   short: 'b23'   (non-branch)
 #   branch short: 'j23'
+
+
 _DLS_PREFIX_RE = re.compile(
     r"""
             ^           # start of string
@@ -46,25 +48,15 @@ _DLS_PREFIX_RE = re.compile(
     re.VERBOSE,
 )
 _LONG_DOM_RE = re.compile(r"^[a-z]{2}\d{2}[a-z]$")
-_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}$")  # letters except 'j'
+_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}$")
 _BRANCH_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}-\d$")
-
-BobPath = Annotated[
-    str, StringConstraints(pattern=r"^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.bob$")
-]
-# Must contain at least one $(NAME) macro
-MacroString = Annotated[
-    str,
-    StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
-]
-EntryType = Literal["embedded", "related"]
 
 
 class Beamline(BaseModel):
     dom: str = Field(
-        description="e.g. 'bl23b' (long), 'b23' (short), or 'j23' (branch short)"
+        description="Domain e.g. 'bl23b' (long), 'b23' (short), or 'j23' (branch short)"
     )
-    desc: str
+    desc: str = Field(description="Description")
 
     @field_validator("dom")
     @classmethod
@@ -151,11 +143,34 @@ class TechUi(BaseModel):
     components: dict[str, Component]
 
 
+"""
+Ibek mapping models
+"""
+
+BobPath = Annotated[
+    str, StringConstraints(pattern=r"^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.bob$")
+]
+# Must contain at least one $(NAME) macro
+MacroString = Annotated[
+    str,
+    StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
+]
+ScreenType = Literal["embedded", "related"]
+
+
 class GuiComponentEntry(BaseModel):
     file: BobPath
     prefix: MacroString
-    type: EntryType
+    type: ScreenType
 
 
 class GuiComponents(RootModel[dict[str, GuiComponentEntry]]):
     pass
+
+
+class Entity(BaseModel):
+    type: str
+    desc: str | None
+    P: str
+    M: str | None
+    R: str | None

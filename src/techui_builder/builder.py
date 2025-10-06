@@ -10,8 +10,7 @@ from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.generate import Generator
-from techui_builder.models import TechUi
-from techui_builder.objects import Entity
+from techui_builder.models import Entity, TechUi
 
 LOGGER = logging.getLogger(__name__)
 
@@ -50,8 +49,9 @@ class Builder:
 
     def __post_init__(self):
         # Populate beamline and components
-        self.conf = yaml.safe_load(self.techui.read_text(encoding="utf-8"))
-        self.conf = TechUi.model_validate(self.conf)
+        self.conf = TechUi.model_validate(
+            yaml.safe_load(self.techui.read_text(encoding="utf-8"))
+        )
 
         # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml

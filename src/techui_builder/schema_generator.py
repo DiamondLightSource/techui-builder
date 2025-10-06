@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from pathlib import Path
 
 import yaml
@@ -21,13 +19,13 @@ def write_yaml_schema(model_name: str, schema_dict: dict) -> None:
 
 
 def main() -> None:
-    # CreateGui
-    cg = TechUi.model_json_schema()
-    write_yaml_schema("techui", cg)
+    # techui
+    tu = TechUi.model_json_schema()
+    write_yaml_schema("techui", tu)
 
-    # GuiComponents (Cameras/Motion/Vacuum registry)
-    gcomp = GuiComponents.model_json_schema()
-    write_yaml_schema("ibek_mapping", gcomp)
+    # ibek_mapping
+    ibek = GuiComponents.model_json_schema()
+    write_yaml_schema("ibek_mapping", ibek)
 
 
 if __name__ == "__main__":

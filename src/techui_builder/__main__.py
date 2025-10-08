@@ -10,6 +10,7 @@ from rich.logging import RichHandler
 from techui_builder import __version__
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
+from techui_builder.schema_generator import schema_generator
 
 app = typer.Typer(
     pretty_exceptions_show_locals=False,
@@ -43,6 +44,12 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
+def schema(value: bool):
+    if value:
+        schema_generator()
+        raise typer.Exit()
+
+
 def log_level(level: str):
     logging.basicConfig(
         level=level,
@@ -71,6 +78,7 @@ def main(
             callback=log_level,
         ),
     ] = "INFO",
+    schema: Annotated[bool | None, typer.Option("--schema", callback=schema)] = None,
 ) -> None:
     """Default function called from cmd line tool."""
 

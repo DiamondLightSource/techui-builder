@@ -18,7 +18,7 @@ def write_yaml_schema(model_name: str, schema_dict: dict) -> None:
     print(f"✅ Wrote {out}")
 
 
-def main() -> None:
+def schema_generator() -> None:
     # techui
     tu = TechUi.model_json_schema()
     write_yaml_schema("techui", tu)
@@ -26,7 +26,3 @@ def main() -> None:
     # ibek_mapping
     ibek = GuiComponents.model_json_schema()
     write_yaml_schema("ibek_mapping", ibek)
-
-
-if __name__ == "__main__":
-    main()

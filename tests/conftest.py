@@ -1,4 +1,5 @@
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -8,10 +9,14 @@ from techui_builder.builder import Builder, json_map
 @pytest.fixture
 def builder():
     path = Path("example/t01-services/synoptic/techui.yaml")
-    b = Builder(path)
-    b._services_dir = Path("example/t01-services/services")
-    b._write_directory = b._services_dir.parent.joinpath("synoptic/opis")
-    return b
+
+    with patch("techui_builder.builder.Generator") as mock_generator:
+        mock_generator.return_value = MagicMock()
+
+        b = Builder(path)
+        b._services_dir = Path("example/t01-services/services")
+        b._write_directory = b._services_dir.parent.joinpath("synoptic/opis")
+        return b
 
 
 @pytest.fixture

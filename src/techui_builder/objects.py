@@ -37,10 +37,10 @@ class Beamline:
 @dataclass
 class Entity:
     type: str
-    desc: str | None
     P: str
-    M: str | None
-    R: str | None
+    desc: str | None = None
+    M: str | None = None
+    R: str | None = None
 
 
 @dataclass

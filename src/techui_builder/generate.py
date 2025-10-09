@@ -64,23 +64,23 @@ class Generator:
         # Read the bob file
         tree = objectify.parse(file)
         root = tree.getroot()
-        height_element = root.height
-        if height_element is not None:
+        try:
+            height_element = root.height
             height = (
                 self.default_size if (val := height_element.text) is None else int(val)
             )
-        else:
+        except AttributeError:
             height = self.default_size
-            assert "Could not obtain the size of the widget"
+            assert "Could not obtain the height of the widget"
 
-        width_element = root.width
-        if width_element is not None:
+        try:
+            width_element = root.width
             width = (
                 self.default_size if (val := width_element.text) is None else int(val)
             )
-        else:
+        except AttributeError:
             width = self.default_size
-            assert "Could not obtain the size of the widget"
+            assert "Could not obtain the width of the widget"
 
         return (height, width)
 

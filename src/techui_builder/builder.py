@@ -55,7 +55,7 @@ class Builder:
 
         # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml
-        self._services_dir = Path(f"{self.beamline.dom}-services/services")
+        self._services_dir = Path(f"{self.beamline.short_dom}-services/services")
 
         self.generator = Generator(self._services_dir.parent)
 
@@ -249,15 +249,15 @@ files in services"
 
     def write_json_map(
         self,
-        synoptic: Path = Path("example/bl01t-services/synoptic/opis/index.bob"),
-        dest: Path = Path("example/bl01t-services/synoptic/opis/json_map.json"),
+        synoptic: Path = Path("example/t01-services/synoptic/opis-src/index-src.bob"),
+        dest: Path = Path("example/t01-services/synoptic/opis"),
     ):
         """
         Maps the valid entries from the ioc.yaml file
         to the required screen in *-mapping.yaml
         """
         if not synoptic.exists():
-            raise Exception(
+            raise FileNotFoundError(
                 f"Cannot generate json map for {synoptic}. Has it been generated?"
             )
 
@@ -281,14 +281,20 @@ def _serialise_json_map(map: json_map) -> dict[str, Any]:
             default = json_map.__dataclass_fields__[key].default
         return value == default
 
-    # Loop over everything in the json map object's dictionary
-    for val in map.__dict__.values():
-        # If a value is another nedted json_map object, serialise that too
-        if isinstance(val, json_map):
-            val = _serialise_json_map(val)
+    d = {}
 
-    # only include any items if they are not the default value
-    d = {k: v for (k, v) in map.__dict__.items() if not _check_default(k, v)}
+    # Loop over everything in the json map object's dictionary
+    for key, val in map.__dict__.items():
+        # If children has nested json_map object, serialise that too
+        if key == "children" and len(val) > 0:
+            val = [_serialise_json_map(v) for v in val]
+
+        # only include any items if they are not the default value
+        if _check_default(key, val):
+            continue
+
+        d[key] = val
+
     return d
 
 

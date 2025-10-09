@@ -4,6 +4,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from techui_builder.builder import Builder, json_map
+from techui_builder.generate import Generator
 
 
 @pytest.fixture
@@ -33,3 +34,10 @@ def example_json_map():
     test_map.children.append(test_map_child)
 
     return test_map
+
+
+@pytest.fixture
+def generator():
+    g = Generator(Path("example/t01-services"))
+
+    return g

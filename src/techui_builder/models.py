@@ -85,8 +85,8 @@ class Beamline(BaseModel):
 
 
 class Component(BaseModel):
-    desc: str | None = None
     prefix: str
+    desc: str | None = None
     extras: list[str] | None = None
     file: str | None = None
 
@@ -97,18 +97,13 @@ class Component(BaseModel):
             raise ValueError(f"prefix '{v}' does not match DLS prefix pattern")
         return v
 
-    @field_validator("extras", mode="before")
-    @classmethod
-    def _normalize_extras(cls, v):
-        return [] if v is None else v
-
-    @field_validator("extras", mode="after")
+    @field_validator("extras")
     @classmethod
     def _check_extras(cls, v: list[str]) -> list[str]:
         for p in v:
             if not _DLS_PREFIX_RE.match(p):
                 raise ValueError(f"extras item '{p}' does not match DLS prefix pattern")
-        # ensure unique (schema enforces too; this is a runtime guarantee)
+        # ensure unique (schema enforces too)
         if len(set(v)) != len(v):
             raise ValueError("extras must contain unique items")
         return v
@@ -167,7 +162,7 @@ class GuiComponents(RootModel[dict[str, GuiComponentEntry]]):
 
 class Entity(BaseModel):
     type: str
-    desc: str | None
     P: str
+    desc: str | None
     M: str | None
     R: str | None

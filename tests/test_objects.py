@@ -30,7 +30,7 @@ def test_component_object(component: Component):
 def test_component_repr(component: Component):
     assert (
         str(component)
-        == "desc='Test Device' prefix='BL01T-EA-TEST-02' extras=None\
+        == "prefix='BL01T-EA-TEST-02' desc='Test Device' extras=None\
  file=None P='BL01T-EA-TEST-02' R=None attribute=None"
     )
 

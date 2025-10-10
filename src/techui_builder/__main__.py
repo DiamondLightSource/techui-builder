@@ -28,14 +28,13 @@ app = typer.Typer(
     |       `-- config\n
     |           `-- ioc.yaml\n
     `-- synoptic\n
-    .   |-- bob-src\n
-    .   |   `-- blxxi-synoptic-src.bob\n
-    .   |-- create_gui.yaml\n
-    .   `-- data\n
+    .   |-- techui.yaml\n
+    .   `-- opis-src\n
+    .       `-- index-src.bob\n
 """,
 )
 
-default_bobfile = "bob-src/blxxi-synoptic-src.bob"
+default_bobfile = "index-src.bob"
 
 
 def version_callback(value: bool):
@@ -55,7 +54,7 @@ def log_level(level: str):
 # This is the default behaviour when no command provided
 @app.callback(invoke_without_command=True)
 def main(
-    filename: Annotated[Path, typer.Argument(help="The path to create_gui.yaml")],
+    filename: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
     bobfile: Annotated[
         Path | None,
         typer.Argument(help="Override for template bob file location."),
@@ -79,6 +78,8 @@ def main(
 
     bob_file = bobfile
 
+    gui = Builder(techui=filename)
+
     # This next part is assuming the file structure:
     #
     # ixx-services
@@ -91,22 +92,28 @@ def main(
     # |       `-- config
     # |           `-- ioc.yaml
     # `-- synoptic
-    #     |-- bob-src
-    #     |   `-- blxxi-synoptic-src.bob
-    #     |-- create_gui.yaml
-    #     `-- data
+    # .   |-- techui.yaml
+    # .   `-- opis-src
+    # .       `-- index-src.bob
     #
+
+    # Get the relative path to the create_gui file from working dir
+    abs_path = filename.absolute()
+    LOGGER.debug(f"techui.yaml absolute path: {abs_path}")
 
     # Get the current working dir
     cwd = Path.cwd()
     LOGGER.debug(f"Working directory: {cwd}")
 
-    # Get the relative path to the create_gui file from working dir
-    rel_path = filename.absolute().relative_to(cwd, walk_up=True)
-    LOGGER.debug(f"create_gui relative path: {rel_path}")
-
     # Get the relative path of ixx-services to create_gui.yaml
-    ixx_services_dir = next(rel_path.parent.parent.parent.glob("*-services"), None)
+    ixx_services_dir = next(
+        (
+            ixx_services.relative_to(cwd, walk_up=True)
+            for parent in abs_path.parents
+            for ixx_services in parent.glob(f"{gui.beamline.short_dom}-services")
+        ),
+        None,
+    )
     if ixx_services_dir is None:
         logging.critical("ixx-services not found. Is you file structure correct?")
         exit()
@@ -117,15 +124,16 @@ def main(
     LOGGER.debug(f"synoptic relative path: {synoptic_dir}")
 
     if bob_file is None:
-        # Search default relative dir to create_gui filename
+        # Search default relative dir to techui filename
         # There will only ever be one file, but if not return None
         bob_file = next(
-            synoptic_dir.joinpath("bob-src").glob("*-synoptic-src.bob"), None
+            synoptic_dir.joinpath("opis-src").glob("index-src.bob"),
+            None,
         )
         if bob_file is None:
             logging.critical(
                 f"Source bob file '{default_bobfile}' not found in \
-{rel_path.parent.joinpath('bob-src')}. Does it exist?"
+{synoptic_dir.joinpath('opis-src')}. Does it exist?"
             )
             exit()
     elif not bob_file.exists():
@@ -134,17 +142,14 @@ def main(
 
     LOGGER.debug(f"bob file: {bob_file}")
 
-    gui = Builder(create_gui=filename)
-    dom = gui.beamline.dom
-
     # # Overwrite after initialised to make sure this is picked up
     gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
-    gui._write_directory = rel_path.parent.joinpath("data")  # noqa: SLF001
+    gui._write_directory = synoptic_dir.joinpath("opis")  # noqa: SLF001
 
     LOGGER.debug(
         f"""
 
-Builder created for {gui.beamline.dom}.
+Builder created for {gui.beamline.short_dom}.
 Services directory: {gui._services_dir}
 Write directory: {gui._write_directory}
 """,  # noqa: SLF001
@@ -153,20 +158,20 @@ Write directory: {gui._write_directory}
     gui.setup()
     gui.generate_screens()
 
-    LOGGER.info(f"Screens generated for {gui.beamline.dom}.")
+    LOGGER.info(f"Screens generated for {gui.beamline.short_dom}.")
 
     autofiller = Autofiller(bob_file)
     autofiller.read_bob()
     autofiller.autofill_bob(gui)
 
-    dest_bob = gui._write_directory.joinpath(f"{dom}-synoptic.bob")  # noqa: SLF001
+    dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
 
     autofiller.write_bob(dest_bob)
 
-    LOGGER.info(f"Screens autofilled for {gui.beamline.dom}.")
+    LOGGER.info(f"Screens autofilled for {gui.beamline.short_dom}.")
 
     gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    LOGGER.info(f"Json map generated for {dom}-synoptic.bob")
+    LOGGER.info(f"Json map generated for {gui.beamline.long_dom} (from index.bob)")
 
 
 if __name__ == "__main__":

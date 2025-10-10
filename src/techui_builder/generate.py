@@ -17,13 +17,13 @@ LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class Generator:
-    screen_components: list[Entity]
-    # TODO: Fix type of screen
-    screen_name: str
     services_dir: Path = field(repr=False)
 
+    screen_name: str = field(init=False)
+    screen_components: list[Entity] = field(init=False)
+
     # These are global params for the class (not accessible by user)
-    gui_map: dict = field(init=False, repr=False)
+    ibek_map: dict = field(init=False, repr=False)
     default_size: int = field(default=100, init=False, repr=False)
     P: str = field(default="P", init=False, repr=False)
     M: str = field(default="M", init=False, repr=False)
@@ -40,17 +40,21 @@ class Generator:
     group_padding: int = field(default=50, init=False, repr=False)
 
     def __post_init__(self):
-        self._read_gui_map()
+        self._read_map()
 
-    def _read_gui_map(self):
-        """Read the gui_map.yaml file from techui-support."""
-        gui_map = self.services_dir.parent.parent.joinpath(
-            "src/techui_support/gui_map.yaml"
-        )
-        LOGGER.debug(f"gui map location: {gui_map}")
+    def _read_map(self):
+        """Read the ibek-mapping.yaml file from techui-support."""
+        ibek_map = self.services_dir.parent.parent.joinpath(
+            "src/techui_support/ibek_mapping.yaml"
+        ).absolute()
+        LOGGER.debug(f"ibek_mapping.yaml location: {ibek_map}")
 
-        with open(gui_map) as map:
-            self.gui_map = yaml.safe_load(map)
+        with open(ibek_map) as map:
+            self.ibek_map = yaml.safe_load(map)
+
+    def load_screen(self, screen_name: str, screen_components: list[Entity]):
+        self.screen_name = screen_name
+        self.screen_components = screen_components
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
@@ -209,7 +213,7 @@ class Generator:
         support_path = base_dir.joinpath("src/techui_support")
 
         try:
-            scrn_mapping = self.gui_map[component.type]
+            scrn_mapping = self.ibek_map[component.type]
         except KeyError:
             LOGGER.warning(
                 f"No available widget for {component.type} in screen \
@@ -223,7 +227,7 @@ class Generator:
 
         # Path of screen relative to data/ so it knows where to open the file from
         data_scrn_path = scrn_path.relative_to(
-            self.services_dir.joinpath("synoptic/data"), walk_up=True
+            self.services_dir.joinpath("synoptic/opis"), walk_up=True
         )
 
         # Get dimensions of screen from TechUI repository

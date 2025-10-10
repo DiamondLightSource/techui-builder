@@ -22,7 +22,7 @@ components:
     prefix: BL01T-EA-PILAT-01
 
   motor:
-    desc: Hexapod Stage
-    prefix: BL01T-MO-MAP-01:STAGE
+    desc: Motor Stage
+    prefix: BL01T-MO-MOTOR-01
     extras:
       - BL01T-MO-BRICK-01

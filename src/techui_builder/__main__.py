@@ -44,7 +44,7 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
-def schema(value: bool):
+def schema_callback(value: bool):
     if value:
         schema_generator()
         raise typer.Exit()
@@ -78,7 +78,9 @@ def main(
             callback=log_level,
         ),
     ] = "INFO",
-    schema: Annotated[bool | None, typer.Option("--schema", callback=schema)] = None,
+    schema: Annotated[
+        bool | None, typer.Option("--schema", callback=schema_callback)
+    ] = None,
 ) -> None:
     """Default function called from cmd line tool."""
 

@@ -4,6 +4,7 @@ from typing import Annotated, Literal
 
 from pydantic import (
     BaseModel,
+    ConfigDict,
     Field,
     RootModel,
     StringConstraints,
@@ -54,6 +55,7 @@ class Beamline(BaseModel):
         description="Domain e.g. 'bl23b' (long), 'b23' (short), or 'j23' (branch short)"
     )
     desc: str = Field(description="Description")
+    model_config = ConfigDict(extra="forbid")
 
     @field_validator("dom")
     @classmethod
@@ -89,6 +91,7 @@ class Component(BaseModel):
     desc: str | None = None
     extras: list[str] | None = None
     file: str | None = None
+    model_config = ConfigDict(extra="forbid")
 
     @field_validator("prefix")
     @classmethod
@@ -133,6 +136,7 @@ class Component(BaseModel):
 class TechUi(BaseModel):
     beamline: Beamline
     components: dict[str, Component]
+    model_config = ConfigDict(extra="forbid")
 
 
 """
@@ -154,6 +158,7 @@ class GuiComponentEntry(BaseModel):
     file: BobPath
     prefix: MacroString
     type: ScreenType
+    model_config = ConfigDict(extra="forbid")
 
 
 class GuiComponents(RootModel[dict[str, GuiComponentEntry]]):
@@ -163,6 +168,6 @@ class GuiComponents(RootModel[dict[str, GuiComponentEntry]]):
 class Entity(BaseModel):
     type: str
     P: str
-    desc: str | None
+    desc: str | None = None
     M: str | None
     R: str | None

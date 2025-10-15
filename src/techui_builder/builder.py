@@ -148,8 +148,8 @@ exist."
                 self._generate_screen(component.name, screen_entities)
             else:
                 LOGGER.warning(
-                    f"{self.techui.name}: The prefix [bold]{component.prefix}[bold] set\
- in the component [bold]{component.name}[/bold] does not match any P field in the\
+                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\
+ set in the component [bold]{component.name}[/bold] does not match any P field in the\
  ioc.yaml files in services"
                 )
 

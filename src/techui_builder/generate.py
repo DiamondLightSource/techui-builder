@@ -279,6 +279,9 @@ class Generator:
                     },
                 )
 
+            # For some reason the version of action buttons is 3.0.0?
+            new_widget.version("2.0.0")
+
         return new_widget
 
     def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):

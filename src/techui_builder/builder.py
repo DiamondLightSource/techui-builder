@@ -53,15 +53,10 @@ class Builder:
             yaml.safe_load(self.techui.read_text(encoding="utf-8"))
         )
 
-        # Get list of services from the services directory
-        # Requires beamline has already been read from create_gui.yaml
-        self._services_dir = Path(f"{self.conf.beamline.dom}-services/services")
-
-        self.generator = Generator(self._services_dir.parent)
-
     def setup(self):
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
         self._extract_services()
+        self.generator = Generator(self._services_dir.parent)
 
     def _extract_services(self):
         """
@@ -135,9 +130,9 @@ exist."
                 self._generate_screen(component_name, screen_entities)
             else:
                 LOGGER.warning(
-                    f"{self.techui.name}: The prefix set in \
-[bold]{component_name}[/bold] does not match any P field in the ioc.yaml \
-files in services"
+                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\
+ set in the component [bold]{component.name}[/bold] does not match any P field in the\
+ ioc.yaml files in services"
                 )
 
     def _generate_json_map(

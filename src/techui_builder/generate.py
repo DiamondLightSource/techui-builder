@@ -351,6 +351,9 @@ class Generator:
         """
         # Create screen
         self.screen_ = Screen.Screen(self.screen_name)
+        # Empty widget buffer
+        self.widgets = []
+
         # create widget and group objects
 
         # order is an enumeration of the components, used to list them,

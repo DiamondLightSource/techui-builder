@@ -366,14 +366,14 @@ $(pv_value)</tooltip>
     <name>IMG4</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
     </symbols>
     <x>130</x>
     <y>310</y>
@@ -412,11 +412,11 @@ $(pv_value)</tooltip>
     <name>IONP4</name>
     <pv_name>$(prefix)-04:STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>130</x>
     <y>335</y>
@@ -456,7 +456,7 @@ $(pv_value)</tooltip>
     <name>RGA2</name>
     <pv_name>$(prefix):STA.SEVR</pv_name>
     <symbols>
-      <symbol>../images/rga 0.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/rga 0.svg</symbol>
     </symbols>
     <x>130</x>
     <y>360</y>
@@ -850,14 +850,14 @@ Current</text>
     <name>PIRG4</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>130</x>
     <y>285</y>
@@ -1006,14 +1006,14 @@ $(pv_value)</tooltip>
     <name>FEV3</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
     </symbols>
     <x>310</x>
     <y>330</y>
@@ -1054,7 +1054,7 @@ $(pv_value)</tooltip>
     <name>M1</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/vfm-up.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
     <x>150</x>
     <y>402</y>
@@ -1088,7 +1088,7 @@ $(pv_value)</tooltip>
     <name>M2</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/vfm-up.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
     <x>270</x>
     <y>347</y>
@@ -1138,10 +1138,10 @@ $(pv_value)</tooltip>
     <name>SHTR1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
     </symbols>
     <x>345</x>
     <y>330</y>
@@ -1182,10 +1182,10 @@ $(pv_value)</tooltip>
     <name>SHTR2</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
     </symbols>
     <x>380</x>
     <y>330</y>
@@ -1249,7 +1249,7 @@ $(pv_value)</tooltip>
     <name>M3</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/vfm-up.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
     <x>466</x>
     <y>347</y>
@@ -1529,14 +1529,14 @@ $(pv_value)</tooltip>
     <name>IMG1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
     </symbols>
     <x>450</x>
     <y>255</y>
@@ -1575,11 +1575,11 @@ $(pv_value)</tooltip>
     <name>IONP1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>450</x>
     <y>280</y>
@@ -1619,7 +1619,7 @@ $(pv_value)</tooltip>
     <name>RGA1</name>
     <pv_name>$(prefix):STA.SEVR</pv_name>
     <symbols>
-      <symbol>../images/rga 0.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/rga 0.svg</symbol>
     </symbols>
     <x>450</x>
     <y>305</y>
@@ -1656,14 +1656,14 @@ $(pv_value)</tooltip>
     <name>PIRG1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>450</x>
     <y>230</y>
@@ -1749,14 +1749,14 @@ $(pv_value)</tooltip>
     <name>IMG6</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
     </symbols>
     <x>410</x>
     <y>280</y>
@@ -1795,11 +1795,11 @@ $(pv_value)</tooltip>
     <name>IONP8</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>410</x>
     <y>305</y>
@@ -1839,14 +1839,14 @@ $(pv_value)</tooltip>
     <name>PIRG6</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>410</x>
     <y>255</y>
@@ -1932,14 +1932,14 @@ $(pv_value)</tooltip>
     <name>IMG5</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
     </symbols>
     <x>330</x>
     <y>280</y>
@@ -1978,11 +1978,11 @@ $(pv_value)</tooltip>
     <name>IONP7</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>330</x>
     <y>305</y>
@@ -2022,14 +2022,14 @@ $(pv_value)</tooltip>
     <name>PIRG5</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>330</x>
     <y>255</y>
@@ -2093,11 +2093,11 @@ $(pv_value)</tooltip>
     <name>IONP6</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>294</x>
     <y>305</y>
@@ -2162,11 +2162,11 @@ $(pv_value)</tooltip>
     <name>IONP5</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>270</x>
     <y>305</y>
@@ -2206,11 +2206,11 @@ $(pv_value)</tooltip>
     <name>GV2</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
     </symbols>
     <x>750</x>
     <y>220</y>
@@ -2308,14 +2308,14 @@ $(pv_value)</tooltip>
     <name>IMG21</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>170</y>
@@ -2354,11 +2354,11 @@ $(pv_value)</tooltip>
     <name>IONP21</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>195</y>
@@ -2398,14 +2398,14 @@ $(pv_value)</tooltip>
     <name>PIRG21</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>145</y>
@@ -2524,7 +2524,7 @@ $(pv_value)</tooltip>
     <name>MOD2</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/aperture.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/aperture.svg</symbol>
     </symbols>
     <x>857</x>
     <y>256</y>
@@ -2575,7 +2575,7 @@ $(pv_value)</tooltip>
     <name>MOD1</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/aperture.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/aperture.svg</symbol>
     </symbols>
     <x>750</x>
     <y>365</y>
@@ -2634,14 +2634,14 @@ $(pv_value)</tooltip>
     <name>IMG11</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
     </symbols>
     <x>715</x>
     <y>281</y>
@@ -2680,11 +2680,11 @@ $(pv_value)</tooltip>
     <name>IONP11</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>715</x>
     <y>306</y>
@@ -2724,14 +2724,14 @@ $(pv_value)</tooltip>
     <name>PIRG11</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>715</x>
     <y>256</y>
@@ -2770,11 +2770,11 @@ $(pv_value)</tooltip>
     <name>GV1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
-      <symbol>../images/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
     </symbols>
     <x>685</x>
     <y>331</y>
@@ -2872,14 +2872,14 @@ $(pv_value)</tooltip>
     <name>IMG12</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
-      <symbol>../images/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>281</y>
@@ -2918,11 +2918,11 @@ $(pv_value)</tooltip>
     <name>IONP12</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
-      <symbol>../images/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>306</y>
@@ -2962,14 +2962,14 @@ $(pv_value)</tooltip>
     <name>PIRG12</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>790</x>
     <y>256</y>
@@ -3094,10 +3094,10 @@ $(pv_value)</tooltip>
     <name>FESHTR</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
-      <symbol>../images/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
     </symbols>
     <x>75</x>
     <y>385</y>
@@ -3138,14 +3138,14 @@ $(pv_value)</tooltip>
     <name>GCTLR1</name>
     <pv_name>$(prefix):STA</pv_name>
     <symbols>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
-      <symbol>../images/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
     </symbols>
     <x>485</x>
     <y>230</y>
@@ -3184,7 +3184,7 @@ $(pv_value)</tooltip>
     <name>SPACE11</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/vfm-up.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
     <x>602</x>
     <y>158</y>
@@ -3218,7 +3218,7 @@ $(pv_value)</tooltip>
     <name>MOD1</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/camera-1.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/camera-1.svg</symbol>
     </symbols>
     <x>695</x>
     <y>365</y>
@@ -3271,7 +3271,7 @@ $(pv_value)</tooltip>
     <name>MOD2</name>
     <pv_name>$(prefix):DEVSTA</pv_name>
     <symbols>
-      <symbol>../images/camera-1.svg</symbol>
+      <symbol>../../../../src/techui_support/symbols/camera-1.svg</symbol>
     </symbols>
     <x>816</x>
     <y>249</y>

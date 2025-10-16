@@ -1,5 +1,7 @@
+import fnmatch
 import json
 import logging
+import re
 from collections import defaultdict
 from dataclasses import _MISSING_TYPE, dataclass, field
 from pathlib import Path
@@ -114,27 +116,48 @@ Does it exist?"
         # any extras defined
         for component_name, component in self.conf.components.items():
             screen_entities: list[Entity] = []
-            # ONLY IF there is a matching component and entity, generate a screen
-            if component.prefix in self.entities.keys():
-                screen_entities.extend(self.entities[component.prefix])
-                if component.extras is not None:
-                    # If component has any extras, add them to the entries to generate
-                    for extra_p in component.extras:
-                        if extra_p not in self.entities.keys():
-                            LOGGER.error(
-                                f"Extra prefix {extra_p} for {component_name} does not \
-exist."
-                            )
-                            continue
-                        screen_entities.extend(self.entities[extra_p])
-
-                self._generate_screen(component_name, screen_entities)
+            # If the string set as the prefix contains a wildcard,
+            # do some wildcard matching
+            if bool(re.search(r"[\*\?\[\]]", component.prefix)):
+                filtered_prefixes = fnmatch.filter(
+                    self.entities.keys(), component.prefix
+                )
+                for prefix in filtered_prefixes:
+                    screen_entities.extend(self.entities[prefix])
             else:
                 LOGGER.warning(
-                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\
- set in the component [bold]{component_name}[/bold] does not match any P field in the\
- ioc.yaml files in services"
+                    f"{self.techui.name}: [bold]{component.prefix}[/bold] set in \
+[bold]{component_name}[/bold] does not match any P field in the ioc.yaml \
+files in services"
                 )
+            # If the component prefix is in entities.keys, add to screen entities
+            if component.prefix in self.entities.keys():
+                screen_entities.extend(self.entities[component.prefix])
+            else:
+                LOGGER.warning(
+                    f"{self.techui.name}: [bold]{component.prefix}[/bold] set in \
+[bold]{component_name}[/bold] does not match any P field in the ioc.yaml \
+files in services"
+                )
+            # If component extras is non empty, for each extra,
+            # Check if there are any wild card expressions that cause matches and extend
+            # the screen_entities list if there are any matches
+            if component.extras is not None:
+                # If component has any extras, add them to the entries to generate
+                for extra_p in component.extras:
+                    if bool(re.search(r"[\*\?\[\]]", extra_p)):
+                        filtered_extra = fnmatch.filter(self.entities.keys(), extra_p)
+                        for filtered in filtered_extra:
+                            screen_entities.extend(self.entities[filtered])
+                    elif extra_p not in self.entities.keys():
+                        LOGGER.error(
+                            f"Extra prefix {extra_p} for {component_name} does not \
+exist."
+                        )
+                        continue
+                    screen_entities.extend(self.entities[extra_p])
+
+            self._generate_screen(component_name, screen_entities)
 
     def _generate_json_map(
         self, screen_path: Path, dest_path: Path, visited: set[Path] | None = None

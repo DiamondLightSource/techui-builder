@@ -55,9 +55,6 @@ class Builder:
 
         # Get list of services from the services directory
         # Requires beamline has already been read from create_gui.yaml
-        self._services_dir = Path(f"{self.beamline.dom}-services/services")
-
-        self.generator = Generator(self._services_dir.parent)
 
     def _extract_from_create_gui(self):
         """
@@ -80,6 +77,7 @@ class Builder:
     def setup(self):
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
         self._extract_services()
+        self.generator = Generator(self._services_dir.parent)
 
     def _extract_services(self):
         """

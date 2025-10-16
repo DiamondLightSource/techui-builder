@@ -53,9 +53,6 @@ class Builder:
         # Populate beamline and components
         self._extract_from_create_gui()
 
-        # Get list of services from the services directory
-        # Requires beamline has already been read from create_gui.yaml
-
     def _extract_from_create_gui(self):
         """
         Extracts from the create_gui.yaml file to generate

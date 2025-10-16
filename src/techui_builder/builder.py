@@ -131,7 +131,7 @@ exist."
             else:
                 LOGGER.warning(
                     f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\
- set in the component [bold]{component.name}[/bold] does not match any P field in the\
+ set in the component [bold]{component_name}[/bold] does not match any P field in the\
  ioc.yaml files in services"
                 )
 

@@ -48,7 +48,7 @@ dev = [
     "twine",
     "types-lxml",
     "types-mock",
-    "uv~=0.8.5",
+    "uv~=0.9.4",
 ]
 
 [tool.setuptools_scm]

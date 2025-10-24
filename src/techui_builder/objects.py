@@ -64,9 +64,9 @@ prefix={self.P}, suffix={self.R}, filename={self.file})"
             r"""
             ^           # start of string
             (?=         # lookahead to ensure the following pattern matches
-                [A-Za-z0-9-]{13,16} # match 13 to 16 alphanumeric characters or hyphens
-                [:A-Za-z0-9]* # match zero or more colons or alphanumeric characters
-                [.A-Za-z0-9]  # match a dot or alphanumeric character
+                [A-Za-z0-9-\*\?\[\]]{13,16} # match 13-16 alphanumeric chars,-/wildcards
+                [:A-Za-z0-9\*\?\[\]]* # match >=0 colons or alphanumeric chars/wildcards
+                [.A-Za-z0-9\*\?\[\]]  # match a dot or alphanumeric chars or wildcards
             )
             (?!.*--)    # negative lookahead to ensure no double hyphens
             (?!.*:\..)  # negative lookahead to ensure no colon followed by a dot

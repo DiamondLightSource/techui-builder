@@ -124,14 +124,17 @@ Does it exist?"
                 )
                 for prefix in filtered_prefixes:
                     screen_entities.extend(self.entities[prefix])
+<<<<<<< HEAD
             else:
                 LOGGER.warning(
                     f"{self.techui.name}: [bold]{component.prefix}[/bold] set in \
 [bold]{component_name}[/bold] does not match any P field in the ioc.yaml \
 files in services"
                 )
+=======
+>>>>>>> 3054d0f (Removed false messaging from component prefix not being found using wildcards)
             # If the component prefix is in entities.keys, add to screen entities
-            if component.prefix in self.entities.keys():
+            elif component.prefix in self.entities.keys():
                 screen_entities.extend(self.entities[component.prefix])
             else:
                 LOGGER.warning(

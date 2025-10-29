@@ -171,7 +171,7 @@ Write directory: {gui._write_directory}
     LOGGER.info(f"Screens autofilled for {gui.beamline.short_dom}.")
 
     gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    LOGGER.info(f"Json map generated for {gui.beamline.long_dom} (from index.bob)")
+    LOGGER.info(f"Json map generated for {gui.beamline.short_dom} (from index.bob)")
 
 
 if __name__ == "__main__":

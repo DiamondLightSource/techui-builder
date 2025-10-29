@@ -4,33 +4,23 @@ from dataclasses import dataclass, field
 
 LOGGER = logging.getLogger(__name__)
 
-long_dom_re = "^([a-z]{2})([0-9]{2})([a-z])$"
-short_dom_re = "^([a-z])([0-9]{2})$"
-branch_short_dom_re = "^([a-z])([0-9]{2})-([0-9])$"
+long_dom_re = "^([a-zA-Z]{2})([0-9]{2})([a-zA-Z])$"
+short_dom_re = "^([a-zA-Z])([0-9]{2})(-[0-9]{1})?$"
 
 
 @dataclass
 class Beamline:
-    dom: str
+    long_dom: str
+    short_dom: str
     desc: str
-    short_dom: str = field(init=False)
-    long_dom: str = field(init=False)
 
     def __post_init__(self):
-        if re.match(long_dom_re, self.dom):
-            LOGGER.debug(f"DOM '{self.dom}' matches long DOM format")
-            self.long_dom = self.dom
-            self.short_dom = f"{self.dom[4]}{self.dom[2:4]}"
-        elif re.match(short_dom_re, self.dom):
-            LOGGER.debug(f"DOM '{self.dom}' matches short DOM format")
-            self.long_dom = f"bl{self.dom[1:3]}{self.dom[0]}"
-            self.short_dom = self.dom
-        elif re.match(branch_short_dom_re, self.dom):
-            LOGGER.debug(f"DOM '{self.dom}' matches branch short DOM format")
-            self.long_dom = f"bl{self.dom[1:3]}j"
-            self.short_dom = f"j{self.dom[1:3]}"
+        if re.match(long_dom_re, self.long_dom) and (
+            re.match(short_dom_re, self.short_dom)
+        ):
+            LOGGER.debug("Valid beamline domain formats")
         else:
-            LOGGER.critical("Valid beamline DOM not found in create_gui.yaml")
+            LOGGER.critical("Valid beamline DOM not found in techui.yaml")
             exit()
 
 

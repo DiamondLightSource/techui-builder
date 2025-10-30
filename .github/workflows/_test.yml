@@ -39,7 +39,7 @@ jobs:
 
       - if: inputs.python-version == 'dev'
         name: Upload dev-requirements.txt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dev-requirements
           path: /tmp/dev-requirements.txt

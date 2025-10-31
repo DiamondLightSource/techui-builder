@@ -10,7 +10,7 @@ from phoebusgen import screen as Screen
 from phoebusgen import widget as Widget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.objects import Entity
+from techui_builder.models import Entity
 
 LOGGER = logging.getLogger(__name__)
 

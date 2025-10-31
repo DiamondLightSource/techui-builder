@@ -7,7 +7,7 @@ from lxml import objectify
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.builder import Builder, _get_action_group
-from techui_builder.objects import Component
+from techui_builder.models import Component
 
 LOGGER = logging.getLogger(__name__)
 
@@ -26,7 +26,6 @@ class Autofiller:
 
     def autofill_bob(self, gui: "Builder"):
         # Get names from component list
-        comp_names = [comp.name for comp in gui.components]
 
         # Loop over objects in the xml
         # i.e. every tag below <display version="2.0.0">
@@ -38,13 +37,17 @@ class Autofiller:
                 symbol_name = child.name
 
                 # If the name exists in the component list
-                if symbol_name in comp_names:
+                if symbol_name in gui.conf.components.keys():
                     # Get first copy of component (should only be one)
                     comp = next(
-                        (comp for comp in gui.components if comp.name == symbol_name),
+                        (comp for comp in gui.conf.components if comp == symbol_name),
                     )
 
-                    self.replace_macros(widget=child, component=comp)
+                    self.replace_macros(
+                        widget=child,
+                        component_name=comp,
+                        component=gui.conf.components[comp],
+                    )
 
     def write_bob(self, filename: Path):
         # Check if data/ dir exists and if not, make it
@@ -80,7 +83,12 @@ class Autofiller:
         # Set component's tag text to the autofilled macro
         element[tag_name] = new
 
-    def replace_macros(self, widget: ObjectifiedElement, component: Component):
+    def replace_macros(
+        self,
+        widget: ObjectifiedElement,
+        component_name: str,
+        component: Component,
+    ):
         for macro in self.macros:
             # Get current component attribute
             component_attr = getattr(component, macro)
@@ -97,7 +105,7 @@ class Autofiller:
                     tag_name = "description"
                     current_widget = _get_action_group(widget)
                     if component_attr is None:
-                        component_attr = component.name
+                        component_attr = component_name
                 case "file":
                     tag_name = "file"
                     current_widget = _get_action_group(widget)
@@ -106,7 +114,7 @@ class Autofiller:
 
             if current_widget is None:
                 LOGGER.debug(
-                    f"Skipping replace_macros for {component.name} as no action\
+                    f"Skipping replace_macros for {component_name} as no action\
  group found"
                 )
                 continue

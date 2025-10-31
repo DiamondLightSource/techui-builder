@@ -20,9 +20,14 @@ jobs:
             rm -rf $GITHUB_REF_NAME
           fi
 
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install python packages
+        uses: ./.github/actions/install_requirements
+
       - name: generate-schema
-        run: |
-          create_gui --schema
+        run: create-gui --schema
 
       - name: Create GitHub Release
         # We pin to the SHA, not the tag, for security reasons.

@@ -20,6 +20,10 @@ jobs:
             rm -rf $GITHUB_REF_NAME
           fi
 
+      - name: generate-schema
+        run: |
+          create_gui --schema
+
       - name: Create GitHub Release
         # We pin to the SHA, not the tag, for security reasons.
         # https://docs.github.com/en/actions/learn-github-actions/security-hardening-for-github-actions#using-third-party-actions

@@ -106,7 +106,8 @@ class Autofiller:
                 case "file":
                     tag_name = "file"
                     current_widget = _get_action_group(widget)
-                    component_attr = f"{component_name}.bob"
+                    if component_attr is None:
+                        component_attr = f"{component_name}.bob"
                 case _:
                     raise ValueError("The provided macro type is not supported.")
 

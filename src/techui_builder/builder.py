@@ -32,7 +32,7 @@ class Builder:
     techui.yaml file into screens mapped from ioc.yaml and
     *-mapping.yaml files.
 
-    By default it looks for a `create_gui.yaml` file in the same dir
+    By default it looks for a `techui.yaml` file in the same dir
     of the script Guibuilder is called in. Optionally a custom path
     can be declared.
 

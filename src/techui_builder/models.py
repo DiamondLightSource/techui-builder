@@ -17,8 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 # Patterns:
 #   long:  'bl23b'
-#   short: 'b23'   (non-branch)
-#   branch short: 'j23'
+#   short: 'b23', 'ixx-1'
 
 
 _DLS_PREFIX_RE = re.compile(
@@ -45,45 +44,36 @@ _DLS_PREFIX_RE = re.compile(
         """,
     re.VERBOSE,
 )
-_LONG_DOM_RE = re.compile(r"^[a-z]{2}\d{2}[a-z]$")
-_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}$")
-_BRANCH_SHORT_DOM_RE = re.compile(r"^[a-z]\d{2}-\d$")
+_LONG_DOM_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
+_SHORT_DOM_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
 
 
 class Beamline(BaseModel):
-    dom: str = Field(
-        description="Domain e.g. 'bl23b' (long), 'b23' (short), or 'j23' (branch short)"
-    )
+    short_dom: str = Field(description="Short BL domain e.g. b23, ixx-1")
+    long_dom: str = Field(description="Full BL domain e.g. bl23b")
     desc: str = Field(description="Description")
     model_config = ConfigDict(extra="forbid")
 
-    @field_validator("dom")
+    @field_validator("short_dom")
     @classmethod
-    def normalize_dom(cls, v: str) -> str:
+    def normalize_short_dom(cls, v: str) -> str:
+        v = v.strip().lower()
+
+        if _SHORT_DOM_RE.fullmatch(v):
+            # e.g. b23 -> bl23b
+            return v
+
+        raise ValueError("Invalid short dom.")
+
+    @field_validator("long_dom")
+    @classmethod
+    def normalize_long_dom(cls, v: str) -> str:
         v = v.strip().lower()
         if _LONG_DOM_RE.fullmatch(v):
             # already long: bl23b
             return v
-        if _SHORT_DOM_RE.fullmatch(v):
-            # e.g. b23 -> bl23b
-            return f"bl{v[1:3]}{v[0]}"
-        if _BRANCH_SHORT_DOM_RE.fullmatch(v):
-            # e.g. j23 -> bl23j
-            return f"bl{v[1:3]}j"
-        raise ValueError("Invalid dom. Expected long or short")
 
-    @computed_field
-    @property
-    def long_dom(self) -> str:
-        # dom is normalized to long already
-        return self.dom
-
-    @computed_field
-    @property
-    def short_dom(self) -> str:
-        # Convert long -> short form: bl23b -> b23, bl23j -> j23
-        # long form is 'bl' + digits + tail-letter
-        return f"{self.dom[4]}{self.dom[2:4]}"
+        raise ValueError("Invalid long dom.")
 
 
 class Component(BaseModel):

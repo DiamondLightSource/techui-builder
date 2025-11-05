@@ -67,6 +67,9 @@ venv*
 # Built bob files
 **/opis/
 
+# Generated schemas
+schemas/*
+
 # further build artifacts
 lockfiles/
 

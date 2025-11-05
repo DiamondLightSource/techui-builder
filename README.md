@@ -47,8 +47,17 @@ The process to use this module goes as follows (WIP):
     ```
     > [!NOTE] 
     > `extras` is optional, but allows any embedded screen to be added to make a summary screen e.g. combining all imgs, pirgs and ionps associated with a vacuum space.
+1. Run this command to locally generate a schema, which can be used for validation testing
 
-## Generating Synoptic
+    ```$ create-gui --schema```
+
+    Add the following at the top of the `techui.yaml` to validate it against a schema
+    
+    ```# yaml-language-server: $schema=/path/to/techui.schema.yml```
+    
+    where the path can be the dev container workspace, or a [released asset in the GitHub repo](https://github.com/DiamondLightSource/techui-builder/releases/download/0.3.0a1/techui.schema.yml).
+
+## Generating the Synoptic
 
 `$ create-gui /path/to/synoptic/techui.yaml`
 

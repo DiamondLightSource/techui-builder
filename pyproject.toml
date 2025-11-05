@@ -26,6 +26,7 @@ dependencies = [
     "lxml>=5.4.0",
     "typer>=0.16.0",
     "rich>=14.1.0",
+    "pydantic>=2.11.7",
 ]
 scripts = { create-gui = "techui_builder.__main__:app" }
 

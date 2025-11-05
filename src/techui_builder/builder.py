@@ -10,7 +10,7 @@ from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.generate import Generator
-from techui_builder.objects import Beamline, Component, Entity
+from techui_builder.models import Entity, TechUi
 
 LOGGER = logging.getLogger(__name__)
 
@@ -40,8 +40,6 @@ class Builder:
 
     techui: Path = field(default=Path("techui.yaml"))
 
-    beamline: Beamline = field(init=False)
-    components: list[Component] = field(default_factory=list, init=False)
     entities: defaultdict[str, list[Entity]] = field(
         default_factory=lambda: defaultdict(list), init=False
     )
@@ -51,25 +49,9 @@ class Builder:
 
     def __post_init__(self):
         # Populate beamline and components
-        self._extract_from_create_gui()
-
-    def _extract_from_create_gui(self):
-        """
-        Extracts from the create_gui.yaml file to generate
-        the required Beamline and components structures.
-        """
-
-        with open(self.techui) as f:
-            conf = yaml.safe_load(f)
-            bl: dict[str, str] = conf["beamline"]
-            comps: dict[str, dict[str, Any]] = conf[
-                "components"
-            ]  # TODO: Fix typing from Any
-
-            self.beamline = Beamline(**bl)
-
-            for key, comp in comps.items():
-                self.components.append(Component(key, **comp))
+        self.conf = TechUi.model_validate(
+            yaml.safe_load(self.techui.read_text(encoding="utf-8"))
+        )
 
     def setup(self):
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
@@ -83,7 +65,7 @@ class Builder:
         """
 
         # Loop over every dir in services, ignoring anything that isn't a service
-        for service in self._services_dir.glob(f"{self.beamline.long_dom}-*-*-*"):
+        for service in self._services_dir.glob(f"{self.conf.beamline.long_dom}-*-*-*"):
             # If service doesn't exist, file open will fail throwing exception
             try:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
@@ -129,7 +111,7 @@ Does it exist?"
 
         # Loop over every component defined in techui.yaml and locate
         # any extras defined
-        for component in self.components:
+        for component_name, component in self.conf.components.items():
             screen_entities: list[Entity] = []
             # ONLY IF there is a matching component and entity, generate a screen
             if component.prefix in self.entities.keys():
@@ -139,17 +121,17 @@ Does it exist?"
                     for extra_p in component.extras:
                         if extra_p not in self.entities.keys():
                             LOGGER.error(
-                                f"Extra prefix {extra_p} for {component.name} does not \
+                                f"Extra prefix {extra_p} for {component_name} does not \
 exist."
                             )
                             continue
                         screen_entities.extend(self.entities[extra_p])
 
-                self._generate_screen(component.name, screen_entities)
+                self._generate_screen(component_name, screen_entities)
             else:
                 LOGGER.warning(
                     f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\
- set in the component [bold]{component.name}[/bold] does not match any P field in the\
+ set in the component [bold]{component_name}[/bold] does not match any P field in the\
  ioc.yaml files in services"
                 )
 

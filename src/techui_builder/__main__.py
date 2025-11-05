@@ -79,7 +79,12 @@ def main(
         ),
     ] = "INFO",
     schema: Annotated[
-        bool | None, typer.Option("--schema", callback=schema_callback)
+        bool | None,
+        typer.Option(
+            "--schema",
+            help="Generate schema for validating techui and ibek-mapping yaml files",
+            callback=schema_callback,
+        ),
     ] = None,
 ) -> None:
     """Default function called from cmd line tool."""

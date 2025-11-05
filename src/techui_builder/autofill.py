@@ -92,9 +92,6 @@ class Autofiller:
         for macro in self.macros:
             # Get current component attribute
             component_attr = getattr(component, macro)
-            # If it is None, then it was not provided so ignore
-            if component_attr is None and macro != "desc":
-                continue
 
             # Fix to make sure widget is reverted back to widget that was passed in
             current_widget = widget
@@ -109,6 +106,7 @@ class Autofiller:
                 case "file":
                     tag_name = "file"
                     current_widget = _get_action_group(widget)
+                    component_attr = f"{component_name}.bob"
                 case _:
                     raise ValueError("The provided macro type is not supported.")
 

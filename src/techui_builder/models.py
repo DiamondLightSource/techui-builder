@@ -151,7 +151,9 @@ class GuiComponentEntry(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class GuiComponents(RootModel[dict[str, GuiComponentEntry]]):
+class GuiComponents(
+    RootModel[dict[str, dict[str, GuiComponentEntry]] | dict[str, GuiComponentEntry]]
+):
     pass
 
 

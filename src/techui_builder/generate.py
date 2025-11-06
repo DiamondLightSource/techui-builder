@@ -310,9 +310,7 @@ class Generator:
             return None
 
         if self._is_dict_of_dicts(scrn_mapping):
-            for key, value in scrn_mapping.items():
-                LOGGER.debug(f"235:{key}")
-                LOGGER.debug(f"236:{value['type']}")
+            for _, value in scrn_mapping.items():
                 new_widget.append(self._allocate_widget(support_path, value, component))
         else:
             new_widget = self._allocate_widget(support_path, scrn_mapping, component)

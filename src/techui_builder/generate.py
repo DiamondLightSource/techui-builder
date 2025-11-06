@@ -1,6 +1,7 @@
 import logging
 import os
 from collections import defaultdict
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -164,13 +165,7 @@ class Generator:
             max(x_list) + max(width_list) + self.group_padding,
         )
 
-    def _create_widget(
-        self, component: Entity
-    ) -> EmbeddedDisplay | ActionButton | None:
-        # if statement below is check if the suffix is
-        # missing from the component description. If
-        # not missing, use as name of widget, if missing,
-        # use type as name.
+    def _initialise_name_suffix(self, component: Entity) -> tuple[str, str, str | None]:
         if component.M is not None:
             name: str = component.M
             suffix: str = component.M
@@ -184,15 +179,17 @@ class Generator:
             suffix = ""
             suffix_label = None
 
-        try:
-            scrn_mapping = self.techui_support[component.type]
-        except KeyError:
-            LOGGER.warning(
-                f"No available widget for {component.type} in screen \
-{self.screen_name}. Skipping..."
-            )
-            return None
+        return (name, suffix, suffix_label)
 
+    def _is_dict_of_dicts(self, scrn_mapping: Mapping) -> bool:
+        return isinstance(scrn_mapping, Mapping) and all(
+            isinstance(scrn, Mapping) for scrn in scrn_mapping.values()
+        )
+
+    def _allocate_widget(
+        self, support_path: Path, scrn_mapping: Mapping, component: Entity
+    ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
+        name, suffix, suffix_label = self._initialise_name_suffix(component)
         # Get relative path to screen
         scrn_path = self.support_path.joinpath(f"bob/{scrn_mapping['file']}")
         LOGGER.debug(f"Screen path: {scrn_path}")
@@ -200,7 +197,6 @@ class Generator:
         # Path of screen relative to data/ so it knows where to open the file from
         data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
 
-        # Get dimensions of screen from TechUI repository
         if scrn_mapping["type"] == "embedded":
             height, width = self._get_screen_dimensions(str(scrn_path))
             new_widget = Widget.EmbeddedDisplay(
@@ -251,6 +247,35 @@ class Generator:
 
             # For some reason the version of action buttons is 3.0.0?
             new_widget.version("2.0.0")
+        return new_widget
+
+    def _create_widget(
+        self, component: Entity
+    ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
+        # if statement below is check if the suffix is
+        # missing from the component description. If
+        # not missing, use as name of widget, if missing,
+        # use type as name.
+        new_widget = []
+        base_dir = self.services_dir.parent.parent.parent
+
+        # Get the relative path to techui-support
+        support_path = base_dir.joinpath("src/techui_support")
+        try:
+            scrn_mapping = self.techui_support[component.type]
+        except KeyError:
+            LOGGER.warning(
+                f"No available widget for {component.type} in screen \
+{self.screen_name}. Skipping..."
+            )
+            return None
+
+        if self._is_dict_of_dicts(scrn_mapping):
+            for _, value in scrn_mapping.items():
+                new_widget.append(self._allocate_widget(support_path, value, component))
+        else:
+            new_widget = self._allocate_widget(support_path, scrn_mapping, component)
+
         return new_widget
 
     def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
@@ -333,6 +358,9 @@ class Generator:
         for component in self.screen_components:
             new_widget = self._create_widget(component=component)
             if new_widget is None:
+                continue
+            if isinstance(new_widget, list):
+                self.widgets.extend(new_widget)
                 continue
             self.widgets.append(new_widget)
 

@@ -124,7 +124,8 @@ def test_generate_screens_extra_p_does_not_exist(builder_with_setup, caplog):
     # We don't want to actually generate a screen
     builder_with_setup._generate_screen = Mock(side_effect=None)
 
-    builder_with_setup.components[2].extras = ["BAD-PV"]
+    components = list(builder_with_setup.conf.components.keys())
+    builder_with_setup.conf.components[components[2]].extras = ["BAD-PV"]
 
     # We only want to capture the ERROR output in this test
     with caplog.at_level(logging.ERROR):

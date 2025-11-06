@@ -1,7 +1,7 @@
 # create_gui example for Phoebus GuiBuilder
 beamline:
-  short_dom: bl01t
-  long_dom: t01
+  short_dom: t01
+  long_dom: bl01t
   desc: Test Beamline
 
 components:

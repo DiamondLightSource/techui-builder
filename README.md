@@ -34,7 +34,8 @@ The process to use this module goes as follows (WIP):
 
     ```
     beamline:
-        dom: {beamline name}
+        short_dom: {e.g. b23, b01-1}
+        long_dom: {e.g. bl23b}
         desc: {beamline description}
 
     components:

@@ -141,18 +141,27 @@ def test_write_json_map_no_synoptic(builder):
 
 
 def test_write_json_map(builder):
-    test_map = json_map("test_bob.bob")
+    test_map = json_map(str(Path(__file__).parent.joinpath("test_files/test_bob.bob")))
 
     # We don't want cover _generate_json_map in this test
     builder._generate_json_map = Mock(return_value=test_map)
+
+    # Make sure opis/ dir exists
+    if not Path.exists(builder._write_directory):
+        os.mkdir(builder._write_directory)
 
     # We don't want to access the _serialise_json_map function in this test
     with patch("techui_builder.builder._serialise_json_map") as mock_serialise_json_map:
         mock_serialise_json_map.return_value = {"test": "test"}
 
-        builder.write_json_map()
+        builder.write_json_map(
+            synoptic=builder._services_dir.parent.joinpath(
+                "synoptic/opis-src/index-src.bob"
+            ),
+            dest=builder._write_directory,
+        )
 
-    dest_path = Path("example/t01-services/synoptic/opis/json_map.json")
+    dest_path = builder._write_directory.joinpath("json_map.json")
     assert Path.exists(dest_path)
 
     if Path.exists(dest_path):

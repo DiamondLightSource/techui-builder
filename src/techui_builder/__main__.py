@@ -112,7 +112,7 @@ def main(
     # .       `-- index-src.bob
     #
 
-    # Get the relative path to the create_gui file from working dir
+    # Get the relative path to the techui file from working dir
     abs_path = filename.absolute()
     LOGGER.debug(f"techui.yaml absolute path: {abs_path}")
 
@@ -120,7 +120,7 @@ def main(
     cwd = Path.cwd()
     LOGGER.debug(f"Working directory: {cwd}")
 
-    # Get the relative path of ixx-services to create_gui.yaml
+    # Get the relative path of ixx-services to techui.yaml
     ixx_services_dir = next(
         (
             ixx_services.relative_to(cwd, walk_up=True)
@@ -186,7 +186,9 @@ Write directory: {gui._write_directory}
     LOGGER.info(f"Screens autofilled for {gui.conf.beamline.short_dom}.")
 
     gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    LOGGER.info(f"Json map generated for {gui.conf.beamline.long_dom} (from index.bob)")
+    LOGGER.info(
+        f"Json map generated for {gui.conf.beamline.short_dom} (from index.bob)"
+    )
 
 
 if __name__ == "__main__":

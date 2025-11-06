@@ -5,7 +5,7 @@ from techui_builder.models import Beamline, Component
 
 @pytest.fixture
 def beamline() -> Beamline:
-    return Beamline(dom="bl01t", desc="Test Beamline")
+    return Beamline(short_dom="t01", long_dom="bl01t", desc="Test Beamline")
 
 
 @pytest.fixture
@@ -15,6 +15,7 @@ def component() -> Component:
 
 # @pytest.mark.parametrize("beamline,expected",[])
 def test_beamline_object(beamline: Beamline):
+    assert beamline.short_dom == "t01"
     assert beamline.long_dom == "bl01t"
     assert beamline.desc == "Test Beamline"
 

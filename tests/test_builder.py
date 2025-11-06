@@ -7,7 +7,8 @@ import pytest
 @pytest.mark.parametrize(
     "attr, expected",
     [
-        ("dom", "bl01t"),
+        ("short_dom", "t01"),
+        ("long_dom", "bl01t"),
         ("desc", "Test Beamline"),
     ],
 )

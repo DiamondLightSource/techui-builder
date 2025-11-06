@@ -7,7 +7,7 @@
 
 A package for building Phoebus GUIs
 
-Techui-builder is a module for building and organising phoebus gui screens using a builder-ibek yaml description of an IOC, with a user created create_gui.yaml file containing a description of the screens the user wants to create.
+Techui-builder is a module for building and organising phoebus gui screens using a builder-ibek yaml description of an IOC, with a user created techui.yaml file containing a description of the screens the user wants to create.
 
 Source          | <https://github.com/DiamondLightSource/techui-builder>
 :---:           | :---:
@@ -34,7 +34,8 @@ The process to use this module goes as follows (WIP):
 
     ```
     beamline:
-        dom: {beamline name}
+        short_dom: {e.g. b23, b01-1}
+        long_dom: {e.g. bl23b}
         desc: {beamline description}
 
     components:

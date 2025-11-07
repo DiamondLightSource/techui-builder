@@ -23,7 +23,7 @@ class Generator:
     screen_components: list[Entity] = field(init=False)
 
     # These are global params for the class (not accessible by user)
-    ibek_map: dict = field(init=False, repr=False)
+    techui_support: dict = field(init=False, repr=False)
     default_size: int = field(default=100, init=False, repr=False)
     P: str = field(default="P", init=False, repr=False)
     M: str = field(default="M", init=False, repr=False)
@@ -43,14 +43,14 @@ class Generator:
         self._read_map()
 
     def _read_map(self):
-        """Read the ibek-mapping.yaml file from techui-support."""
-        ibek_map = self.services_dir.parent.parent.joinpath(
-            "src/techui_support/ibek_mapping.yaml"
+        """Read the techui_support.yaml file from techui-support."""
+        techui_support = self.services_dir.parent.parent.joinpath(
+            "src/techui_support/techui_support.yaml"
         ).absolute()
-        LOGGER.debug(f"ibek_mapping.yaml location: {ibek_map}")
+        LOGGER.debug(f"techui_support.yaml location: {techui_support}")
 
-        with open(ibek_map) as map:
-            self.ibek_map = yaml.safe_load(map)
+        with open(techui_support) as map:
+            self.techui_support = yaml.safe_load(map)
 
     def load_screen(self, screen_name: str, screen_components: list[Entity]):
         self.screen_name = screen_name
@@ -213,7 +213,7 @@ class Generator:
         support_path = base_dir.joinpath("src/techui_support")
 
         try:
-            scrn_mapping = self.ibek_map[component.type]
+            scrn_mapping = self.techui_support[component.type]
         except KeyError:
             LOGGER.warning(
                 f"No available widget for {component.type} in screen \

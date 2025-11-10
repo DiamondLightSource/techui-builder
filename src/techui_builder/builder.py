@@ -56,7 +56,8 @@ class Builder:
     def setup(self):
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
         self._extract_services()
-        self.generator = Generator(self._services_dir.parent)
+        synoptic_dir = self._write_directory.parent
+        self.generator = Generator(synoptic_dir)
 
     def _extract_services(self):
         """

@@ -7,7 +7,7 @@
 from pathlib import Path
 
 from techui_builder.generate import Generator
-from techui_builder.objects import Entity
+from techui_builder.models import Entity
 
 
 def test_generator_init():
@@ -15,7 +15,7 @@ def test_generator_init():
 
 
 def test_generator_load_screen(generator):
-    entity = Entity("test", "TEST")
+    entity = Entity(type="test", P="TEST", desc=None, M=None, R=None)
     generator.load_screen("test", [entity])
 
     assert generator.screen_name == "test"

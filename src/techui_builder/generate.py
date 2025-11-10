@@ -212,7 +212,7 @@ class Generator:
         )
 
     def _allocate_widget(
-        self, support_path: Path, scrn_mapping: Mapping, component: Entity
+        self, scrn_mapping: Mapping, component: Entity
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         name, suffix, suffix_label = self._initialise_name_suffix(component)
         # Get relative path to screen
@@ -282,10 +282,7 @@ class Generator:
         # not missing, use as name of widget, if missing,
         # use type as name.
         new_widget = []
-        base_dir = self.services_dir.parent.parent.parent
 
-        # Get the relative path to techui-support
-        support_path = base_dir.joinpath("src/techui_support")
         try:
             scrn_mapping = self.techui_support[component.type]
         except KeyError:
@@ -297,9 +294,9 @@ class Generator:
 
         if self._is_list_of_dicts(scrn_mapping):
             for value in scrn_mapping:
-                new_widget.append(self._allocate_widget(support_path, value, component))
+                new_widget.append(self._allocate_widget(value, component))
         else:
-            new_widget = self._allocate_widget(support_path, scrn_mapping, component)
+            new_widget = self._allocate_widget(scrn_mapping, component)
 
         return new_widget
 

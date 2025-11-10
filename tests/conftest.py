@@ -17,7 +17,7 @@ def builder():
 
         b = Builder(techui_path)
         b._services_dir = ixx_services.joinpath("services")
-        b._write_directory = ixx_services.joinpath("synoptic/opis")
+        b._write_directory = ixx_services.joinpath("synoptic")
         return b
 
 

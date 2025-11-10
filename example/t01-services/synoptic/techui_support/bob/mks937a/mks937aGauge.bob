@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Main</name>
+  <width>301</width>
+  <height>244</height>
+  <grid_color>
+    <color red="127" green="127" blue="127">
+    </color>
+  </grid_color>
+  <widget type="group" version="2.0.0">
+    <name>$(P)</name>
+    <width>301</width>
+    <height>244</height>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <widget type="meter" version="3.0.0">
+      <name>Meter</name>
+      <pv_name>$(P):P</pv_name>
+      <width>265</width>
+      <height>125</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pressure</text>
+      <y>130</y>
+      <width>135</width>
+      <height>25</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_36</name>
+      <x>5</x>
+      <y>155</y>
+      <width>260</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure</name>
+      <pv_name>$(P):P</pv_name>
+      <x>140</x>
+      <y>133</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Gauge</text>
+      <x>5</x>
+      <y>156</y>
+      <width>130</width>
+      <height>25</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_37</name>
+      <x>5</x>
+      <y>181</y>
+      <width>260</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Gauge</name>
+      <pv_name>$(P):GAUGE</pv_name>
+      <x>140</x>
+      <y>159</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Setpoints Overwrite</text>
+      <x>5</x>
+      <y>182</y>
+      <width>130</width>
+      <height>25</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_38</name>
+      <x>5</x>
+      <y>207</y>
+      <width>260</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box</name>
+      <pv_name>$(P):ILKSETSP</pv_name>
+      <x>140</x>
+      <y>185</y>
+      <width>120</width>
+      <height>20</height>
+    </widget>
+  </widget>
+</display>

@@ -18,12 +18,13 @@ LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class Generator:
-    services_dir: Path = field(repr=False)
+    synoptic_dir: Path = field(repr=False)
 
     screen_name: str = field(init=False)
     screen_components: list[Entity] = field(init=False)
 
     # These are global params for the class (not accessible by user)
+    support_path: Path = field(init=False, repr=False)
     techui_support: dict = field(init=False, repr=False)
     default_size: int = field(default=100, init=False, repr=False)
     P: str = field(default="P", init=False, repr=False)
@@ -41,16 +42,17 @@ class Generator:
     group_padding: int = field(default=50, init=False, repr=False)
 
     def __post_init__(self):
+        # This needs to be before _read_map()
+        self.support_path = self.synoptic_dir.joinpath("techui_support")
+
         self._read_map()
 
     def _read_map(self):
         """Read the techui_support.yaml file from techui-support."""
-        techui_support = self.services_dir.parent.parent.joinpath(
-            "src/techui_support/techui_support.yaml"
-        ).absolute()
-        LOGGER.debug(f"techui_support.yaml location: {techui_support}")
+        support_yaml = self.support_path.joinpath("techui_support.yaml").absolute()
+        LOGGER.debug(f"techui_support.yaml location: {support_yaml}")
 
-        with open(techui_support) as map:
+        with open(support_yaml) as map:
             self.techui_support = yaml.safe_load(map)
 
     def load_screen(self, screen_name: str, screen_components: list[Entity]):
@@ -214,13 +216,11 @@ class Generator:
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         name, suffix, suffix_label = self._initialise_name_suffix(component)
         # Get relative path to screen
-        scrn_path = support_path.joinpath(f"bob/{scrn_mapping['file']}")
+        scrn_path = self.support_path.joinpath(f"bob/{scrn_mapping['file']}")
         LOGGER.debug(f"Screen path: {scrn_path}")
 
         # Path of screen relative to data/ so it knows where to open the file from
-        data_scrn_path = scrn_path.relative_to(
-            self.services_dir.joinpath("synoptic/opis"), walk_up=True
-        )
+        data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
 
         if scrn_mapping["type"] == "embedded":
             height, width = self._get_screen_dimensions(str(scrn_path))

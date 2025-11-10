@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Main</name>
+  <width>301</width>
+  <height>243</height>
+  <background_color>
+    <color name="Read_Background" red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <grid_color>
+    <color red="127" green="127" blue="127">
+    </color>
+  </grid_color>
+  <widget type="group" version="2.0.0">
+    <name>$(P)</name>
+    <width>301</width>
+    <height>243</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="15.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(device):I</pv_name>
+      <x>234</x>
+      <y>180</y>
+      <off_color>
+        <color red="237" green="237" blue="237">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </on_color>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P):START</pv_name>
+      <x>145</x>
+      <y>180</y>
+      <width>84</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <selected_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </selected_color>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_20</name>
+      <text>Control</text>
+      <x>2</x>
+      <y>183</y>
+      <width>130</width>
+      <height>25</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+    </widget>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_14</name>
+    <text>Status</text>
+    <x>23</x>
+    <y>66</y>
+    <width>130</width>
+    <height>25</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Gauge_9</name>
+    <pv_name>$(P):STA</pv_name>
+    <x>158</x>
+    <y>70</y>
+    <width>120</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
+      <color red="196" green="196" blue="196">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_15</name>
+    <text>Pressure</text>
+    <x>24</x>
+    <y>40</y>
+    <width>135</width>
+    <height>25</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_50</name>
+    <x>23</x>
+    <y>65</y>
+    <width>260</width>
+    <height>1</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Pressure_3</name>
+    <pv_name>$(P):P</pv_name>
+    <x>158</x>
+    <y>43</y>
+    <width>120</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
+      <color red="196" green="196" blue="196">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_51</name>
+    <x>23</x>
+    <y>91</y>
+    <width>260</width>
+    <height>1</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_52</name>
+    <x>23</x>
+    <y>117</y>
+    <width>260</width>
+    <height>1</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_16</name>
+    <text>Voltage</text>
+    <x>23</x>
+    <y>92</y>
+    <width>130</width>
+    <height>25</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Gauge_10</name>
+    <pv_name>$(P):V</pv_name>
+    <x>158</x>
+    <y>96</y>
+    <width>120</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
+      <color red="196" green="196" blue="196">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_55</name>
+    <x>23</x>
+    <y>143</y>
+    <width>260</width>
+    <height>1</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_17</name>
+    <text>Current</text>
+    <x>23</x>
+    <y>118</y>
+    <width>130</width>
+    <height>25</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Gauge_11</name>
+    <pv_name>$(P):I</pv_name>
+    <x>158</x>
+    <y>122</y>
+    <width>120</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
+      <color red="196" green="196" blue="196">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_56</name>
+    <x>23</x>
+    <y>168</y>
+    <width>260</width>
+    <height>1</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_19</name>
+    <text>Pump Size</text>
+    <x>23</x>
+    <y>143</y>
+    <width>130</width>
+    <height>25</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Gauge_12</name>
+    <pv_name>$(P):SIZE</pv_name>
+    <x>158</x>
+    <y>147</y>
+    <width>120</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
+      <color red="196" green="196" blue="196">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_57</name>
+    <x>23</x>
+    <y>194</y>
+    <width>260</width>
+    <height>1</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Gauge_17</name>
+    <pv_name>$(P):HV</pv_name>
+    <x>158</x>
+    <y>172</y>
+    <width>120</width>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
+      <color red="196" green="196" blue="196">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_27</name>
+    <text>Strapping</text>
+    <x>23</x>
+    <y>172</y>
+    <width>130</width>
+    <height>25</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle_58</name>
+    <x>20</x>
+    <y>223</y>
+    <width>260</width>
+    <height>1</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+  </widget>
+</display>

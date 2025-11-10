@@ -151,7 +151,7 @@ class GuiComponentEntry(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-GuiComponentUnion = dict[str, GuiComponentEntry] | GuiComponentEntry
+GuiComponentUnion = list[GuiComponentEntry] | GuiComponentEntry
 
 
 class GuiComponents(RootModel[dict[str, GuiComponentUnion]]):

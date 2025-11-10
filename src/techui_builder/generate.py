@@ -204,24 +204,10 @@ class Generator:
 
         return (name, suffix, suffix_label)
 
-<<<<<<< HEAD
-        # Get the relative path to techui-support
-        support_path = base_dir.joinpath("src/techui_support")
-
-        try:
-            scrn_mapping = self.techui_support[component.type]
-        except KeyError:
-            LOGGER.warning(
-                f"No available widget for {component.type} in screen \
-{self.screen_name}. Skipping..."
-            )
-            return None
-=======
     def _is_dict_of_dicts(self, scrn_mapping: Mapping) -> bool:
         return isinstance(scrn_mapping, Mapping) and all(
             isinstance(scrn, Mapping) for scrn in scrn_mapping.values()
         )
->>>>>>> 798978c (extended ability for generate to handle dict_of_dicts in the ibek_mapping.yaml)
 
     def _allocate_widget(
         self, support_path: Path, scrn_mapping: Mapping, component: Entity
@@ -301,7 +287,7 @@ class Generator:
         # Get the relative path to techui-support
         support_path = base_dir.joinpath("src/techui_support")
         try:
-            scrn_mapping = self.ibek_map[component.type]
+            scrn_mapping = self.techui_support[component.type]
         except KeyError:
             LOGGER.warning(
                 f"No available widget for {component.type} in screen \

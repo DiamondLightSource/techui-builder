@@ -1,0 +1,1582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Camera Screen</name>
+  <width>1280</width>
+  <height>800</height>
+  <background_color>
+    <color name="Read_Background" red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>5</grid_step_x>
+  <grid_step_y>5</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>CAMERA</name>
+    <width>410</width>
+    <height>331</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="15.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <class>Label</class>
+      <text>Acquire</text>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>ArrayCounter_RBV</name>
+      <pv_name>$(P):CAM:ArrayCounter_RBV</pv_name>
+      <x>260</x>
+      <y>25</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Acquire</name>
+      <pv_name>$(P):CAM:Acquire</pv_name>
+      <x>308</x>
+      <width>20</width>
+      <numBits>1</numBits>
+      <off_color>
+        <color red="237" green="237" blue="237">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Array Callbacks</name>
+      <pv_name>$(P):CAM:ArrayCallbacks_RBV</pv_name>
+      <x>308</x>
+      <y>50</y>
+      <width>20</width>
+      <numBits>1</numBits>
+      <off_color>
+        <color red="237" green="237" blue="237">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>Array Callbacks_1</name>
+      <pv_name>$(P):CAM:ArrayCallbacks</pv_name>
+      <x>140</x>
+      <y>50</y>
+      <width>126</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <selected_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </selected_color>
+      <items>
+        <item>Disable</item>
+        <item>Enable</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_15</name>
+      <class>Label</class>
+      <text>Array Counter</text>
+      <y>25</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_16</name>
+      <class>Label</class>
+      <text>Array Callbacks</text>
+      <y>50</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_17</name>
+      <class>Label</class>
+      <text>Acquire Time</text>
+      <y>75</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_18</name>
+      <class>Label</class>
+      <text>Acquire Period</text>
+      <y>100</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_19</name>
+      <class>Label</class>
+      <text>Num Images Counter</text>
+      <y>125</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_20</name>
+      <class>Label</class>
+      <text>Num Images</text>
+      <y>150</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_21</name>
+      <class>Label</class>
+      <text>Num Exposures</text>
+      <y>175</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_22</name>
+      <class>Label</class>
+      <text>Image Mode</text>
+      <y>200</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_23</name>
+      <class>Label</class>
+      <text>Detector State</text>
+      <x>5</x>
+      <y>250</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_24</name>
+      <class>Label</class>
+      <text>Status Message</text>
+      <x>1</x>
+      <y>275</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Acuqire Time</name>
+      <pv_name>$(P):CAM:AcquireTime_RBV</pv_name>
+      <x>260</x>
+      <y>75</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Acquire Period_RBV</name>
+      <pv_name>$(P):CAM:AcquirePeriod_RBV</pv_name>
+      <x>260</x>
+      <y>100</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>NUm Images_RBV</name>
+      <pv_name>$(P):CAM:NumImages</pv_name>
+      <x>260</x>
+      <y>150</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Num Exposures_RBV</name>
+      <pv_name>$(P):CAM:NumExposures_RBV</pv_name>
+      <x>260</x>
+      <y>175</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Image Mode</name>
+      <pv_name>$(P):CAM:ImageMode</pv_name>
+      <x>140</x>
+      <y>200</y>
+      <width>115</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <items>
+        <item>Continuous</item>
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>Item 4</item>
+        <item>Item 5</item>
+      </items>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>Acquire_1</name>
+      <pv_name>$(P):CAM:Acquire</pv_name>
+      <x>140</x>
+      <width>126</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <selected_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </selected_color>
+      <items>
+        <item>Done</item>
+        <item>Acquire</item>
+      </items>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_25</name>
+      <x>2</x>
+      <y>122</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_26</name>
+      <x>2</x>
+      <y>22</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_27</name>
+      <x>2</x>
+      <y>47</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_28</name>
+      <x>2</x>
+      <y>72</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_29</name>
+      <x>2</x>
+      <y>97</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_30</name>
+      <x>2</x>
+      <y>147</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_31</name>
+      <x>2</x>
+      <y>172</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_32</name>
+      <x>2</x>
+      <y>197</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_33</name>
+      <x>2</x>
+      <y>222</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_34</name>
+      <x>2</x>
+      <y>272</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>ArrayCounter</name>
+      <pv_name>$(P):CAM:ArrayCounter</pv_name>
+      <x>140</x>
+      <y>25</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Acquire Time</name>
+      <pv_name>$(P):CAM:AcquireTime</pv_name>
+      <x>140</x>
+      <y>75</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Acquire Period</name>
+      <pv_name>$(P):CAM:AcquirePeriod</pv_name>
+      <x>140</x>
+      <y>100</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Num Images</name>
+      <pv_name>$(P):CAM:NumImages</pv_name>
+      <x>140</x>
+      <y>125</y>
+      <width>235</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>NumImages</name>
+      <pv_name>$(P):CAM:NumImages_RBV</pv_name>
+      <x>140</x>
+      <y>150</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Num Exposures</name>
+      <pv_name>$(P):CAM:NumExposures</pv_name>
+      <x>140</x>
+      <y>175</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Image mode</name>
+      <pv_name>$(P):CAM:ImageMode_RBV</pv_name>
+      <x>260</x>
+      <y>200</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Detector State</name>
+      <pv_name>$(P):CAM:DetectorState_RBV</pv_name>
+      <x>140</x>
+      <y>250</y>
+      <width>235</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_13</name>
+      <pv_name>$(P):CAM:StatusMessage_RBV</pv_name>
+      <x>141</x>
+      <y>275</y>
+      <width>235</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_25</name>
+      <class>Label</class>
+      <text>Gain</text>
+      <y>225</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Gain</name>
+      <pv_name>$(P):CAM:Gain</pv_name>
+      <x>139</x>
+      <y>225</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Gain_RBV</name>
+      <pv_name>$(P):CAM:Gain_RBV</pv_name>
+      <x>259</x>
+      <y>225</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_38</name>
+      <x>2</x>
+      <y>247</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Standard Array</name>
+    <y>440</y>
+    <width>410</width>
+    <height>130</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="15.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_32</name>
+      <class>Label</class>
+      <text>N Dimensions</text>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_39</name>
+      <x>2</x>
+      <y>22</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>DimensionsRBV</name>
+      <pv_name>$(P):ARR:ArraySize0_RBV</pv_name>
+      <x>260</x>
+      <y>25</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_34</name>
+      <class>Label</class>
+      <text>Dimensions</text>
+      <y>25</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_40</name>
+      <x>2</x>
+      <y>47</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_35</name>
+      <class>Label</class>
+      <text>Unique ID</text>
+      <x>2</x>
+      <y>50</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_41</name>
+      <x>4</x>
+      <y>72</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_37</name>
+      <class>Label</class>
+      <text>Enable Callbacks</text>
+      <x>2</x>
+      <y>75</y>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Num DimensionsRBV</name>
+      <pv_name>$(P):ARR:NDimensions_RBV</pv_name>
+      <x>260</x>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>Enable Callbacks</name>
+      <pv_name>$(P):ARR:EnableCallbacks</pv_name>
+      <x>140</x>
+      <y>75</y>
+      <width>130</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <selected_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </selected_color>
+      <items>
+        <item>Disable</item>
+        <item>Enable</item>
+      </items>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Enable Callbacks_RBV</name>
+      <pv_name>$(P):ARR:EnableCallbacks_RBV</pv_name>
+      <x>308</x>
+      <y>75</y>
+      <width>20</width>
+      <numBits>1</numBits>
+      <off_color>
+        <color red="237" green="237" blue="237">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Num Dimensions</name>
+      <pv_name>$(P):ARR:NDimensions</pv_name>
+      <x>140</x>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Dimensions</name>
+      <pv_name>$(P):ARR:ArraySize0</pv_name>
+      <x>140</x>
+      <y>25</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Unique ID</name>
+      <pv_name>$(P):ARR:UniqueId_RBV</pv_name>
+      <x>140</x>
+      <y>50</y>
+      <width>235</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Autogenerated Engineering Screens</name>
+    <y>570</y>
+    <width>410</width>
+    <height>185</height>
+    <font>
+      <font family="Arial" style="REGULAR" size="15.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_39</name>
+      <class>Label</class>
+      <text></text>
+      <width>135</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay</name>
+      <actions>
+        <action type="open_display">
+          <file>ADAravis_detail.bob</file>
+          <macros>
+            <P>$(P)</P>
+            <R>:CAM:</R>
+          </macros>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>$(P) Engineering Screen ⧉</text>
+      <width>375</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay_1</name>
+      <actions>
+        <action type="open_display">
+          <file>NDPluginROI.pvi.bob</file>
+          <macros>
+            <P>$(P)</P>
+            <R>:ROI:</R>
+          </macros>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>$(P) ROI Screen ⧉</text>
+      <y>30</y>
+      <width>375</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay_2</name>
+      <actions>
+        <action type="open_display">
+          <file>NDPluginStats.pvi.bob</file>
+          <macros>
+            <P>$(P)</P>
+            <R>:STAT:</R>
+          </macros>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>$(P) STAT Screen</text>
+      <x>-2</x>
+      <y>60</y>
+      <width>375</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay_3</name>
+      <actions>
+        <action type="open_display">
+          <file>NDFileHDF5.pvi.bob</file>
+          <macros>
+            <P>$(P)</P>
+            <R>:HDF5:</R>
+          </macros>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>$(P) HDF5 Screen ⧉</text>
+      <y>90</y>
+      <width>375</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay_4</name>
+      <actions>
+        <action type="open_display">
+          <file>NDPluginPva.pvi.bob</file>
+          <macros>
+            <P>$(P)</P>
+            <R>:PVA:</R>
+          </macros>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>$(P) PVA Screen ⧉</text>
+      <y>120</y>
+      <width>375</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+  </widget>
+  <widget type="image" version="2.0.0">
+    <name>Image</name>
+    <pv_name>$(P):ARR:ArrayData</pv_name>
+    <x>410</x>
+    <width>745</width>
+    <height>745</height>
+    <show_toolbar>true</show_toolbar>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>PVA</name>
+    <y>331</y>
+    <width>410</width>
+    <height>110</height>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_40</name>
+      <text>Array Counter</text>
+      <y>55</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_41</name>
+      <text>Enable Callbacks</text>
+      <y>2</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_42</name>
+      <text>Pv Name</text>
+      <y>27</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>Enable Callbacks_1</name>
+      <pv_name>$(P):PVA:EnableCallbacks</pv_name>
+      <x>138</x>
+      <y>2</y>
+      <width>130</width>
+      <height>20</height>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <selected_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </selected_color>
+      <items>
+        <item>Disable</item>
+        <item>Enable</item>
+      </items>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Enable Callbacks_RBV_1</name>
+      <pv_name>$(P):PVA:EnableCallbacks_RBV</pv_name>
+      <x>310</x>
+      <y>2</y>
+      <width>20</width>
+      <numBits>1</numBits>
+      <off_color>
+        <color red="237" green="237" blue="237">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Num Dimensions_1</name>
+      <pv_name>$(P):PVA:ArrayCounter</pv_name>
+      <x>138</x>
+      <y>55</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Num DimensionsRBV_1</name>
+      <pv_name>$(P):PVA:ArrayCounter_RBV</pv_name>
+      <x>258</x>
+      <y>55</y>
+      <width>115</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_42</name>
+      <y>22</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_43</name>
+      <y>49</y>
+      <width>373</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Detector State_1</name>
+      <pv_name>$(P):PVA:PvName_RBV</pv_name>
+      <x>139</x>
+      <y>25</y>
+      <width>235</width>
+      <font>
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+</display>

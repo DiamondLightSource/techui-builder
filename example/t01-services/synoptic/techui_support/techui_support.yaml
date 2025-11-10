@@ -1,0 +1,60 @@
+# Cameras
+
+ADAravis.aravisCamera:
+  file: "ADAravis/ADAravis_summary.bob"
+  prefix: "$(P)$(R)"
+  type: "embedded"
+
+ADSimDetector.simDetector:
+  file: "ADAravis/ADAravis_summary.bob"
+  prefix: "$(P)$(R)"
+  type: "embedded"
+
+# Motion Controllers
+
+pmac.dls_pmac_asyn_motor:
+  file: "pmac/motor_embed.bob"
+  prefix: "$(P)$(M)"
+  type: "embedded"
+
+pmac.GeoBrick:
+  file: "pmac/pmacController.bob"
+  prefix: "$(P)"
+  type: "related"
+
+pmac.PowerPMAC:
+  file: "pmac/ppmacController.bob"
+  prefix: "$(P)"
+  type: "related"
+
+pmacUtil.dls_pmac_asyn_motor_no_coord:
+  file: "pmac/motor_embed.bob"
+  prefix: "$(P)$(M)"
+  type: "embedded"
+
+# Vacuum
+
+mks937a.mks937a:
+  file: "mks937a/mks937a.bob"
+  prefix: "$(P)"
+  type: "embedded"
+
+mks937a.mks937aImg:
+  file: "mks937a/mks937aImg.bob"
+  prefix: "$(P)"
+  type: "embedded"
+
+mks937a.mks937aGauge:
+  file: "mks937a/mks937aGauge.bob"
+  prefix: "$(P)"
+  type: "embedded"
+
+mks937a.mks937aPirg:
+  file: "mks937a/mks937aPirg.bob"
+  prefix: "$(P)"
+  type: "embedded"
+
+digitelMpc.digitelMpcIonp:
+  file: "digitelMpc/digitelMpcIonp.bob"
+  prefix: "$(P)"
+  type: "embedded"

@@ -1,0 +1,1266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>vaccumValveInterlocks</name>
+  <width>301</width>
+  <height>466</height>
+  <grid_color>
+    <color red="127" green="127" blue="127">
+    </color>
+  </grid_color>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>630</x>
+    <y>210</y>
+    <width>10</width>
+    <height>10</height>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Detail</name>
+    <width>301</width>
+    <height>114</height>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Status</text>
+      <width>135</width>
+      <height>25</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_36</name>
+      <x>5</x>
+      <y>25</y>
+      <width>260</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure</name>
+      <pv_name>$(P):STA</pv_name>
+      <x>140</x>
+      <y>3</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Mode</text>
+      <x>5</x>
+      <y>26</y>
+      <width>130</width>
+      <height>25</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_37</name>
+      <x>5</x>
+      <y>51</y>
+      <width>260</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Gauge</name>
+      <pv_name>$(P):MODE</pv_name>
+      <x>140</x>
+      <y>29</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Interlocks</text>
+      <x>5</x>
+      <y>52</y>
+      <width>130</width>
+      <height>25</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_38</name>
+      <x>5</x>
+      <y>77</y>
+      <width>260</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Gauge_1</name>
+      <pv_name>$(P):ILKSTA</pv_name>
+      <x>140</x>
+      <y>55</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Interlocks</name>
+    <y>114</y>
+    <width>152</width>
+    <height>350</height>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Byte Monitor</name>
+      <pv_name>$(P):ILK</pv_name>
+      <y>38</y>
+      <width>15</width>
+      <height>240</height>
+      <numBits>16</numBits>
+      <horizontal>false</horizontal>
+      <off_color>
+        <color red="89" green="0" blue="0">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="MAJOR" red="255" green="0" blue="0">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Byte Monitor_1</name>
+      <pv_name>$(P):INIILK</pv_name>
+      <x>15</x>
+      <y>38</y>
+      <width>15</width>
+      <height>240</height>
+      <numBits>16</numBits>
+      <horizontal>false</horizontal>
+      <off_color>
+        <color red="120" green="125" blue="0">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Byte Monitor_2</name>
+      <pv_name>$(P):RAWILK</pv_name>
+      <x>30</x>
+      <y>38</y>
+      <width>17</width>
+      <height>240</height>
+      <numBits>16</numBits>
+      <horizontal>false</horizontal>
+      <off_color>
+        <color red="0" green="105" blue="0">
+        </color>
+      </off_color>
+      <on_color>
+        <color red="0" green="255" blue="0">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline_6</name>
+      <x>7</x>
+      <y>8</y>
+      <width>40</width>
+      <height>30</height>
+      <points>
+        <point x="0.0" y="30.0">
+        </point>
+        <point x="0.0" y="0.0">
+        </point>
+        <point x="40.0" y="0.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline_7</name>
+      <x>23</x>
+      <y>18</y>
+      <width>30</width>
+      <points>
+        <point x="0.0" y="20.0">
+        </point>
+        <point x="0.0" y="0.0">
+        </point>
+        <point x="30.0" y="0.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline_1</name>
+      <x>38</x>
+      <y>28</y>
+      <width>20</width>
+      <height>10</height>
+      <points>
+        <point x="0.0" y="10.0">
+        </point>
+        <point x="0.0" y="0.0">
+        </point>
+        <point x="20.0" y="0.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Latched</text>
+      <x>43</x>
+      <width>40</width>
+      <height>14</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="9.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Initial</text>
+      <x>49</x>
+      <y>10</y>
+      <width>30</width>
+      <height>14</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="9.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Current</text>
+      <x>54</x>
+      <y>21</y>
+      <width>40</width>
+      <height>14</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="9.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_1</name>
+      <pv_name>$(P):ILK0</pv_name>
+      <x>56</x>
+      <y>40</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_3</name>
+      <pv_name>$(P):ILK1</pv_name>
+      <x>56</x>
+      <y>55</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_4</name>
+      <pv_name>$(P):ILK2</pv_name>
+      <x>56</x>
+      <y>69</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_5</name>
+      <pv_name>$(P):ILK3</pv_name>
+      <x>56</x>
+      <y>84</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_6</name>
+      <pv_name>$(P):ILK4</pv_name>
+      <x>56</x>
+      <y>100</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_7</name>
+      <pv_name>$(P):ILK5</pv_name>
+      <x>56</x>
+      <y>115</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_8</name>
+      <pv_name>$(P):ILK6</pv_name>
+      <x>56</x>
+      <y>130</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_9</name>
+      <pv_name>$(P):ILK7</pv_name>
+      <x>56</x>
+      <y>145</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_10</name>
+      <pv_name>$(P):ILK8</pv_name>
+      <x>56</x>
+      <y>160</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_11</name>
+      <pv_name>$(P):ILK9</pv_name>
+      <x>56</x>
+      <y>175</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_12</name>
+      <pv_name>$(P):ILK10</pv_name>
+      <x>56</x>
+      <y>189</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_13</name>
+      <pv_name>$(P):ILK11</pv_name>
+      <x>56</x>
+      <y>204</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_14</name>
+      <pv_name>$(P):ILK12</pv_name>
+      <x>56</x>
+      <y>220</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_15</name>
+      <pv_name>$(P):ILK13</pv_name>
+      <x>56</x>
+      <y>235</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_16</name>
+      <pv_name>$(P):ILK14</pv_name>
+      <x>56</x>
+      <y>250</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_17</name>
+      <pv_name>$(P):ILK15</pv_name>
+      <x>56</x>
+      <y>266</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu</name>
+      <pv_name>$(P):CON</pv_name>
+      <y>294</y>
+      <width>90</width>
+      <height>20</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Gauge Interlocks</name>
+    <x>149</x>
+    <y>114</y>
+    <width>152</width>
+    <height>313</height>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>IMG</text>
+      <x>37</x>
+      <width>40</width>
+      <height>14</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="9.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>Pirani</text>
+      <x>50</x>
+      <y>10</y>
+      <width>30</width>
+      <height>14</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="9.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+    </widget>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline_8</name>
+      <x>23</x>
+      <y>17</y>
+      <width>30</width>
+      <points>
+        <point x="0.0" y="20.0">
+        </point>
+        <point x="0.0" y="0.0">
+        </point>
+        <point x="30.0" y="0.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline_9</name>
+      <x>7</x>
+      <y>7</y>
+      <width>40</width>
+      <height>30</height>
+      <points>
+        <point x="0.0" y="30.0">
+        </point>
+        <point x="0.0" y="0.0">
+        </point>
+        <point x="40.0" y="0.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Byte Monitor_3</name>
+      <pv_name>$(P):IMGILK</pv_name>
+      <y>37</y>
+      <width>15</width>
+      <height>240</height>
+      <numBits>16</numBits>
+      <horizontal>false</horizontal>
+      <off_color>
+        <color red="89" green="0" blue="0">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="MAJOR" red="255" green="0" blue="0">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>Byte Monitor_4</name>
+      <pv_name>$(P):PIRGILK</pv_name>
+      <x>15</x>
+      <y>37</y>
+      <width>15</width>
+      <height>240</height>
+      <numBits>16</numBits>
+      <horizontal>false</horizontal>
+      <off_color>
+        <color red="120" green="125" blue="0">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </on_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_18</name>
+      <pv_name>$(P):GILK0</pv_name>
+      <x>56</x>
+      <y>39</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_19</name>
+      <pv_name>$(P):GILK1</pv_name>
+      <x>56</x>
+      <y>54</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_20</name>
+      <pv_name>$(P):GILK2</pv_name>
+      <x>56</x>
+      <y>68</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_21</name>
+      <pv_name>$(P):GILK3</pv_name>
+      <x>56</x>
+      <y>83</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_22</name>
+      <pv_name>$(P):GILK4</pv_name>
+      <x>56</x>
+      <y>99</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_23</name>
+      <pv_name>$(P):GILK5</pv_name>
+      <x>56</x>
+      <y>114</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_24</name>
+      <pv_name>$(P):GILK6</pv_name>
+      <x>56</x>
+      <y>129</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_25</name>
+      <pv_name>$(P):GILK7</pv_name>
+      <x>56</x>
+      <y>144</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_26</name>
+      <pv_name>$(P):GILK8</pv_name>
+      <x>56</x>
+      <y>159</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_27</name>
+      <pv_name>$(P):GILK9</pv_name>
+      <x>56</x>
+      <y>174</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_28</name>
+      <pv_name>$(P):GILK10</pv_name>
+      <x>56</x>
+      <y>188</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_29</name>
+      <pv_name>$(P):GILK11</pv_name>
+      <x>56</x>
+      <y>203</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_30</name>
+      <pv_name>$(P):GILK12</pv_name>
+      <x>56</x>
+      <y>219</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_31</name>
+      <pv_name>$(P):GILK13</pv_name>
+      <x>56</x>
+      <y>234</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_32</name>
+      <pv_name>$(P):GILK14</pv_name>
+      <x>56</x>
+      <y>249</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure_33</name>
+      <pv_name>$(P):GILK15</pv_name>
+      <x>56</x>
+      <y>265</y>
+      <width>60</width>
+      <height>11</height>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="8.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+</display>

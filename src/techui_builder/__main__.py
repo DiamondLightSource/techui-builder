@@ -142,13 +142,13 @@ def main(
         # Search default relative dir to techui filename
         # There will only ever be one file, but if not return None
         bob_file = next(
-            synoptic_dir.joinpath("opis-src").glob("index-src.bob"),
+            synoptic_dir.glob("index-src.bob"),
             None,
         )
         if bob_file is None:
             logging.critical(
                 f"Source bob file '{default_bobfile}' not found in \
-{synoptic_dir.joinpath('opis-src')}. Does it exist?"
+{synoptic_dir}. Does it exist?"
             )
             exit()
     elif not bob_file.exists():
@@ -159,7 +159,7 @@ def main(
 
     # # Overwrite after initialised to make sure this is picked up
     gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
-    gui._write_directory = synoptic_dir.joinpath("opis")  # noqa: SLF001
+    gui._write_directory = synoptic_dir  # noqa: SLF001
 
     LOGGER.debug(
         f"""

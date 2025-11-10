@@ -12,19 +12,19 @@ def builder():
     ixx_services = Path(__file__).parent.parent.joinpath(Path("example/t01-services"))
     techui_path = ixx_services.joinpath("synoptic/techui.yaml")
 
-    with patch("techui_builder.builder.Generator") as mock_generator:
-        mock_generator.return_value = MagicMock()
-
-        b = Builder(techui_path)
-        b._services_dir = ixx_services.joinpath("services")
-        b._write_directory = ixx_services.joinpath("synoptic/opis")
-        return b
+    b = Builder(techui_path)
+    b._services_dir = ixx_services.joinpath("services")
+    b._write_directory = ixx_services.joinpath("synoptic")
+    return b
 
 
 @pytest.fixture
 def builder_with_setup(builder: Builder):
-    builder.setup()
-    return builder
+    with patch("techui_builder.builder.Generator") as mock_generator:
+        mock_generator.return_value = MagicMock()
+
+        builder.setup()
+        return builder
 
 
 @pytest.fixture
@@ -39,6 +39,10 @@ def example_json_map():
 
 @pytest.fixture
 def generator():
-    g = Generator(Path("example/t01-services"))
+    synoptic_dir = Path(__file__).parent.parent.joinpath(
+        Path("example/t01-services/synoptic")
+    )
+
+    g = Generator(synoptic_dir)
 
     return g

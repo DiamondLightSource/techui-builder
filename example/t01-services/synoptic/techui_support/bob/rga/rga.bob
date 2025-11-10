@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>rga</name>
+  <width>548</width>
+  <height>646</height>
+  <grid_step_x>4</grid_step_x>
+  <grid_step_y>4</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>$(P)</name>
+    <width>548</width>
+    <height>646</height>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Current Data</text>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Detector Setting</text>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Total Pressure</text>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency</name>
+      <pv_name>$(P):DATA</pv_name>
+      <x>124</x>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure unit</name>
+      <pv_name>$(P):DET</pv_name>
+      <x>124</x>
+      <y>24</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Controller Version</name>
+      <pv_name>$(P):TOTP</pv_name>
+      <x>124</x>
+      <y>48</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="table" version="2.0.0">
+      <name>Table</name>
+      <y>80</y>
+      <width>510</width>
+      <height>437</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <columns>
+        <column>
+          <name>Mass</name>
+          <width>100</width>
+          <editable>true</editable>
+          <options>
+            <option>2: H2</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+            <option>Option 4</option>
+            <option>Option 5</option>
+          </options>
+        </column>
+        <column>
+          <name>Pressure</name>
+          <width>350</width>
+          <editable>true</editable>
+          <options>
+            <option>Here</option>
+            <option>Option 2</option>
+          </options>
+        </column>
+      </columns>
+      <editable>false</editable>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>2: H2</text>
+      <x>7</x>
+      <y>124</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_1</name>
+      <pv_name>$(P):BAR:M2</pv_name>
+      <x>187</x>
+      <y>118</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_1</name>
+      <pv_name>$(P):LOG:M2</pv_name>
+      <x>283</x>
+      <y>116</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>4: He</text>
+      <x>7</x>
+      <y>154</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_2</name>
+      <pv_name>$(P):BAR:M4</pv_name>
+      <x>187</x>
+      <y>148</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_2</name>
+      <pv_name>$(P):LOG:M4</pv_name>
+      <x>283</x>
+      <y>146</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>14: CH2/N2++</text>
+      <x>7</x>
+      <y>188</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_3</name>
+      <pv_name>$(P):BAR:M14</pv_name>
+      <x>187</x>
+      <y>182</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_3</name>
+      <pv_name>$(P):LOG:M14</pv_name>
+      <x>283</x>
+      <y>180</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>15: Ch3</text>
+      <x>7</x>
+      <y>223</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_4</name>
+      <pv_name>$(P):BAR:M15</pv_name>
+      <x>187</x>
+      <y>217</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_4</name>
+      <pv_name>$(P):LOG:M15</pv_name>
+      <x>283</x>
+      <y>215</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>16:CH4</text>
+      <x>7</x>
+      <y>257</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_5</name>
+      <pv_name>$(P):BAR:M16</pv_name>
+      <x>187</x>
+      <y>251</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_5</name>
+      <pv_name>$(P):LOG:M16</pv_name>
+      <x>283</x>
+      <y>249</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_36</name>
+      <x>7</x>
+      <y>142</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_37</name>
+      <x>7</x>
+      <y>174</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_38</name>
+      <x>7</x>
+      <y>208</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_39</name>
+      <x>7</x>
+      <y>243</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_40</name>
+      <x>7</x>
+      <y>277</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_6</name>
+      <pv_name>$(P):LOG:M18</pv_name>
+      <x>283</x>
+      <y>288</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_6</name>
+      <pv_name>$(P):BAR:M18</pv_name>
+      <x>187</x>
+      <y>290</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>18: H2O</text>
+      <x>7</x>
+      <y>296</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_42</name>
+      <x>7</x>
+      <y>316</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_7</name>
+      <pv_name>$(P):LOG:M28</pv_name>
+      <x>283</x>
+      <y>328</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_7</name>
+      <pv_name>$(P):BAR:M28</pv_name>
+      <x>187</x>
+      <y>330</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>28: N2/CO</text>
+      <x>7</x>
+      <y>336</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_43</name>
+      <x>7</x>
+      <y>356</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_8</name>
+      <pv_name>$(P):LOG:M32</pv_name>
+      <x>283</x>
+      <y>368</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_8</name>
+      <pv_name>$(P):BAR:M32</pv_name>
+      <x>187</x>
+      <y>370</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_8</name>
+      <text>32: O2</text>
+      <x>7</x>
+      <y>376</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_44</name>
+      <x>7</x>
+      <y>396</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_9</name>
+      <pv_name>$(P):LOG:M40</pv_name>
+      <x>283</x>
+      <y>408</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_9</name>
+      <pv_name>$(P):BAR:M40</pv_name>
+      <x>187</x>
+      <y>410</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_9</name>
+      <text>40: Ar</text>
+      <x>7</x>
+      <y>416</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_45</name>
+      <x>7</x>
+      <y>436</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_10</name>
+      <pv_name>$(P):LOG:M44</pv_name>
+      <x>283</x>
+      <y>448</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_10</name>
+      <pv_name>$(P):BAR:M44</pv_name>
+      <x>187</x>
+      <y>450</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_10</name>
+      <text>44: Co2</text>
+      <x>7</x>
+      <y>456</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_46</name>
+      <x>7</x>
+      <y>476</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="progressbar" version="2.0.0">
+      <name>Progress Bar_11</name>
+      <pv_name>$(P):LOG:M69</pv_name>
+      <x>283</x>
+      <y>488</y>
+      <width>208</width>
+      <height>24</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Frequency_11</name>
+      <pv_name>$(P):BAR:M69</pv_name>
+      <x>187</x>
+      <y>490</y>
+      <width>84</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_11</name>
+      <text>69: CF3/C5H9</text>
+      <x>7</x>
+      <y>496</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_47</name>
+      <x>7</x>
+      <y>516</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>IMG Interlock</text>
+      <x>254</x>
+      <y>24</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure unit_1</name>
+      <pv_name>$(P):ILK</pv_name>
+      <x>378</x>
+      <y>24</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_14</name>
+      <text>Sum of Peaks</text>
+      <x>254</x>
+      <y>48</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Pressure unit_2</name>
+      <pv_name>$(P):SUMP</pv_name>
+      <x>378</x>
+      <y>48</y>
+      <width>120</width>
+      <font>
+        <font family="Monospaced" style="REGULAR" size="12.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="76" green="100" blue="171">
+        </color>
+      </background_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <border_color>
+        <color red="196" green="196" blue="196">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_49</name>
+      <x>120</x>
+      <y>116</y>
+      <width>1</width>
+      <height>400</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_50</name>
+      <x>5</x>
+      <y>45</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_15</name>
+      <text>Head Status</text>
+      <x>7</x>
+      <y>536</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box</name>
+      <pv_name>$(P):CON</pv_name>
+      <x>110</x>
+      <y>532</y>
+      <width>176</width>
+      <height>24</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_16</name>
+      <text>Filament Status</text>
+      <x>7</x>
+      <y>572</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_1</name>
+      <pv_name>$(P):SETFIL</pv_name>
+      <x>110</x>
+      <y>568</y>
+      <width>92</width>
+      <height>24</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_2</name>
+      <pv_name>$(P):FILCON</pv_name>
+      <x>202</x>
+      <y>568</y>
+      <width>84</width>
+      <height>24</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_17</name>
+      <text>Scan Mode</text>
+      <x>298</x>
+      <y>536</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_18</name>
+      <text>Multiplier</text>
+      <x>298</x>
+      <y>572</y>
+      <width>120</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_3</name>
+      <pv_name>$(P):SETSCAN</pv_name>
+      <x>378</x>
+      <y>532</y>
+      <width>113</width>
+      <height>24</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_4</name>
+      <pv_name>$(P):MLTCON</pv_name>
+      <x>378</x>
+      <y>568</y>
+      <width>113</width>
+      <height>24</height>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_51</name>
+      <x>7</x>
+      <y>562</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_52</name>
+      <x>7</x>
+      <y>598</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_53</name>
+      <x>5</x>
+      <y>21</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle_54</name>
+      <y>71</y>
+      <width>484</width>
+      <height>1</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="184" green="195" blue="223">
+        </color>
+      </background_color>
+    </widget>
+  </widget>
+</display>

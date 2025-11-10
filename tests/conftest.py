@@ -39,6 +39,10 @@ def example_json_map():
 
 @pytest.fixture
 def generator():
-    g = Generator(Path("example/t01-services"))
+    synoptic_dir = Path(__file__).parent.parent.joinpath(
+        Path("example/t01-services/synoptic")
+    )
+
+    g = Generator(synoptic_dir)
 
     return g

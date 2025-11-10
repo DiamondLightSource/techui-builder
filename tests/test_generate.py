@@ -4,14 +4,7 @@
 
 # from techui_builder.builder import Builder
 
-from pathlib import Path
-
-from techui_builder.generate import Generator
 from techui_builder.models import Entity
-
-
-def test_generator_init():
-    Generator(Path("example/t01-services"))
 
 
 def test_generator_load_screen(generator):

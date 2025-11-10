@@ -223,9 +223,7 @@ class Generator:
         LOGGER.debug(f"Screen path: {scrn_path}")
 
         # Path of screen relative to data/ so it knows where to open the file from
-        data_scrn_path = scrn_path.relative_to(
-            self.synoptic_dir.joinpath("opis"), walk_up=True
-        )
+        data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
 
         # Get dimensions of screen from TechUI repository
         if scrn_mapping["type"] == "embedded":

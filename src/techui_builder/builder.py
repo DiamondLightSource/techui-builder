@@ -56,7 +56,7 @@ class Builder:
     def setup(self):
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
         self._extract_services()
-        synoptic_dir = self._write_directory.parent
+        synoptic_dir = self._write_directory
         self.generator = Generator(synoptic_dir)
 
     def _extract_services(self):
@@ -228,8 +228,8 @@ exist."
 
     def write_json_map(
         self,
-        synoptic: Path = Path("example/t01-services/synoptic/opis-src/index-src.bob"),
-        dest: Path = Path("example/t01-services/synoptic/opis"),
+        synoptic: Path = Path("example/t01-services/synoptic/index.bob"),
+        dest: Path = Path("example/t01-services/synoptic"),
     ):
         """
         Maps the valid entries from the ioc.yaml file

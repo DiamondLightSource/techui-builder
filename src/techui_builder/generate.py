@@ -145,7 +145,7 @@ class Generator:
     def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
         """
         Takes in a list of widgets and finds the
-        maximum height in the list
+        maximum height and maximum width in the list
         """
         x_list: list[int] = []
         y_list: list[int] = []
@@ -297,7 +297,6 @@ class Generator:
                 new_widget.append(self._allocate_widget(value, component))
         else:
             new_widget = self._allocate_widget(scrn_mapping, component)
-
         return new_widget
 
     def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
@@ -391,7 +390,6 @@ class Generator:
             return
 
         self.widgets = self.layout_widgets(self.widgets)
-
         # Create a list of dimensions for the groups
         # that will be created.
         height, width = self._get_group_dimensions(self.widgets)

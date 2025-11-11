@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<widget type="action_button" version="2.0.0">
+  <name>pmac.GeoBrick</name>
+  <x>0</x>
+  <y>0</y>
+  <width>100</width>
+  <height>40</height>
+  <pv_name>BL23B-MO-BRICK-01:None</pv_name>
+  <text>BL23B-MO-BRICK-01</text>
+  <actions>
+    <action type="open_display">
+      <description>Open Display</description>
+      <macros>
+        <P>BL23B-MO-BRICK-01</P>
+      </macros>
+      <file>techui_support/bob/pmac/pmacController.bob</file>
+      <target>tab</target>
+    </action>
+  </actions>
+</widget>

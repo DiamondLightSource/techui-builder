@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <display version="2.0.0">
+    <name>motor</name>
+    <widget type="group" version="2.0.0">
+      <name>motor</name>
+      <x>0</x>
+      <y>0</y>
+      <widget type="embedded" version="2.0.0">
+        <name>X</name>
+        <width>205</width>
+        <height>120</height>
+        <file>../../../../src/techui_support/bob/pmac/motor_embed.bob</file>
+        <macros>
+          <P>BL01T-MO-MOTOR-01</P>
+          <M>X</M>
+        </macros>
+        <x>0</x>
+        <y>0</y>
+      </widget>
+      <widget type="embedded" version="2.0.0">
+        <name>A</name>
+        <width>205</width>
+        <height>120</height>
+        <file>../../../../src/techui_support/bob/pmac/motor_embed.bob</file>
+        <macros>
+          <P>BL01T-MO-MOTOR-01</P>
+          <M>A</M>
+        </macros>
+        <x>0</x>
+        <y>150</y>
+      </widget>
+      <widget type="action_button" version="2.0.0">
+        <name>pmac.GeoBrick</name>
+        <width>100</width>
+        <height>40</height>
+        <pv_name>BL01T-MO-BRICK-01:None</pv_name>
+        <text>BL01T-MO-BRICK-01</text>
+        <actions>
+          <action type="open_display">
+            <description>Open Display</description>
+            <macros>
+              <P>BL01T-MO-BRICK-01</P>
+            </macros>
+            <file>../../../../src/techui_support/bob/pmac/pmacController.bob</file>
+            <target>tab</target>
+          </action>
+        </actions>
+        <x>0</x>
+        <y>300</y>
+      </widget>
+    </widget>
+  </display>

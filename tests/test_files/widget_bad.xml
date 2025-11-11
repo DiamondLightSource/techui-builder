@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<widget type="embedded" version="2.0.0">
+  <name>CAM:</name>
+  <x></x>
+  <y></y>
+  <width></width>
+  <height></height>
+  <file>techui_support/bob/ADAravis/ADAravis_summary.bob</file>
+  <macros>
+    <P>BL23B-DI-MOD-02</P>
+    <R>CAM:</R>
+  </macros>
+</widget>

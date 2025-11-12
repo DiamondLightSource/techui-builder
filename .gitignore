@@ -67,7 +67,7 @@ venv*
 # Built bob files
 **/synoptic/*.bob
 **/synoptic/*.json
-!**/synoptic/index-src.bob
+!**/synoptic/index.bob
 
 # Generated schemas
 schemas/*

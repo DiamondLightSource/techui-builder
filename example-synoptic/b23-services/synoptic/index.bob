@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <display version="2.0.0">
   <name>Synoptic</name>
   <width>893</width>
@@ -45,7 +45,7 @@
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV4</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-VALVE-04:DEVSTA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -64,7 +64,7 @@
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>FEV4.bob</file>
         <macros>
           <DESC>BL23B-VA-VALVE-01</DESC>
           <device>BL23B-VA-VALVE-01</device>
@@ -104,7 +104,7 @@
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>TEST DESCRIPTION</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -112,7 +112,7 @@
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEABSB</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-RS-ABSB-01:DEVSTA</pv_name>
     <symbols>
       <symbol>images/absorber 1 (copy).svg</symbol>
       <symbol>images/absorber 1 (copy).svg</symbol>
@@ -128,7 +128,7 @@
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>FEABSB.bob</file>
         <macros>
           <DESC>FE Absorber</DESC>
           <device>FE23B-RS-ABSB-01</device>
@@ -136,7 +136,7 @@
           <valvetype>absorber</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>FEABSB</description>
       </action>
     </actions>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -206,7 +206,7 @@ $(pv_value)</tooltip>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_6</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>385</x>
     <y>375</y>
@@ -228,7 +228,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_8</name>
-    <text></text>
+    <text/>
     <x>435</x>
     <y>565</y>
     <width>30</width>
@@ -249,7 +249,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV2</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-VALVE-02:DEVSTA</pv_name>
     <symbols>
       <symbol>images/valve 1 (copy).svg</symbol>
       <symbol>images/valve 1 (copy).svg</symbol>
@@ -271,7 +271,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>FEV2.bob</file>
         <macros>
           <DESC>FE Valve 2</DESC>
           <device>FE23B-VA-VALVE-02</device>
@@ -279,7 +279,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>FEV2</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -310,7 +310,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>140</x>
     <y>285</y>
@@ -334,7 +334,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG4</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-IMG-04:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
@@ -355,14 +355,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IMG4.bob</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IMG4</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -370,7 +370,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP4</name>
-    <pv_name>$(prefix)-04:STA</pv_name>
+    <pv_name>FE23B-VA-IONP-04:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -389,14 +389,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP4.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP4</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -404,7 +404,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA2</name>
-    <pv_name>$(prefix):STA.SEVR</pv_name>
+    <pv_name>FE23B-VA-RGA-02:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/rga 0.svg</symbol>
     </symbols>
@@ -418,12 +418,12 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../rgamv2App_opi/rga.opi</file>
+        <file>RGA2.bob</file>
         <macros>
           <device>BL23B-VA-RGA-01</device>
         </macros>
         <target>tab</target>
-        <description>Open component screen</description>
+        <description>RGA2</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -788,7 +788,7 @@ Current</text>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG4</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-PIRG-04:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -809,14 +809,14 @@ Current</text>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>PIRG4.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>PIRG4</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -934,7 +934,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV3</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-VALVE-03:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -956,7 +956,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>FEV3.bob</file>
         <macros>
           <DESC>FE Valve 2</DESC>
           <device>FE23B-VA-VALVE-02</device>
@@ -964,7 +964,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>FEV3</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -972,7 +972,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M1</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>FE23B-OP-MR-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
@@ -986,9 +986,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>M1.bob</file>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>M1</description>
       </action>
       <action type="write_pv">
         <pv_name>BL23B-RS-GBC-01:DEVSTA.PROC</pv_name>
@@ -1006,7 +1006,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M2</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>FE23B-OP-MR-02:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
@@ -1021,9 +1021,9 @@ $(pv_value)</tooltip>
     <rotation>180.0</rotation>
     <actions>
       <action type="open_display">
-        <file>GBC1.opi</file>
+        <file>M2.bob</file>
         <target>tab</target>
-        <description>Open component screen</description>
+        <description>M2</description>
       </action>
       <action type="write_pv">
         <pv_name>BL23B-RS-GBC-01:DEVSTA.PROC</pv_name>
@@ -1056,7 +1056,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR1</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-PS-SHTR-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
@@ -1074,7 +1074,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>SHTR1.bob</file>
         <macros>
           <DESC>FE Shutter</DESC>
           <device>FE23B-PS-SHTR-02</device>
@@ -1082,7 +1082,7 @@ $(pv_value)</tooltip>
           <valvetype>shutter</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>FE Shutter</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1090,7 +1090,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR2</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-PS-SHTR-02:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
@@ -1108,7 +1108,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>SHTR2.bob</file>
         <macros>
           <DESC>FE Shutter</DESC>
           <device>FE23B-PS-SHTR-02</device>
@@ -1116,7 +1116,7 @@ $(pv_value)</tooltip>
           <valvetype>shutter</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>FE Shutter 2</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1125,7 +1125,7 @@ $(pv_value)</tooltip>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_10</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>350</x>
     <y>375</y>
@@ -1147,7 +1147,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M3</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>BL23B-OP-MR-03:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
@@ -1161,9 +1161,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>M3.bob</file>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>M3</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1403,7 +1403,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_2</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>460</x>
     <y>230</y>
@@ -1427,7 +1427,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG1</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IMG-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
@@ -1448,14 +1448,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IMG1.bob</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IMG1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1463,7 +1463,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP1</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IONP-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1482,14 +1482,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP1.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1497,7 +1497,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA1</name>
-    <pv_name>$(prefix):STA.SEVR</pv_name>
+    <pv_name>BL23B-VA-RGA-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/rga 0.svg</symbol>
     </symbols>
@@ -1511,12 +1511,12 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>../rgamv2App_opi/rga.opi</file>
+        <file>RGA1.bob</file>
         <macros>
           <device>BL23B-VA-RGA-01</device>
         </macros>
         <target>tab</target>
-        <description>Open component screen</description>
+        <description>RGA1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1524,7 +1524,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG1</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-PIRG-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -1545,14 +1545,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>PIRG1.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>PIRG1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1583,7 +1583,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_3</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>420</x>
     <y>255</y>
@@ -1607,7 +1607,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG6</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IMG-06:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
@@ -1628,14 +1628,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IMG6.bob</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IMG6</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1643,7 +1643,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP8</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-IONP-08:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1662,14 +1662,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP8.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP8</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1677,7 +1677,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG6</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-PIRG-06:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -1698,14 +1698,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>PIRG6.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>PIRG6</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1736,7 +1736,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_4</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>340</x>
     <y>255</y>
@@ -1760,7 +1760,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG5</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-IMG-05:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
@@ -1781,14 +1781,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IMG5.bob</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IMG5</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1796,7 +1796,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP7</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-IONP-07:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1815,14 +1815,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP7.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP7</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1830,7 +1830,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG5</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-PIRG-05:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -1851,14 +1851,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>PIRG5.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>PIRG5</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1867,7 +1867,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_5</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>304</x>
     <y>305</y>
@@ -1891,7 +1891,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP6</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-IONP-06:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1910,14 +1910,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP6.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP6</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1926,7 +1926,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_6</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>280</x>
     <y>305</y>
@@ -1950,7 +1950,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP5</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-IONP-05:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1969,14 +1969,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP5.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP5</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1984,7 +1984,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV2</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-VALVE-21:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -2003,7 +2003,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>GV2.bob</file>
         <macros>
           <DESC>BL23B-VA-VALVE-01</DESC>
           <device>BL23B-VA-VALVE-01</device>
@@ -2043,7 +2043,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>GV2</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2052,7 +2052,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_7</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>800</x>
     <y>145</y>
@@ -2076,7 +2076,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG21</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IMG-21:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
@@ -2097,14 +2097,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IMG21.bob</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IMG21</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2112,7 +2112,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP21</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IONP-21:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -2131,14 +2131,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP21.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP21</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2146,7 +2146,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG21</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-PIRG-21:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2167,14 +2167,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>PIRG21.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>PIRG21</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2262,7 +2262,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD2</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>BL23B-DI-MOD-02:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/aperture.svg</symbol>
     </symbols>
@@ -2275,6 +2275,11 @@ $(pv_value)</tooltip>
       </color>
     </background_color>
     <actions>
+      <action type="open_display">
+        <file>MOD2.bob</file>
+        <target>tab</target>
+        <description>MOD2</description>
+      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2298,7 +2303,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD1</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>BL23B-DI-MOD-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/aperture.svg</symbol>
     </symbols>
@@ -2312,9 +2317,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>ABS1.opi</file>
+        <file>MOD1.bob</file>
         <target>tab</target>
-        <description>Open component screen</description>
+        <description>MOD1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2323,7 +2328,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_8</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>725</x>
     <y>256</y>
@@ -2347,7 +2352,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG11</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IMG-11:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
@@ -2368,14 +2373,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IMG11.bob</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IMG11</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2383,7 +2388,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP11</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IONP-11:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -2402,14 +2407,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP11.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP11</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2417,7 +2422,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG11</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-PIRG-11:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2438,14 +2443,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>PIRG11.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>PIRG11</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2453,7 +2458,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV1</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-VALVE-11:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -2472,7 +2477,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>GV1.bob</file>
         <macros>
           <DESC>BL23B-VA-VALVE-01</DESC>
           <device>BL23B-VA-VALVE-01</device>
@@ -2512,7 +2517,7 @@ $(pv_value)</tooltip>
           <valvetype>valve</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>GV1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2521,7 +2526,7 @@ $(pv_value)</tooltip>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_9</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>800</x>
     <y>256</y>
@@ -2545,7 +2550,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG12</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IMG-12:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/img 0 (copy).svg</symbol>
@@ -2566,14 +2571,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IMG12.bob</file>
         <macros>
           <desc>BL23B-VA-IMG-01</desc>
           <device>BL23B-VA-IMG-01</device>
           <name>IMG1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IMG12</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2581,7 +2586,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP12</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IONP-12:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -2600,14 +2605,14 @@ $(pv_value)</tooltip>
     <initial_index>4</initial_index>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>IONP12.bob</file>
         <macros>
           <desc>BL23B-VA-IONP-01</desc>
           <device>BL23B-VA-IONP-01</device>
           <name>IONP1</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>IONP12</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2615,7 +2620,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG12</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-PIRG-12:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2636,14 +2641,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>PIRG12.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>PIRG12</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2652,7 +2657,7 @@ $(pv_value)</tooltip>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_14</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>385</x>
     <y>125</y>
@@ -2675,7 +2680,7 @@ $(pv_value)</tooltip>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_15</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>350</x>
     <y>285</y>
@@ -2698,7 +2703,7 @@ $(pv_value)</tooltip>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_16</name>
     <macros>
-      <pv_name></pv_name>
+      <pv_name/>
     </macros>
     <x>350</x>
     <y>275</y>
@@ -2737,7 +2742,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FESHTR</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>FE23B-VA-FVALV-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/shutter 1 (copy).svg</symbol>
@@ -2755,7 +2760,7 @@ $(pv_value)</tooltip>
     <initial_index>1</initial_index>
     <actions>
       <action type="open_display">
-        <file>../dlsPLCApp_opi/vacValve_detail.opi</file>
+        <file>FESHTR.bob</file>
         <macros>
           <DESC>FE Shutter</DESC>
           <device>FE23B-PS-SHTR-02</device>
@@ -2763,7 +2768,7 @@ $(pv_value)</tooltip>
           <valvetype>shutter</valvetype>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>FESHTR</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2771,7 +2776,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GCTLR1</name>
-    <pv_name>$(prefix):STA</pv_name>
+    <pv_name>BL23B-VA-IOC-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>../../../../src/techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2792,14 +2797,14 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>GCTLR1.bob</file>
         <macros>
           <desc>BL23B-VA-PIRG-02</desc>
           <device>BL23B-VA-PIRG-02</device>
           <name>PIRG2</name>
         </macros>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>Gauge Controller 1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2807,7 +2812,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SPACE11</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>BL23B-VA-SPACE-11:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/vfm-up.svg</symbol>
     </symbols>
@@ -2821,9 +2826,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>SPACE11.bob</file>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>Vacuum Space 11</description>
       </action>
       <action type="write_pv">
         <pv_name>BL23B-RS-GBC-01:DEVSTA.PROC</pv_name>
@@ -2841,7 +2846,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD1</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>BL23B-DI-MOD-01:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/camera-1.svg</symbol>
     </symbols>
@@ -2855,9 +2860,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>MOD1.bob</file>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>MOD1</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2894,7 +2899,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD2</name>
-    <pv_name>$(prefix):DEVSTA</pv_name>
+    <pv_name>BL23B-DI-MOD-02:DEVSTA</pv_name>
     <symbols>
       <symbol>../../../../src/techui_support/symbols/camera-1.svg</symbol>
     </symbols>
@@ -2908,9 +2913,9 @@ $(pv_value)</tooltip>
     </background_color>
     <actions>
       <action type="open_display">
-        <file>$(file)</file>
+        <file>MOD2.bob</file>
         <target>tab</target>
-        <description>$(desc)</description>
+        <description>MOD2</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>

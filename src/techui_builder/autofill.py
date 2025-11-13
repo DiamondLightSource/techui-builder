@@ -43,7 +43,7 @@ class Autofiller:
                         (comp for comp in gui.conf.components if comp == symbol_name),
                     )
 
-                    self.replace_macros(
+                    self.replace_content(
                         widget=child,
                         component_name=comp,
                         component=gui.conf.components[comp],
@@ -63,27 +63,7 @@ class Autofiller:
         )
         LOGGER.debug(f"Screen filled for {filename}")
 
-    def _sub_macro(
-        self,
-        tag_name: str,
-        macro: str,
-        element: ObjectifiedElement,
-        current_macro: str,
-    ) -> None:
-        # Extract it's current tag text, or if empty set to $(<macro>)
-        old: str = (
-            el.text
-            if (el := element.find(tag_name)) is not None and el.text is not None
-            else f"$({macro})"
-        )
-
-        # Replace instance of {<macro>} with the component's corresponding attribute
-        new: str = old.replace(f"$({macro})", current_macro)
-
-        # Set component's tag text to the autofilled macro
-        element[tag_name] = new
-
-    def replace_macros(
+    def replace_content(
         self,
         widget: ObjectifiedElement,
         component_name: str,
@@ -98,6 +78,7 @@ class Autofiller:
             match macro:
                 case "prefix":
                     tag_name = "pv_name"
+                    component_attr += ":DEVSTA"
                 case "desc":
                     tag_name = "description"
                     current_widget = _get_action_group(widget)
@@ -113,14 +94,10 @@ class Autofiller:
 
             if current_widget is None:
                 LOGGER.debug(
-                    f"Skipping replace_macros for {component_name} as no action\
+                    f"Skipping replace_content for {component_name} as no action\
  group found"
                 )
                 continue
 
-            self._sub_macro(
-                tag_name=tag_name,
-                macro=macro,
-                element=current_widget,
-                current_macro=component_attr,
-            )
+            # Set component's tag text to the corresponding widget tag
+            current_widget[tag_name] = component_attr

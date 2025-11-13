@@ -55,11 +55,14 @@ class Autofiller:
         if not data_dir.exists():
             os.mkdir(data_dir)
 
+        # Remove any unnecessary xmlns:py and py:pytype metadata from tags
+        objectify.deannotate(self.tree, cleanup_namespaces=True)
+
         self.tree.write(
             filename,
-            pretty_print=True,  # type: ignore
-            encoding="utf-8",  # type: ignore
-            xml_declaration=True,  # type: ignore
+            pretty_print=True,
+            encoding="utf-8",
+            xml_declaration=True,
         )
         LOGGER.debug(f"Screen filled for {filename}")
 

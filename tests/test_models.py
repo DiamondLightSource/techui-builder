@@ -1,6 +1,11 @@
 import pytest
 
-from techui_builder.models import Beamline, Component
+from techui_builder.models import (
+    Beamline,
+    Component,
+    GuiComponentEntry,
+    GuiComponents,
+)
 
 
 @pytest.fixture
@@ -11,6 +16,13 @@ def beamline() -> Beamline:
 @pytest.fixture
 def component() -> Component:
     return Component(prefix="BL01T-EA-TEST-02", desc="Test Device")
+
+
+@pytest.fixture
+def gui_components() -> GuiComponentEntry:
+    return GuiComponentEntry(
+        file="digitelMpc/digitelMpcIonp.bob", prefix="$(P)", type="embedded"
+    )
 
 
 # @pytest.mark.parametrize("beamline,expected",[])
@@ -39,3 +51,18 @@ def test_component_repr(component: Component):
 def test_component_bad_prefix():
     with pytest.raises(ValueError):
         Component(prefix="Test 2", desc="BAD_PREFIX")
+
+
+def test_gui_component_entry(gui_components: GuiComponentEntry):
+    assert gui_components.file == "digitelMpc/digitelMpcIonp.bob"
+    assert gui_components.prefix == "$(P)"
+    assert gui_components.type == "embedded"
+
+
+def test_gui_components_object(gui_components: GuiComponentEntry):
+    gc = GuiComponents({"digitelMpc.digitelMpcIonp": [gui_components]})
+    entry = gc.root["digitelMpc.digitelMpcIonp"][0]
+    assert entry.file == "digitelMpc/digitelMpcIonp.bob"
+
+    assert entry.prefix == "$(P)"
+    assert entry.type == "embedded"

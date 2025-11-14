@@ -95,21 +95,21 @@ class Generator:
         """
         # Read the bob file
         root = objectify.fromstring(str(widget))
-        height_element = root.height
-        if height_element is not None:
+        try:
+            height_element = root.height
             height = (
                 self.default_size if (val := height_element.text) is None else int(val)
             )
-        else:
+        except AttributeError:
             height = self.default_size
             assert "Could not obtain the size of the widget"
 
-        width_element = root.width
-        if width_element is not None:
+        try:
+            width_element = root.width
             width = (
                 self.default_size if (val := width_element.text) is None else int(val)
             )
-        else:
+        except AttributeError:
             width = self.default_size
             assert "Could not obtain the size of the widget"
 
@@ -124,17 +124,18 @@ class Generator:
         """
         # Read the bob file
         root = objectify.fromstring(str(object))
-        y_element = root.y
-        if y_element is not None:
+
+        try:
+            y_element = root.y
             y = self.default_size if (val := y_element.text) is None else int(val)
-        else:
+        except AttributeError:
             y = self.default_size
             assert "Could not obtain the size of the widget"
 
-        x_element = root.x
-        if x_element is not None:
+        try:
+            x_element = root.x
             x = self.default_size if (val := x_element.text) is None else int(val)
-        else:
+        except AttributeError:
             x = self.default_size
             assert "Could not obtain the size of the widget"
 
@@ -144,45 +145,19 @@ class Generator:
     def _get_group_dimensions(self, widget_list: list[EmbeddedDisplay | ActionButton]):
         """
         Takes in a list of widgets and finds the
-        maximum height in the list
+        maximum height and maximum width in the list
         """
         x_list: list[int] = []
         y_list: list[int] = []
         height_list: list[int] = []
         width_list: list[int] = []
         for widget in widget_list:
-            root = objectify.fromstring(str(widget))
-            x = root.x
-            if x is not None:
-                x_list.append(
-                    self.default_size if (val := x.text) is None else int(val)
-                )
-            else:
-                x_list.append(self.default_size)
-
-            height = root.height
-            if height is not None:
-                height_list.append(
-                    self.default_size if (val := height.text) is None else int(val)
-                )
-            else:
-                height_list.append(self.default_size)
-
-            width = root.width
-            if width is not None:
-                width_list.append(
-                    self.default_size if (val := width.text) is None else int(val)
-                )
-            else:
-                width_list.append(self.default_size)
-
-            y = root.y
-            if y is not None:
-                y_list.append(
-                    self.default_size if (val := y.text) is None else int(val)
-                )
-            else:
-                y_list.append(self.default_size)
+            y, x = self._get_widget_position(widget)
+            height, width = self._get_widget_dimensions(widget)
+            x_list.append(x)
+            y_list.append(y)
+            height_list.append(height)
+            width_list.append(width)
 
         return (
             max(y_list) + max(height_list) + self.group_padding,
@@ -276,7 +251,6 @@ class Generator:
 
             # For some reason the version of action buttons is 3.0.0?
             new_widget.version("2.0.0")
-
         return new_widget
 
     def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
@@ -367,7 +341,6 @@ class Generator:
             return
 
         self.widgets = self.layout_widgets(self.widgets)
-
         # Create a list of dimensions for the groups
         # that will be created.
         height, width = self._get_group_dimensions(self.widgets)

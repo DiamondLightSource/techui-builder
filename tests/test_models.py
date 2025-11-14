@@ -61,7 +61,7 @@ def test_gui_component_entry(gui_components: GuiComponentEntry):
 
 def test_gui_components_object(gui_components: GuiComponentEntry):
     gc = GuiComponents({"digitelMpc.digitelMpcIonp": [gui_components]})
-    entry = gc.root["digitelMpc.digitelMpcIonp"][0]
+    entry = gc.root["digitelMpc.digitelMpcIonp"][0]  # type: ignore
     assert entry.file == "digitelMpc/digitelMpcIonp.bob"
 
     assert entry.prefix == "$(P)"

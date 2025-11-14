@@ -1,7 +1,7 @@
 import logging
 import os
 from collections import defaultdict
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -181,9 +181,9 @@ class Generator:
 
         return (name, suffix, suffix_label)
 
-    def _is_dict_of_dicts(self, scrn_mapping: Mapping) -> bool:
-        return isinstance(scrn_mapping, Mapping) and all(
-            isinstance(scrn, Mapping) for scrn in scrn_mapping.values()
+    def _is_list_of_dicts(self, scrn_mapping: Mapping) -> bool:
+        return isinstance(scrn_mapping, Sequence) and all(
+            isinstance(scrn, Mapping) for scrn in scrn_mapping
         )
 
     def _allocate_widget(
@@ -270,8 +270,8 @@ class Generator:
             )
             return None
 
-        if self._is_dict_of_dicts(scrn_mapping):
-            for _, value in scrn_mapping.items():
+        if self._is_list_of_dicts(scrn_mapping):
+            for value in scrn_mapping:
                 new_widget.append(self._allocate_widget(support_path, value, component))
         else:
             new_widget = self._allocate_widget(support_path, scrn_mapping, component)

@@ -28,7 +28,7 @@ dependencies = [
     "rich>=14.1.0",
     "pydantic>=2.11.7",
 ]
-scripts = { create-gui = "techui_builder.__main__:app" }
+scripts = { techui-builder = "techui_builder.__main__:app" }
 
 [dependency-groups]
 dev = [

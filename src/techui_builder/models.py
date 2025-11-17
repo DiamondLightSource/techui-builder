@@ -130,7 +130,7 @@ class TechUi(BaseModel):
 
 
 """
-Ibek mapping models
+techui_support mapping models
 """
 
 BobPath = Annotated[
@@ -151,7 +151,10 @@ class GuiComponentEntry(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class GuiComponents(RootModel[dict[str, GuiComponentEntry]]):
+GuiComponentUnion = list[GuiComponentEntry] | GuiComponentEntry
+
+
+class GuiComponents(RootModel[dict[str, GuiComponentUnion]]):
     pass
 
 

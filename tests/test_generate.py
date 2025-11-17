@@ -130,6 +130,25 @@ def test_generator_create_widget_keyerror(generator, caplog):
     )
 
 
+def test_generator_create_widget_is_list_of_dicts(generator):
+    generator._get_screen_dimensions = Mock(return_value=(800, 1280))
+    generator._is_list_of_dicts = Mock(return_value=True)
+    generator._allocate_widget = Mock(
+        return_value=Widget.EmbeddedDisplay(
+            name="X", file="", x=0, y=0, width=205, height=120
+        )
+    )
+    generator.screen_name = "test"
+    component = Entity(
+        type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+    )
+    widget = generator._create_widget(component=component)
+    for value in widget:
+        assert str(value) == str(
+            Widget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
+        )
+
+
 def test_generator_create_widget_embedded(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     component = Entity(
@@ -139,7 +158,65 @@ def test_generator_create_widget_embedded(generator):
     widget = generator._create_widget(
         component=component,
     )
+    control_widget = Path("tests/test_files/widget.xml")
+    with open(control_widget) as f:
+        xml_content = f.read()
 
+    assert str(widget) == xml_content
+
+
+def test_generator_initialise_name_suffix_m(generator):
+    component = Entity(type="test", P="TEST", desc=None, M="T1", R=None)
+
+    name, suffix, suffix_label = generator._initialise_name_suffix(component)
+
+    assert name == "T1"
+    assert suffix == "T1"
+    assert suffix_label == "M"
+
+
+def test_generator_initialise_name_suffix_r(generator):
+    component = Entity(type="test", P="TEST", desc=None, M=None, R="T1")
+
+    name, suffix, suffix_label = generator._initialise_name_suffix(component)
+
+    assert name == "T1"
+    assert suffix == "T1"
+    assert suffix_label == "R"
+
+
+def test_generator_initialise_name_suffix_none(generator):
+    component = Entity(type="test", P="TEST", desc=None, M=None, R=None)
+
+    name, suffix, suffix_label = generator._initialise_name_suffix(component)
+
+    assert name == "test"
+    assert suffix == ""
+    assert suffix_label is None
+
+
+def test_generator_is_list_of_dicts(generator):
+    list_of_dicts = [{"a": 1}, {"b": 2}]
+    assert generator._is_list_of_dicts(list_of_dicts) is True
+
+
+def test_generator_is_list_of_dicts_not(generator):
+    not_list_of_dicts = {"a": 1}
+    assert generator._is_list_of_dicts(not_list_of_dicts) is False
+
+
+def test_generator_allocate_widget(generator):
+    generator._initilise_name_suffix = Mock(return_value=("CAM:", "CAM:", "R"))
+
+    scrn_mapping = {
+        "file": "ADAravis/ADAravis_summary.bob",
+        "prefix": "$(P)$(R)",
+        "type": "embedded",
+    }
+    component = Entity(
+        type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+    )
+    widget = generator._allocate_widget(scrn_mapping, component)
     control_widget = Path("tests/test_files/widget.xml")
 
     with open(control_widget) as f:

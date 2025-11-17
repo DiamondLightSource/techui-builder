@@ -155,7 +155,7 @@ def test_write_json_map(builder):
         mock_serialise_json_map.return_value = {"test": "test"}
 
         builder.write_json_map(
-            synoptic=builder._write_directory.joinpath("index-src.bob"),
+            synoptic=builder._write_directory.joinpath("index.bob"),
             dest=builder._write_directory,
         )
 

@@ -142,7 +142,7 @@ def main(
         # Search default relative dir to techui filename
         # There will only ever be one file, but if not return None
         bob_file = next(
-            synoptic_dir.glob("index-src.bob"),
+            synoptic_dir.glob("index.bob"),
             None,
         )
         if bob_file is None:

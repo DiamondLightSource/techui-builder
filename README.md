@@ -29,7 +29,7 @@ The process to use this module goes as follows (WIP):
 ## Setting Up
 
 1. Clone the beamline `ixx-services` repo to the root of this project, ensuring each IOC service has been converted to the [ibek](git@github.com:epics-containers/ibek.git) format.
-1. Create your handmade synoptic overview screen in Phoebus and place inside `ixx-services/synoptic/opis-src/index-src.bob`.
+1. Create your handmade synoptic overview screen in Phoebus and place inside `ixx-services/synoptic/index.bob`.
 1. Construct a `techui.yaml` file inside `ixx-services/synoptic` containing all the components from the services:
 
     ```
@@ -62,7 +62,7 @@ The process to use this module goes as follows (WIP):
 
 `$ techui-builder /path/to/synoptic/techui.yaml`
 
-This generates a populated `index.bob` and individual component screens inside `ixx-services/synoptic/opis/`.
+This populates `index.bob` and individual component screens inside `ixx-services/synoptic`.
 
 ## Viewing the Synoptic
 

@@ -130,6 +130,25 @@ def test_generator_create_widget_keyerror(generator, caplog):
     )
 
 
+def test_generator_create_widget_is_list_of_dicts(generator):
+    generator._get_screen_dimensions = Mock(return_value=(800, 1280))
+    generator._is_list_of_dicts = Mock(return_value=True)
+    generator._allocate_widget = Mock(
+        return_value=Widget.EmbeddedDisplay(
+            name="X", file="", x=0, y=0, width=205, height=120
+        )
+    )
+    generator.screen_name = "test"
+    component = Entity(
+        type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+    )
+    widget = generator._create_widget(component=component)
+    for value in widget:
+        assert str(value) == str(
+            Widget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
+        )
+
+
 def test_generator_create_widget_embedded(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     component = Entity(
@@ -139,6 +158,11 @@ def test_generator_create_widget_embedded(generator):
     widget = generator._create_widget(
         component=component,
     )
+    control_widget = Path("tests/test_files/widget.xml")
+    with open(control_widget) as f:
+        xml_content = f.read()
+
+    assert str(widget) == xml_content
 
 
 def test_generator_initialise_name_suffix_m(generator):

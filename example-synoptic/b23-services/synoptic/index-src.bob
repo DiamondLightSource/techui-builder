@@ -106,16 +106,6 @@
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -147,16 +137,6 @@
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -301,16 +281,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -327,7 +297,7 @@ $(pv_value)</tooltip>
     <x>130</x>
     <y>195</y>
     <width>1</width>
-    <height>61</height>
+    <height>57</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -394,16 +364,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -438,16 +398,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -474,16 +424,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>Open component screen</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -878,16 +818,6 @@ Current</text>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1036,16 +966,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1164,16 +1084,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1207,16 +1117,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1490,7 +1390,7 @@ $(pv_value)</tooltip>
     <x>450</x>
     <y>140</y>
     <width>1</width>
-    <height>59</height>
+    <height>55</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1557,16 +1457,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1601,16 +1491,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1637,16 +1517,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>Open component screen</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1684,16 +1554,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1710,7 +1570,7 @@ $(pv_value)</tooltip>
     <x>410</x>
     <y>140</y>
     <width>1</width>
-    <height>57</height>
+    <height>53</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1777,16 +1637,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1820,16 +1670,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -1867,16 +1707,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -1893,7 +1723,7 @@ $(pv_value)</tooltip>
     <x>330</x>
     <y>140</y>
     <width>1</width>
-    <height>55</height>
+    <height>51</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1960,16 +1790,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2003,16 +1823,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2049,16 +1859,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2119,16 +1919,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2187,16 +1977,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2265,16 +2045,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2336,16 +2106,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2379,16 +2139,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2426,16 +2176,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2452,7 +2192,7 @@ $(pv_value)</tooltip>
     <x>790</x>
     <y>40</y>
     <width>1</width>
-    <height>55</height>
+    <height>51</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -2535,21 +2275,6 @@ $(pv_value)</tooltip>
       </color>
     </background_color>
     <actions>
-      <action type="open_display">
-        <file>ABS1.opi</file>
-        <target>tab</target>
-        <description>Open component screen</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>BL23B-RS-ABS-01:DEVSTA.PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>BL23B-RS-ABS-01:DEVSTA:CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2590,16 +2315,6 @@ $(pv_value)</tooltip>
         <file>ABS1.opi</file>
         <target>tab</target>
         <description>Open component screen</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>BL23B-RS-ABS-01:DEVSTA.PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>BL23B-RS-ABS-01:DEVSTA:CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2662,16 +2377,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2705,16 +2410,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2751,16 +2446,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2829,16 +2514,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2900,16 +2575,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -2943,16 +2608,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -2989,16 +2644,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -3120,16 +2765,6 @@ $(pv_value)</tooltip>
         <target>tab</target>
         <description>$(desc)</description>
       </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
-      </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
@@ -3165,16 +2800,6 @@ $(pv_value)</tooltip>
         </macros>
         <target>tab</target>
         <description>$(desc)</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name).PROC</pv_name>
-        <value>1</value>
-        <description>Clear alarm status</description>
-      </action>
-      <action type="write_pv">
-        <pv_name>$(pv_name):CALC.PROC</pv_name>
-        <value>1</value>
-        <description>Restore alarm status</description>
       </action>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>

@@ -49,6 +49,9 @@ class Autofiller:
                         component=gui.conf.components[comp],
                     )
 
+                    # Add option to allow left mouse click to run action
+                    child["run_actions_on_mouse_click"] = "true"
+
     def write_bob(self, filename: Path):
         # Check if data/ dir exists and if not, make it
         data_dir = filename.parent

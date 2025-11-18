@@ -29,13 +29,14 @@ app = typer.Typer(
     |       `-- config\n
     |           `-- ioc.yaml\n
     `-- synoptic\n
+    .   |-- techui_support/\n
+    |   |   `-- ...\n
     .   |-- techui.yaml\n
-    .   `-- opis-src\n
-    .       `-- index-src.bob\n
+    .   `-- index.bob\n
 """,
 )
 
-default_bobfile = "index-src.bob"
+default_bobfile = "index.bob"
 
 
 def version_callback(value: bool):
@@ -94,23 +95,6 @@ def main(
     bob_file = bobfile
 
     gui = Builder(techui=filename)
-
-    # This next part is assuming the file structure:
-    #
-    # ixx-services
-    # |-- services
-    # |   |-- blxxi-ea-device-01
-    # |   |   `-- config
-    # |   |       `-- ioc.yaml
-    # |   |-- ...
-    # |   `-- blxxi-va-device-01
-    # |       `-- config
-    # |           `-- ioc.yaml
-    # `-- synoptic
-    # .   |-- techui.yaml
-    # .   `-- opis-src
-    # .       `-- index-src.bob
-    #
 
     # Get the relative path to the techui file from working dir
     abs_path = filename.absolute()

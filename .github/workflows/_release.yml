@@ -27,7 +27,7 @@ jobs:
         uses: ./.github/actions/install_requirements
 
       - name: generate-schema
-        run: create-gui --schema
+        run: techui-builder --schema
 
       - name: Create GitHub Release
         # We pin to the SHA, not the tag, for security reasons.

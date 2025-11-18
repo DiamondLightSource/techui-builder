@@ -39,5 +39,5 @@ COPY --from=build /assets/.venv/ .venv/
 ENV PATH=.venv/bin:$PATH
 
 # Change this entrypoint if it is not the same as the repo
-ENTRYPOINT ["create-gui"]
+ENTRYPOINT ["techui-builder"]
 CMD ["--version"]

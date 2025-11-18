@@ -109,6 +109,7 @@
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEABSB</name>
@@ -140,6 +141,7 @@
       </action>
     </actions>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MACH</name>
@@ -284,6 +286,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)</name>
@@ -367,6 +370,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP4</name>
@@ -401,6 +405,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA2</name>
@@ -428,6 +433,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_25</name>
@@ -821,6 +827,7 @@ Current</text>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="polygon" version="2.0.0">
     <name>Polygon</name>
@@ -969,6 +976,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M1</name>
@@ -1003,6 +1011,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>M2</name>
@@ -1038,6 +1047,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_31</name>
@@ -1087,6 +1097,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR2</name>
@@ -1121,6 +1132,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_10</name>
@@ -1168,6 +1180,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_32</name>
@@ -1460,6 +1473,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP1</name>
@@ -1494,6 +1508,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA1</name>
@@ -1521,6 +1536,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG1</name>
@@ -1557,6 +1573,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)_2</name>
@@ -1640,6 +1657,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP8</name>
@@ -1674,6 +1692,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG6</name>
@@ -1710,6 +1729,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)_3</name>
@@ -1793,6 +1813,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP7</name>
@@ -1827,6 +1848,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG5</name>
@@ -1863,6 +1885,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_5</name>
@@ -1922,6 +1945,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_6</name>
@@ -1981,6 +2005,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV2</name>
@@ -2048,6 +2073,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_7</name>
@@ -2109,6 +2135,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP21</name>
@@ -2143,6 +2170,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG21</name>
@@ -2179,6 +2207,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>auto(GAUGE1)_4</name>
@@ -2283,6 +2312,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_34</name>
@@ -2324,6 +2354,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_8</name>
@@ -2385,6 +2416,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP11</name>
@@ -2419,6 +2451,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG11</name>
@@ -2455,6 +2488,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV1</name>
@@ -2522,6 +2556,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_9</name>
@@ -2583,6 +2618,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP12</name>
@@ -2617,6 +2653,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG12</name>
@@ -2653,6 +2690,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="rectangle" version="2.0.0">
     <name>Rectangle_14</name>
@@ -2773,6 +2811,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GCTLR1</name>
@@ -2809,6 +2848,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SPACE11</name>
@@ -2843,6 +2883,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>MOD1</name>
@@ -2867,6 +2908,7 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_33</name>
@@ -2920,5 +2962,6 @@ $(pv_value)</tooltip>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
   </widget>
 </display>

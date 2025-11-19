@@ -84,7 +84,13 @@ class Autofiller:
             match macro:
                 case "prefix":
                     tag_name = "pv_name"
-                    component_attr += ":DEVSTA"
+
+                    # TODO: Find a better solution to the STA/DEVSTA difference
+                    parts = component.prefix.split("-")
+                    if parts[1] == "VA" or parts[1] == "PS":
+                        component_attr += ":STA"
+                    else:
+                        component_attr += ":DEVSTA"
                 case "desc":
                     tag_name = "description"
                     current_widget = _get_action_group(widget)

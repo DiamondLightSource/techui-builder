@@ -33,6 +33,7 @@ class Generator:
     widgets: list[ActionButton | EmbeddedDisplay] = field(
         default_factory=list[ActionButton | EmbeddedDisplay], init=False, repr=False
     )
+    group: Group | None = field(default=None, init=False, repr=False)
 
     # Add group padding, and self.widget_x for placing widget in x direction relative to
     # other widgets, with a widget count to reset the self.widget_x dimension when the
@@ -337,16 +338,9 @@ class Generator:
 
         return sorted_widgets
 
-    def build_groups(self):
-        """
-        Create a group to fill with widgets
-        """
-        # Create screen
-        self.screen_ = pscreen.Screen(self.screen_name)
+    def build_widgets(self):
         # Empty widget buffer
         self.widgets = []
-
-        # create widget and group objects
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
@@ -358,6 +352,11 @@ class Generator:
                 self.widgets.extend(new_widget)
                 continue
             self.widgets.append(new_widget)
+
+    def build_groups(self):
+        """
+        Create a group to fill with widgets
+        """
 
         if self.widgets == []:
             # No widgets found, so just back out
@@ -376,8 +375,23 @@ class Generator:
             height,
         )
 
+        # TODO: we shouldn't need this assert; fix
+        assert self.group is not None
         self.group.version("2.0.0")
         self.group.add_widget(self.widgets)
+
+    def build_screen(self):
+        """
+        Build the screen with the widget groups.
+        """
+        # Create screen
+        self.screen_ = pscreen.Screen(self.screen_name)
+
+        # TODO: I don't like this
+        if self.group is None:
+            # No group found, so just back out
+            return
+
         self.screen_.add_widget(self.group)
 
     def write_screen(self, directory: Path):

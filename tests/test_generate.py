@@ -298,7 +298,8 @@ def test_generator_layout_widgets(generator, index, x, y):
     assert arranged_widgets[index]._y == y
 
 
-def test_generator_build_groups(generator):
+# TODO: Split up test
+def test_generator_build_screen(generator):
     generator._create_widget = Mock(return_value=Mock())
     generator.layout_widgets = Mock(
         return_value=[
@@ -312,7 +313,9 @@ def test_generator_build_groups(generator):
     generator.screen_name = "test"
     generator.screen_components = [Mock(), Mock(), Mock()]
 
+    generator.build_widgets()
     generator.build_groups()
+    generator.build_screen()
     assert objectify.fromstring(str(generator.screen_)).xpath("//widget[@type='group']")
 
 

@@ -42,6 +42,7 @@ dev = [
     "pytest-forked",
     "pytest-rerunfailures",
     "pytest-timeout",
+    "requests>=2.32.5",
     "ruff",
     "tox-uv",
     "types-lxml",

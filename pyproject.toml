@@ -32,21 +32,19 @@ scripts = { techui-builder = "techui_builder.__main__:app" }
 
 [dependency-groups]
 dev = [
-    "build",
     "copier",
     "basedpyright>=1.27.1",
-    "pipdeptree",
     "pre-commit",
-    "pytest>8.3.4",
+    "pytest",
     "pytest-asyncio",
     "pytest-cov",
     "pytest-faulthandler",
     "pytest-forked",
     "pytest-rerunfailures",
     "pytest-timeout",
+    "requests>=2.32.5",
     "ruff",
     "tox-uv",
-    "twine",
     "types-lxml",
     "types-mock",
     "uv~=0.9.4",
@@ -81,6 +79,7 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.run]
+patch = ["subprocess"]
 data_file = "/tmp/techui_builder.coverage"
 
 [tool.coverage.paths]
@@ -89,37 +88,36 @@ source = ["src", "**/site-packages/"]
 
 [tool.tox]
 skipsdist = true
-requires = ["tox-uv>=1.25.0"]
 # envs to runs automatically with tox -p
 env_list = ["pre-commit", "type-checking", "tests"] # "docs"]
 
-[tool.tox.env]
-passenv = { "*" = "" }
-# Include setuptools, pip, ... in the tox envs
-uv_seed = { enabled = true }
+[tool.tox.env_run_base]
+# Pass all environment variables to the test environments
+passenv = ["*"]
 
 [tool.tox.env.pre-commit]
-description = "Run pre-commit"
-allowlist_externals = ["pre-commit"]
+description = "Run pre-commit on all files"
 commands = [
     [
         "pre-commit",
         "run",
-        #"--all-files",
+        "--all-files",
         "--show-diff-on-failure",
-        { replace = "posargs", default = [], extend = true },
+        { replace = "posargs", default = [
+        ], extend = true },
     ],
 ]
 
 [tool.tox.env.type-checking]
-description = "Run type-checking"
+description = "Run basedpyright"
 allowlist_externals = ["basedpyright"]
 # needed otherwise throws reportUnknownMemberType errors
 deps = ["pytest"]
 commands = [
     [
         "basedpyright",
-        "--stats",
+        "--pythonpath",
+        ".venv/bin/python",
         "src",
         "tests",
         { replace = "posargs", default = [
@@ -128,12 +126,10 @@ commands = [
 ]
 
 [tool.tox.env.tests]
-description = "Run tests"
-allowlist_externals = ["pytest"]
+description = "Run tests with coverage"
 commands = [
     [
         "pytest",
-        "-vv",
         "--cov=techui_builder",
         "--cov-report",
         "term",
@@ -144,7 +140,6 @@ commands = [
     ],
 ]
 
-
 [tool.ruff]
 src = ["src", "tests", "system_tests"]
 line-length = 88
@@ -153,6 +148,7 @@ lint.select = [
     "C4",  # flake8-comprehensions - https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
     "E",   # pycodestyle errors - https://docs.astral.sh/ruff/rules/#error-e
     "F",   # pyflakes rules - https://docs.astral.sh/ruff/rules/#pyflakes-f
+    "N",   # pep8-naming - https://docs.astral.sh/ruff/rules/#pep8-naming-n
     "W",   # pycodestyle warnings - https://docs.astral.sh/ruff/rules/#warning-w
     "I",   # isort - https://docs.astral.sh/ruff/rules/#isort-i
     "UP",  # pyupgrade - https://docs.astral.sh/ruff/rules/#pyupgrade-up

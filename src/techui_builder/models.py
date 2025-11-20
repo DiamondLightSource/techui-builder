@@ -12,7 +12,7 @@ from pydantic import (
     field_validator,
 )
 
-LOGGER = logging.getLogger(__name__)
+logger_ = logging.getLogger(__name__)
 
 
 # Patterns:
@@ -103,14 +103,14 @@ class Component(BaseModel):
 
     @computed_field
     @property
-    def P(self) -> str | None:
+    def P(self) -> str | None:  # noqa: N802
         match = re.match(_DLS_PREFIX_RE, self.prefix)
         if match:
             return match.group(1)
 
     @computed_field
     @property
-    def R(self) -> str | None:
+    def R(self) -> str | None:  # noqa: N802
         match = re.match(_DLS_PREFIX_RE, self.prefix)
         if match:
             return match.group(2)

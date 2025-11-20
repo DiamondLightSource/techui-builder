@@ -9,7 +9,7 @@ from lxml.objectify import ObjectifiedElement
 from techui_builder.builder import Builder, _get_action_group
 from techui_builder.models import Component
 
-LOGGER = logging.getLogger(__name__)
+logger_ = logging.getLogger(__name__)
 
 
 @dataclass
@@ -67,7 +67,7 @@ class Autofiller:
             encoding="utf-8",
             xml_declaration=True,
         )
-        LOGGER.debug(f"Screen filled for {filename}")
+        logger_.debug(f"Screen filled for {filename}")
 
     def replace_content(
         self,
@@ -99,7 +99,7 @@ class Autofiller:
                     raise ValueError("The provided macro type is not supported.")
 
             if current_widget is None:
-                LOGGER.debug(
+                logger_.debug(
                     f"Skipping replace_content for {component_name} as no action\
  group found"
                 )

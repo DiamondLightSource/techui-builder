@@ -7,13 +7,13 @@ from pathlib import Path
 
 import yaml
 from lxml import objectify
-from phoebusgen import screen as Screen
-from phoebusgen import widget as Widget
+from phoebusgen import screen as pscreen
+from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
 from techui_builder.models import Entity
 
-LOGGER = logging.getLogger(__name__)
+logger_ = logging.getLogger(__name__)
 
 
 @dataclass
@@ -50,7 +50,7 @@ class Generator:
     def _read_map(self):
         """Read the techui_support.yaml file from techui-support."""
         support_yaml = self.support_path.joinpath("techui_support.yaml").absolute()
-        LOGGER.debug(f"techui_support.yaml location: {support_yaml}")
+        logger_.debug(f"techui_support.yaml location: {support_yaml}")
 
         with open(support_yaml) as map:
             self.techui_support = yaml.safe_load(map)
@@ -192,14 +192,14 @@ class Generator:
         name, suffix, suffix_label = self._initialise_name_suffix(component)
         # Get relative path to screen
         scrn_path = self.support_path.joinpath(f"bob/{scrn_mapping['file']}")
-        LOGGER.debug(f"Screen path: {scrn_path}")
+        logger_.debug(f"Screen path: {scrn_path}")
 
         # Path of screen relative to data/ so it knows where to open the file from
         data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
 
         if scrn_mapping["type"] == "embedded":
             height, width = self._get_screen_dimensions(str(scrn_path))
-            new_widget = Widget.EmbeddedDisplay(
+            new_widget = pwidget.EmbeddedDisplay(
                 name,
                 str(data_scrn_path),
                 0,
@@ -216,7 +216,7 @@ class Generator:
         else:
             height, width = (40, 100)
 
-            new_widget = Widget.ActionButton(
+            new_widget = pwidget.ActionButton(
                 name,
                 component.P,
                 f"{component.P}:{suffix_label}",
@@ -261,7 +261,7 @@ class Generator:
         try:
             scrn_mapping = self.techui_support[component.type]
         except KeyError:
-            LOGGER.warning(
+            logger_.warning(
                 f"No available widget for {component.type} in screen \
 {self.screen_name}. Skipping..."
             )
@@ -344,7 +344,7 @@ class Generator:
         Create a group to fill with widgets
         """
         # Create screen
-        self.screen_ = Screen.Screen(self.screen_name)
+        self.screen_ = pscreen.Screen(self.screen_name)
         # Empty widget buffer
         self.widgets = []
 
@@ -386,7 +386,7 @@ class Generator:
         """Write the screen to file"""
 
         if self.widgets == []:
-            LOGGER.warning(
+            logger_.warning(
                 f"Could not write screen: {self.screen_name} \
 as no widgets were available"
             )
@@ -395,4 +395,4 @@ as no widgets were available"
         if not directory.exists():
             os.mkdir(directory)
         self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")
-        LOGGER.info(f"{self.screen_name}.bob has been created successfully")
+        logger_.info(f"{self.screen_name}.bob has been created successfully")

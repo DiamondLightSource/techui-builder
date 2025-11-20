@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from techui_builder.builder import Builder, json_map
+from techui_builder.builder import Builder, JsonMap
 from techui_builder.generate import Generator
 
 
@@ -30,8 +30,8 @@ def builder_with_setup(builder: Builder):
 @pytest.fixture
 def example_json_map():
     # Create test json map with child json map
-    test_map_child = json_map("test_child_bob.bob", exists=False)
-    test_map = json_map("tests/test_files/test_bob.bob")
+    test_map_child = JsonMap("test_child_bob.bob", exists=False)
+    test_map = JsonMap("tests/test_files/test_bob.bob")
     test_map.children.append(test_map_child)
 
     return test_map

@@ -12,15 +12,15 @@ from lxml.objectify import ObjectifiedElement
 from techui_builder.generate import Generator
 from techui_builder.models import Entity, TechUi
 
-LOGGER = logging.getLogger(__name__)
+logger_ = logging.getLogger(__name__)
 
 
 @dataclass
-class json_map:
+class JsonMap:
     file: str
     exists: bool = True
     duplicate: bool = False
-    children: list["json_map"] = field(default_factory=list)
+    children: list["JsonMap"] = field(default_factory=list)
     macros: dict[str, str] = field(default_factory=dict)
     error: str = ""
 
@@ -71,7 +71,7 @@ class Builder:
             try:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
             except OSError:
-                LOGGER.error(
+                logger_.error(
                     f"No ioc.yaml file for service: [bold]{service.name}[/bold]. \
 Does it exist?"
                 )
@@ -107,7 +107,7 @@ Does it exist?"
     def generate_screens(self):
         """Generate the screens for each component in techui.yaml"""
         if len(self.entities) == 0:
-            LOGGER.critical("No ioc entities found, has setup() been run?")
+            logger_.critical("No ioc entities found, has setup() been run?")
             exit()
 
         # Loop over every component defined in techui.yaml and locate
@@ -121,7 +121,7 @@ Does it exist?"
                     # If component has any extras, add them to the entries to generate
                     for extra_p in component.extras:
                         if extra_p not in self.entities.keys():
-                            LOGGER.error(
+                            logger_.error(
                                 f"Extra prefix {extra_p} for {component_name} does not \
 exist."
                             )
@@ -130,7 +130,7 @@ exist."
 
                 self._generate_screen(component_name, screen_entities)
             else:
-                LOGGER.warning(
+                logger_.warning(
                     f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\
  set in the component [bold]{component_name}[/bold] does not match any P field in the\
  ioc.yaml files in services"
@@ -138,7 +138,7 @@ exist."
 
     def _generate_json_map(
         self, screen_path: Path, dest_path: Path, visited: set[Path] | None = None
-    ) -> json_map:
+    ) -> JsonMap:
         def _get_macros(element: ObjectifiedElement):
             if hasattr(element, "macros"):
                 macros = element.macros.getchildren()
@@ -153,7 +153,7 @@ exist."
         if visited is None:
             visited = set()
 
-        current_node = json_map(str(screen_path))
+        current_node = JsonMap(str(screen_path))
 
         abs_path = screen_path
         dest_path = dest_path
@@ -211,10 +211,10 @@ exist."
                         next_file_path, dest_path, visited
                     )
                 else:
-                    child_node = json_map(str(file_path), exists=False)
+                    child_node = JsonMap(str(file_path), exists=False)
 
                 child_node.macros = macro_dict
-                # TODO: make this work for only list[json_map]
+                # TODO: make this work for only list[JsonMap]
                 assert isinstance(current_node.children, list)
                 # TODO: fix typing
                 current_node.children.append(child_node)
@@ -241,33 +241,33 @@ exist."
             )
 
         map = self._generate_json_map(synoptic, dest)
-        with open(dest.joinpath("json_map.json"), "w") as f:
+        with open(dest.joinpath("JsonMap.json"), "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
                 + "\n"
             )
 
 
-# Function to convert the json_map objects into dictionaries,
+# Function to convert the JsonMap objects into dictionaries,
 # while ignoring default values
-def _serialise_json_map(map: json_map) -> dict[str, Any]:
+def _serialise_json_map(map: JsonMap) -> dict[str, Any]:
     def _check_default(key: str, value: Any):
         # Is a default factory used? (e.g. list, dict, ...)
         if not isinstance(
-            json_map.__dataclass_fields__[key].default_factory, _MISSING_TYPE
+            JsonMap.__dataclass_fields__[key].default_factory, _MISSING_TYPE
         ):
             # If so, check if value is the same as default factory
-            default = json_map.__dataclass_fields__[key].default_factory()
+            default = JsonMap.__dataclass_fields__[key].default_factory()
         else:
             # If not, check if value is the default value
-            default = json_map.__dataclass_fields__[key].default
+            default = JsonMap.__dataclass_fields__[key].default
         return value == default
 
     d = {}
 
     # Loop over everything in the json map object's dictionary
     for key, val in map.__dict__.items():
-        # If children has nested json_map object, serialise that too
+        # If children has nested JsonMap object, serialise that too
         if key == "children" and len(val) > 0:
             val = [_serialise_json_map(v) for v in val]
 
@@ -292,4 +292,4 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
         return None
     except AttributeError:
         # TODO: Find better way of handling there being no "actions" group
-        LOGGER.error(f"Actions group not found in component: {element.text}")
+        logger_.error(f"Actions group not found in component: {element.text}")

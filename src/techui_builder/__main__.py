@@ -90,7 +90,7 @@ def main(
 ) -> None:
     """Default function called from cmd line tool."""
 
-    LOGGER = logging.getLogger(__name__)
+    logger_ = logging.getLogger(__name__)
 
     bob_file = bobfile
 
@@ -98,11 +98,11 @@ def main(
 
     # Get the relative path to the techui file from working dir
     abs_path = filename.absolute()
-    LOGGER.debug(f"techui.yaml absolute path: {abs_path}")
+    logger_.debug(f"techui.yaml absolute path: {abs_path}")
 
     # Get the current working dir
     cwd = Path.cwd()
-    LOGGER.debug(f"Working directory: {cwd}")
+    logger_.debug(f"Working directory: {cwd}")
 
     # Get the relative path of ixx-services to techui.yaml
     ixx_services_dir = next(
@@ -116,11 +116,11 @@ def main(
     if ixx_services_dir is None:
         logging.critical("ixx-services not found. Is you file structure correct?")
         exit()
-    LOGGER.debug(f"ixx-services relative path: {ixx_services_dir}")
+    logger_.debug(f"ixx-services relative path: {ixx_services_dir}")
 
     # Get the synoptic dir relative to the parent dir
     synoptic_dir = ixx_services_dir.joinpath("synoptic")
-    LOGGER.debug(f"synoptic relative path: {synoptic_dir}")
+    logger_.debug(f"synoptic relative path: {synoptic_dir}")
 
     if bob_file is None:
         # Search default relative dir to techui filename
@@ -139,13 +139,13 @@ def main(
         logging.critical(f"Source bob file '{bob_file}' not found. Does it exist?")
         exit()
 
-    LOGGER.debug(f"bob file: {bob_file}")
+    logger_.debug(f"bob file: {bob_file}")
 
     # # Overwrite after initialised to make sure this is picked up
     gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
     gui._write_directory = synoptic_dir  # noqa: SLF001
 
-    LOGGER.debug(
+    logger_.debug(
         f"""
 
 Builder created for {gui.conf.beamline.short_dom}.
@@ -157,7 +157,7 @@ Write directory: {gui._write_directory}
     gui.setup()
     gui.generate_screens()
 
-    LOGGER.info(f"Screens generated for {gui.conf.beamline.short_dom}.")
+    logger_.info(f"Screens generated for {gui.conf.beamline.short_dom}.")
 
     autofiller = Autofiller(bob_file)
     autofiller.read_bob()
@@ -167,10 +167,10 @@ Write directory: {gui._write_directory}
 
     autofiller.write_bob(dest_bob)
 
-    LOGGER.info(f"Screens autofilled for {gui.conf.beamline.short_dom}.")
+    logger_.info(f"Screens autofilled for {gui.conf.beamline.short_dom}.")
 
     gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    LOGGER.info(
+    logger_.info(
         f"Json map generated for {gui.conf.beamline.short_dom} (from index.bob)"
     )
 

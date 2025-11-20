@@ -7,9 +7,9 @@ import pytest
 from lxml import objectify
 
 from techui_builder.builder import (
+    JsonMap,
     _get_action_group,  # type: ignore
     _serialise_json_map,  # type: ignore
-    json_map,
 )
 
 
@@ -43,7 +43,15 @@ def test_beamline_attributes(builder, attr, expected):
     ],
 )
 def test_component_attributes(
-    builder, index, name, desc, P, R, attribute, file, extras
+    builder,
+    index,
+    name,
+    desc,
+    P,  # noqa: N803
+    R,  # noqa: N803
+    attribute,
+    file,
+    extras,
 ):
     components = list(builder.conf.components.keys())
     component = builder.conf.components[components[index]]
@@ -88,7 +96,7 @@ def test_missing_service(builder, caplog):
         ),
     ],
 )
-def test_gb_extract_entities(builder, index, type, desc, P, M, R):
+def test_gb_extract_entities(builder, index, type, desc, P, M, R):  # noqa: N803
     builder._extract_entities(
         builder._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml")
     )
@@ -141,7 +149,7 @@ def test_write_json_map_no_synoptic(builder):
 
 
 def test_write_json_map(builder):
-    test_map = json_map(str(Path(__file__).parent.joinpath("test_files/test_bob.bob")))
+    test_map = JsonMap(str(Path(__file__).parent.joinpath("test_files/test_bob.bob")))
 
     # We don't want cover _generate_json_map in this test
     builder._generate_json_map = Mock(return_value=test_map)
@@ -159,7 +167,7 @@ def test_write_json_map(builder):
             dest=builder._write_directory,
         )
 
-    dest_path = builder._write_directory.joinpath("json_map.json")
+    dest_path = builder._write_directory.joinpath("JsonMap.json")
     assert Path.exists(dest_path)
 
     if Path.exists(dest_path):

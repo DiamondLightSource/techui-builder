@@ -4,8 +4,8 @@ from unittest.mock import Mock
 
 import pytest
 from lxml import objectify
-from phoebusgen import screen as Screen
-from phoebusgen import widget as Widget
+from phoebusgen import screen as pscreen
+from phoebusgen import widget as pwidget
 
 from techui_builder.models import Entity
 
@@ -47,7 +47,7 @@ def test_generator_get_screen_dimensions_default(generator):
 
 
 def test_generator_get_widget_dimensions_good(generator):
-    widget = Widget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
+    widget = pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
 
     height, width = generator._get_widget_dimensions(widget)
     assert height == 120
@@ -77,7 +77,7 @@ def test_generator_get_widget_dimensions_default_attribute_error(generator):
 
 
 def test_generator_get_widget_position(generator):
-    widget = Widget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
+    widget = pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
 
     y, x = generator._get_widget_position(widget)
     assert x == 0
@@ -134,7 +134,7 @@ def test_generator_create_widget_is_list_of_dicts(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     generator._is_list_of_dicts = Mock(return_value=True)
     generator._allocate_widget = Mock(
-        return_value=Widget.EmbeddedDisplay(
+        return_value=pwidget.EmbeddedDisplay(
             name="X", file="", x=0, y=0, width=205, height=120
         )
     )
@@ -145,7 +145,7 @@ def test_generator_create_widget_is_list_of_dicts(generator):
     widget = generator._create_widget(component=component)
     for value in widget:
         assert str(value) == str(
-            Widget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
+            pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
         )
 
 
@@ -301,8 +301,8 @@ def test_generator_build_groups(generator):
     generator._create_widget = Mock(return_value=Mock())
     generator.layout_widgets = Mock(
         return_value=[
-            Widget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120),
-            Widget.EmbeddedDisplay(
+            pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120),
+            pwidget.EmbeddedDisplay(
                 name="Y", file="", x=0, y=150, width=205, height=120
             ),
         ]
@@ -317,7 +317,7 @@ def test_generator_build_groups(generator):
 
 def test_generator_write_screen(generator):
     generator.screen_name = "test"
-    generator.screen_ = Screen.Screen("test")
+    generator.screen_ = pscreen.Screen("test")
     generator.widgets = [Mock(), Mock()]
     generator.write_screen(Path("tests/test_files/"))
     assert Path("tests/test_files/test.bob").exists()
@@ -326,7 +326,7 @@ def test_generator_write_screen(generator):
 
 def test_generator_write_screen_no_widgets(generator, caplog):
     generator.screen_name = "test"
-    generator.screen_ = Screen.Screen("test")
+    generator.screen_ = pscreen.Screen("test")
     generator.widgets = []
     generator.write_screen(Path("tests/test_files/"))
     assert "Could not write screen: test as no widgets were available" in caplog.text

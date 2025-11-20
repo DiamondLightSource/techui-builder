@@ -4,6 +4,7 @@ from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
+from xml.etree.ElementTree import SubElement
 
 import yaml
 from lxml import objectify
@@ -345,6 +346,9 @@ class Generator:
         """
         # Create screen
         self.screen_ = pscreen.Screen(self.screen_name)
+        s = SubElement(self.screen_.root, "class")
+        s.text = "dls_class"
+
         # Empty widget buffer
         self.widgets = []
 

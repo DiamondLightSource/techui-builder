@@ -72,14 +72,15 @@ class Builder:
             if bob.name not in exclude
         ]
 
-        validator = Validator(bobs)
-        validator.check_bobs()
+        self.validator = Validator(bobs)
+        self.validator.check_bobs()
 
         # Get bobs that are only present in the bobs list (i.e. generated)
-        non_validate_bobs = list(set(bobs) ^ set(validator.validate))
+        self.generated_bobs = list(set(bobs) ^ set(self.validator.validate))
 
-        # Remove any bobs are are generated
-        for bob in non_validate_bobs:
+        # Remove any generated bobs that exist
+        for bob in self.generated_bobs:
+            logger_.info(f"Removing {bob.name}")
             os.remove(bob)
 
     def _extract_services(self):
@@ -123,8 +124,8 @@ Does it exist?"
         self.generator.build_groups()
         self.generator.write_screen(self._write_directory)
 
-    def generate_screens(self):
-        """Generate the screens for each component in techui.yaml"""
+    def _validate_screen(self, screen_name: str):
+        logger_.info(f"Validating {screen_name}")
 
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
@@ -150,7 +151,14 @@ exist."
                             continue
                         screen_entities.extend(self.entities[extra_p])
 
-                self._generate_screen(component_name, screen_entities)
+                screens_to_validate = [
+                    v.name.removesuffix(".bob") for v in self.validator.validate
+                ]
+                if component_name in screens_to_validate:
+                    self._validate_screen(component_name)
+                else:
+                    self._generate_screen(component_name, screen_entities)
+
             else:
                 logger_.warning(
                     f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\

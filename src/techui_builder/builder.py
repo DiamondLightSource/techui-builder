@@ -242,7 +242,10 @@ exist."
 
         map = self._generate_json_map(synoptic, dest)
         with open(dest.joinpath("json_map.json"), "w") as f:
-            f.write(json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o)))
+            f.write(
+                json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
+                + "\n"
+            )
 
 
 # Function to convert the json_map objects into dictionaries,

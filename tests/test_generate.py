@@ -110,8 +110,8 @@ def test_generator_get_group_dimensions(generator):
     generator._get_widget_dimensions = Mock(return_value=(120, 250))
     generator._get_widget_position = Mock(return_value=(0, 0))
     height, width = generator._get_group_dimensions([Mock(), Mock(), Mock(), Mock()])
-    assert height == 170
-    assert width == 300
+    assert height == 140
+    assert width == 270
 
 
 def test_generator_create_widget_keyerror(generator, caplog):
@@ -192,7 +192,7 @@ def test_generator_initialise_name_suffix_none(generator):
 
     assert name == "test"
     assert suffix == ""
-    assert suffix_label is None
+    assert suffix_label == ""
 
 
 def test_generator_is_list_of_dicts(generator):
@@ -236,7 +236,6 @@ def test_generator_create_widget_related(generator):
     )
 
     control_widget = Path("tests/test_files/widget_related.xml")
-
     with open(control_widget) as f:
         xml_content = f.read()
     assert str(widget) == xml_content

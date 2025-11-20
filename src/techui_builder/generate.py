@@ -39,7 +39,7 @@ class Generator:
     # allowed number of horizontal stacks is exceeded.
     widget_x: int = field(default=0, init=False, repr=False)
     widget_count: int = field(default=0, init=False, repr=False)
-    group_padding: int = field(default=50, init=False, repr=False)
+    group_padding: int = field(default=20, init=False, repr=False)
 
     def __post_init__(self):
         # This needs to be before _read_map()
@@ -177,7 +177,7 @@ class Generator:
         else:
             name = component.type
             suffix = ""
-            suffix_label = None
+            suffix_label = ""
 
         return (name, suffix, suffix_label)
 
@@ -209,7 +209,7 @@ class Generator:
             )
             # Add macros to the widgets
             new_widget.macro(self.P, component.P)
-            if suffix_label is not None:
+            if suffix_label != "":
                 new_widget.macro(f"{suffix_label}", suffix)
 
         # The only other option is for related displays
@@ -218,8 +218,8 @@ class Generator:
 
             new_widget = pwidget.ActionButton(
                 name,
-                component.P,
-                f"{component.P}:{suffix_label}",
+                name,
+                f"{component.P}{suffix}",
                 0,
                 0,
                 width,
@@ -227,7 +227,7 @@ class Generator:
             )
 
             # Add action to action button: to open related display
-            if suffix_label is not None:
+            if suffix_label != "":
                 new_widget.action_open_display(
                     file=str(data_scrn_path),
                     target="tab",

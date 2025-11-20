@@ -83,7 +83,7 @@ def test_missing_service(builder, caplog):
             "pmac.dls_pmac_asyn_motor",
             None,
             "BL01T-MO-MOTOR-01",
-            "X",
+            ":X",
             None,
         ),
         (
@@ -91,7 +91,7 @@ def test_missing_service(builder, caplog):
             "pmac.dls_pmac_asyn_motor",
             None,
             "BL01T-MO-MOTOR-01",
-            "A",
+            ":A",
             None,
         ),
     ],

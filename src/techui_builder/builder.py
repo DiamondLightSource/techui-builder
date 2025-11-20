@@ -125,6 +125,9 @@ Does it exist?"
 
     def generate_screens(self):
         """Generate the screens for each component in techui.yaml"""
+
+    def create_screens(self):
+        """Create the screens for each component in techui.yaml"""
         if len(self.entities) == 0:
             logger_.critical("No ioc entities found, has setup() been run?")
             exit()

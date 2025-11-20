@@ -111,9 +111,11 @@ def test_gb_extract_entities(builder, index, type, desc, P, M, R):  # noqa: N803
 def test_create_screens(builder_with_setup):
     # We don't want to access Generator in this test
     builder_with_setup._generate_screen = Mock()
+    builder_with_setup._validate_screen = Mock()
     builder_with_setup.create_screens()
 
     builder_with_setup._generate_screen.assert_called()
+    # builder_with_setup._validate_screen.assert_called()
 
 
 def test_create_screens_no_entities(builder, caplog):

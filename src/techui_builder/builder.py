@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from collections import defaultdict
 from dataclasses import _MISSING_TYPE, dataclass, field
 from pathlib import Path
@@ -11,6 +12,7 @@ from lxml.objectify import ObjectifiedElement
 
 from techui_builder.generate import Generator
 from techui_builder.models import Entity, TechUi
+from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
 
@@ -57,7 +59,28 @@ class Builder:
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
         self._extract_services()
         synoptic_dir = self._write_directory
+
+        self.clean_bobs()
+
         self.generator = Generator(synoptic_dir)
+
+    def clean_bobs(self):
+        exclude = {"index.bob"}
+        bobs = [
+            bob
+            for bob in self._write_directory.glob("*.bob")
+            if bob.name not in exclude
+        ]
+
+        validator = Validator(bobs)
+        validator.check_bobs()
+
+        # Get bobs that are only present in the bobs list (i.e. generated)
+        non_validate_bobs = list(set(bobs) ^ set(validator.validate))
+
+        # Remove any bobs are are generated
+        for bob in non_validate_bobs:
+            os.remove(bob)
 
     def _extract_services(self):
         """

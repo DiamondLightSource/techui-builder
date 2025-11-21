@@ -54,7 +54,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):ELOSS:ELOSS-CLEAR</pv_name>
+      <pv_name>$(P)$(M):ELOSS:ELOSS-CLEAR</pv_name>
       <text>Go</text>
       <x>105</x>
       <width>205</width>
@@ -110,7 +110,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_33</name>
-      <pv_name>$(P):$(M):LIMIT_VIOLATION:USER-HIGH-LIMIT</pv_name>
+      <pv_name>$(P)$(M):LIMIT_VIOLATION:USER-HIGH-LIMIT</pv_name>
       <x>105</x>
       <width>205</width>
       <font>
@@ -130,7 +130,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_35</name>
-      <pv_name>$(P):$(M):LIMIT_VIOLATION:USER-LOW-LIMIT</pv_name>
+      <pv_name>$(P)$(M):LIMIT_VIOLATION:USER-LOW-LIMIT</pv_name>
       <x>105</x>
       <y>25</y>
       <width>205</width>
@@ -151,7 +151,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_37</name>
-      <pv_name>$(P):$(M):LIMIT_VIOLATION:DIAL-HIGH-LIMIT</pv_name>
+      <pv_name>$(P)$(M):LIMIT_VIOLATION:DIAL-HIGH-LIMIT</pv_name>
       <x>105</x>
       <y>50</y>
       <width>205</width>
@@ -172,7 +172,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_38</name>
-      <pv_name>$(P):$(M):LIMIT_VIOLATION:DIAL-LOW-LIMIT</pv_name>
+      <pv_name>$(P)$(M):LIMIT_VIOLATION:DIAL-LOW-LIMIT</pv_name>
       <x>105</x>
       <y>75</y>
       <width>205</width>
@@ -263,7 +263,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):KILL:KILL</pv_name>
+      <pv_name>$(P)$(M):KILL:KILL</pv_name>
       <text>Go</text>
       <x>105</x>
       <width>205</width>
@@ -305,7 +305,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):SYNC_VAL_RBV:SYNC-VAL-RBV</pv_name>
+      <pv_name>$(P)$(M):SYNC_VAL_RBV:SYNC-VAL-RBV</pv_name>
       <text>Go</text>
       <x>105</x>
       <width>205</width>
@@ -347,7 +347,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):COMMANDS:HOME-FORWARD</pv_name>
+      <pv_name>$(P)$(M):COMMANDS:HOME-FORWARD</pv_name>
       <text>Go</text>
       <x>105</x>
       <width>205</width>
@@ -378,7 +378,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):COMMANDS:HOME-REVERSE</pv_name>
+      <pv_name>$(P)$(M):COMMANDS:HOME-REVERSE</pv_name>
       <text>Go</text>
       <x>105</x>
       <y>25</y>
@@ -410,7 +410,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):COMMANDS:JOG-FORWARD</pv_name>
+      <pv_name>$(P)$(M):COMMANDS:JOG-FORWARD</pv_name>
       <text>Go</text>
       <x>105</x>
       <y>50</y>
@@ -442,7 +442,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):COMMANDS:JOG-REVERSE</pv_name>
+      <pv_name>$(P)$(M):COMMANDS:JOG-REVERSE</pv_name>
       <text>Go</text>
       <x>105</x>
       <y>75</y>
@@ -474,7 +474,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):COMMANDS:TWEAK-FORWARD</pv_name>
+      <pv_name>$(P)$(M):COMMANDS:TWEAK-FORWARD</pv_name>
       <text>Go</text>
       <x>105</x>
       <y>100</y>
@@ -506,7 +506,7 @@
           <description>$(name)</description>
         </action>
       </actions>
-      <pv_name>$(P):$(M):COMMANDS:TWEAK-REVERSE</pv_name>
+      <pv_name>$(P)$(M):COMMANDS:TWEAK-REVERSE</pv_name>
       <text>Go</text>
       <x>105</x>
       <y>125</y>
@@ -531,7 +531,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_40</name>
-      <pv_name>$(P):$(M):COMMANDS:TWEAK-STEP</pv_name>
+      <pv_name>$(P)$(M):COMMANDS:TWEAK-STEP</pv_name>
       <x>105</x>
       <y>150</y>
       <width>205</width>
@@ -660,7 +660,7 @@
     </widget>
     <widget type="combo" version="2.0.0">
       <name>ComboBox</name>
-      <pv_name>$(P):$(M):CALIBRATION:DIRECTION</pv_name>
+      <pv_name>$(P)$(M):CALIBRATION:DIRECTION</pv_name>
       <x>105</x>
       <width>205</width>
       <height>20</height>
@@ -694,7 +694,7 @@
     </widget>
     <widget type="combo" version="2.0.0">
       <name>ComboBox</name>
-      <pv_name>$(P):$(M):CALIBRATION:SET-USE</pv_name>
+      <pv_name>$(P)$(M):CALIBRATION:SET-USE</pv_name>
       <x>105</x>
       <y>50</y>
       <width>205</width>
@@ -722,7 +722,7 @@
     </widget>
     <widget type="combo" version="2.0.0">
       <name>ComboBox</name>
-      <pv_name>$(P):$(M):CALIBRATION:OFFSET</pv_name>
+      <pv_name>$(P)$(M):CALIBRATION:OFFSET</pv_name>
       <x>105</x>
       <y>75</y>
       <width>205</width>
@@ -750,7 +750,7 @@
     </widget>
     <widget type="combo" version="2.0.0">
       <name>ComboBox</name>
-      <pv_name>$(P):$(M):CALIBRATION:USE-ENCODER</pv_name>
+      <pv_name>$(P)$(M):CALIBRATION:USE-ENCODER</pv_name>
       <x>105</x>
       <y>100</y>
       <width>205</width>
@@ -771,7 +771,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_41</name>
-      <pv_name>$(P):$(M):CALIBRATION:USER-OFFSET</pv_name>
+      <pv_name>$(P)$(M):CALIBRATION:USER-OFFSET</pv_name>
       <x>105</x>
       <y>25</y>
       <width>205</width>
@@ -870,7 +870,7 @@
     </widget>
     <widget type="combo" version="2.0.0">
       <name>ComboBox</name>
-      <pv_name>$(P):$(M):RESOLUTION:RESOLUTION</pv_name>
+      <pv_name>$(P)$(M):RESOLUTION:RESOLUTION</pv_name>
       <x>105</x>
       <width>205</width>
       <height>20</height>
@@ -905,7 +905,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_42</name>
-      <pv_name>$(P):$(M):RESOLUTION:MOTOR-STEP-SIZE</pv_name>
+      <pv_name>$(P)$(M):RESOLUTION:MOTOR-STEP-SIZE</pv_name>
       <x>105</x>
       <y>25</y>
       <width>205</width>
@@ -926,7 +926,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_43</name>
-      <pv_name>$(P):$(M):CALIBRATION:USER-OFFSET</pv_name>
+      <pv_name>$(P)$(M):CALIBRATION:USER-OFFSET</pv_name>
       <x>105</x>
       <y>50</y>
       <width>205</width>
@@ -1084,7 +1084,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_20</name>
-      <pv_name>$(P):$(M):MOTION:BASE-VELOCITY</pv_name>
+      <pv_name>$(P)$(M):MOTION:BASE-VELOCITY</pv_name>
       <x>175</x>
       <y>25</y>
       <width>205</width>
@@ -1105,7 +1105,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_19</name>
-      <pv_name>$(P):$(M):MOTION:MAX-VELOCITY</pv_name>
+      <pv_name>$(P)$(M):MOTION:MAX-VELOCITY</pv_name>
       <x>175</x>
       <width>205</width>
       <font>
@@ -1125,7 +1125,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_21</name>
-      <pv_name>$(P):$(M):MOTION:VELOCITY</pv_name>
+      <pv_name>$(P)$(M):MOTION:VELOCITY</pv_name>
       <x>175</x>
       <y>50</y>
       <width>205</width>
@@ -1146,7 +1146,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_22</name>
-      <pv_name>$(P):$(M):MOTION:SECS-TO-VELOCITY</pv_name>
+      <pv_name>$(P)$(M):MOTION:SECS-TO-VELOCITY</pv_name>
       <x>175</x>
       <y>75</y>
       <width>205</width>
@@ -1167,7 +1167,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_23</name>
-      <pv_name>$(P):$(M):MOTION:JVEL</pv_name>
+      <pv_name>$(P)$(M):MOTION:JVEL</pv_name>
       <x>175</x>
       <y>100</y>
       <width>205</width>
@@ -1188,7 +1188,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_24</name>
-      <pv_name>$(P):$(M):MOTION:JOG-ACCELERATION</pv_name>
+      <pv_name>$(P)$(M):MOTION:JOG-ACCELERATION</pv_name>
       <x>175</x>
       <y>125</y>
       <width>205</width>
@@ -1209,7 +1209,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_25</name>
-      <pv_name>$(P):$(M):MOTION:BACKLASH-DISTANCE</pv_name>
+      <pv_name>$(P)$(M):MOTION:BACKLASH-DISTANCE</pv_name>
       <x>175</x>
       <y>150</y>
       <width>205</width>
@@ -1230,7 +1230,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_26</name>
-      <pv_name>$(P):$(M):MOTION:BACKLASH-VELOCITY</pv_name>
+      <pv_name>$(P)$(M):MOTION:BACKLASH-VELOCITY</pv_name>
       <x>175</x>
       <y>175</y>
       <width>205</width>
@@ -1251,7 +1251,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_27</name>
-      <pv_name>$(P):$(M):MOTION:BACKLASH-SECS-TO-VELOCITY</pv_name>
+      <pv_name>$(P)$(M):MOTION:BACKLASH-SECS-TO-VELOCITY</pv_name>
       <x>175</x>
       <y>200</y>
       <width>205</width>
@@ -1272,7 +1272,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_28</name>
-      <pv_name>$(P):$(M):MOTION:MOVE-FRACTION</pv_name>
+      <pv_name>$(P)$(M):MOTION:MOVE-FRACTION</pv_name>
       <x>175</x>
       <y>225</y>
       <width>205</width>
@@ -1293,7 +1293,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_29</name>
-      <pv_name>$(P):$(M):MOTION:RETRY-DEADBAND</pv_name>
+      <pv_name>$(P)$(M):MOTION:RETRY-DEADBAND</pv_name>
       <x>175</x>
       <y>250</y>
       <width>205</width>
@@ -1314,7 +1314,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_30</name>
-      <pv_name>$(P):$(M):MOTION:MAX-RETRIES</pv_name>
+      <pv_name>$(P)$(M):MOTION:MAX-RETRIES</pv_name>
       <x>175</x>
       <y>275</y>
       <width>205</width>
@@ -1527,7 +1527,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_31</name>
-      <pv_name>$(P):$(M):OTHER:PREC</pv_name>
+      <pv_name>$(P)$(M):OTHER:PREC</pv_name>
       <x>175</x>
       <width>205</width>
       <font>
@@ -1547,7 +1547,7 @@
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>TextEntry_32</name>
-      <pv_name>$(P):$(M):OTHER:EGU</pv_name>
+      <pv_name>$(P)$(M):OTHER:EGU</pv_name>
       <x>175</x>
       <y>25</y>
       <width>205</width>

@@ -192,7 +192,7 @@ def test_generator_initialise_name_suffix_none(generator):
 
     assert name == "test"
     assert suffix == ""
-    assert suffix_label is None
+    assert suffix_label == ""
 
 
 def test_generator_is_list_of_dicts(generator):
@@ -236,7 +236,6 @@ def test_generator_create_widget_related(generator):
     )
 
     control_widget = Path("tests/test_files/widget_related.xml")
-
     with open(control_widget) as f:
         xml_content = f.read()
     assert str(widget) == xml_content

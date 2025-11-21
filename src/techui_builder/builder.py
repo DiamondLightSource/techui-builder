@@ -90,12 +90,8 @@ Does it exist?"
                         type=entity["type"],
                         desc=entity.get("desc", None),
                         P=entity["P"],
-                        M=None
-                        if (val := entity.get("M")) is None
-                        else val.removeprefix(":"),
-                        R=None
-                        if (val := entity.get("R")) is None
-                        else val.removeprefix(":"),
+                        M=None if (val := entity.get("M")) is None else val,
+                        R=None if (val := entity.get("R")) is None else val,
                     )
                     self.entities[new_entity.P].append(new_entity)
 

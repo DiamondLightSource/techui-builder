@@ -120,11 +120,10 @@ Does it exist?"
                     self.entities[new_entity.P].append(new_entity)
 
     def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
-        self.generator.load_screen(screen_name, screen_components)
-        self.generator.build_widgets()
-        self.generator.build_groups()
-        self.generator.build_screen()
-        self.generator.write_screen(self._write_directory)
+        self.generator.build_widgets(screen_name, screen_components)
+        self.generator.build_groups(screen_name)
+        self.generator.build_screen(screen_name)
+        self.generator.write_screen(screen_name, self._write_directory)
 
     def _validate_screen(self, screen_name: str):
         logger_.info(f"Validating {screen_name}")

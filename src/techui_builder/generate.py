@@ -20,9 +20,6 @@ logger_ = logging.getLogger(__name__)
 class Generator:
     synoptic_dir: Path = field(repr=False)
 
-    screen_name: str = field(init=False)
-    screen_components: list[Entity] = field(init=False)
-
     # These are global params for the class (not accessible by user)
     support_path: Path = field(init=False, repr=False)
     techui_support: dict = field(init=False, repr=False)
@@ -55,10 +52,6 @@ class Generator:
 
         with open(support_yaml) as map:
             self.techui_support = yaml.safe_load(map)
-
-    def load_screen(self, screen_name: str, screen_components: list[Entity]):
-        self.screen_name = screen_name
-        self.screen_components = screen_components
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
@@ -249,7 +242,7 @@ class Generator:
         return new_widget
 
     def _create_widget(
-        self, component: Entity
+        self, name: str, component: Entity
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         # if statement below is check if the suffix is
         # missing from the component description. If
@@ -262,7 +255,7 @@ class Generator:
         except KeyError:
             logger_.warning(
                 f"No available widget for {component.type} in screen \
-{self.screen_name}. Skipping..."
+{name}. Skipping..."
             )
             return None
 
@@ -338,14 +331,14 @@ class Generator:
 
         return sorted_widgets
 
-    def build_widgets(self):
+    def build_widgets(self, screen_name: str, screen_components: list[Entity]):
         # Empty widget buffer
         self.widgets = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
-        for component in self.screen_components:
-            new_widget = self._create_widget(component=component)
+        for component in screen_components:
+            new_widget = self._create_widget(name=screen_name, component=component)
             if new_widget is None:
                 continue
             if isinstance(new_widget, list):
@@ -353,7 +346,7 @@ class Generator:
                 continue
             self.widgets.append(new_widget)
 
-    def build_groups(self):
+    def build_groups(self, screen_name: str):
         """
         Create a group to fill with widgets
         """
@@ -368,7 +361,7 @@ class Generator:
         height, width = self._get_group_dimensions(self.widgets)
 
         self.group = Group(
-            self.screen_name,
+            screen_name,
             0,
             0,
             width,
@@ -380,12 +373,12 @@ class Generator:
         self.group.version("2.0.0")
         self.group.add_widget(self.widgets)
 
-    def build_screen(self):
+    def build_screen(self, screen_name):
         """
         Build the screen with the widget groups.
         """
         # Create screen
-        self.screen_ = pscreen.Screen(self.screen_name)
+        self.screen_ = pscreen.Screen(screen_name)
 
         # TODO: I don't like this
         if self.group is None:
@@ -394,17 +387,17 @@ class Generator:
 
         self.screen_.add_widget(self.group)
 
-    def write_screen(self, directory: Path):
+    def write_screen(self, screen_name: str, directory: Path):
         """Write the screen to file"""
 
         if self.widgets == []:
             logger_.warning(
-                f"Could not write screen: {self.screen_name} \
+                f"Could not write screen: {screen_name} \
 as no widgets were available"
             )
             return
 
         if not directory.exists():
             os.mkdir(directory)
-        self.screen_.write_screen(f"{directory}/{self.screen_name}.bob")
-        logger_.info(f"{self.screen_name}.bob has been created successfully")
+        self.screen_.write_screen(f"{directory}/{screen_name}.bob")
+        logger_.info(f"{screen_name}.bob has been created successfully")

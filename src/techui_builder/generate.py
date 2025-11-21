@@ -148,21 +148,19 @@ class Generator:
         Takes in a list of widgets and finds the
         maximum height and maximum width in the list
         """
-        x_list: list[int] = []
-        y_list: list[int] = []
-        height_list: list[int] = []
         width_list: list[int] = []
+        height_list: list[int] = []
         for widget in widget_list:
             y, x = self._get_widget_position(widget)
             height, width = self._get_widget_dimensions(widget)
-            x_list.append(x)
-            y_list.append(y)
-            height_list.append(height)
-            width_list.append(width)
+            comparable_width = x + width
+            comparable_height = y + height
+            width_list.append(comparable_width)
+            height_list.append(comparable_height)
 
         return (
-            max(y_list) + max(height_list) + self.group_padding,
-            max(x_list) + max(width_list) + self.group_padding,
+            max(height_list) + self.group_padding,
+            max(width_list) + self.group_padding,
         )
 
     def _initialise_name_suffix(self, component: Entity) -> tuple[str, str, str | None]:

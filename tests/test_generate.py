@@ -110,8 +110,8 @@ def test_generator_get_group_dimensions(generator):
     generator._get_widget_dimensions = Mock(return_value=(120, 250))
     generator._get_widget_position = Mock(return_value=(0, 0))
     height, width = generator._get_group_dimensions([Mock(), Mock(), Mock(), Mock()])
-    assert height == 140
-    assert width == 270
+    assert height == 170
+    assert width == 300
 
 
 def test_generator_create_widget_keyerror(generator, caplog):

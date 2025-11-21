@@ -39,7 +39,7 @@ class Generator:
     # allowed number of horizontal stacks is exceeded.
     widget_x: int = field(default=0, init=False, repr=False)
     widget_count: int = field(default=0, init=False, repr=False)
-    group_padding: int = field(default=20, init=False, repr=False)
+    group_padding: int = field(default=50, init=False, repr=False)
 
     def __post_init__(self):
         # This needs to be before _read_map()

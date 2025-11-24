@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2025-11-21 11:15:03 by uns32131-->
 <display version="2.0.0">
   <name>Camera Screen</name>
-  <width>1280</width>
-  <height>800</height>
-  <background_color>
+  <y use_class="true">0</y>
+  <width>1020</width>
+  <height>590</height>
+  <background_color use_class="true">
     <color name="Read_Background" red="240" green="240" blue="240">
     </color>
   </background_color>
@@ -11,19 +13,26 @@
   </actions>
   <grid_step_x>5</grid_step_x>
   <grid_step_y>5</grid_step_y>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>CAMERA</name>
+    <x>20</x>
+    <y>20</y>
     <width>410</width>
     <height>331</height>
-    <font>
+    <style use_class="true">0</style>
+    <font use_class="true">
       <font family="Arial" style="REGULAR" size="15.0">
       </font>
     </font>
-    <foreground_color>
+    <foreground_color use_class="true">
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color>
+    <line_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </line_color>
+    <background_color use_class="true">
       <color name="Read_Background" red="240" green="240" blue="240">
       </color>
     </background_color>
@@ -54,17 +63,21 @@
       <x>260</x>
       <y>25</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -75,14 +88,22 @@
       <x>308</x>
       <width>20</width>
       <numBits>1</numBits>
-      <off_color>
+      <off_color use_class="true">
         <color red="237" green="237" blue="237">
         </color>
       </off_color>
-      <on_color>
+      <on_color use_class="true">
         <color name="Write_Background" red="128" green="255" blue="255">
         </color>
       </on_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <font use_class="true">
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </font>
     </widget>
     <widget type="byte_monitor" version="2.0.0">
       <name>Array Callbacks</name>
@@ -91,14 +112,22 @@
       <y>50</y>
       <width>20</width>
       <numBits>1</numBits>
-      <off_color>
+      <off_color use_class="true">
         <color red="237" green="237" blue="237">
         </color>
       </off_color>
-      <on_color>
+      <on_color use_class="true">
         <color name="Write_Background" red="128" green="255" blue="255">
         </color>
       </on_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <font use_class="true">
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </font>
     </widget>
     <widget type="choice" version="2.0.0">
       <name>Array Callbacks_1</name>
@@ -107,19 +136,19 @@
       <y>50</y>
       <width>126</width>
       <height>20</height>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
+      <background_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </background_color>
-      <selected_color>
+      <selected_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </selected_color>
@@ -346,17 +375,21 @@
       <x>260</x>
       <y>75</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -367,17 +400,21 @@
       <x>260</x>
       <y>100</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -388,17 +425,21 @@
       <x>260</x>
       <y>150</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -409,17 +450,21 @@
       <x>260</x>
       <y>175</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -431,15 +476,15 @@
       <y>200</y>
       <width>115</width>
       <height>20</height>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
+      <background_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </background_color>
@@ -458,19 +503,19 @@
       <x>140</x>
       <width>126</width>
       <height>20</height>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
+      <background_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </background_color>
-      <selected_color>
+      <selected_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </selected_color>
@@ -645,17 +690,25 @@
       <x>140</x>
       <y>25</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -666,17 +719,25 @@
       <x>140</x>
       <y>75</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -687,17 +748,25 @@
       <x>140</x>
       <y>100</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -708,17 +777,25 @@
       <x>140</x>
       <y>125</y>
       <width>235</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -729,17 +806,25 @@
       <x>140</x>
       <y>150</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -750,17 +835,25 @@
       <x>140</x>
       <y>175</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -771,17 +864,21 @@
       <x>260</x>
       <y>200</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -792,17 +889,21 @@
       <x>140</x>
       <y>250</y>
       <width>235</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -813,17 +914,21 @@
       <x>141</x>
       <y>275</y>
       <width>235</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -855,17 +960,25 @@
       <x>139</x>
       <y>225</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -876,17 +989,21 @@
       <x>259</x>
       <y>225</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -908,20 +1025,26 @@
       </background_color>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>Standard Array</name>
-    <y>440</y>
+    <x>20</x>
+    <y>460</y>
     <width>410</width>
     <height>130</height>
-    <font>
+    <style use_class="true">0</style>
+    <font use_class="true">
       <font family="Arial" style="REGULAR" size="15.0">
       </font>
     </font>
-    <foreground_color>
+    <foreground_color use_class="true">
       <color red="29" green="41" blue="69">
       </color>
     </foreground_color>
-    <background_color>
+    <line_color>
+      <color red="29" green="41" blue="69">
+      </color>
+    </line_color>
+    <background_color use_class="true">
       <color name="Read_Background" red="240" green="240" blue="240">
       </color>
     </background_color>
@@ -968,17 +1091,21 @@
       <x>260</x>
       <y>25</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -1085,17 +1212,21 @@
       <pv_name>$(P):ARR:NDimensions_RBV</pv_name>
       <x>260</x>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -1107,19 +1238,19 @@
       <y>75</y>
       <width>130</width>
       <height>20</height>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
+      <background_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </background_color>
-      <selected_color>
+      <selected_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </selected_color>
@@ -1135,31 +1266,47 @@
       <y>75</y>
       <width>20</width>
       <numBits>1</numBits>
-      <off_color>
+      <off_color use_class="true">
         <color red="237" green="237" blue="237">
         </color>
       </off_color>
-      <on_color>
+      <on_color use_class="true">
         <color name="Write_Background" red="128" green="255" blue="255">
         </color>
       </on_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <font use_class="true">
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </font>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Num Dimensions</name>
       <pv_name>$(P):ARR:NDimensions</pv_name>
       <x>140</x>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -1170,17 +1317,25 @@
       <x>140</x>
       <y>25</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -1191,231 +1346,66 @@
       <x>140</x>
       <y>50</y>
       <width>235</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
-    <name>Autogenerated Engineering Screens</name>
-    <y>570</y>
-    <width>410</width>
-    <height>185</height>
-    <font>
-      <font family="Arial" style="REGULAR" size="15.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="29" green="41" blue="69">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color name="Read_Background" red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <transparent>true</transparent>
-    <widget type="label" version="2.0.0">
-      <name>Label_39</name>
-      <class>Label</class>
-      <text></text>
-      <width>135</width>
-      <font>
-        <font family="Arial" style="REGULAR" size="14.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="29" green="41" blue="69">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
-        </color>
-      </background_color>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <tooltip>$(text)</tooltip>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>OpenDisplay</name>
-      <actions>
-        <action type="open_display">
-          <file>ADAravis_detail.bob</file>
-          <macros>
-            <P>$(P)</P>
-            <R>:CAM:</R>
-          </macros>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>$(P) Engineering Screen ⧉</text>
-      <width>375</width>
-      <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="14.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="29" green="41" blue="69">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>OpenDisplay_1</name>
-      <actions>
-        <action type="open_display">
-          <file>NDPluginROI.pvi.bob</file>
-          <macros>
-            <P>$(P)</P>
-            <R>:ROI:</R>
-          </macros>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>$(P) ROI Screen ⧉</text>
-      <y>30</y>
-      <width>375</width>
-      <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="14.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="29" green="41" blue="69">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>OpenDisplay_2</name>
-      <actions>
-        <action type="open_display">
-          <file>NDPluginStats.pvi.bob</file>
-          <macros>
-            <P>$(P)</P>
-            <R>:STAT:</R>
-          </macros>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>$(P) STAT Screen</text>
-      <x>-2</x>
-      <y>60</y>
-      <width>375</width>
-      <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="14.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="29" green="41" blue="69">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>OpenDisplay_3</name>
-      <actions>
-        <action type="open_display">
-          <file>NDFileHDF5.pvi.bob</file>
-          <macros>
-            <P>$(P)</P>
-            <R>:HDF5:</R>
-          </macros>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>$(P) HDF5 Screen ⧉</text>
-      <y>90</y>
-      <width>375</width>
-      <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="14.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="29" green="41" blue="69">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>OpenDisplay_4</name>
-      <actions>
-        <action type="open_display">
-          <file>NDPluginPva.pvi.bob</file>
-          <macros>
-            <P>$(P)</P>
-            <R>:PVA:</R>
-          </macros>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>$(P) PVA Screen ⧉</text>
-      <y>120</y>
-      <width>375</width>
-      <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="14.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="29" green="41" blue="69">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-    </widget>
-  </widget>
   <widget type="image" version="2.0.0">
     <name>Image</name>
     <pv_name>$(P):ARR:ArrayData</pv_name>
-    <x>410</x>
-    <width>745</width>
-    <height>745</height>
+    <x>430</x>
+    <y>20</y>
+    <width>580</width>
+    <height>555</height>
+    <background_color use_class="true">
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
     <show_toolbar>true</show_toolbar>
+    <color_map use_class="true">
+      <name>VIRIDIS</name>
+    </color_map>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>PVA</name>
-    <y>331</y>
+    <x>20</x>
+    <y>351</y>
     <width>410</width>
     <height>110</height>
-    <background_color>
+    <style use_class="true">0</style>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="15.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
       <color name="Read_Background" red="240" green="240" blue="240">
       </color>
     </background_color>
@@ -1425,6 +1415,22 @@
       <text>Array Counter</text>
       <y>55</y>
       <width>150</width>
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color use_class="true">
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment use_class="true">0</horizontal_alignment>
+      <vertical_alignment use_class="true">0</vertical_alignment>
+      <rotation_step use_class="true">0</rotation_step>
+      <wrap_words use_class="true">true</wrap_words>
       <tooltip>$(text)</tooltip>
     </widget>
     <widget type="label" version="2.0.0">
@@ -1432,6 +1438,22 @@
       <text>Enable Callbacks</text>
       <y>2</y>
       <width>150</width>
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color use_class="true">
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment use_class="true">0</horizontal_alignment>
+      <vertical_alignment use_class="true">0</vertical_alignment>
+      <rotation_step use_class="true">0</rotation_step>
+      <wrap_words use_class="true">true</wrap_words>
       <tooltip>$(text)</tooltip>
     </widget>
     <widget type="label" version="2.0.0">
@@ -1439,6 +1461,22 @@
       <text>Pv Name</text>
       <y>27</y>
       <width>150</width>
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
+        </font>
+      </font>
+      <foreground_color use_class="true">
+        <color red="29" green="41" blue="69">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <horizontal_alignment use_class="true">0</horizontal_alignment>
+      <vertical_alignment use_class="true">0</vertical_alignment>
+      <rotation_step use_class="true">0</rotation_step>
+      <wrap_words use_class="true">true</wrap_words>
       <tooltip>$(text)</tooltip>
     </widget>
     <widget type="choice" version="2.0.0">
@@ -1448,19 +1486,19 @@
       <y>2</y>
       <width>130</width>
       <height>20</height>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
+      <background_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </background_color>
-      <selected_color>
+      <selected_color use_class="true">
         <color name="Background" red="255" green="255" blue="255">
         </color>
       </selected_color>
@@ -1476,14 +1514,22 @@
       <y>2</y>
       <width>20</width>
       <numBits>1</numBits>
-      <off_color>
+      <off_color use_class="true">
         <color red="237" green="237" blue="237">
         </color>
       </off_color>
-      <on_color>
+      <on_color use_class="true">
         <color name="Write_Background" red="128" green="255" blue="255">
         </color>
       </on_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <font use_class="true">
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </font>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>Num Dimensions_1</name>
@@ -1491,17 +1537,25 @@
       <x>138</x>
       <y>55</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -1512,17 +1566,21 @@
       <x>258</x>
       <y>55</y>
       <width>115</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>
@@ -1563,17 +1621,21 @@
       <x>139</x>
       <y>25</y>
       <width>235</width>
-      <font>
+      <font use_class="true">
         <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>

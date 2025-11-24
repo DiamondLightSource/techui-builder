@@ -6,7 +6,7 @@
   <width>100</width>
   <height>40</height>
   <pv_name>BL23B-MO-BRICK-01:M</pv_name>
-  <text>BL23B-MO-BRICK-01</text>
+  <text>:M</text>
   <actions>
     <action type="open_display">
       <description>Open Display</description>

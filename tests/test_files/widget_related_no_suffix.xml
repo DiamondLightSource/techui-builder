@@ -5,8 +5,8 @@
   <y>0</y>
   <width>100</width>
   <height>40</height>
-  <pv_name>BL23B-MO-BRICK-01:None</pv_name>
-  <text>BL23B-MO-BRICK-01</text>
+  <pv_name>BL23B-MO-BRICK-01</pv_name>
+  <text>pmac.GeoBrick</text>
   <actions>
     <action type="open_display">
       <description>Open Display</description>

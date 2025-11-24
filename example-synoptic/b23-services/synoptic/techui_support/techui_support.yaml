@@ -1,15 +1,36 @@
 # Cameras
-
 ADAravis.aravisCamera:
-  file: "ADAravis/ADAravis_summary.bob"
-  prefix: "$(P)$(R)"
-  type: "embedded"
+  - file: "ADAravis/ADAravis_summary.bob"
+    prefix: "$(P)$(R)"
+    type: "embedded"
+  - file: "ADAravis/ADAravis_detail.bob"
+    prefix: "$(P)$(R)"
+    type: "related"
 
 ADSimDetector.simDetector:
   file: "ADAravis/ADAravis_summary.bob"
   prefix: "$(P)$(R)"
   type: "embedded"
 
+ADCore.NDROI:
+  file: "ADAravis/NDPluginROI.pvi.bob"
+  prefix: "$(P)$(R)"
+  type: "related"
+
+ADCore.NDStats:
+  file: "ADAravis/NDPluginStats.pvi.bob"
+  prefix: "$(P)$(R)"
+  type: "related"
+
+ADCore.NDPva:
+  file: "ADAravis/NDPluginPva.pvi.bob"
+  prefix: "$(P)$(R)"
+  type: "related"
+
+ADCore.NDFileHDF5:
+  file: "ADAravis/NDFileHDF5.pvi.bob"
+  prefix: "$(P)$(R)"
+  type: "related"
 # Motion Controllers
 
 pmac.dls_pmac_asyn_motor:

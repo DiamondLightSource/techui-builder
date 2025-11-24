@@ -46,7 +46,7 @@
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV4</name>
-    <pv_name>FE23B-VA-VALVE-04:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-VALVE-04:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -252,7 +252,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV2</name>
-    <pv_name>FE23B-VA-VALVE-02:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-VALVE-02:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -338,7 +338,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG4</name>
-    <pv_name>FE23B-VA-IMG-04:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-IMG-04:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
@@ -375,7 +375,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP4</name>
-    <pv_name>FE23B-VA-IONP-04:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-IONP-04:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -410,7 +410,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA2</name>
-    <pv_name>FE23B-VA-RGA-02:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-RGA-02:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/rga 0.svg</symbol>
     </symbols>
@@ -795,7 +795,7 @@ Current</text>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG4</name>
-    <pv_name>FE23B-VA-PIRG-04:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-PIRG-04:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -942,7 +942,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FEV3</name>
-    <pv_name>FE23B-VA-VALVE-03:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-VALVE-03:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -1067,7 +1067,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR1</name>
-    <pv_name>FE23B-PS-SHTR-01:DEVSTA</pv_name>
+    <pv_name>FE23B-PS-SHTR-01:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/shutter 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/shutter 1 (copy).svg</symbol>
@@ -1102,7 +1102,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SHTR2</name>
-    <pv_name>FE23B-PS-SHTR-02:DEVSTA</pv_name>
+    <pv_name>FE23B-PS-SHTR-02:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/shutter 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/shutter 1 (copy).svg</symbol>
@@ -1441,7 +1441,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG1</name>
-    <pv_name>BL23B-VA-IMG-01:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IMG-01:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
@@ -1478,7 +1478,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP1</name>
-    <pv_name>BL23B-VA-IONP-01:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IONP-01:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1513,7 +1513,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>RGA1</name>
-    <pv_name>BL23B-VA-RGA-01:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-RGA-01:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/rga 0.svg</symbol>
     </symbols>
@@ -1541,7 +1541,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG1</name>
-    <pv_name>BL23B-VA-PIRG-01:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-PIRG-01:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -1625,7 +1625,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG6</name>
-    <pv_name>BL23B-VA-IMG-06:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IMG-06:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
@@ -1662,7 +1662,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP8</name>
-    <pv_name>FE23B-VA-IONP-08:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-IONP-08:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1697,7 +1697,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG6</name>
-    <pv_name>FE23B-VA-PIRG-06:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-PIRG-06:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -1781,7 +1781,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG5</name>
-    <pv_name>FE23B-VA-IMG-05:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-IMG-05:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
@@ -1818,7 +1818,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP7</name>
-    <pv_name>FE23B-VA-IONP-07:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-IONP-07:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1853,7 +1853,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG5</name>
-    <pv_name>FE23B-VA-PIRG-05:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-PIRG-05:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -1915,7 +1915,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP6</name>
-    <pv_name>FE23B-VA-IONP-06:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-IONP-06:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -1975,7 +1975,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP5</name>
-    <pv_name>FE23B-VA-IONP-05:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-IONP-05:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -2010,7 +2010,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV2</name>
-    <pv_name>BL23B-VA-VALVE-21:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-VALVE-21:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -2103,7 +2103,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG21</name>
-    <pv_name>BL23B-VA-IMG-21:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IMG-21:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
@@ -2140,7 +2140,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP21</name>
-    <pv_name>BL23B-VA-IONP-21:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IONP-21:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -2175,7 +2175,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG21</name>
-    <pv_name>BL23B-VA-PIRG-21:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-PIRG-21:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2384,7 +2384,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG11</name>
-    <pv_name>BL23B-VA-IMG-11:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IMG-11:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
@@ -2421,7 +2421,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP11</name>
-    <pv_name>BL23B-VA-IONP-11:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IONP-11:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -2456,7 +2456,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG11</name>
-    <pv_name>BL23B-VA-PIRG-11:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-PIRG-11:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2493,7 +2493,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GV1</name>
-    <pv_name>BL23B-VA-VALVE-11:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-VALVE-11:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/valve 1 (copy).svg</symbol>
@@ -2586,7 +2586,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IMG12</name>
-    <pv_name>BL23B-VA-IMG-12:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IMG-12:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/img 0 (copy).svg</symbol>
@@ -2623,7 +2623,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>IONP12</name>
-    <pv_name>BL23B-VA-IONP-12:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IONP-12:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
       <symbol>techui_support/symbols/ionp 4 (another copy).svg</symbol>
@@ -2658,7 +2658,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>PIRG12</name>
-    <pv_name>BL23B-VA-PIRG-12:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-PIRG-12:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2781,7 +2781,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FESHTR</name>
-    <pv_name>FE23B-VA-FVALV-01:DEVSTA</pv_name>
+    <pv_name>FE23B-VA-FVALV-01:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/shutter 1 (copy).svg</symbol>
       <symbol>techui_support/symbols/shutter 1 (copy).svg</symbol>
@@ -2816,7 +2816,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>GCTLR1</name>
-    <pv_name>BL23B-VA-IOC-01:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-IOC-01:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
       <symbol>techui_support/symbols/pirg 0 (copy).svg</symbol>
@@ -2853,7 +2853,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>SPACE11</name>
-    <pv_name>BL23B-VA-SPACE-11:DEVSTA</pv_name>
+    <pv_name>BL23B-VA-SPACE-11:STA</pv_name>
     <symbols>
       <symbol>techui_support/symbols/vfm-up.svg</symbol>
     </symbols>

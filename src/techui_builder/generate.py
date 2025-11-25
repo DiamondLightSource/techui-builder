@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
@@ -194,6 +195,18 @@ class Generator:
 
         # Path of screen relative to data/ so it knows where to open the file from
         data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
+
+        try:
+            if scrn_mapping["suffix"] is not None:
+                suffix = scrn_mapping["suffix"]
+                match = re.match(
+                    r"^\$\(([A-Z])\)\$\(([A-Z])\)$", scrn_mapping["prefix"]
+                )
+                if match:
+                    suffix_label = match.group(2)
+                    name = suffix
+        except KeyError:
+            pass
 
         if scrn_mapping["type"] == "embedded":
             height, width = self._get_screen_dimensions(str(scrn_path))

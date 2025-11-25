@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=/workspaces/techui-builder/schemas/techui.support.schema.json
 # Cameras
 ADAravis.aravisCamera:
   - file: "ADAravis/ADAravis_summary.bob"
@@ -31,6 +32,39 @@ ADCore.NDFileHDF5:
   file: "ADAravis/NDFileHDF5.pvi.bob"
   prefix: "$(P)$(R)"
   type: "related"
+
+GDA.plugins:
+  - file: "ADAravis/NDPluginStats.pvi.bob"
+    prefix: "$(P)$(R)"
+    suffix: ":STAT:"
+    type: "related"
+  - file: "ADAravis/NDPluginPva.pvi.bob"
+    prefix: "$(P)$(R)"
+    suffix: ":PVA:"
+    type: "related"
+  - file: "ADAravis/NDPluginROIStat.pvi.bob"
+    prefix: "$(P)$(R)"
+    suffix: ":ROISTAT:"
+    type: "related"
+  - file: "ADAravis/NDFileHDF5.pvi.bob"
+    prefix: "$(P)$(R)"
+    suffix: ":HDF5:"
+    type: "related"
+  #TODO: Legacy support
+
+Detector.plugins:
+  - file: "ADAravis/NDPluginStats.pvi.bob"
+    prefix: "$(P)$(R)"
+    type: "related"
+  - file: "ADAravis/NDPluginPva.pvi.bob"
+    prefix: "$(P)$(R)"
+    type: "related"
+  - file: "ADAravis/NDPluginROIStat.pvi.bob"
+    prefix: "$(P)$(R)"
+    type: "related"
+  - file: "ADAravis/NDFileHDF5.pvi.bob"
+    prefix: "$(P)$(R)"
+    type: "related"
 # Motion Controllers
 
 pmac.dls_pmac_asyn_motor:

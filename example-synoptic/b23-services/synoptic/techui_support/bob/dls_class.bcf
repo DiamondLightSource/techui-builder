@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Widget Classes</name>
+  <y use_class="true">0</y>
+  <background_color use_class="true">
+    <color name="Read_Background" red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <widget type="action_button" version="3.0.0">
+    <name>DEFAULT</name>
+    <x>230</x>
+    <y>10</y>
+    <width>170</width>
+    <height>40</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>DEFAULT_PV</name>
+    <x>230</x>
+    <y>70</y>
+    <width>170</width>
+    <height>40</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>TITLE</name>
+    <text>Header 1</text>
+    <width>180</width>
+    <height>38</height>
+    <font use_class="true">
+      <font family="Arial" style="BOLD" size="32.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+      </color>
+    </background_color>
+    <horizontal_alignment use_class="true">0</horizontal_alignment>
+    <vertical_alignment use_class="true">0</vertical_alignment>
+    <rotation_step use_class="true">0</rotation_step>
+    <wrap_words use_class="true">true</wrap_words>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Header 2</text>
+    <x>450</x>
+    <y>60</y>
+    <width>124</width>
+    <height>23</height>
+    <font use_class="true">
+      <font family="Arial" style="BOLD" size="24.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+      </color>
+    </background_color>
+    <horizontal_alignment use_class="true">0</horizontal_alignment>
+    <vertical_alignment use_class="true">0</vertical_alignment>
+    <rotation_step use_class="true">0</rotation_step>
+    <wrap_words use_class="true">true</wrap_words>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Header 3</text>
+    <x>450</x>
+    <y>110</y>
+    <width>124</width>
+    <height>23</height>
+    <font use_class="true">
+      <font family="Arial" style="BOLD" size="18.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+      </color>
+    </background_color>
+    <horizontal_alignment use_class="true">0</horizontal_alignment>
+    <vertical_alignment use_class="true">0</vertical_alignment>
+    <rotation_step use_class="true">0</rotation_step>
+    <wrap_words use_class="true">true</wrap_words>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>DEFAULT</name>
+    <text>Label</text>
+    <x>450</x>
+    <y>150</y>
+    <width>116</width>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment use_class="true">0</horizontal_alignment>
+    <vertical_alignment use_class="true">0</vertical_alignment>
+    <rotation_step use_class="true">0</rotation_step>
+    <wrap_words use_class="true">true</wrap_words>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>DEFAULT</name>
+    <x>20</x>
+    <y>550</y>
+    <width>340</width>
+    <height>40</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision use_class="true">-1</precision>
+    <show_units use_class="true">true</show_units>
+    <horizontal_alignment use_class="true">1</horizontal_alignment>
+    <vertical_alignment use_class="true">1</vertical_alignment>
+    <enabled use_class="true">true</enabled>
+    <border_width use_class="true">1</border_width>
+    <border_color use_class="true">
+      <color red="184" green="195" blue="223">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>DEFAULT_READ</name>
+    <x>20</x>
+    <y>500</y>
+    <width>340</width>
+    <height>40</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <precision use_class="true">-1</precision>
+    <show_units use_class="true">true</show_units>
+    <horizontal_alignment use_class="true">1</horizontal_alignment>
+    <vertical_alignment use_class="true">1</vertical_alignment>
+    <enabled use_class="true">false</enabled>
+    <border_width use_class="true">2</border_width>
+    <border_color use_class="true">
+      <color red="184" green="195" blue="223">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>90</x>
+    <y>30</y>
+    <width>40</width>
+    <height>40</height>
+    <off_color use_class="true">
+      <color red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color name="Write_Background" red="128" green="255" blue="255">
+      </color>
+    </on_color>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="slide_button" version="2.0.0">
+    <name>DEFAULT</name>
+    <pv_name>Label</pv_name>
+    <x>670</x>
+    <y>20</y>
+    <width>78</width>
+    <height>20</height>
+    <off_color use_class="true">
+      <color red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color red="0" green="222" blue="0">
+      </color>
+    </on_color>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>20</x>
+    <y>260</y>
+    <width>340</width>
+    <height>220</height>
+    <style use_class="true">0</style>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="15.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="choice" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>630</x>
+    <y>48</y>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <selected_color use_class="true">
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </selected_color>
+    <items>
+      <item>Item 1</item>
+      <item>Item 2</item>
+    </items>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>600</x>
+    <y>110</y>
+    <width>170</width>
+    <height>30</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color red="184" green="195" blue="223">
+      </color>
+    </background_color>
+    <horizontal_alignment use_class="true">1</horizontal_alignment>
+    <vertical_alignment use_class="true">1</vertical_alignment>
+    <border_color use_class="true">
+      <color red="196" green="196" blue="196">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="tabs" version="2.0.0">
+    <name>DEFAULT</name>
+    <tabs>
+      <tab>
+        <name>Tab 1</name>
+        <children>
+        </children>
+      </tab>
+      <tab>
+        <name>Tab 2</name>
+        <children>
+        </children>
+      </tab>
+    </tabs>
+    <x>375</x>
+    <y>190</y>
+    <width>405</width>
+    <height>150</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="table" version="2.0.0">
+    <name>DEFAULT</name>
+    <pv_name>11</pv_name>
+    <x>420</x>
+    <y>360</y>
+    <width>345</width>
+    <height>212</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <columns>
+      <column>
+        <name>Column 1</name>
+        <width>112</width>
+        <editable>true</editable>
+      </column>
+      <column>
+        <name>Column 2</name>
+        <width>112</width>
+        <editable>true</editable>
+      </column>
+      <column>
+        <name>Column 3</name>
+        <width>112</width>
+        <editable>true</editable>
+      </column>
+    </columns>
+  </widget>
+  <widget type="byte_monitor" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>30</x>
+    <y>83</y>
+    <height>40</height>
+    <off_color use_class="true">
+      <color red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color name="Write_Background" red="128" green="255" blue="255">
+      </color>
+    </on_color>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <font use_class="true">
+      <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="bool_button" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>30</x>
+    <y>133</y>
+    <width>184</width>
+    <height>40</height>
+    <off_label>Primary button</off_label>
+    <off_color use_class="true">
+      <color red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color red="56" green="206" blue="56">
+      </color>
+    </on_color>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="bool_button" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>30</x>
+    <y>200</y>
+    <width>184</width>
+    <height>40</height>
+    <off_label>Secondary button</off_label>
+    <off_color use_class="true">
+      <color red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color red="56" green="206" blue="56">
+      </color>
+    </on_color>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="progressbar" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>540</x>
+    <y>150</y>
+    <width>225</width>
+    <height>40</height>
+    <fill_color use_class="true">
+      <color red="76" green="100" blue="171">
+      </color>
+    </fill_color>
+    <background_color use_class="true">
+      <color red="250" green="250" blue="250">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="image" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>375</x>
+    <y>590</y>
+    <background_color use_class="true">
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <color_map use_class="true">
+      <name>VIRIDIS</name>
+    </color_map>
+    <x_axis>
+      <visible>true</visible>
+      <title>X</title>
+      <minimum>0.0</minimum>
+      <maximum>100.0</maximum>
+      <title_font>
+        <font family="Arial" style="BOLD" size="14.0">
+        </font>
+      </title_font>
+      <scale_font>
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </scale_font>
+    </x_axis>
+    <y_axis>
+      <visible>true</visible>
+      <title>Y</title>
+      <minimum>0.0</minimum>
+      <maximum>100.0</maximum>
+      <title_font>
+        <font family="Arial" style="BOLD" size="14.0">
+        </font>
+      </title_font>
+      <scale_font>
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </scale_font>
+    </y_axis>
+  </widget>
+  <widget type="symbol" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>30</x>
+    <y>620</y>
+    <fallback_symbol use_class="true">https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>DEFAULT</name>
+    <pv_name>PREFIX:PVI_GENERATED:COMBO-BOX-1</pv_name>
+    <x>20</x>
+    <y>750</y>
+    <width>231</width>
+    <height>40</height>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <items>
+      <item>Item 1</item>
+      <item>Item 2</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+    <editable>true</editable>
+    <confirm_message>Are you sure?</confirm_message>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>910</x>
+    <y>480</y>
+    <width>130</width>
+    <height>100</height>
+    <items>
+      <item>Item 1</item>
+      <item>Item 2</item>
+    </items>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>150</x>
+    <y>620</y>
+    <width>120</width>
+    <height>30</height>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="xyplot" version="3.0.0">
+    <name>DEFAULT</name>
+    <x>20</x>
+    <y>800</y>
+    <width>230</width>
+    <height>240</height>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>ERROR</name>
+    <x>860</x>
+    <y>230</y>
+    <width>40</width>
+    <height>40</height>
+    <off_color use_class="true">
+      <color name="Off" red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color name="MAJOR" red="255" green="0" blue="0">
+      </color>
+    </on_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>GOOD_BAD</name>
+    <x>920</x>
+    <y>230</y>
+    <width>40</width>
+    <height>40</height>
+    <off_color use_class="true">
+      <color name="MAJOR" red="255" green="0" blue="0">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color red="0" green="222" blue="0">
+      </color>
+    </on_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>ON_OFF</name>
+    <x>980</x>
+    <y>230</y>
+    <width>40</width>
+    <height>40</height>
+    <off_color use_class="true">
+      <color name="Off" red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color red="76" green="100" blue="171">
+      </color>
+    </on_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>WARNING</name>
+    <x>1040</x>
+    <y>230</y>
+    <width>40</width>
+    <height>40</height>
+    <off_color use_class="true">
+      <color name="Off" red="237" green="237" blue="237">
+      </color>
+    </off_color>
+    <on_color use_class="true">
+      <color name="Attention" red="255" green="160" blue="0">
+      </color>
+    </on_color>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>DEFAULT</name>
+    <x>860</x>
+    <y>280</y>
+    <width>40</width>
+    <height>40</height>
+    <states use_class="true">
+      <state use_class="true">
+        <value use_class="true">0</value>
+        <label use_class="true">State 1</label>
+        <color use_class="true">
+          <color name="Off" red="237" green="237" blue="237">
+          </color>
+        </color>
+      </state>
+      <state use_class="true">
+        <value use_class="true">1</value>
+        <label use_class="true">State 2</label>
+        <color use_class="true">
+          <color red="76" green="100" blue="171">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_color use_class="true">
+      <color name="Off" red="237" green="237" blue="237">
+      </color>
+    </fallback_color>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>GOOD_BAD_ERROR</name>
+    <x>920</x>
+    <y>280</y>
+    <width>40</width>
+    <height>40</height>
+    <states use_class="true">
+      <state use_class="true">
+        <value use_class="true">0</value>
+        <label use_class="true">State 1</label>
+        <color use_class="true">
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state use_class="true">
+        <value use_class="true">1</value>
+        <label use_class="true">State 2</label>
+        <color use_class="true">
+          <color red="0" green="222" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_color use_class="true">
+      <color name="INVALID" red="255" green="0" blue="255">
+      </color>
+    </fallback_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>COMMENT</name>
+    <x>860</x>
+    <y>150</y>
+    <width>140</width>
+    <height>60</height>
+    <font use_class="true">
+      <font family="Arial" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
+      <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Label</text>
+    <x>860</x>
+    <y>133</y>
+    <width>90</width>
+    <height>60</height>
+  </widget>
+</display>

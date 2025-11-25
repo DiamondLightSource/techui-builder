@@ -118,3 +118,6 @@ entities:
   - type: epics.dbpf
     pv: BL23B-DI-MOD-01:CAM:PixelFormat
     value: "{'Mono8'}"
+
+  - type: GDA.plugins
+    P: BL23B-DI-MOD-01

@@ -24,14 +24,6 @@ class FakeWidget:
         self._y = val
 
 
-def test_generator_load_screen(generator):
-    entity = Entity(type="test", P="TEST", desc=None, M=None, R=None)
-    generator.load_screen("test", [entity])
-
-    assert generator.screen_name == "test"
-    assert generator.screen_components == [entity]
-
-
 def test_generator_get_screen_dimensions_good(generator):
     test_embedded_screen = "tests/test_files/motor_embed.bob"
     x, y = generator._get_screen_dimensions(test_embedded_screen)

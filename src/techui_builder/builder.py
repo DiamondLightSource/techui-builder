@@ -76,7 +76,7 @@ class Builder:
         self.validator.check_bobs()
 
         # Get bobs that are only present in the bobs list (i.e. generated)
-        self.generated_bobs = list(set(bobs) ^ set(self.validator.validate))
+        self.generated_bobs = list(set(bobs) ^ set(self.validator.validate.values()))
 
         # Remove any generated bobs that exist
         for bob in self.generated_bobs:
@@ -119,14 +119,17 @@ Does it exist?"
                     )
                     self.entities[new_entity.P].append(new_entity)
 
-    def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
-        self.generator.build_widgets(screen_name, screen_components)
-        self.generator.build_groups(screen_name)
+    def _generate_screen(self, screen_name: str):
         self.generator.build_screen(screen_name)
         self.generator.write_screen(screen_name, self._write_directory)
 
     def _validate_screen(self, screen_name: str):
-        logger_.info(f"Validating {screen_name}")
+        # Get the generated widgets to validate against
+        widgets = self.generator.widgets
+        widget_group = self.generator.group
+        assert widget_group is not None
+        widget_group_name = widget_group.get_element_value("name")
+        self.validator.validate_bob(screen_name, widget_group_name, widgets)
 
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
@@ -152,13 +155,17 @@ exist."
                             continue
                         screen_entities.extend(self.entities[extra_p])
 
-                screens_to_validate = [
-                    v.name.removesuffix(".bob") for v in self.validator.validate
-                ]
+                # This is used by both generate and validate,
+                # so called beforehand for tidyness
+                self.generator.build_widgets(component_name, screen_entities)
+                self.generator.build_groups(component_name)
+
+                screens_to_validate = list(self.validator.validate.keys())
+
                 if component_name in screens_to_validate:
                     self._validate_screen(component_name)
                 else:
-                    self._generate_screen(component_name, screen_entities)
+                    self._generate_screen(component_name)
 
             else:
                 logger_.warning(

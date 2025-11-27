@@ -174,7 +174,7 @@ class Generator:
             suffix = component.R
             suffix_label = self.R
         else:
-            name = component.type
+            name = component.P
             suffix = ""
             suffix_label = ""
 
@@ -196,22 +196,24 @@ class Generator:
         # Path of screen relative to data/ so it knows where to open the file from
         data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
 
+        # For Gui Components with multiple components embedded, we add a suffix field
+        # to the components, and adjust the name and suffix accordingly
         try:
             if scrn_mapping["suffix"] is not None:
-                suffix = scrn_mapping["suffix"]
-                match = re.match(
+                suffix: str = scrn_mapping["suffix"]
+                match: re.Match[str] | None = re.match(
                     r"^\$\(([A-Z])\)\$\(([A-Z])\)$", scrn_mapping["prefix"]
                 )
                 if match:
-                    suffix_label = match.group(2)
-                    name = suffix
+                    suffix_label: str | None = match.group(2)
+                    name: str = suffix
         except KeyError:
             pass
 
         if scrn_mapping["type"] == "embedded":
             height, width = self._get_screen_dimensions(str(scrn_path))
             new_widget = pwidget.EmbeddedDisplay(
-                name,
+                name.removeprefix(":").removesuffix(":"),
                 str(data_scrn_path),
                 0,
                 0,  # Change depending on the order
@@ -221,15 +223,17 @@ class Generator:
             # Add macros to the widgets
             new_widget.macro(self.P, component.P)
             if suffix_label != "":
-                new_widget.macro(f"{suffix_label}", suffix)
+                new_widget.macro(
+                    f"{suffix_label}", suffix.removeprefix(":").removesuffix(":")
+                )
 
         # The only other option is for related displays
         else:
             height, width = (40, 100)
 
             new_widget = pwidget.ActionButton(
-                name,
-                name,
+                name.removeprefix(":").removesuffix(":"),
+                name.removeprefix(":").removesuffix(":"),
                 f"{component.P}{suffix}",
                 0,
                 0,

@@ -49,7 +49,7 @@ class Generator:
 
     def _read_map(self):
         """Read the techui_support.yaml file from techui-support."""
-        support_yaml = self.support_path.joinpath("techui_support.yaml").absolute()
+        support_yaml = self.support_path.joinpath("techui-support.yaml").absolute()
         logger_.debug(f"techui_support.yaml location: {support_yaml}")
 
         with open(support_yaml) as map:

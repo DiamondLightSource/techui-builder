@@ -78,9 +78,13 @@ class Builder:
         # Get bobs that are only present in the bobs list (i.e. generated)
         self.generated_bobs = list(set(bobs) ^ set(self.validator.validate.values()))
 
+        logger_.info("Preserving edited screens for validation.")
+        logger_.debug(f"Screens to validate: {list(self.validator.validate.keys())}")
+
+        logger_.info("Cleaning synoptic/ of generated screens.")
         # Remove any generated bobs that exist
         for bob in self.generated_bobs:
-            logger_.info(f"Removing {bob.name}")
+            logger_.debug(f"Removing generated screen: {bob.name}")
             os.remove(bob)
 
     def _extract_services(self):

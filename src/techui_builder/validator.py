@@ -48,10 +48,10 @@ class Validator:
         if widget_group_name not in file_groups.keys():
             return
 
+        sdkcb = file_groups[widget_group_name].getchildren()
+
         file_widgets = [
-            file_widget
-            for file_widget in file_groups[widget_group_name].getchildren()
-            if file_widget.tag == "widget"
+            file_widget for file_widget in sdkcb if file_widget.tag == "widget"
         ]
 
         for pwidget in pwidgets:

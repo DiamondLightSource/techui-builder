@@ -2,7 +2,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 from lxml.etree import _ElementTree
-from lxml.objectify import ObjectifiedElement
+from lxml.objectify import Element, ObjectifiedElement, SubElement
 from phoebusgen.widget import EmbeddedDisplay
 
 
@@ -31,8 +31,16 @@ def test_validator_read_bob(validator):
 
 
 def test_validator_validate_bob(validator):
+    mock_widget_element = Element("widget")
+    mock_name_element = SubElement(mock_widget_element, "name")
+    mock_name_element.text = "motor"
+    mock_element = ObjectifiedElement(mock_widget_element)
+    # mock_name_element.text = "motor"
     validator._read_bob = Mock(
-        return_value=(Mock(), {"motor": Mock(spec=ObjectifiedElement)})
+        return_value=(
+            Mock(),
+            {"motor": (mock_element)},
+        )
     )
     validator.validate = {"motor-edited": Path("tests/test_files/motor-edited.bob")}
     test_pwidget = EmbeddedDisplay(

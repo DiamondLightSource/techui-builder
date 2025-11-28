@@ -14,7 +14,7 @@
         <P>BL23B-MO-BRICK-01</P>
         <M>:M</M>
       </macros>
-      <file>techui_support/bob/pmac/pmacController.bob</file>
+      <file>techui-support/bob/pmac/pmacController.bob</file>
       <target>tab</target>
     </action>
   </actions>

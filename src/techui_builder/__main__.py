@@ -29,7 +29,7 @@ app = typer.Typer(
     |       `-- config\n
     |           `-- ioc.yaml\n
     `-- synoptic\n
-    .   |-- techui_support/\n
+    .   |-- techui-support/\n
     |   |   `-- ...\n
     .   |-- techui.yaml\n
     .   `-- index.bob\n

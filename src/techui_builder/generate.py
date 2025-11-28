@@ -43,14 +43,14 @@ class Generator:
 
     def __post_init__(self):
         # This needs to be before _read_map()
-        self.support_path = self.synoptic_dir.joinpath("techui_support")
+        self.support_path = self.synoptic_dir.joinpath("techui-support")
 
         self._read_map()
 
     def _read_map(self):
-        """Read the techui_support.yaml file from techui-support."""
-        support_yaml = self.support_path.joinpath("techui_support.yaml").absolute()
-        logger_.debug(f"techui_support.yaml location: {support_yaml}")
+        """Read the techui-support.yaml file from techui-support."""
+        support_yaml = self.support_path.joinpath("techui-support.yaml").absolute()
+        logger_.debug(f"techui-support.yaml location: {support_yaml}")
 
         with open(support_yaml) as map:
             self.techui_support = yaml.safe_load(map)

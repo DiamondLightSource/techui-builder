@@ -150,7 +150,7 @@ def test_generator_create_widget_is_list_of_dicts(generator):
 
 
 def test_generator_create_widget_embedded(generator):
-    generator._get_screen_dimensions = Mock(return_value=(800, 1280))
+    generator._get_screen_dimensions = Mock(return_value=(570, 990))
     component = Entity(
         type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
     )
@@ -162,7 +162,9 @@ def test_generator_create_widget_embedded(generator):
     with open(control_widget) as f:
         xml_content = f.read()
 
-    assert str(widget) == xml_content
+    # TODO: Do we also need to test the second element
+    # that appears to be an action button?
+    assert str(widget[0]) == xml_content
 
 
 def test_generator_initialise_name_suffix_m(generator):

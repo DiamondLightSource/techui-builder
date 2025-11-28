@@ -3,9 +3,9 @@
   <name>CAM:</name>
   <x>0</x>
   <y>0</y>
-  <width>1280</width>
-  <height>800</height>
-  <file>techui_support/bob/ADAravis/ADAravis_summary.bob</file>
+  <width>990</width>
+  <height>570</height>
+  <file>techui-support/bob/ADAravis/ADAravis_summary.bob</file>
   <macros>
     <P>BL23B-DI-MOD-02</P>
     <R>CAM:</R>

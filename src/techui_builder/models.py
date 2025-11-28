@@ -130,7 +130,7 @@ class TechUi(BaseModel):
 
 
 """
-techui_support mapping models
+techui-support mapping models
 """
 
 BobPath = Annotated[

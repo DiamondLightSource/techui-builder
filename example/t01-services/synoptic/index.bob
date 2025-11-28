@@ -5,7 +5,7 @@
     <name>Detector</name>
     <pv_name>fshtr</pv_name>
     <symbols>
-      <symbol>techui_support/symbols/shutter 1.svg</symbol>
+      <symbol>techui-support/symbols/shutter 1.svg</symbol>
     </symbols>
     <x>60</x>
     <y>150</y>
@@ -23,7 +23,7 @@
     <name>MotorController</name>
     <pv_name>d1</pv_name>
     <symbols>
-      <symbol>techui_support/symbols/diag-stick.svg</symbol>
+      <symbol>techui-support/symbols/diag-stick.svg</symbol>
     </symbols>
     <x>280</x>
     <y>150</y>
@@ -41,7 +41,7 @@
     <name>TempController</name>
     <pv_name>motor</pv_name>
     <symbols>
-      <symbol>techui_support/symbols/aperture.svg</symbol>
+      <symbol>techui-support/symbols/aperture.svg</symbol>
     </symbols>
     <x>490</x>
     <y>150</y>

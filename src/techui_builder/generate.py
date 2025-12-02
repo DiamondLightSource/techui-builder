@@ -207,7 +207,7 @@ class Generator:
         if scrn_mapping["type"] == "embedded":
             height, width = self._get_screen_dimensions(str(scrn_path))
             new_widget = pwidget.EmbeddedDisplay(
-                name,
+                name.removeprefix(":").removesuffix(":"),
                 str(data_scrn_path),
                 0,
                 0,  # Change depending on the order

@@ -221,6 +221,31 @@ def test_generator_allocate_widget(generator):
     assert str(widget) == xml_content
 
 
+def test_generator_allocate_widget_with_suffix(generator):
+    generator._initilise_name_suffix = Mock(return_value=(":CAM:", ":CAM:", "R"))
+
+    scrn_mapping = {
+        "file": "ADAravis/ADAravis_summary.bob",
+        "prefix": "$(P)$(R)",
+        "suffix": ":CAM:",
+        "type": "embedded",
+    }
+    component = Entity(
+        type="detectorPlugins.detectorPlugins",
+        P="BL23B-DI-MOD-02",
+        desc=None,
+        M=None,
+        R=None,
+    )
+    widget = generator._allocate_widget(scrn_mapping, component)
+    control_widget = Path("tests/test_files/widget.xml")
+
+    with open(control_widget) as f:
+        xml_content = f.read()
+
+    assert str(widget) == xml_content
+
+
 def test_generator_create_widget_related(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     screen_name = "test"

@@ -211,7 +211,7 @@ class Generator:
             new_widget = pwidget.ActionButton(
                 name,
                 name,
-                f"{component.P}{suffix}",
+                "",
                 0,
                 0,
                 width,

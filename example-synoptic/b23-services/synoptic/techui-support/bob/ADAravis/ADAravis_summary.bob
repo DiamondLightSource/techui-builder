@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-12-02 08:11:47 by uns32131-->
+<!--Saved on 2025-12-02 08:19:52 by uns32131-->
 <display version="2.0.0">
   <name>Camera Screen</name>
   <width>860</width>
@@ -14,8 +14,8 @@
   <grid_step_y>5</grid_step_y>
   <widget type="group" version="3.0.0">
     <name>Group</name>
-    <width>990</width>
-    <height>570</height>
+    <width>860</width>
+    <height>450</height>
     <style>3</style>
     <transparent>true</transparent>
     <widget type="group" version="3.0.0">

@@ -142,7 +142,7 @@ def test_generator_create_widget_is_list_of_dicts(generator):
 
 
 def test_generator_create_widget_embedded(generator):
-    generator._get_screen_dimensions = Mock(return_value=(570, 990))
+    generator._get_screen_dimensions = Mock(return_value=(450, 860))
     screen_name = "test"
     component = Entity(
         type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
@@ -186,7 +186,7 @@ def test_generator_initialise_name_suffix_none(generator):
 
     name, suffix, suffix_label = generator._initialise_name_suffix(component)
 
-    assert name == "test"
+    assert name == component.P
     assert suffix == ""
     assert suffix_label == ""
 

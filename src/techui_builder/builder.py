@@ -204,7 +204,7 @@ exist."
         if visited is None:
             visited = set()
 
-        current_node = JsonMap(str(screen_path.name))
+        current_node = JsonMap(str(screen_path.relative_to(self._write_directory)))
 
         abs_path = screen_path.absolute()
         dest_path = dest_path
@@ -262,7 +262,7 @@ exist."
                         next_file_path, dest_path, visited
                     )
                 else:
-                    child_node = JsonMap(str(file_path.name), exists=False)
+                    child_node = JsonMap(str(file_path), exists=False)
 
                 child_node.macros = macro_dict
                 # TODO: make this work for only list[JsonMap]

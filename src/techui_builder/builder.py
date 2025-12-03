@@ -60,11 +60,11 @@ class Builder:
         self._extract_services()
         synoptic_dir = self._write_directory
 
-        self.clean_bobs()
+        self.clean_files()
 
         self.generator = Generator(synoptic_dir)
 
-    def clean_bobs(self):
+    def clean_files(self):
         exclude = {"index.bob"}
         bobs = [
             bob
@@ -82,10 +82,19 @@ class Builder:
         logger_.debug(f"Screens to validate: {list(self.validator.validate.keys())}")
 
         logger_.info("Cleaning synoptic/ of generated screens.")
-        # Remove any generated bobs that exist
-        for bob in self.generated_bobs:
-            logger_.debug(f"Removing generated screen: {bob.name}")
-            os.remove(bob)
+
+        try:
+            # Find the JsonMap file
+            json_map_file = next(self._write_directory.glob("JsonMap.json"))
+            # If it exists, we want to remove it too
+            generated_files = [*self.generated_bobs, json_map_file]
+        except StopIteration:
+            generated_files = self.generated_bobs
+
+        # Remove any generated files that exist
+        for file_ in generated_files:
+            logger_.debug(f"Removing generated file: {file_.name}")
+            os.remove(file_)
 
     def _extract_services(self):
         """
@@ -195,9 +204,9 @@ exist."
         if visited is None:
             visited = set()
 
-        current_node = JsonMap(str(screen_path))
+        current_node = JsonMap(str(screen_path.name))
 
-        abs_path = screen_path
+        abs_path = screen_path.absolute()
         dest_path = dest_path
         if abs_path in visited:
             current_node.exists = True
@@ -253,7 +262,7 @@ exist."
                         next_file_path, dest_path, visited
                     )
                 else:
-                    child_node = JsonMap(str(file_path), exists=False)
+                    child_node = JsonMap(str(file_path.name), exists=False)
 
                 child_node.macros = macro_dict
                 # TODO: make this work for only list[JsonMap]

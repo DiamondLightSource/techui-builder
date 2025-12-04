@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!--Saved on 2025-11-18 15:59:55 by uns32131-->
+<!--Saved on 2025-12-04 10:31:44 by sfx44126-->
 <display version="2.0.0">
   <name>Synoptic</name>
   <width>893</width>
@@ -301,7 +301,7 @@ $(pv_value)</tooltip>
     <x>130</x>
     <y>195</y>
     <width>1</width>
-    <height>55</height>
+    <height>51</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1404,7 +1404,7 @@ $(pv_value)</tooltip>
     <x>450</x>
     <y>140</y>
     <width>1</width>
-    <height>53</height>
+    <height>49</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1536,6 +1536,9 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
+    <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
@@ -1588,7 +1591,7 @@ $(pv_value)</tooltip>
     <x>410</x>
     <y>140</y>
     <width>1</width>
-    <height>51</height>
+    <height>47</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -1744,7 +1747,7 @@ $(pv_value)</tooltip>
     <x>330</x>
     <y>140</y>
     <width>1</width>
-    <height>49</height>
+    <height>45</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -2222,7 +2225,7 @@ $(pv_value)</tooltip>
     <x>790</x>
     <y>40</y>
     <width>1</width>
-    <height>49</height>
+    <height>45</height>
     <resize>2</resize>
     <transparent>true</transparent>
     <actions>
@@ -2289,73 +2292,6 @@ $(pv_value)</tooltip>
     </scripts>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-  </widget>
-  <widget type="symbol" version="2.0.0">
-    <name>MOD2</name>
-    <pv_name>BL23B-DI-MOD-02:DEVSTA</pv_name>
-    <symbols>
-      <symbol>techui-support/symbols/aperture.svg</symbol>
-    </symbols>
-    <x>857</x>
-    <y>256</y>
-    <width>30</width>
-    <height>50</height>
-    <background_color>
-      <color name="Canvas" red="200" green="200" blue="200">
-      </color>
-    </background_color>
-    <actions>
-      <action type="open_display">
-        <description>MOD2</description>
-        <file>MOD2.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_34</name>
-    <text>MODA</text>
-    <x>744</x>
-    <y>396</y>
-    <width>42</width>
-    <height>16</height>
-    <font>
-      <font family="Arial" style="REGULAR" size="14.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="29" green="41" blue="69">
-      </color>
-    </foreground_color>
-    <auto_size>true</auto_size>
-  </widget>
-  <widget type="symbol" version="2.0.0">
-    <name>MOD1</name>
-    <pv_name>BL23B-DI-MOD-01:DEVSTA</pv_name>
-    <symbols>
-      <symbol>techui-support/symbols/aperture.svg</symbol>
-    </symbols>
-    <x>750</x>
-    <y>365</y>
-    <width>30</width>
-    <height>50</height>
-    <background_color>
-      <color name="Canvas" red="200" green="200" blue="200">
-      </color>
-    </background_color>
-    <actions>
-      <action type="open_display">
-        <description>MOD1</description>
-        <file>MOD1.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <fallback_symbol>https://cs-web-symbol.diamond.ac.uk/catalogue/default_symbol.png</fallback_symbol>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_8</name>
@@ -2761,23 +2697,6 @@ $(pv_value)</tooltip>
     </actions>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_35</name>
-    <text>MODB</text>
-    <x>851</x>
-    <y>286</y>
-    <width>42</width>
-    <height>16</height>
-    <font>
-      <font family="Arial" style="REGULAR" size="14.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="29" green="41" blue="69">
-      </color>
-    </foreground_color>
-    <auto_size>true</auto_size>
   </widget>
   <widget type="symbol" version="2.0.0">
     <name>FESHTR</name>

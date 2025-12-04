@@ -10,7 +10,7 @@ from techui_builder.validator import Validator
 
 @pytest.fixture
 def builder():
-    ixx_services = Path(__file__).parent.parent.joinpath(Path("example/t01-services"))
+    ixx_services = Path(__file__).parent.joinpath(Path("t01-services"))
     techui_path = ixx_services.joinpath("synoptic/techui.yaml")
 
     b = Builder(techui_path)
@@ -40,9 +40,7 @@ def example_json_map():
 
 @pytest.fixture
 def generator():
-    synoptic_dir = Path(__file__).parent.parent.joinpath(
-        Path("example/t01-services/synoptic")
-    )
+    synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
 
     g = Generator(synoptic_dir)
 

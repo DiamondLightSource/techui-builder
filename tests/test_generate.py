@@ -142,7 +142,7 @@ def test_generator_create_widget_is_list_of_dicts(generator):
 
 
 def test_generator_create_widget_embedded(generator):
-    generator._get_screen_dimensions = Mock(return_value=(570, 990))
+    generator._get_screen_dimensions = Mock(return_value=(450, 860))
     screen_name = "test"
     component = Entity(
         type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
@@ -186,7 +186,7 @@ def test_generator_initialise_name_suffix_none(generator):
 
     name, suffix, suffix_label = generator._initialise_name_suffix(component)
 
-    assert name == "test"
+    assert name == component.P
     assert suffix == ""
     assert suffix_label == ""
 
@@ -211,6 +211,31 @@ def test_generator_allocate_widget(generator):
     }
     component = Entity(
         type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+    )
+    widget = generator._allocate_widget(scrn_mapping, component)
+    control_widget = Path("tests/test_files/widget.xml")
+
+    with open(control_widget) as f:
+        xml_content = f.read()
+
+    assert str(widget) == xml_content
+
+
+def test_generator_allocate_widget_with_suffix(generator):
+    generator._initilise_name_suffix = Mock(return_value=(":CAM:", ":CAM:", "R"))
+
+    scrn_mapping = {
+        "file": "ADAravis/ADAravis_summary.bob",
+        "prefix": "$(P)$(R)",
+        "suffix": ":CAM:",
+        "type": "embedded",
+    }
+    component = Entity(
+        type="detectorPlugins.detectorPlugins",
+        P="BL23B-DI-MOD-02",
+        desc=None,
+        M=None,
+        R=None,
     )
     widget = generator._allocate_widget(scrn_mapping, component)
     control_widget = Path("tests/test_files/widget.xml")

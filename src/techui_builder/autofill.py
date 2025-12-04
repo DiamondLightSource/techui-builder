@@ -1,5 +1,6 @@
 import logging
 import os
+from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -8,6 +9,7 @@ from lxml.objectify import ObjectifiedElement
 
 from techui_builder.builder import Builder, _get_action_group
 from techui_builder.models import Component
+from techui_builder.utils import read_bob
 
 logger_ = logging.getLogger(__name__)
 
@@ -16,41 +18,32 @@ logger_ = logging.getLogger(__name__)
 class Autofiller:
     path: Path
     macros: list[str] = field(default_factory=lambda: ["prefix", "desc", "file"])
+    widgets: dict[str, ObjectifiedElement] = field(
+        default_factory=defaultdict, init=False, repr=False
+    )
 
     def read_bob(self) -> None:
-        # Read the bob file
-        self.tree = objectify.parse(self.path)
-
-        # Find the root tag (in this case: <display version="2.0.0">)
-        self.root = self.tree.getroot()
+        self.tree, self.widgets = read_bob(self.path)
 
     def autofill_bob(self, gui: "Builder"):
         # Get names from component list
 
-        # Loop over objects in the xml
-        # i.e. every tag below <display version="2.0.0">
-        # but not any nested tags below them
-        for child in self.root.iterchildren():
-            # If widget is a symbol (i.e. a component)
-            if child.tag == "widget" and child.get("type", default=None) == "symbol":
-                # Extract it's name
-                symbol_name = child.name
+        for symbol_name, child in self.widgets.items():
+            # If the name exists in the component list
+            if symbol_name in gui.conf.components.keys():
+                # Get first copy of component (should only be one)
+                comp = next(
+                    (comp for comp in gui.conf.components if comp == symbol_name),
+                )
 
-                # If the name exists in the component list
-                if symbol_name in gui.conf.components.keys():
-                    # Get first copy of component (should only be one)
-                    comp = next(
-                        (comp for comp in gui.conf.components if comp == symbol_name),
-                    )
+                self.replace_content(
+                    widget=child,
+                    component_name=comp,
+                    component=gui.conf.components[comp],
+                )
 
-                    self.replace_content(
-                        widget=child,
-                        component_name=comp,
-                        component=gui.conf.components[comp],
-                    )
-
-                    # Add option to allow left mouse click to run action
-                    child["run_actions_on_mouse_click"] = "true"
+                # Add option to allow left mouse click to run action
+                child["run_actions_on_mouse_click"] = "true"
 
     def write_bob(self, filename: Path):
         # Check if data/ dir exists and if not, make it

@@ -24,14 +24,6 @@ class FakeWidget:
         self._y = val
 
 
-def test_generator_load_screen(generator):
-    entity = Entity(type="test", P="TEST", desc=None, M=None, R=None)
-    generator.load_screen("test", [entity])
-
-    assert generator.screen_name == "test"
-    assert generator.screen_components == [entity]
-
-
 def test_generator_get_screen_dimensions_good(generator):
     test_embedded_screen = "tests/test_files/motor_embed.bob"
     x, y = generator._get_screen_dimensions(test_embedded_screen)
@@ -116,12 +108,12 @@ def test_generator_get_group_dimensions(generator):
 
 def test_generator_create_widget_keyerror(generator, caplog):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
-    generator.screen_name = "test"
+    screen_name = "test"
     component = Entity(
         type="key.notavailable", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
     )
 
-    result = generator._create_widget(component=component)
+    result = generator._create_widget(name=screen_name, component=component)
 
     assert result is None
     assert (
@@ -138,11 +130,11 @@ def test_generator_create_widget_is_list_of_dicts(generator):
             name="X", file="", x=0, y=0, width=205, height=120
         )
     )
-    generator.screen_name = "test"
+    screen_name = "test"
     component = Entity(
         type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
     )
-    widget = generator._create_widget(component=component)
+    widget = generator._create_widget(name=screen_name, component=component)
     for value in widget:
         assert str(value) == str(
             pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
@@ -150,12 +142,14 @@ def test_generator_create_widget_is_list_of_dicts(generator):
 
 
 def test_generator_create_widget_embedded(generator):
-    generator._get_screen_dimensions = Mock(return_value=(570, 990))
+    generator._get_screen_dimensions = Mock(return_value=(450, 860))
+    screen_name = "test"
     component = Entity(
         type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
     )
 
     widget = generator._create_widget(
+        name=screen_name,
         component=component,
     )
     control_widget = Path("tests/test_files/widget.xml")
@@ -192,7 +186,7 @@ def test_generator_initialise_name_suffix_none(generator):
 
     name, suffix, suffix_label = generator._initialise_name_suffix(component)
 
-    assert name == "test"
+    assert name == component.P
     assert suffix == ""
     assert suffix_label == ""
 
@@ -227,13 +221,40 @@ def test_generator_allocate_widget(generator):
     assert str(widget) == xml_content
 
 
+def test_generator_allocate_widget_with_suffix(generator):
+    generator._initilise_name_suffix = Mock(return_value=(":CAM:", ":CAM:", "R"))
+
+    scrn_mapping = {
+        "file": "ADAravis/ADAravis_summary.bob",
+        "prefix": "$(P)$(R)",
+        "suffix": ":CAM:",
+        "type": "embedded",
+    }
+    component = Entity(
+        type="detectorPlugins.detectorPlugins",
+        P="BL23B-DI-MOD-02",
+        desc=None,
+        M=None,
+        R=None,
+    )
+    widget = generator._allocate_widget(scrn_mapping, component)
+    control_widget = Path("tests/test_files/widget.xml")
+
+    with open(control_widget) as f:
+        xml_content = f.read()
+
+    assert str(widget) == xml_content
+
+
 def test_generator_create_widget_related(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
+    screen_name = "test"
     component = Entity(
         type="pmac.GeoBrick", P="BL23B-MO-BRICK-01", desc=None, M=":M", R=None
     )
 
     widget = generator._create_widget(
+        name=screen_name,
         component=component,
     )
 
@@ -245,11 +266,13 @@ def test_generator_create_widget_related(generator):
 
 def test_generator_create_widget_related_no_suffix(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
+    screen_name = "test"
     component = Entity(
         type="pmac.GeoBrick", P="BL23B-MO-BRICK-01", desc=None, M=None, R=None
     )
 
     widget = generator._create_widget(
+        name=screen_name,
         component=component,
     )
 
@@ -298,7 +321,8 @@ def test_generator_layout_widgets(generator, index, x, y):
     assert arranged_widgets[index]._y == y
 
 
-def test_generator_build_groups(generator):
+# TODO: Split up test
+def test_generator_build_screen(generator):
     generator._create_widget = Mock(return_value=Mock())
     generator.layout_widgets = Mock(
         return_value=[
@@ -309,25 +333,27 @@ def test_generator_build_groups(generator):
         ]
     )
     generator._get_group_dimensions = Mock(return_value=(600, 400))
-    generator.screen_name = "test"
-    generator.screen_components = [Mock(), Mock(), Mock()]
+    screen_name = "test"
+    screen_components = [Mock(), Mock(), Mock()]
 
-    generator.build_groups()
+    generator.build_widgets(screen_name, screen_components)
+    generator.build_groups(screen_name)
+    generator.build_screen(screen_name)
     assert objectify.fromstring(str(generator.screen_)).xpath("//widget[@type='group']")
 
 
 def test_generator_write_screen(generator):
-    generator.screen_name = "test"
+    screen_name = "test"
     generator.screen_ = pscreen.Screen("test")
     generator.widgets = [Mock(), Mock()]
-    generator.write_screen(Path("tests/test_files/"))
+    generator.write_screen(screen_name, Path("tests/test_files/"))
     assert Path("tests/test_files/test.bob").exists()
     Path("tests/test_files/test.bob").unlink()
 
 
 def test_generator_write_screen_no_widgets(generator, caplog):
-    generator.screen_name = "test"
+    screen_name = "test"
     generator.screen_ = pscreen.Screen("test")
     generator.widgets = []
-    generator.write_screen(Path("tests/test_files/"))
+    generator.write_screen(screen_name, Path("tests/test_files/"))
     assert "Could not write screen: test as no widgets were available" in caplog.text

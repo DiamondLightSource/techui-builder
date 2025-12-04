@@ -5,6 +5,7 @@ import pytest
 
 from techui_builder.builder import Builder, JsonMap
 from techui_builder.generate import Generator
+from techui_builder.validator import Validator
 
 
 @pytest.fixture
@@ -46,3 +47,11 @@ def generator():
     g = Generator(synoptic_dir)
 
     return g
+
+
+@pytest.fixture
+def validator():
+    test_bobs = [Path("tests/test_files/motor-edited.bob")]
+    v = Validator(test_bobs)
+
+    return v

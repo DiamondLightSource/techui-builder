@@ -147,6 +147,7 @@ ScreenType = Literal["embedded", "related"]
 class GuiComponentEntry(BaseModel):
     file: BobPath
     prefix: MacroString
+    suffix: MacroString | None = None
     type: ScreenType
     model_config = ConfigDict(extra="forbid")
 

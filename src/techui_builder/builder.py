@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from collections import defaultdict
 from dataclasses import _MISSING_TYPE, dataclass, field
 from pathlib import Path
@@ -11,6 +12,7 @@ from lxml.objectify import ObjectifiedElement
 
 from techui_builder.generate import Generator
 from techui_builder.models import Entity, TechUi
+from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
 
@@ -57,7 +59,33 @@ class Builder:
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
         self._extract_services()
         synoptic_dir = self._write_directory
+
+        self.clean_bobs()
+
         self.generator = Generator(synoptic_dir)
+
+    def clean_bobs(self):
+        exclude = {"index.bob"}
+        bobs = [
+            bob
+            for bob in self._write_directory.glob("*.bob")
+            if bob.name not in exclude
+        ]
+
+        self.validator = Validator(bobs)
+        self.validator.check_bobs()
+
+        # Get bobs that are only present in the bobs list (i.e. generated)
+        self.generated_bobs = list(set(bobs) ^ set(self.validator.validate.values()))
+
+        logger_.info("Preserving edited screens for validation.")
+        logger_.debug(f"Screens to validate: {list(self.validator.validate.keys())}")
+
+        logger_.info("Cleaning synoptic/ of generated screens.")
+        # Remove any generated bobs that exist
+        for bob in self.generated_bobs:
+            logger_.debug(f"Removing generated screen: {bob.name}")
+            os.remove(bob)
 
     def _extract_services(self):
         """
@@ -95,13 +123,20 @@ Does it exist?"
                     )
                     self.entities[new_entity.P].append(new_entity)
 
-    def _generate_screen(self, screen_name: str, screen_components: list[Entity]):
-        self.generator.load_screen(screen_name, screen_components)
-        self.generator.build_groups()
-        self.generator.write_screen(self._write_directory)
+    def _generate_screen(self, screen_name: str):
+        self.generator.build_screen(screen_name)
+        self.generator.write_screen(screen_name, self._write_directory)
 
-    def generate_screens(self):
-        """Generate the screens for each component in techui.yaml"""
+    def _validate_screen(self, screen_name: str):
+        # Get the generated widgets to validate against
+        widgets = self.generator.widgets
+        widget_group = self.generator.group
+        assert widget_group is not None
+        widget_group_name = widget_group.get_element_value("name")
+        self.validator.validate_bob(screen_name, widget_group_name, widgets)
+
+    def create_screens(self):
+        """Create the screens for each component in techui.yaml"""
         if len(self.entities) == 0:
             logger_.critical("No ioc entities found, has setup() been run?")
             exit()
@@ -124,7 +159,18 @@ exist."
                             continue
                         screen_entities.extend(self.entities[extra_p])
 
-                self._generate_screen(component_name, screen_entities)
+                # This is used by both generate and validate,
+                # so called beforehand for tidyness
+                self.generator.build_widgets(component_name, screen_entities)
+                self.generator.build_groups(component_name)
+
+                screens_to_validate = list(self.validator.validate.keys())
+
+                if component_name in screens_to_validate:
+                    self._validate_screen(component_name)
+                else:
+                    self._generate_screen(component_name)
+
             else:
                 logger_.warning(
                     f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\

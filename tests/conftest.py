@@ -10,7 +10,7 @@ from techui_builder.validator import Validator
 
 @pytest.fixture
 def builder():
-    ixx_services = Path(__file__).parent.parent.joinpath(Path("example/t01-services"))
+    ixx_services = Path(__file__).parent.joinpath(Path("t01-services"))
     techui_path = ixx_services.joinpath("synoptic/techui.yaml")
 
     b = Builder(techui_path)
@@ -29,10 +29,25 @@ def builder_with_setup(builder: Builder):
 
 
 @pytest.fixture
+def builder_with_test_files(builder: Builder):
+    builder._write_directory = Path("tests/test_files/").absolute()
+
+    return builder
+
+
+@pytest.fixture
+def test_files():
+    screen_path = Path("tests/test_files/test_bob.bob").absolute()
+    dest_path = Path("tests/test_files/").absolute()
+
+    return screen_path, dest_path
+
+
+@pytest.fixture
 def example_json_map():
     # Create test json map with child json map
     test_map_child = JsonMap("test_child_bob.bob", exists=False)
-    test_map = JsonMap("tests/test_files/test_bob.bob")
+    test_map = JsonMap("test_bob.bob")
     test_map.children.append(test_map_child)
 
     return test_map
@@ -40,9 +55,7 @@ def example_json_map():
 
 @pytest.fixture
 def generator():
-    synoptic_dir = Path(__file__).parent.parent.joinpath(
-        Path("example/t01-services/synoptic")
-    )
+    synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
 
     g = Generator(synoptic_dir)
 

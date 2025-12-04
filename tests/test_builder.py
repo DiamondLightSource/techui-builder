@@ -176,9 +176,8 @@ def test_write_json_map(builder):
         os.remove(dest_path)
 
 
-def test_generate_json_map(builder, example_json_map):
-    screen_path = Path("tests/test_files/test_bob.bob")
-    dest_path = Path("tests/test_files/")
+def test_generate_json_map(builder_with_test_files, example_json_map, test_files):
+    screen_path, dest_path = test_files
 
     # We don't want to access the _get_action_group function in this test
     with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
@@ -186,7 +185,9 @@ def test_generate_json_map(builder, example_json_map):
         mock_xml["file"] = "test_child_bob.bob"
         mock_get_action_group.return_value = mock_xml
 
-        test_json_map = builder._generate_json_map(screen_path, dest_path)
+        test_json_map = builder_with_test_files._generate_json_map(
+            screen_path.absolute(), dest_path
+        )
 
         assert test_json_map == example_json_map
 
@@ -204,9 +205,10 @@ def test_generate_json_map(builder, example_json_map):
 #     assert test_json_map == example_json_map
 
 
-def test_generate_json_map_get_macros(builder, example_json_map):
-    screen_path = Path("tests/test_files/test_bob.bob")
-    dest_path = Path("tests/test_files/")
+def test_generate_json_map_get_macros(
+    builder_with_test_files, example_json_map, test_files
+):
+    screen_path, dest_path = test_files
 
     # Set a custom macro to test against
     example_json_map.children[0].macros = {"macro": "value"}
@@ -220,14 +222,17 @@ def test_generate_json_map_get_macros(builder, example_json_map):
         macros["macro"] = "value"
         mock_get_action_group.return_value = mock_xml
 
-        test_json_map = builder._generate_json_map(screen_path, dest_path)
+        test_json_map = builder_with_test_files._generate_json_map(
+            screen_path, dest_path
+        )
 
         assert test_json_map == example_json_map
 
 
-def test_generate_json_map_visited_node(builder, example_json_map):
-    screen_path = Path("tests/test_files/test_bob.bob")
-    dest_path = Path("tests/test_files/")
+def test_generate_json_map_visited_node(
+    builder_with_test_files, example_json_map, test_files
+):
+    screen_path, dest_path = test_files
 
     visited = {screen_path}
     # Clear children as they will never be read
@@ -235,28 +240,31 @@ def test_generate_json_map_visited_node(builder, example_json_map):
     # Need to set this to true too
     example_json_map.duplicate = True
 
-    test_json_map = builder._generate_json_map(screen_path, dest_path, visited)
+    test_json_map = builder_with_test_files._generate_json_map(
+        screen_path, dest_path, visited
+    )
 
     assert test_json_map == example_json_map
 
 
-def test_generate_json_map_xml_parse_error(builder):
-    screen_path = Path("tests/test_files/test_bob_bad.bob")
-    dest_path = Path("tests/test_files/")
+def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
+    screen_path = Path("tests/test_files/test_bob_bad.bob").absolute()
+    _, dest_path = test_files
 
-    test_json_map = builder._generate_json_map(screen_path, dest_path)
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
 
     assert test_json_map.error.startswith("XML parse error:")
 
 
-def test_generate_json_map_other_exception(builder):
-    screen_path = Path("tests/test_files/test_bob.bob")
-    dest_path = Path("tests/test_files/")
+def test_generate_json_map_other_exception(builder_with_test_files, test_files):
+    screen_path, dest_path = test_files
 
     with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
         mock_get_action_group.side_effect = Exception("Some exception")
 
-        test_json_map = builder._generate_json_map(screen_path, dest_path)
+        test_json_map = builder_with_test_files._generate_json_map(
+            screen_path, dest_path
+        )
 
         assert test_json_map.error != ""
 
@@ -265,7 +273,7 @@ def test_serialise_json_map(example_json_map):
     json_ = _serialise_json_map(example_json_map)  # type: ignore
 
     assert json_ == {
-        "file": "tests/test_files/test_bob.bob",
+        "file": "test_bob.bob",
         "children": [{"file": "test_child_bob.bob", "exists": False}],
     }
 

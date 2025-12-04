@@ -1,0 +1,511 @@
+{
+    "file": "index.bob",
+    "children": [
+        {
+            "file": "FEV4.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "BL23B-VA-VALVE-01",
+                "device": "BL23B-VA-VALVE-01",
+                "gilk0": "Gauge 1",
+                "gilk1": "Gauge 2",
+                "gilk10": "unused",
+                "gilk11": "unused",
+                "gilk12": "unused",
+                "gilk13": "unused",
+                "gilk14": "unused",
+                "gilk15": "unused",
+                "gilk2": "Gauge 3",
+                "gilk3": "Gauge 4",
+                "gilk4": "Gauge 5",
+                "gilk5": "Gauge 6",
+                "gilk6": "unused",
+                "gilk7": "unused",
+                "gilk8": "unused",
+                "gilk9": "unused",
+                "ilk0": "Air Pressure",
+                "ilk1": "Initial/Run",
+                "ilk10": "unused",
+                "ilk11": "unused",
+                "ilk12": "unused",
+                "ilk13": "unused",
+                "ilk14": "unused",
+                "ilk15": "Valve Fault",
+                "ilk2": "PIRG-01 & Ser",
+                "ilk3": "PIRG-02 & Ser",
+                "ilk4": "PIRG-03 & Ser",
+                "ilk5": "unused",
+                "ilk6": "unused",
+                "ilk7": "unused",
+                "ilk8": "unused",
+                "ilk9": "unused",
+                "name": "V1",
+                "valvetype": "valve"
+            }
+        },
+        {
+            "file": "FEABSB.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "FE Absorber",
+                "device": "FE23B-RS-ABSB-01",
+                "name": "FABS",
+                "valvetype": "absorber"
+            }
+        },
+        {
+            "file": "FEV2.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "FE Valve 2",
+                "device": "FE23B-VA-VALVE-02",
+                "name": "FV2",
+                "valvetype": "valve"
+            }
+        },
+        {
+            "file": "IMG4.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IMG-01",
+                "device": "BL23B-VA-IMG-01",
+                "name": "IMG1"
+            }
+        },
+        {
+            "file": "IONP4.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "RGA2.bob",
+            "exists": false,
+            "macros": {
+                "device": "BL23B-VA-RGA-01"
+            }
+        },
+        {
+            "file": "PIRG4.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "FEV3.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "FE Valve 2",
+                "device": "FE23B-VA-VALVE-02",
+                "name": "FV2",
+                "valvetype": "valve"
+            }
+        },
+        {
+            "file": "M1.bob",
+            "exists": false
+        },
+        {
+            "file": "M2.bob",
+            "exists": false
+        },
+        {
+            "file": "SHTR1.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "FE Shutter",
+                "device": "FE23B-PS-SHTR-02",
+                "name": "FSHTR",
+                "valvetype": "shutter"
+            }
+        },
+        {
+            "file": "SHTR2.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "FE Shutter",
+                "device": "FE23B-PS-SHTR-02",
+                "name": "FSHTR",
+                "valvetype": "shutter"
+            }
+        },
+        {
+            "file": "M3.bob",
+            "children": [
+                {
+                    "file": "techui-support/bob/pmac/pmacController.bob",
+                    "macros": {
+                        "P": "BL23B-MO-PMAC-01"
+                    }
+                }
+            ]
+        },
+        {
+            "file": "IMG1.bob",
+            "macros": {
+                "desc": "BL23B-VA-IMG-01",
+                "device": "BL23B-VA-IMG-01",
+                "name": "IMG1"
+            }
+        },
+        {
+            "file": "IONP1.bob",
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "RGA1.bob",
+            "exists": false,
+            "macros": {
+                "device": "BL23B-VA-RGA-01"
+            }
+        },
+        {
+            "file": "PIRG1.bob",
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "IMG6.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IMG-01",
+                "device": "BL23B-VA-IMG-01",
+                "name": "IMG1"
+            }
+        },
+        {
+            "file": "IONP8.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "PIRG6.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "IMG5.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IMG-01",
+                "device": "BL23B-VA-IMG-01",
+                "name": "IMG1"
+            }
+        },
+        {
+            "file": "IONP7.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "PIRG5.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "IONP6.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "IONP5.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "GV2.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "BL23B-VA-VALVE-01",
+                "device": "BL23B-VA-VALVE-01",
+                "gilk0": "Gauge 1",
+                "gilk1": "Gauge 2",
+                "gilk10": "unused",
+                "gilk11": "unused",
+                "gilk12": "unused",
+                "gilk13": "unused",
+                "gilk14": "unused",
+                "gilk15": "unused",
+                "gilk2": "Gauge 3",
+                "gilk3": "Gauge 4",
+                "gilk4": "Gauge 5",
+                "gilk5": "Gauge 6",
+                "gilk6": "unused",
+                "gilk7": "unused",
+                "gilk8": "unused",
+                "gilk9": "unused",
+                "ilk0": "Air Pressure",
+                "ilk1": "Initial/Run",
+                "ilk10": "unused",
+                "ilk11": "unused",
+                "ilk12": "unused",
+                "ilk13": "unused",
+                "ilk14": "unused",
+                "ilk15": "Valve Fault",
+                "ilk2": "PIRG-01 & Ser",
+                "ilk3": "PIRG-02 & Ser",
+                "ilk4": "PIRG-03 & Ser",
+                "ilk5": "unused",
+                "ilk6": "unused",
+                "ilk7": "unused",
+                "ilk8": "unused",
+                "ilk9": "unused",
+                "name": "V1",
+                "valvetype": "valve"
+            }
+        },
+        {
+            "file": "IMG21.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-IMG-01",
+                "device": "BL23B-VA-IMG-01",
+                "name": "IMG1"
+            }
+        },
+        {
+            "file": "IONP21.bob",
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "PIRG21.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "MOD2.bob",
+            "children": [
+                {
+                    "file": "techui-support/bob/ADAravis/ADAravis_detail.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":CAM:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginROI.pvi.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":ROI:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginStats.pvi.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":STAT:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDFileHDF5.pvi.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":HDF5:"
+                    }
+                }
+            ]
+        },
+        {
+            "file": "MOD1.bob",
+            "children": [
+                {
+                    "file": "techui-support/bob/ADAravis/ADAravis_detail.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":CAM:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginROI.pvi.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":ROI:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginStats.pvi.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":STAT:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDFileHDF5.pvi.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":HDF5:"
+                    }
+                }
+            ]
+        },
+        {
+            "file": "IMG11.bob",
+            "macros": {
+                "desc": "BL23B-VA-IMG-01",
+                "device": "BL23B-VA-IMG-01",
+                "name": "IMG1"
+            }
+        },
+        {
+            "file": "IONP11.bob",
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "PIRG11.bob",
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "GV1.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "BL23B-VA-VALVE-01",
+                "device": "BL23B-VA-VALVE-01",
+                "gilk0": "Gauge 1",
+                "gilk1": "Gauge 2",
+                "gilk10": "unused",
+                "gilk11": "unused",
+                "gilk12": "unused",
+                "gilk13": "unused",
+                "gilk14": "unused",
+                "gilk15": "unused",
+                "gilk2": "Gauge 3",
+                "gilk3": "Gauge 4",
+                "gilk4": "Gauge 5",
+                "gilk5": "Gauge 6",
+                "gilk6": "unused",
+                "gilk7": "unused",
+                "gilk8": "unused",
+                "gilk9": "unused",
+                "ilk0": "Air Pressure",
+                "ilk1": "Initial/Run",
+                "ilk10": "unused",
+                "ilk11": "unused",
+                "ilk12": "unused",
+                "ilk13": "unused",
+                "ilk14": "unused",
+                "ilk15": "Valve Fault",
+                "ilk2": "PIRG-01 & Ser",
+                "ilk3": "PIRG-02 & Ser",
+                "ilk4": "PIRG-03 & Ser",
+                "ilk5": "unused",
+                "ilk6": "unused",
+                "ilk7": "unused",
+                "ilk8": "unused",
+                "ilk9": "unused",
+                "name": "V1",
+                "valvetype": "valve"
+            }
+        },
+        {
+            "file": "IMG12.bob",
+            "macros": {
+                "desc": "BL23B-VA-IMG-01",
+                "device": "BL23B-VA-IMG-01",
+                "name": "IMG1"
+            }
+        },
+        {
+            "file": "IONP12.bob",
+            "macros": {
+                "desc": "BL23B-VA-IONP-01",
+                "device": "BL23B-VA-IONP-01",
+                "name": "IONP1"
+            }
+        },
+        {
+            "file": "PIRG12.bob",
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "FESHTR.bob",
+            "exists": false,
+            "macros": {
+                "DESC": "FE Shutter",
+                "device": "FE23B-PS-SHTR-02",
+                "name": "FSHTR",
+                "valvetype": "shutter"
+            }
+        },
+        {
+            "file": "GCTLR1.bob",
+            "exists": false,
+            "macros": {
+                "desc": "BL23B-VA-PIRG-02",
+                "device": "BL23B-VA-PIRG-02",
+                "name": "PIRG2"
+            }
+        },
+        {
+            "file": "SPACE11.bob"
+        },
+        {
+            "file": "MOD1.bob",
+            "duplicate": true
+        },
+        {
+            "file": "MOD2.bob",
+            "duplicate": true
+        }
+    ]
+}

@@ -29,10 +29,25 @@ def builder_with_setup(builder: Builder):
 
 
 @pytest.fixture
+def builder_with_test_files(builder: Builder):
+    builder._write_directory = Path("tests/test_files/").absolute()
+
+    return builder
+
+
+@pytest.fixture
+def test_files():
+    screen_path = Path("tests/test_files/test_bob.bob").absolute()
+    dest_path = Path("tests/test_files/").absolute()
+
+    return screen_path, dest_path
+
+
+@pytest.fixture
 def example_json_map():
     # Create test json map with child json map
     test_map_child = JsonMap("test_child_bob.bob", exists=False)
-    test_map = JsonMap("tests/test_files/test_bob.bob")
+    test_map = JsonMap("test_bob.bob")
     test_map.children.append(test_map_child)
 
     return test_map

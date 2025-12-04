@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-12-02 08:19:52 by uns32131-->
+<!--Saved on 2025-12-04 07:31:41 by uns32131-->
 <display version="2.0.0">
   <name>Camera Screen</name>
   <width>860</width>
@@ -693,27 +693,6 @@
         </border_color>
       </widget>
       <widget type="textentry" version="3.0.0">
-        <name>Num Images</name>
-        <pv_name>$(P):CAM:NumImages</pv_name>
-        <x>140</x>
-        <y>125</y>
-        <width>235</width>
-        <font>
-          <font family="Arial" style="REGULAR" size="14.0">
-          </font>
-        </font>
-        <background_color>
-          <color red="255" green="255" blue="255">
-          </color>
-        </background_color>
-        <horizontal_alignment>1</horizontal_alignment>
-        <border_width>1</border_width>
-        <border_color>
-          <color red="184" green="195" blue="223">
-          </color>
-        </border_color>
-      </widget>
-      <widget type="textentry" version="3.0.0">
         <name>NumImages</name>
         <pv_name>$(P):CAM:NumImages_RBV</pv_name>
         <x>140</x>
@@ -896,6 +875,27 @@
           <color red="184" green="195" blue="223">
           </color>
         </background_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>ArrayCounter_RBV_1</name>
+        <pv_name>$(P):CAM:NumImagesCounter_RBV</pv_name>
+        <x>140</x>
+        <y>125</y>
+        <width>235</width>
+        <font>
+          <font family="Arial" style="REGULAR" size="14.0">
+          </font>
+        </font>
+        <background_color>
+          <color red="184" green="195" blue="223">
+          </color>
+        </background_color>
+        <horizontal_alignment>1</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <border_color>
+          <color red="196" green="196" blue="196">
+          </color>
+        </border_color>
       </widget>
     </widget>
     <widget type="group" version="3.0.0">

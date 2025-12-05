@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <display version="2.0.0">
+    <name>M3</name>
+    <widget type="group" version="2.0.0">
+      <name>M3</name>
+      <x>0</x>
+      <y>0</y>
+      <width>255</width>
+      <height>540</height>
+      <widget type="embedded" version="2.0.0">
+        <name>:Y</name>
+        <width>205</width>
+        <height>120</height>
+        <file>techui-support/bob/pmac/motor_embed.bob</file>
+        <macros>
+          <P>BL23B-OP-MR-03</P>
+          <M>:Y</M>
+        </macros>
+        <x>0</x>
+        <y>0</y>
+      </widget>
+      <widget type="embedded" version="2.0.0">
+        <name>:YAW</name>
+        <width>205</width>
+        <height>120</height>
+        <file>techui-support/bob/pmac/motor_embed.bob</file>
+        <macros>
+          <P>BL23B-OP-MR-03</P>
+          <M>:YAW</M>
+        </macros>
+        <x>0</x>
+        <y>150</y>
+      </widget>
+      <widget type="embedded" version="2.0.0">
+        <name>:PITCH</name>
+        <width>205</width>
+        <height>120</height>
+        <file>techui-support/bob/pmac/motor_embed.bob</file>
+        <macros>
+          <P>BL23B-OP-MR-03</P>
+          <M>:PITCH</M>
+        </macros>
+        <x>0</x>
+        <y>300</y>
+      </widget>
+      <widget type="action_button" version="2.0.0">
+        <name>pmac.GeoBrick</name>
+        <width>100</width>
+        <height>40</height>
+        <pv_name>BL23B-MO-PMAC-01</pv_name>
+        <text>pmac.GeoBrick</text>
+        <actions>
+          <action type="open_display">
+            <description>Open Display</description>
+            <macros>
+              <P>BL23B-MO-PMAC-01</P>
+            </macros>
+            <file>techui-support/bob/pmac/pmacController.bob</file>
+            <target>tab</target>
+          </action>
+        </actions>
+        <x>0</x>
+        <y>450</y>
+      </widget>
+    </widget>
+  </display>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <display version="2.0.0">
+    <name>IMG11</name>
+    <widget type="group" version="2.0.0">
+      <name>IMG11</name>
+      <x>0</x>
+      <y>0</y>
+      <width>351</width>
+      <height>432</height>
+      <widget type="embedded" version="2.0.0">
+        <name>mks937a.mks937aImg</name>
+        <width>301</width>
+        <height>382</height>
+        <file>techui-support/bob/mks937a/mks937aImg.bob</file>
+        <macros>
+          <P>BL23B-VA-IMG-11</P>
+        </macros>
+        <x>0</x>
+        <y>0</y>
+      </widget>
+    </widget>
+  </display>

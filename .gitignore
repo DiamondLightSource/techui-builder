@@ -64,11 +64,6 @@ target/
 .venv*
 venv*
 
-# Built bob files
-**/synoptic/*.bob
-**/synoptic/*.json
-!**/synoptic/index.bob
-
 # Generated schemas
 schemas/*
 

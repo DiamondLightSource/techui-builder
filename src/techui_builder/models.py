@@ -46,6 +46,7 @@ _DLS_PREFIX_RE = re.compile(
 )
 _LONG_DOM_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
 _SHORT_DOM_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
+_OPIS_URL_RE = re.compile(r"^[a-z0-9]{3}-(?:[0-9]-)?opis(?:.[a-z0-9]*)*")
 
 
 class Beamline(BaseModel):
@@ -53,6 +54,7 @@ class Beamline(BaseModel):
     long_dom: str = Field(description="Full BL domain e.g. bl23b")
     desc: str = Field(description="Description")
     model_config = ConfigDict(extra="forbid")
+    url: str = Field(description="URL of ixx-opis")
 
     @field_validator("short_dom")
     @classmethod
@@ -74,6 +76,17 @@ class Beamline(BaseModel):
             return v
 
         raise ValueError("Invalid long dom.")
+
+    @field_validator("url")
+    @classmethod
+    def check_url(cls, url: str) -> str:
+        url = url.strip().lower()
+        if _OPIS_URL_RE.fullmatch(url):
+            # url in correct format
+            # e.g. t01-opis.diamond.ac.uk
+            return url
+
+        raise ValueError("Invalid opis URL.")
 
 
 class Component(BaseModel):

@@ -3,6 +3,7 @@ beamline:
   short_dom: t01
   long_dom: bl01t
   desc: Test Beamline
+  url: t01-opis.diamond.ac.uk
 
 components:
   fshtr:

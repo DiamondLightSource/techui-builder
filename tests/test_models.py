@@ -10,7 +10,12 @@ from techui_builder.models import (
 
 @pytest.fixture
 def beamline() -> Beamline:
-    return Beamline(short_dom="t01", long_dom="bl01t", desc="Test Beamline")
+    return Beamline(
+        short_dom="t01",
+        long_dom="bl01t",
+        desc="Test Beamline",
+        url="t01-opis.diamond.ac.uk",
+    )
 
 
 @pytest.fixture

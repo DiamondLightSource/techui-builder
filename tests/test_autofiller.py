@@ -1,0 +1,50 @@
+from pathlib import Path
+from unittest.mock import Mock, patch
+
+from lxml.etree import ElementTree
+from lxml.objectify import Element
+
+from techui_builder.models import Component
+
+
+def test_autofiller_read_bob(autofiller):
+    # Imported in to autofill from utils, so that needs to be patched
+    with patch("techui_builder.autofill.read_bob") as mock_read_bob:
+        mock_read_bob.return_value = (Mock(spec=ElementTree), Mock())
+
+        autofiller.read_bob()
+
+        mock_read_bob.assert_called()
+
+
+def test_autofiller_autofill_bob(autofiller):
+    autofiller.replace_content = Mock()
+    # This mess of a Mock represents a basic Builder object with a components dict
+    mock_builder = Mock(conf=Mock(components={"test_widget": Mock(spec=Component)}))
+
+    mock_widget = Element("widget")
+
+    autofiller.widgets = {"test_widget": mock_widget}
+
+    autofiller.autofill_bob(mock_builder)
+
+    autofiller.replace_content.assert_called()
+    assert mock_widget.find("run_actions_on_mouse_click") == "true"
+
+
+def test_autofiller_write_bob(autofiller):
+    with (
+        patch("techui_builder.builder.etree.ElementTree") as mock_tree,
+        patch("techui_builder.builder.objectify.deannotate") as mock_deannotate,
+    ):
+        autofiller.tree = mock_tree
+
+        autofiller.write_bob(Path("tests/test_files/test_autofilled_bob.bob"))
+
+        mock_deannotate.assert_called_once()
+        mock_tree.write.assert_called_once_with(
+            Path("tests/test_files/test_autofilled_bob.bob"),
+            pretty_print=True,
+            encoding="utf-8",
+            xml_declaration=True,
+        )

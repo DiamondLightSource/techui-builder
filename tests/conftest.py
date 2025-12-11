@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder, JsonMap
 from techui_builder.generate import Generator
 from techui_builder.validator import Validator
@@ -60,6 +61,15 @@ def generator():
     g = Generator(synoptic_dir)
 
     return g
+
+
+@pytest.fixture
+def autofiller():
+    index_bob = Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
+
+    a = Autofiller(index_bob)
+
+    return a
 
 
 @pytest.fixture

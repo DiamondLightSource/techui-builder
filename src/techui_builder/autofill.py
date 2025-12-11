@@ -1,12 +1,11 @@
 import logging
-import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from lxml import objectify
 from lxml.objectify import ObjectifiedElement
 
+from techui_builder import utils
 from techui_builder.builder import Builder, _get_action_group
 from techui_builder.models import Component
 from techui_builder.utils import read_bob
@@ -46,20 +45,7 @@ class Autofiller:
                 child["run_actions_on_mouse_click"] = "true"
 
     def write_bob(self, filename: Path):
-        # Check if data/ dir exists and if not, make it
-        data_dir = filename.parent
-        if not data_dir.exists():
-            os.mkdir(data_dir)
-
-        # Remove any unnecessary xmlns:py and py:pytype metadata from tags
-        objectify.deannotate(self.tree, cleanup_namespaces=True)
-
-        self.tree.write(
-            filename,
-            pretty_print=True,
-            encoding="utf-8",
-            xml_declaration=True,
-        )
+        utils.write_bob(self.tree, filename)
         logger_.debug(f"Screen filled for {filename}")
 
     def replace_content(

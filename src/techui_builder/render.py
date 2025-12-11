@@ -17,3 +17,6 @@ class Renderer:
 
     def load_screen(self):
         self.screen_template = self.env.get_template(self.screen_path.name)
+
+    def render_screen(self):
+        rendered_screen = self.screen_template.render(url=self.beamline.url)

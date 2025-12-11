@@ -1,4 +1,9 @@
+import logging
+import os
+from pathlib import Path
+
 from lxml import objectify
+from lxml.etree import _ElementTree
 from lxml.objectify import ObjectifiedElement
 
 
@@ -12,6 +17,25 @@ def read_bob(path):
     widgets = get_widgets(root)
 
     return tree, widgets
+
+
+def write_bob(tree: _ElementTree[ObjectifiedElement], filename: Path):
+    # Check if data/ dir exists and if not, make it
+    data_dir = filename.parent
+    if not data_dir.exists():
+        os.mkdir(data_dir)
+
+    # Remove any unnecessary xmlns:py and py:pytype metadata from tags
+    objectify.deannotate(tree, cleanup_namespaces=True)
+
+    tree.write(
+        filename,
+        pretty_print=True,
+        encoding="utf-8",
+        xml_declaration=True,
+    )
+    logger_ = logging.getLogger()
+    logger_.debug(f"Screen filled for {filename}")
 
 
 def get_widgets(root: ObjectifiedElement):

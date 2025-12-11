@@ -12,7 +12,7 @@ from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.models import Entity
+from techui_builder.models import Beamline, Entity
 
 logger_ = logging.getLogger(__name__)
 
@@ -180,7 +180,7 @@ class Generator:
         )
 
     def _allocate_widget(
-        self, scrn_mapping: Mapping, component: Entity
+        self, scrn_mapping: Mapping, component: Entity, beamline: Beamline
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         name, suffix, suffix_label = self._initialise_name_suffix(component)
         # Get relative path to screen
@@ -220,6 +220,10 @@ class Generator:
                 new_widget.macro(
                     f"{suffix_label}", suffix.removeprefix(":").removesuffix(":")
                 )
+            # TODO: Change this to pvi_button
+            if True:
+                new_widget.macro("URL", beamline.url)
+                new_widget.macro("SERVICE", component.P.lower())
 
         # The only other option is for related displays
         else:

@@ -2,6 +2,8 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from lxml.etree import Element, SubElement, tostring
+from lxml.objectify import fromstring
 
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder, JsonMap
@@ -78,3 +80,59 @@ def validator():
     v = Validator(test_bobs)
 
     return v
+
+
+@pytest.fixture
+def example_embedded_widget():
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+
+    widget_element = Element("widget")
+    widget_element.set("type", "embedded")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "motor"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+    file_element = SubElement(widget_element, "file")
+    file_element.text = (
+        "example/t01-services/synoptic/techui-support/bob/pmac/motor_embed.bob"
+    )
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element
+
+
+@pytest.fixture
+def example_related_widget():
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+
+    widget_element = Element("widget")
+    widget_element.set("type", "action_button")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "motor"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+
+    actions_element = SubElement(widget_element, "actions")
+    action_element = SubElement(actions_element, "action")
+    action_element.set("type", "open_display")
+    file_element = SubElement(action_element, "file")
+    file_element.text = (
+        "example/t01-services/synoptic/techui-support/bob/pmac/motor.bob"
+    )
+    desc_element = SubElement(action_element, "description")
+    desc_element.text = "placeholder description"
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element

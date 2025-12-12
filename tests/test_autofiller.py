@@ -1,6 +1,7 @@
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+import pytest
 from lxml.etree import ElementTree
 from lxml.objectify import Element
 
@@ -48,3 +49,40 @@ def test_autofiller_write_bob(autofiller):
             encoding="utf-8",
             xml_declaration=True,
         )
+
+
+@pytest.mark.parametrize(
+    "prefix, description, filename, expected_desc, expected_file",
+    [
+        ("TEST_1", None, None, "test_component", "test_component.bob"),
+        ("TEST_2", "test_desc", "test_file.bob", "test_desc", "test_file.bob"),
+    ],
+)
+def test_autofiller_replace_content(
+    autofiller,
+    example_related_widget,
+    prefix,
+    description,
+    filename,
+    expected_desc,
+    expected_file,
+):
+    with patch("techui_builder.autofill._get_action_group") as mock_get:
+        mock_get.return_value = example_related_widget.actions.action
+
+        mock_component = Mock(
+            spec=Component,
+            prefix=prefix,
+            desc=description,
+            file=filename,
+        )
+
+        autofiller.replace_content(
+            example_related_widget,
+            "test_component",
+            mock_component,
+        )
+
+        assert example_related_widget.pv_name == f"{prefix}:DEVSTA"
+        assert example_related_widget.actions.action.description.text == expected_desc
+        assert example_related_widget.actions.action.file.text == expected_file

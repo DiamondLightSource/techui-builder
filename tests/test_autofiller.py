@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -86,3 +87,37 @@ def test_autofiller_replace_content(
         assert example_related_widget.pv_name == f"{prefix}:DEVSTA"
         assert example_related_widget.actions.action.description.text == expected_desc
         assert example_related_widget.actions.action.file.text == expected_file
+
+
+def test_autofiller_replace_content_no_action_group(autofiller, caplog):
+    # Just to only run the code we want to test
+    autofiller.macros = ["desc"]
+
+    with patch("techui_builder.autofill._get_action_group") as mock_get:
+        # Simulate no action group found
+        mock_get.return_value = None
+
+        mock_component = Mock(
+            spec=Component,
+            desc="description",
+        )
+
+        with caplog.at_level(logging.DEBUG):
+            autofiller.replace_content(None, "", mock_component)
+
+        for log_output in caplog.records:
+            assert "Skipping replace_content for" in log_output.message
+
+
+def test_autofiller_replace_content_unsupported_macro(autofiller):
+    autofiller.macros = ["bad_macro"]
+
+    mock_component = Mock(
+        spec=Component,
+        bad_macro="bad_macro",
+    )
+
+    with pytest.raises(ValueError) as e:
+        autofiller.replace_content(None, "", mock_component)
+
+        assert e == "The provided macro type is not supported."

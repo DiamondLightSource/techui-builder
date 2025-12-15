@@ -136,3 +136,23 @@ def example_related_widget():
     widget_element = fromstring(tostring(widget_element))
 
     return widget_element
+
+
+@pytest.fixture
+def example_symbol_widget():
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+    widget_element = Element("widget")
+    widget_element.set("type", "symbol")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "motor"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element

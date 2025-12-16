@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from lxml.etree import Element, SubElement, _ElementTree, tostring
+from lxml.etree import Element, _ElementTree, tostring
 from lxml.objectify import fromstring
 from phoebusgen.widget import EmbeddedDisplay
 
@@ -31,21 +31,11 @@ def test_validator_read_bob(validator):
 
 
 # TODO: Clean up this test... (make fixture for mock xml?)
-def test_validator_validate_bob(validator):
+def test_validator_validate_bob(validator, example_embedded_widget):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
     mock_root_element = Element("root")
-    mock_widget_element = SubElement(mock_root_element, "widget")
-    mock_name_element = SubElement(mock_widget_element, "name")
-    mock_name_element.text = "motor"
-    mock_width_element = SubElement(mock_widget_element, "width")
-    mock_width_element.text = "205"
-    mock_height_element = SubElement(mock_widget_element, "height")
-    mock_height_element.text = "120"
-    mock_file_element = SubElement(mock_widget_element, "file")
-    mock_file_element.text = (
-        "example/t01-services/synoptic/techui_supportbob/pmac/motor_embed.bob"
-    )
+    mock_root_element.append(example_embedded_widget)
     # ... which requires this horror
     mock_element = fromstring(tostring(mock_root_element))
     # mock_element = ObjectifiedElement(mock_widget_element)
@@ -59,7 +49,7 @@ def test_validator_validate_bob(validator):
     validator.validate = {"motor-edited": Path("tests/test_files/motor-edited.bob")}
     test_pwidget = EmbeddedDisplay(
         "motor",
-        "example/t01-services/synoptic/techui_supportbob/pmac/motor_embed.bob",
+        "example/t01-services/synoptic/techui-support/bob/pmac/motor_embed.bob",
         0,
         0,
         205,

@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2025-12-12 12:09:42 by sfx44126-->
 <display version="2.0.0">
-  <name>Main</name>
+  <name>motor_embed</name>
+  <y use_class="true">0</y>
   <width>205</width>
   <height>120</height>
+  <background_color use_class="true">
+    <color name="Read_Background" red="240" green="240" blue="240">
+    </color>
+  </background_color>
   <grid_color>
     <color red="127" green="127" blue="127">
     </color>
   </grid_color>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>$(M)</name>
     <width>205</width>
     <height>120</height>
-    <background_color>
+    <style use_class="true">0</style>
+    <font use_class="true">
+      <font family="Arial" style="REGULAR" size="15.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color red="29" green="41" blue="69">
+      </color>
+    </foreground_color>
+    <background_color use_class="true">
       <color name="Read_Background" red="240" green="240" blue="240">
       </color>
     </background_color>
     <widget type="action_button" version="3.0.0">
       <name>Tweak Left</name>
+      <class>DEFAULT_PV</class>
       <actions>
         <action type="write_pv">
+          <description>$(name)</description>
           <pv_name>$(pv_name)</pv_name>
           <value>value</value>
-          <description>$(name)</description>
         </action>
       </actions>
       <pv_name>$(P):$(M).TWR</pv_name>
@@ -29,27 +45,28 @@
       <y>10</y>
       <width>30</width>
       <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="12.0">
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
-        <color name="Background" red="255" green="255" blue="255">
+      <background_color use_class="true">
+        <color red="255" green="255" blue="255">
         </color>
       </background_color>
       <tooltip>$(tooltip)</tooltip>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Tweak Right</name>
+      <class>DEFAULT_PV</class>
       <actions>
         <action type="write_pv">
+          <description>$(name)</description>
           <pv_name>$(pv_name)</pv_name>
           <value>value</value>
-          <description>$(name)</description>
         </action>
       </actions>
       <pv_name>$(P):$(M).TWF</pv_name>
@@ -58,16 +75,16 @@
       <y>10</y>
       <width>30</width>
       <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="12.0">
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
-        <color name="Background" red="255" green="255" blue="255">
+      <background_color use_class="true">
+        <color red="255" green="255" blue="255">
         </color>
       </background_color>
       <tooltip>$(tooltip)</tooltip>
@@ -82,22 +99,21 @@
             <P>$(P)</P>
           </macros>
           <target>tab</target>
-          <description>Open Display</description>
         </action>
       </actions>
       <text>More</text>
       <y>60</y>
       <width>40</width>
       <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="12.0">
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </foreground_color>
-      <background_color>
+      <background_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </background_color>
@@ -105,11 +121,12 @@
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>WritePV_28</name>
+      <class>DEFAULT_PV</class>
       <actions>
         <action type="write_pv">
+          <description>$(name)</description>
           <pv_name>$(pv_name)</pv_name>
           <value>value</value>
-          <description>$(name)</description>
         </action>
       </actions>
       <pv_name>$(P):$(M).STOP</pv_name>
@@ -118,16 +135,16 @@
       <y>60</y>
       <width>40</width>
       <height>20</height>
-      <font>
-        <font family="Arial" style="REGULAR" size="12.0">
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
+      <foreground_color use_class="true">
         <color red="29" green="41" blue="69">
         </color>
       </foreground_color>
-      <background_color>
-        <color name="Background" red="255" green="255" blue="255">
+      <background_color use_class="true">
+        <color red="255" green="255" blue="255">
         </color>
       </background_color>
       <tooltip>$(tooltip)</tooltip>
@@ -138,17 +155,25 @@
       <x>45</x>
       <y>60</y>
       <width>80</width>
-      <font>
-        <font family="Monospaced" style="REGULAR" size="12.0">
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -160,18 +185,22 @@
       <y>35</y>
       <width>20</width>
       <numBits>1</numBits>
-      <off_color>
-        <color red="29" green="41" blue="69">
+      <off_color use_class="true">
+        <color red="237" green="237" blue="237">
         </color>
       </off_color>
-      <on_color>
+      <on_color use_class="true">
         <color name="Write_Background" red="128" green="255" blue="255">
         </color>
       </on_color>
-      <foreground_color>
-        <color red="76" green="100" blue="171">
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
         </color>
       </foreground_color>
+      <font use_class="true">
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </font>
     </widget>
     <widget type="byte_monitor" version="2.0.0">
       <name>Serverity</name>
@@ -179,35 +208,47 @@
       <y>35</y>
       <width>20</width>
       <numBits>1</numBits>
-      <off_color>
-        <color red="29" green="41" blue="69">
+      <off_color use_class="true">
+        <color red="237" green="237" blue="237">
         </color>
       </off_color>
-      <on_color>
+      <on_color use_class="true">
         <color name="Write_Background" red="128" green="255" blue="255">
         </color>
       </on_color>
-      <foreground_color>
-        <color red="76" green="100" blue="171">
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
         </color>
       </foreground_color>
+      <font use_class="true">
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </font>
     </widget>
     <widget type="textentry" version="3.0.0">
       <name>PV</name>
       <pv_name>$(P):$(M)</pv_name>
       <x>35</x>
       <y>10</y>
-      <font>
-        <font family="Monospaced" style="REGULAR" size="12.0">
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <background_color>
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color use_class="true">
         <color red="255" green="255" blue="255">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <border_width>1</border_width>
-      <border_color>
+      <precision use_class="true">-1</precision>
+      <show_units use_class="true">true</show_units>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <enabled use_class="true">true</enabled>
+      <border_width use_class="true">1</border_width>
+      <border_color use_class="true">
         <color red="184" green="195" blue="223">
         </color>
       </border_color>
@@ -218,21 +259,21 @@
       <x>25</x>
       <y>35</y>
       <width>120</width>
-      <font>
-        <font family="Monospaced" style="REGULAR" size="12.0">
+      <font use_class="true">
+        <font family="Arial" style="REGULAR" size="14.0">
         </font>
       </font>
-      <foreground_color>
-        <color name="ActiveText" red="255" green="255" blue="0">
+      <foreground_color use_class="true">
+        <color name="Text" red="0" green="0" blue="0">
         </color>
       </foreground_color>
-      <background_color>
-        <color red="76" green="100" blue="171">
+      <background_color use_class="true">
+        <color red="184" green="195" blue="223">
         </color>
       </background_color>
-      <horizontal_alignment>1</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <border_color>
+      <horizontal_alignment use_class="true">1</horizontal_alignment>
+      <vertical_alignment use_class="true">1</vertical_alignment>
+      <border_color use_class="true">
         <color red="196" green="196" blue="196">
         </color>
       </border_color>

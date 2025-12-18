@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from lxml import etree
+from lxml.objectify import ObjectifiedElement
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay
 
 from techui_builder.utils import read_bob
@@ -74,4 +75,43 @@ class Validator:
                         f"{pwidget.get_element_value('file')} != {file_widget.file}"
                     )
 
+                    self._validate_macros(pwidget, file_widget)
+
         LOGGER.info(f"{screen_name}.bob has been validated successfully")
+
+    def _validate_macros(
+        self, pwidget: EmbeddedDisplay | ActionButton, file_widget: ObjectifiedElement
+    ):
+        pmacros_element = pwidget.find_element("macros")
+        # Annoyingly iterating over this also includes the element tag\
+        # so it needs ignoring, hence the '!= "macros"'
+        pmacros = {
+            macro.tag: macro.text for macro in pmacros_element if macro.tag != "macros"
+        }
+        pmacros_keys = set(pmacros.keys())
+
+        fmacros = file_widget.macros.getchildren()
+        fmacros_keys = {str(macro.tag) for macro in fmacros}
+
+        # Checks if there is any difference in expected macros
+        diff_expected_macros = pmacros_keys - fmacros_keys
+        if diff_expected_macros:
+            LOGGER.error(
+                f"Expected macros {diff_expected_macros} missing from \
+{file_widget.name}."
+            )
+
+            # ---------- This is how we could overwrite macros in the future ----------
+
+            # for expected_macro in diff_expected_macros:
+            #     macro_element = Element(expected_macro)
+            #     # Get the macro value from generated pwidget macros
+            #     macro_element.text = pmacros[expected_macro]
+            #     print(pmacros[expected_macro])
+
+            #     # Convert xml.etree.Element to ObjectifiedElement
+            #     new_macro = fromstring(tostring(macro_element))
+
+            #     file_widget.macros.append(new_macro)
+
+            # write_bob("")

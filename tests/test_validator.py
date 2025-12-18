@@ -49,11 +49,12 @@ def test_validator_validate_bob(validator, example_embedded_widget):
     validator.validate = {"motor-edited": Path("tests/test_files/motor-edited.bob")}
     test_pwidget = EmbeddedDisplay(
         "motor",
-        "example/t01-services/synoptic/techui-support/bob/pmac/motor_embed.bob",
+        "tests/test-files/motor_embed.bob",
         0,
         0,
         205,
         120,
     )
+    test_pwidget.macro("macro1", "test_macro_1")
 
     validator.validate_bob("motor-edited", "motor", [test_pwidget])

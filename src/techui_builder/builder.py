@@ -62,7 +62,7 @@ class Builder:
 
         self.clean_files()
 
-        self.generator = Generator(synoptic_dir)
+        self.generator = Generator(synoptic_dir, self.conf.beamline.url)
 
     def clean_files(self):
         exclude = {"index.bob"}

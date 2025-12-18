@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 from lxml import objectify
+from phoebusgen.widget import ActionButton, Group
 
 from techui_builder.builder import (
     JsonMap,
@@ -106,6 +107,30 @@ def test_gb_extract_entities(builder, index, type, desc, P, M, R):  # noqa: N803
     assert entity.P == P
     assert entity.M == M
     assert entity.R == R
+
+
+def test_builder_generate_screen(builder_with_setup):
+    # with (
+    #     patch("techui_builder.builder.Generator.build_screen") as mock_build_screen,
+    #     patch("techui_builder.builder.Generator.write_screen") as mock_write_screen,
+    # ):
+    builder_with_setup.generator.build_screen = Mock()
+    builder_with_setup.generator.write_screen = Mock()
+
+    builder_with_setup._generate_screen("TEST")
+
+    builder_with_setup.generator.build_screen.assert_called_once()
+    builder_with_setup.generator.write_screen.assert_called_once()
+
+
+def test_builder_validate_screen(builder_with_setup):
+    builder_with_setup.validator.validate_bob = Mock()
+    builder_with_setup.generator.widgets = [Mock(spec=ActionButton)]
+    builder_with_setup.generator.group = Mock(spec=Group, name="TEST")
+
+    builder_with_setup._validate_screen("TEST")
+
+    builder_with_setup.validator.validate_bob.assert_called_once()
 
 
 def test_create_screens(builder_with_setup):

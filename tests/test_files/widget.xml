@@ -9,5 +9,6 @@
   <macros>
     <P>BL23B-DI-MOD-02</P>
     <R>CAM</R>
+    <IOC>test_url/bl23b-di-mod-02</IOC>
   </macros>
 </widget>

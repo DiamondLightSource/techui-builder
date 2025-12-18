@@ -93,8 +93,11 @@
       <name>OpenDisplay</name>
       <actions>
         <action type="open_display">
-          <description>Open Display</description>
-          <file>./MOTOR.bob</file>
+          <file>$(IOC)/pmacAxis.pvi.bob</file>
+          <macros>
+            <M>:$(M)</M>
+            <P>$(P)</P>
+          </macros>
           <target>tab</target>
         </action>
       </actions>

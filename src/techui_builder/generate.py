@@ -20,6 +20,7 @@ logger_ = logging.getLogger(__name__)
 @dataclass
 class Generator:
     synoptic_dir: Path = field(repr=False)
+    beamline_url: str = field(repr=False)
 
     # These are global params for the class (not accessible by user)
     support_path: Path = field(init=False, repr=False)
@@ -220,6 +221,9 @@ class Generator:
                 new_widget.macro(
                     f"{suffix_label}", suffix.removeprefix(":").removesuffix(":")
                 )
+            # TODO: Change this to pvi_button
+            if True:
+                new_widget.macro("IOC", f"{self.beamline_url}/{component.P.lower()}")
 
         # The only other option is for related displays
         else:

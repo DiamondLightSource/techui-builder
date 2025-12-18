@@ -60,7 +60,7 @@ def example_json_map():
 def generator():
     synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
 
-    g = Generator(synoptic_dir)
+    g = Generator(synoptic_dir, "test_url")
 
     return g
 
@@ -97,9 +97,10 @@ def example_embedded_widget():
     height_element = SubElement(widget_element, "height")
     height_element.text = "120"
     file_element = SubElement(widget_element, "file")
-    file_element.text = (
-        "example/t01-services/synoptic/techui-support/bob/pmac/motor_embed.bob"
-    )
+    file_element.text = "tests/test-files/motor_embed.bob"
+    macros_element = SubElement(widget_element, "macros")
+    macro_element_1 = SubElement(macros_element, "macro1")
+    macro_element_1.text = "test_macro_1"
 
     # ... which requires this horror
     widget_element = fromstring(tostring(widget_element))

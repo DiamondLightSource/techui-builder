@@ -30,12 +30,8 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
-      - name: Install packages
-        run: uv sync --locked
-        shell: bash
-
       - name: generate-schema
-        run: techui-builder --schema
+        run: uv run techui-builder --schema
 
       - name: Create GitHub Release
         # We pin to the SHA, not the tag, for security reasons.

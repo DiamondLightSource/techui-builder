@@ -44,13 +44,14 @@ def test_component_object(component: Component):
     assert component.P == "BL01T-EA-TEST-02"
     assert component.R is None
     assert component.attribute is None
+    assert component.devsta is None
 
 
 def test_component_repr(component: Component):
     assert (
         str(component)
         == "prefix='BL01T-EA-TEST-02' desc='Test Device' extras=None\
- file=None P='BL01T-EA-TEST-02' R=None attribute=None"
+ file=None devsta=None P='BL01T-EA-TEST-02' R=None attribute=None"
     )
 
 

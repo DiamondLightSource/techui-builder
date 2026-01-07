@@ -8,12 +8,13 @@
       <width>351</width>
       <height>432</height>
       <widget type="embedded" version="2.0.0">
-        <name>mks937a.mks937aImg</name>
+        <name>BL23B-VA-IMG-12</name>
         <width>301</width>
         <height>382</height>
         <file>techui-support/bob/mks937a/mks937aImg.bob</file>
         <macros>
           <P>BL23B-VA-IMG-12</P>
+          <IOC>https://b23-opis.diamond.ac.uk/bl23b-va-img-12</IOC>
         </macros>
         <x>0</x>
         <y>0</y>

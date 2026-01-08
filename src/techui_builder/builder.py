@@ -126,7 +126,7 @@ class Builder:
         self.devsta_pvs[prefix] = devsta_pv
 
     def write_devsta_pvs(self):
-        conf_dir = self._write_directory.parent.joinpath("config")
+        conf_dir = self._write_directory.joinpath("config")
 
         # Create the config/ dir if it doesn't exist
         if not conf_dir.exists():

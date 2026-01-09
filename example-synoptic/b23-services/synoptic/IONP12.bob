@@ -8,12 +8,13 @@
       <width>351</width>
       <height>293</height>
       <widget type="embedded" version="2.0.0">
-        <name>digitelMpc.digitelMpcIonp</name>
+        <name>BL23B-VA-IONP-12</name>
         <width>301</width>
         <height>243</height>
         <file>techui-support/bob/digitelMpc/digitelMpcIonp.bob</file>
         <macros>
           <P>BL23B-VA-IONP-12</P>
+          <IOC>https://b23-opis.diamond.ac.uk/bl23b-va-ionp-12</IOC>
         </macros>
         <x>0</x>
         <y>0</y>

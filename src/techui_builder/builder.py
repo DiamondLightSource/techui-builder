@@ -246,11 +246,41 @@ exist."
     def _generate_json_map(self, screen_path: Path, dest_path: Path) -> JsonMap:
         """Recursively generate JSON map from .bob file tree"""
 
+<<<<<<< HEAD
         # Create initial node at top of .bob file
         current_node = JsonMap(
             str(screen_path.relative_to(self._write_directory)),
             display_name=None,
         )
+=======
+        def _extract_action_button_file_from_embedded(
+            file_elem: ObjectifiedElement,
+        ) -> ObjectifiedElement:
+            file_path = Path(file_elem.text.strip() if file_elem.text else "")
+            file_path = dest_path.joinpath(file_path)
+            tree = objectify.parse(file_path.absolute())
+            root: ObjectifiedElement = tree.getroot()
+
+            # Find all <widget> elements
+            widgets = [
+                w
+                for w in root.findall(".//widget")
+                if w.get("type", default=None) == "action_button"
+            ]
+
+            for widget_elem in widgets:
+                open_display = _get_action_group(widget_elem)
+                if open_display is None:
+                    continue
+                file_elem = open_display.file
+                return file_elem
+            return file_elem
+
+        if visited is None:
+            visited = set()
+
+        current_node = JsonMap(str(screen_path.relative_to(self._write_directory)))
+>>>>>>> 1c5aaf5 (Added functionality to fetch files in action buttons in embedded screens to add to the JsonMap)
 
         abs_path = screen_path.absolute()
 
@@ -270,7 +300,7 @@ exist."
                 for w in root.findall(".//widget")
                 if w.get("type", default=None)
                 # in ["symbol", "embedded", "action_button"]
-                in ["symbol", "action_button"]
+                in ["symbol", "action_button", "embedded"]
             ]
 
             for widget_elem in widgets:
@@ -284,6 +314,7 @@ exist."
                         if open_display is None:
                             continue
 
+<<<<<<< HEAD
                         # Use file, name, and macro elements
                         file_elem = open_display.file
                         name_elem = widget_elem.name.text
@@ -292,6 +323,14 @@ exist."
                     # case "embedded":
                     #     file_elem = widget_elem.file
                     #     macro_dict = _get_macros(widget_elem)
+=======
+                        macro_dict = _get_macros(open_display)
+                    case "embedded":
+                        file_elem = _extract_action_button_file_from_embedded(
+                            widget_elem.file
+                        )
+                        macro_dict = _get_macros(widget_elem)
+>>>>>>> 1c5aaf5 (Added functionality to fetch files in action buttons in embedded screens to add to the JsonMap)
 
                     case _:
                         continue

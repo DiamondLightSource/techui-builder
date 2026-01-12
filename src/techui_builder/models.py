@@ -129,16 +129,21 @@ class Component(BaseModel):
     @classmethod
     def _check_devsta(cls, v: list[str]) -> list[str]:
         for p in v:
-            prefix, flags = p.split(" ", 1)
+            # split up prefix and database link flags (if they exist)
+            m = re.match(r"([\w:.-]+)[ ]?([\w ]*)", p)
+            assert m is not None
+            # If groups has more than 1 element, then flags must exist
+            prefix, flags = m.groups() if len(m.groups()) > 1 else (p, None)
 
             if not _DLS_PREFIX_RE.match(prefix):
                 raise ValueError(
                     f"devsta item '{p}' does not match extended DLS prefix pattern"
                 )
-            if not _DATABASE_FLAGS_RE.match(flags):
-                raise ValueError(
-                    f"devsta item '{p}' does have valid database link flags"
-                )
+            if flags is not None:
+                if not _DATABASE_FLAGS_RE.match(flags):
+                    raise ValueError(
+                        f"devsta item '{p}' does have valid database link flags"
+                    )
 
         # ensure unique (schema enforces too)
         if len(set(v)) != len(v):

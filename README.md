@@ -49,7 +49,7 @@ The process to use this module goes as follows (WIP):
     ```
     > [!NOTE] 
     > `extras` is optional, but allows any embedded screen to be added to make a summary screen e.g. combining all imgs, pirgs and ionps associated with a vacuum space.
-4. Create a `techui_support.yaml` file inside `ixx-services/synoptic/techui_support`. To get started this file can be left empty.
+4. Create a `techui-support.yaml` file inside `ixx-services/synoptic/techui-support`. To get started this file can be left empty.
 1. Run this command to locally generate a schema, which can be used for validation testing
 
     ```$ techui-builder --schema```

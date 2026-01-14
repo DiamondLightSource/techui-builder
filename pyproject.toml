@@ -27,6 +27,8 @@ dependencies = [
     "typer>=0.16.0",
     "rich>=14.1.0",
     "pydantic>=2.11.7",
+    "softioc>=4.6.1",
+    "epicsdbbuilder>=1.5",
 ]
 scripts = { techui-builder = "techui_builder.__main__:app" }
 
@@ -52,6 +54,9 @@ dev = [
 
 [tool.setuptools_scm]
 version_file = "src/techui_builder/_version.py"
+
+[tool.uv.extra-build-dependencies]
+softioc = [{ requirement = "epicscorelibs", match-runtime = true }]
 
 [tool.pyright]
 typeCheckingMode = "standard"

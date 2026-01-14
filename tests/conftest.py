@@ -49,8 +49,8 @@ def test_files():
 @pytest.fixture
 def example_json_map():
     # Create test json map with child json map
-    test_map_child = JsonMap("test_child_bob.bob", exists=False)
-    test_map = JsonMap("test_bob.bob")
+    test_map_child = JsonMap("test_child_bob.bob", "Detector", exists=False)
+    test_map = JsonMap("test_bob.bob", "Display")
     test_map.children.append(test_map_child)
 
     return test_map

@@ -20,7 +20,9 @@ def beamline() -> Beamline:
 
 @pytest.fixture
 def component() -> Component:
-    return Component(prefix="BL01T-EA-TEST-02", desc="Test Device")
+    return Component(
+        prefix="BL01T-EA-TEST-02", desc="Test Device", devsta=["BL01T-MO-MOTOR-01:Y"]
+    )
 
 
 @pytest.fixture
@@ -44,13 +46,15 @@ def test_component_object(component: Component):
     assert component.P == "BL01T-EA-TEST-02"
     assert component.R is None
     assert component.attribute is None
+    assert component.devsta == ["BL01T-MO-MOTOR-01:Y"]
 
 
 def test_component_repr(component: Component):
     assert (
         str(component)
         == "prefix='BL01T-EA-TEST-02' desc='Test Device' extras=None\
- file=None P='BL01T-EA-TEST-02' R=None attribute=None"
+ file=None devsta=['BL01T-MO-MOTOR-01:Y'] P='BL01T-EA-TEST-02' R=None\
+ attribute=None"
     )
 
 

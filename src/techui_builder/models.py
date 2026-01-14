@@ -44,6 +44,11 @@ _DLS_PREFIX_RE = re.compile(
         """,
     re.VERBOSE,
 )
+# Checks for database link flags, e.g. NPP MS, at the end
+_DATABASE_FLAGS_RE = re.compile(
+    r"(?:PP|NPP)?" + r"(?:[ ]+(?:MS|NMS|MSS|MSI))?$",
+    re.VERBOSE,
+)
 _LONG_DOM_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
 _SHORT_DOM_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
 _OPIS_URL_RE = re.compile(r"^(https:\/\/)?([a-z0-9]{3}-(?:[0-9]-)?opis(?:.[a-z0-9]*)*)")
@@ -99,6 +104,7 @@ class Component(BaseModel):
     desc: str | None = None
     extras: list[str] | None = None
     file: str | None = None
+    devsta: list[str] | None = None
     model_config = ConfigDict(extra="forbid")
 
     @field_validator("prefix")
@@ -117,6 +123,31 @@ class Component(BaseModel):
         # ensure unique (schema enforces too)
         if len(set(v)) != len(v):
             raise ValueError("extras must contain unique items")
+        return v
+
+    @field_validator("devsta")
+    @classmethod
+    def _check_devsta(cls, v: list[str]) -> list[str]:
+        for p in v:
+            # split up prefix and database link flags (if they exist)
+            m = re.match(r"([\w:.-]+)[ ]?([\w ]*)", p)
+            assert m is not None
+            # If groups has more than 1 element, then flags must exist
+            prefix, flags = m.groups() if len(m.groups()) > 1 else (p, None)
+
+            if not _DLS_PREFIX_RE.match(prefix):
+                raise ValueError(
+                    f"devsta item '{p}' does not match extended DLS prefix pattern"
+                )
+            if flags is not None:
+                if not _DATABASE_FLAGS_RE.match(flags):
+                    raise ValueError(
+                        f"devsta item '{p}' does have valid database link flags"
+                    )
+
+        # ensure unique (schema enforces too)
+        if len(set(v)) != len(v):
+            raise ValueError("devsta must contain unique items")
         return v
 
     @computed_field

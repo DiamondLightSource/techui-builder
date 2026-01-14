@@ -3,6 +3,7 @@ beamline:
   short_dom: B23
   long_dom: BL23B
   desc: B23 Beamline
+  url: b23-opis.diamond.ac.uk
 
 components:
   # ----- VACUUM -----
@@ -139,6 +140,12 @@ components:
     prefix: BL23B-OP-MR-03
     extras:
       - BL23B-MO-PMAC-01
+    devsta:
+      - BL23B-OP-MR-03:MP:BUSY NPP NMS
+      - BL23B-OP-MR-03:MP:DMOV.SEVR NPP MS
+      - BL23B-OP-MR-03:MP:SELECT.SEVR NPP MS
+      - BL23B-OP-MR-03:PITCH.MOVN NPP MS
+      - BL23B-OP-MR-03:YAW.MOVN NPP MS
 
   # ----- MOD -----
 

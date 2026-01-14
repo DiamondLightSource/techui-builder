@@ -5,26 +5,27 @@
       <name>MOD2</name>
       <x>0</x>
       <y>0</y>
-      <width>1040</width>
-      <height>690</height>
+      <width>910</width>
+      <height>570</height>
       <widget type="embedded" version="2.0.0">
-        <name>:CAM:</name>
-        <width>990</width>
-        <height>570</height>
+        <name>CAM</name>
+        <width>860</width>
+        <height>450</height>
         <file>techui-support/bob/ADAravis/ADAravis_summary.bob</file>
         <macros>
           <P>BL23B-DI-MOD-02</P>
-          <R>:CAM:</R>
+          <R>CAM</R>
+          <IOC>https://b23-opis.diamond.ac.uk/bl23b-di-mod-02</IOC>
         </macros>
         <x>0</x>
         <y>0</y>
       </widget>
       <widget type="action_button" version="2.0.0">
-        <name>:CAM:</name>
+        <name>CAM</name>
         <width>100</width>
         <height>40</height>
-        <pv_name>BL23B-DI-MOD-02:CAM:</pv_name>
-        <text>:CAM:</text>
+        <pv_name/>
+        <text>CAM</text>
         <actions>
           <action type="open_display">
             <description>Open Display</description>
@@ -37,14 +38,14 @@
           </action>
         </actions>
         <x>0</x>
-        <y>600</y>
+        <y>480</y>
       </widget>
       <widget type="action_button" version="2.0.0">
-        <name>:ROI:</name>
+        <name>ROI</name>
         <width>100</width>
         <height>40</height>
-        <pv_name>BL23B-DI-MOD-02:ROI:</pv_name>
-        <text>:ROI:</text>
+        <pv_name/>
+        <text>ROI</text>
         <actions>
           <action type="open_display">
             <description>Open Display</description>
@@ -57,14 +58,14 @@
           </action>
         </actions>
         <x>120</x>
-        <y>600</y>
+        <y>480</y>
       </widget>
       <widget type="action_button" version="2.0.0">
-        <name>:STAT:</name>
+        <name>STAT</name>
         <width>100</width>
         <height>40</height>
-        <pv_name>BL23B-DI-MOD-02:STAT:</pv_name>
-        <text>:STAT:</text>
+        <pv_name/>
+        <text>STAT</text>
         <actions>
           <action type="open_display">
             <description>Open Display</description>
@@ -77,14 +78,14 @@
           </action>
         </actions>
         <x>240</x>
-        <y>600</y>
+        <y>480</y>
       </widget>
       <widget type="action_button" version="2.0.0">
-        <name>:HDF5:</name>
+        <name>HDF5</name>
         <width>100</width>
         <height>40</height>
-        <pv_name>BL23B-DI-MOD-02:HDF5:</pv_name>
-        <text>:HDF5:</text>
+        <pv_name/>
+        <text>HDF5</text>
         <actions>
           <action type="open_display">
             <description>Open Display</description>
@@ -97,7 +98,7 @@
           </action>
         </actions>
         <x>360</x>
-        <y>600</y>
+        <y>480</y>
       </widget>
     </widget>
   </display>

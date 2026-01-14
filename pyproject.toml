@@ -55,6 +55,9 @@ dev = [
 [tool.setuptools_scm]
 version_file = "src/techui_builder/_version.py"
 
+[tool.uv.extra-build-dependencies]
+softioc = [{ requirement = "epicscorelibs", match-runtime = true }]
+
 [tool.pyright]
 typeCheckingMode = "standard"
 reportMissingImports = false  # Ignore missing stubs in imported modules

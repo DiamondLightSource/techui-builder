@@ -318,76 +318,6 @@
             }
         },
         {
-            "file": "MOD2.bob",
-            "children": [
-                {
-                    "file": "techui-support/bob/ADAravis/ADAravis_detail.bob",
-                    "macros": {
-                        "P": "BL23B-DI-MOD-02",
-                        "R": ":CAM:"
-                    }
-                },
-                {
-                    "file": "techui-support/bob/ADAravis/NDPluginROI.pvi.bob",
-                    "macros": {
-                        "P": "BL23B-DI-MOD-02",
-                        "R": ":ROI:"
-                    }
-                },
-                {
-                    "file": "techui-support/bob/ADAravis/NDPluginStats.pvi.bob",
-                    "macros": {
-                        "P": "BL23B-DI-MOD-02",
-                        "R": ":STAT:"
-                    }
-                },
-                {
-                    "file": "techui-support/bob/ADAravis/NDFileHDF5.pvi.bob",
-                    "macros": {
-                        "P": "BL23B-DI-MOD-02",
-                        "R": ":HDF5:"
-                    }
-                }
-            ]
-        },
-        {
-            "file": "MOD1.bob",
-            "children": [
-                {
-                    "file": "techui-support/bob/ADAravis/ADAravis_detail.bob",
-                    "duplicate": true,
-                    "macros": {
-                        "P": "BL23B-DI-MOD-01",
-                        "R": ":CAM:"
-                    }
-                },
-                {
-                    "file": "techui-support/bob/ADAravis/NDPluginROI.pvi.bob",
-                    "duplicate": true,
-                    "macros": {
-                        "P": "BL23B-DI-MOD-01",
-                        "R": ":ROI:"
-                    }
-                },
-                {
-                    "file": "techui-support/bob/ADAravis/NDPluginStats.pvi.bob",
-                    "duplicate": true,
-                    "macros": {
-                        "P": "BL23B-DI-MOD-01",
-                        "R": ":STAT:"
-                    }
-                },
-                {
-                    "file": "techui-support/bob/ADAravis/NDFileHDF5.pvi.bob",
-                    "duplicate": true,
-                    "macros": {
-                        "P": "BL23B-DI-MOD-01",
-                        "R": ":HDF5:"
-                    }
-                }
-            ]
-        },
-        {
             "file": "IMG11.bob",
             "macros": {
                 "desc": "BL23B-VA-IMG-01",
@@ -501,11 +431,73 @@
         },
         {
             "file": "MOD1.bob",
-            "duplicate": true
+            "children": [
+                {
+                    "file": "techui-support/bob/ADAravis/ADAravis_detail.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":CAM:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginROI.pvi.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":ROI:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginStats.pvi.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":STAT:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDFileHDF5.pvi.bob",
+                    "macros": {
+                        "P": "BL23B-DI-MOD-01",
+                        "R": ":HDF5:"
+                    }
+                }
+            ]
         },
         {
             "file": "MOD2.bob",
-            "duplicate": true
+            "children": [
+                {
+                    "file": "techui-support/bob/ADAravis/ADAravis_detail.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":CAM:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginROI.pvi.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":ROI:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginStats.pvi.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":STAT:"
+                    }
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDFileHDF5.pvi.bob",
+                    "duplicate": true,
+                    "macros": {
+                        "P": "BL23B-DI-MOD-02",
+                        "R": ":HDF5:"
+                    }
+                }
+            ]
         }
     ]
 }

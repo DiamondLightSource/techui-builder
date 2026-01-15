@@ -312,10 +312,7 @@ exist."
                 # Crawl the next file
                 if next_file_path.is_file():
                     # TODO: investigate non-recursive approaches?
-                    child_node = self._generate_json_map(
-                        next_file_path,
-                        dest_path,  # , visited
-                    )
+                    child_node = self._generate_json_map(next_file_path, dest_path)
                 else:
                     child_node = JsonMap(str(file_path), display_name, exists=False)
 
@@ -348,16 +345,16 @@ exist."
     def _parse_display_name(self, name: str | None, file_path: Path) -> str | None:
         """Parse display name from <name> tag or file_path"""
 
-        if name is not None:
-            # Strip tree parser enumeration given to displayName
+        if name:
+            # Return name tag text as displayName
             return name
 
-        elif len(str(file_path)) > 0:
+        elif file_path.name:
             # Use tail without file ext as displayName
             return file_path.name[: -sum(len(suffix) for suffix in file_path.suffixes)]
 
         else:
-            # Populate with null (for now)
+            # Populate displayName with null
             return None
 
     def _fix_duplicate_names(self, node: JsonMap) -> None:

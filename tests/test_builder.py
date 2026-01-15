@@ -314,6 +314,88 @@ def test_generate_json_map(builder_with_test_files, example_json_map, test_files
 #     assert test_json_map == example_json_map
 
 
+def test_parse_display_name_with_name(builder):
+    """Test parse display name when <name> tag is present"""
+    display_name = builder._parse_display_name(
+        "<name>", Path("/path/to/filename.pvi.bob")
+    )
+    assert display_name == "<name>"
+
+
+def test_parse_display_name_from_filepath(builder):
+    """Test parse display name when only filepath is present"""
+    display_name = builder._parse_display_name(None, Path("/path/to/filename.pvi.bob"))
+    assert display_name == "filename"
+
+
+def test_parse_display_name_returns_none(builder):
+    """Test parse display ensures JSON displayName will return null otherwise"""
+    display_name = builder._parse_display_name(None, Path(""))
+
+    assert display_name is None
+
+
+def test_fix_duplicate_names_recursive(builder, example_display_names_json):
+    """Test duplicate names are enumerated correctly for all children"""
+
+    test_display_names_json = JsonMap(
+        str(Path(__file__).parent.joinpath("test_files/test_bob.bob")), None
+    )
+
+    test_display_names_json_det1 = JsonMap(
+        "test_child_bob.bob", "Detector", exists=False
+    )
+    test_display_names_json_det2 = JsonMap(
+        "test_child_bob.bob", "Detector", exists=False
+    )
+    test_display_names_json_dev1 = JsonMap("test_child_bob.bob", "Device", exists=False)
+    test_display_names_json_dev2 = JsonMap("test_child_bob.bob", "Device", exists=False)
+    test_display_names_json = JsonMap("test_bob.bob", "Beamline")
+
+    test_display_names_json_dev1.children.append(test_display_names_json_det1)
+    test_display_names_json_dev1.children.append(test_display_names_json_det2)
+    test_display_names_json_dev2.children.append(test_display_names_json_det1)
+    test_display_names_json_dev2.children.append(test_display_names_json_det2)
+    test_display_names_json.children.append(test_display_names_json_dev1)
+    test_display_names_json.children.append(test_display_names_json_dev2)
+
+    builder._fix_duplicate_names(test_display_names_json)
+
+    assert test_display_names_json == example_display_names_json
+
+
+# def test_fix_duplicate_names_recursive():
+#     """Test that function recursively fixes nested children"""
+#     # Create a tree structure
+#     root = JsonMap()
+#     parent1 = JsonMap(display_name="Parent")
+#     parent2 = JsonMap(display_name="Parent")
+
+#     # Add duplicate children to parent1
+#     child1a = JsonMap(display_name="Child")
+#     child1b = JsonMap(display_name="Child")
+#     parent1.children = [child1a, child1b]
+
+#     # Add duplicate children to parent2
+#     child2a = JsonMap(display_name="Child")
+#     child2b = JsonMap(display_name="Child")
+#     parent2.children = [child2a, child2b]
+
+#     root.children = [parent1, parent2]
+
+#     root._fix_duplicate_names(root)
+
+#     # Check parent level got numbered
+#     assert root.children[0].display_name == "Parent 1"
+#     assert root.children[1].display_name == "Parent 2"
+
+#     # Check nested children also got numbered
+#     assert root.children[0].children[0].display_name == "Child 1"
+#     assert root.children[0].children[1].display_name == "Child 2"
+#     assert root.children[1].children[0].display_name == "Child 1"
+#     assert root.children[1].children[1].display_name == "Child 2"
+
+
 def test_generate_json_map_get_macros(
     builder_with_test_files, example_json_map, test_files
 ):
@@ -336,26 +418,6 @@ def test_generate_json_map_get_macros(
         )
 
         assert test_json_map == example_json_map
-
-
-# def test_generate_json_map_visited_node(
-#     builder_with_test_files, example_json_map, test_files
-# ):
-#     screen_path, dest_path = test_files
-
-#     visited = {screen_path}
-#     # Clear children as they will never be read
-#     example_json_map.children = []
-#     # Need to set this to true
-#     example_json_map.duplicate = True
-#     # Need to set this to None
-#     example_json_map.display_name = None
-
-#     test_json_map = builder_with_test_files._generate_json_map(
-#         screen_path, dest_path, visited
-#     )
-
-#     assert test_json_map == example_json_map
 
 
 def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):

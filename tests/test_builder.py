@@ -364,38 +364,6 @@ def test_fix_duplicate_names_recursive(builder, example_display_names_json):
     assert test_display_names_json == example_display_names_json
 
 
-# def test_fix_duplicate_names_recursive():
-#     """Test that function recursively fixes nested children"""
-#     # Create a tree structure
-#     root = JsonMap()
-#     parent1 = JsonMap(display_name="Parent")
-#     parent2 = JsonMap(display_name="Parent")
-
-#     # Add duplicate children to parent1
-#     child1a = JsonMap(display_name="Child")
-#     child1b = JsonMap(display_name="Child")
-#     parent1.children = [child1a, child1b]
-
-#     # Add duplicate children to parent2
-#     child2a = JsonMap(display_name="Child")
-#     child2b = JsonMap(display_name="Child")
-#     parent2.children = [child2a, child2b]
-
-#     root.children = [parent1, parent2]
-
-#     root._fix_duplicate_names(root)
-
-#     # Check parent level got numbered
-#     assert root.children[0].display_name == "Parent 1"
-#     assert root.children[1].display_name == "Parent 2"
-
-#     # Check nested children also got numbered
-#     assert root.children[0].children[0].display_name == "Child 1"
-#     assert root.children[0].children[1].display_name == "Child 2"
-#     assert root.children[1].children[0].display_name == "Child 1"
-#     assert root.children[1].children[1].display_name == "Child 2"
-
-
 def test_generate_json_map_get_macros(
     builder_with_test_files, example_json_map, test_files
 ):

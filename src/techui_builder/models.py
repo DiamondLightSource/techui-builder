@@ -36,9 +36,9 @@ _DLS_PREFIX_RE = re.compile(
                 [\d]*   # match zero or more digits
                 [^:]?   # match zero or one non-colon character
             )
-            (?::([a-zA-Z0-9:]*))? # match zero or one colon followed by zero or more
+            (?::([a-zA-Z0-9:_]*))? # match zero or one colon followed by zero or more
                                 # alphanumeric characters or colons (capture group 2)
-            (?:\.([a-zA-Z0-9]+))? # match zero or one dot followed by one or more
+            (?:\.([a-zA-Z0-9_]+))? # match zero or one dot followed by one or more
                                 # alphanumeric characters (capture group 3)
             $           # end of string
         """,

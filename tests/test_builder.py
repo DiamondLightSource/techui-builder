@@ -302,16 +302,18 @@ def test_generate_json_map(builder_with_test_files, example_json_map, test_files
 
 
 # TODO: write this test
-# def test_generate_json_map_embedded_screen(builder, example_json_map):
-#     screen_path = Path("tests/test_files/test_bob.bob")
-#     dest_path = Path("tests/test_files/")
+def test_generate_json_map_embedded_screen(builder_with_test_files, example_json_map):
+    screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
+    dest_path = Path("tests/test_files/")
 
-#     # Set widget type to embedded
-#     ...
-
-#     test_json_map = builder._generate_json_map(screen_path, dest_path)
-
-#     assert test_json_map == example_json_map
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
+    example_json_map.file = "test_bob_embedded.bob"
+    example_json_map.children.append(
+        JsonMap(
+            "$(IOC)/pmacAxis.pvi.bob", display_name="Embedded Display", exists=False
+        )
+    )
+    assert test_json_map == example_json_map
 
 
 def test_parse_display_name_with_name(builder):

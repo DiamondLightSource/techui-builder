@@ -246,44 +246,11 @@ exist."
     def _generate_json_map(self, screen_path: Path, dest_path: Path) -> JsonMap:
         """Recursively generate JSON map from .bob file tree"""
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         # Create initial node at top of .bob file
         current_node = JsonMap(
             str(screen_path.relative_to(self._write_directory)),
             display_name=None,
         )
-=======
-        def _extract_action_button_file_from_embedded(
-            file_elem: ObjectifiedElement,
-        ) -> ObjectifiedElement:
-            file_path = Path(file_elem.text.strip() if file_elem.text else "")
-            file_path = dest_path.joinpath(file_path)
-            tree = objectify.parse(file_path.absolute())
-            root: ObjectifiedElement = tree.getroot()
-
-            # Find all <widget> elements
-            widgets = [
-                w
-                for w in root.findall(".//widget")
-                if w.get("type", default=None) == "action_button"
-            ]
-
-            for widget_elem in widgets:
-                open_display = _get_action_group(widget_elem)
-                if open_display is None:
-                    continue
-                file_elem = open_display.file
-                return file_elem
-            return file_elem
-
-=======
->>>>>>> 934c651 (moved function)
-        if visited is None:
-            visited = set()
-
-        current_node = JsonMap(str(screen_path.relative_to(self._write_directory)))
->>>>>>> 1c5aaf5 (Added functionality to fetch files in action buttons in embedded screens to add to the JsonMap)
 
         abs_path = screen_path.absolute()
 
@@ -317,23 +284,17 @@ exist."
                         if open_display is None:
                             continue
 
-<<<<<<< HEAD
                         # Use file, name, and macro elements
                         file_elem = open_display.file
                         name_elem = widget_elem.name.text
                         macro_dict = self._get_macros(open_display)
 
-                    # case "embedded":
-                    #     file_elem = widget_elem.file
-                    #     macro_dict = _get_macros(widget_elem)
-=======
-                        macro_dict = _get_macros(open_display)
                     case "embedded":
                         file_elem = self._extract_action_button_file_from_embedded(
                             widget_elem.file, dest_path
                         )
-                        macro_dict = _get_macros(widget_elem)
->>>>>>> 1c5aaf5 (Added functionality to fetch files in action buttons in embedded screens to add to the JsonMap)
+                        name_elem = widget_elem.name.text
+                        macro_dict = self._get_macros(widget_elem)
 
                     case _:
                         continue
@@ -373,7 +334,29 @@ exist."
 
         return current_node
 
-<<<<<<< HEAD
+    def _extract_action_button_file_from_embedded(
+        self, file_elem: ObjectifiedElement, dest_path: Path
+    ) -> ObjectifiedElement:
+        file_path = Path(file_elem.text.strip() if file_elem.text else "")
+        file_path = dest_path.joinpath(file_path)
+        tree = objectify.parse(file_path.absolute())
+        root: ObjectifiedElement = tree.getroot()
+
+        # Find all <widget> elements
+        widgets = [
+            w
+            for w in root.findall(".//widget")
+            if w.get("type", default=None) == "action_button"
+        ]
+
+        for widget_elem in widgets:
+            open_display = _get_action_group(widget_elem)
+            if open_display is None:
+                continue
+            file_elem = open_display.file
+            return file_elem
+        return file_elem
+
     def _get_macros(self, element: ObjectifiedElement):
         if hasattr(element, "macros"):
             macros = element.macros.getchildren()
@@ -424,30 +407,6 @@ exist."
 
             # Recursively fix children
             self._fix_duplicate_names(child)
-=======
-    def _extract_action_button_file_from_embedded(
-        self, file_elem: ObjectifiedElement, dest_path: Path
-    ) -> ObjectifiedElement:
-        file_path = Path(file_elem.text.strip() if file_elem.text else "")
-        file_path = dest_path.joinpath(file_path)
-        tree = objectify.parse(file_path.absolute())
-        root: ObjectifiedElement = tree.getroot()
-
-        # Find all <widget> elements
-        widgets = [
-            w
-            for w in root.findall(".//widget")
-            if w.get("type", default=None) == "action_button"
-        ]
-
-        for widget_elem in widgets:
-            open_display = _get_action_group(widget_elem)
-            if open_display is None:
-                continue
-            file_elem = open_display.file
-            return file_elem
-        return file_elem
->>>>>>> 934c651 (moved function)
 
     def write_json_map(
         self,

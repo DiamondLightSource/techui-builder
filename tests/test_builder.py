@@ -308,7 +308,11 @@ def test_generate_json_map_embedded_screen(builder_with_test_files, example_json
 
     test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
     example_json_map.file = "test_bob_embedded.bob"
-    example_json_map.children.append(JsonMap("$(IOC)/pmacAxis.pvi.bob", exists=False))
+    example_json_map.children.append(
+        JsonMap(
+            "$(IOC)/pmacAxis.pvi.bob", display_name="Embedded Display", exists=False
+        )
+    )
     assert test_json_map == example_json_map
 
 

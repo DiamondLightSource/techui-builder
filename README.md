@@ -29,7 +29,9 @@ The process to use this module goes as follows (WIP):
 ## Setting Up
 
 1. Clone the beamline `ixx-services` repo to the root of this project, ensuring each IOC service has been converted to the [ibek](git@github.com:epics-containers/ibek.git) format.
-1. Create your handmade synoptic overview screen in Phoebus and place inside `ixx-services/synoptic/index.bob`.
+
+    `git clone --recursive git@gitlab.diamond.ac.uk:controls/containers/beamline/ixx-services.git`
+1. Create your handmade synoptic overview screen in Phoebus and place at `ixx-services/synoptic/index.bob`.
 1. Construct a `techui.yaml` file inside `ixx-services/synoptic` containing all the components from the services:
 
     ```
@@ -37,6 +39,7 @@ The process to use this module goes as follows (WIP):
         short_dom: {e.g. b23, b01-1}
         long_dom: {e.g. bl23b}
         desc: {beamline description}
+        url: {e.g. b23-opis.diamond.ac.uk}
 
     components:
         {component name}:

@@ -258,7 +258,9 @@ def test_write_json_map_no_synoptic(builder):
 
 
 def test_write_json_map(builder):
-    test_map = JsonMap(str(Path(__file__).parent.joinpath("test_files/test_bob.bob")))
+    test_map = JsonMap(
+        str(Path(__file__).parent.joinpath("test_files/test_bob.bob")), None
+    )
 
     # We don't want cover _generate_json_map in this test
     builder._generate_json_map = Mock(return_value=test_map)
@@ -312,6 +314,56 @@ def test_generate_json_map(builder_with_test_files, example_json_map, test_files
 #     assert test_json_map == example_json_map
 
 
+def test_parse_display_name_with_name(builder):
+    """Test parse display name when <name> tag is present"""
+    display_name = builder._parse_display_name(
+        "<name>", Path("/path/to/filename.pvi.bob")
+    )
+    assert display_name == "<name>"
+
+
+def test_parse_display_name_from_filepath(builder):
+    """Test parse display name when only filepath is present"""
+    display_name = builder._parse_display_name(None, Path("/path/to/filename.pvi.bob"))
+    assert display_name == "filename"
+
+
+def test_parse_display_name_returns_none(builder):
+    """Test parse display ensures JSON displayName will return null otherwise"""
+    display_name = builder._parse_display_name(None, Path(""))
+
+    assert display_name is None
+
+
+def test_fix_duplicate_names_recursive(builder, example_display_names_json):
+    """Test duplicate names are enumerated correctly for all children"""
+
+    test_display_names_json = JsonMap(
+        str(Path(__file__).parent.joinpath("test_files/test_bob.bob")), None
+    )
+
+    test_display_names_json_det1 = JsonMap(
+        "test_child_bob.bob", "Detector", exists=False
+    )
+    test_display_names_json_det2 = JsonMap(
+        "test_child_bob.bob", "Detector", exists=False
+    )
+    test_display_names_json_dev1 = JsonMap("test_child_bob.bob", "Device", exists=False)
+    test_display_names_json_dev2 = JsonMap("test_child_bob.bob", "Device", exists=False)
+    test_display_names_json = JsonMap("test_bob.bob", "Beamline")
+
+    test_display_names_json_dev1.children.append(test_display_names_json_det1)
+    test_display_names_json_dev1.children.append(test_display_names_json_det2)
+    test_display_names_json_dev2.children.append(test_display_names_json_det1)
+    test_display_names_json_dev2.children.append(test_display_names_json_det2)
+    test_display_names_json.children.append(test_display_names_json_dev1)
+    test_display_names_json.children.append(test_display_names_json_dev2)
+
+    builder._fix_duplicate_names(test_display_names_json)
+
+    assert test_display_names_json == example_display_names_json
+
+
 def test_generate_json_map_get_macros(
     builder_with_test_files, example_json_map, test_files
 ):
@@ -334,24 +386,6 @@ def test_generate_json_map_get_macros(
         )
 
         assert test_json_map == example_json_map
-
-
-def test_generate_json_map_visited_node(
-    builder_with_test_files, example_json_map, test_files
-):
-    screen_path, dest_path = test_files
-
-    visited = {screen_path}
-    # Clear children as they will never be read
-    example_json_map.children = []
-    # Need to set this to true too
-    example_json_map.duplicate = True
-
-    test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, visited
-    )
-
-    assert test_json_map == example_json_map
 
 
 def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
@@ -381,7 +415,10 @@ def test_serialise_json_map(example_json_map):
 
     assert json_ == {
         "file": "test_bob.bob",
-        "children": [{"file": "test_child_bob.bob", "exists": False}],
+        "children": [
+            {"file": "test_child_bob.bob", "displayName": "Detector", "exists": False}
+        ],
+        "displayName": "Display",
     }
 
 

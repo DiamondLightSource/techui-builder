@@ -22,6 +22,7 @@ logger_ = logging.getLogger(__name__)
 @dataclass
 class JsonMap:
     file: str
+    display_name: str | None
     exists: bool = True
     duplicate: bool = False
     children: list["JsonMap"] = field(default_factory=list)
@@ -242,36 +243,26 @@ exist."
  ioc.yaml files in services"
                 )
 
-    def _generate_json_map(
-        self, screen_path: Path, dest_path: Path, visited: set[Path] | None = None
-    ) -> JsonMap:
-        def _get_macros(element: ObjectifiedElement):
-            if hasattr(element, "macros"):
-                macros = element.macros.getchildren()
-                if macros is not None:
-                    return {
-                        str(macro.tag): macro.text
-                        for macro in macros
-                        if macro.text is not None
-                    }
-            return {}
+    def _generate_json_map(self, screen_path: Path, dest_path: Path) -> JsonMap:
+        """Recursively generate JSON map from .bob file tree"""
 
-        if visited is None:
-            visited = set()
-
-        current_node = JsonMap(str(screen_path.relative_to(self._write_directory)))
+        # Create initial node at top of .bob file
+        current_node = JsonMap(
+            str(screen_path.relative_to(self._write_directory)),
+            display_name=None,
+        )
 
         abs_path = screen_path.absolute()
-        dest_path = dest_path
-        if abs_path in visited:
-            current_node.exists = True
-            current_node.duplicate = True
-            return current_node
-        visited.add(abs_path)
 
         try:
+            # Create xml tree from .bob file
             tree = objectify.parse(abs_path)
             root: ObjectifiedElement = tree.getroot()
+
+            # Set top level display name from root element
+            current_node.display_name = self._parse_display_name(
+                root.name.text, screen_path
+            )
 
             # Find all <widget> elements
             widgets = [
@@ -292,20 +283,28 @@ exist."
                         open_display = _get_action_group(widget_elem)
                         if open_display is None:
                             continue
-                        file_elem = open_display.file
 
-                        macro_dict = _get_macros(open_display)
+                        # Use file, name, and macro elements
+                        file_elem = open_display.file
+                        name_elem = widget_elem.name.text
+                        macro_dict = self._get_macros(open_display)
+
                     # case "embedded":
                     #     file_elem = widget_elem.file
                     #     macro_dict = _get_macros(widget_elem)
+
                     case _:
                         continue
 
                 # Extract file path from file_elem
                 file_path = Path(file_elem.text.strip() if file_elem.text else "")
+
                 # If file is already a .bob file, skip it
                 if not file_path.suffix == ".bob":
                     continue
+
+                # Create valid displayName
+                display_name = self._parse_display_name(name_elem, file_path)
 
                 # TODO: misleading var name?
                 next_file_path = dest_path.joinpath(file_path)
@@ -313,11 +312,9 @@ exist."
                 # Crawl the next file
                 if next_file_path.is_file():
                     # TODO: investigate non-recursive approaches?
-                    child_node = self._generate_json_map(
-                        next_file_path, dest_path, visited
-                    )
+                    child_node = self._generate_json_map(next_file_path, dest_path)
                 else:
-                    child_node = JsonMap(str(file_path), exists=False)
+                    child_node = JsonMap(str(file_path), display_name, exists=False)
 
                 child_node.macros = macro_dict
                 # TODO: make this work for only list[JsonMap]
@@ -330,7 +327,60 @@ exist."
         except Exception as e:
             current_node.error = str(e)
 
+        self._fix_duplicate_names(current_node)
+
         return current_node
+
+    def _get_macros(self, element: ObjectifiedElement):
+        if hasattr(element, "macros"):
+            macros = element.macros.getchildren()
+            if macros is not None:
+                return {
+                    str(macro.tag): macro.text
+                    for macro in macros
+                    if macro.text is not None
+                }
+        return {}
+
+    def _parse_display_name(self, name: str | None, file_path: Path) -> str | None:
+        """Parse display name from <name> tag or file_path"""
+
+        if name:
+            # Return name tag text as displayName
+            return name
+
+        elif file_path.name:
+            # Use tail without file ext as displayName
+            return file_path.name[: -sum(len(suffix) for suffix in file_path.suffixes)]
+
+        else:
+            # Populate displayName with null
+            return None
+
+    def _fix_duplicate_names(self, node: JsonMap) -> None:
+        """Recursively fix duplicate display names in children"""
+        if not node.children:
+            return
+
+        # Count occurrences of each display_name
+        name_counts: defaultdict[str | None, int] = defaultdict(int)
+        for child in node.children:
+            if child.display_name:
+                name_counts[child.display_name] += 1
+
+        # Track which number we're on for each duplicate name
+        name_indices: defaultdict[str | None, int] = defaultdict(int)
+
+        # Update display names for duplicates
+        for child in node.children:
+            if child.display_name and name_counts[child.display_name] > 1:
+                name_indices[child.display_name] += 1
+                child.display_name = (
+                    f"{child.display_name} {name_indices[child.display_name]}"
+                )
+
+            # Recursively fix children
+            self._fix_duplicate_names(child)
 
     def write_json_map(
         self,
@@ -382,6 +432,10 @@ def _serialise_json_map(map: JsonMap) -> dict[str, Any]:
             continue
 
         d[key] = val
+
+    # Rename display_name to displayName for JSON camel case convention
+    if "display_name" in d:
+        d["displayName"] = d.pop("display_name")
 
     return d
 

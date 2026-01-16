@@ -49,9 +49,28 @@ def test_files():
 @pytest.fixture
 def example_json_map():
     # Create test json map with child json map
-    test_map_child = JsonMap("test_child_bob.bob", exists=False)
-    test_map = JsonMap("test_bob.bob")
+    test_map_child = JsonMap("test_child_bob.bob", "Detector", exists=False)
+    test_map = JsonMap("test_bob.bob", "Display")
     test_map.children.append(test_map_child)
+
+    return test_map
+
+
+@pytest.fixture
+def example_display_names_json():
+    # Create test json map with correct display names
+    test_map_det1 = JsonMap("test_child_bob.bob", "Detector 1", exists=False)
+    test_map_det2 = JsonMap("test_child_bob.bob", "Detector 2", exists=False)
+    test_map_dev1 = JsonMap("test_child_bob.bob", "Device 1", exists=False)
+    test_map_dev2 = JsonMap("test_child_bob.bob", "Device 2", exists=False)
+    test_map = JsonMap("test_bob.bob", "Beamline")
+
+    test_map_dev1.children.append(test_map_det1)
+    test_map_dev1.children.append(test_map_det2)
+    test_map_dev2.children.append(test_map_det1)
+    test_map_dev2.children.append(test_map_det2)
+    test_map.children.append(test_map_dev1)
+    test_map.children.append(test_map_dev2)
 
     return test_map
 

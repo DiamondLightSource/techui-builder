@@ -339,6 +339,11 @@ exist."
     ) -> ObjectifiedElement:
         file_path = Path(file_elem.text.strip() if file_elem.text else "")
         file_path = dest_path.joinpath(file_path)
+        if not file_path.exists():
+            rel_file_path = Path(str(file_elem.base)).relative_to(
+                dest_path.absolute(), walk_up=True
+            )
+            file_path = dest_path.joinpath(rel_file_path)
         tree = objectify.parse(file_path.absolute())
         root: ObjectifiedElement = tree.getroot()
 

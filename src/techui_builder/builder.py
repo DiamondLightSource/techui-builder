@@ -317,7 +317,9 @@ exist."
                     # TODO: investigate non-recursive approaches?
                     child_node = self._generate_json_map(next_file_path, dest_path)
                 else:
-                    child_node = JsonMap(str(file_path), display_name, exists=False)
+                    child_node = JsonMap(
+                        str(file_path), display_name, exists=("IOC" in macro_dict)
+                    )
 
                 child_node.macros = macro_dict
                 # TODO: make this work for only list[JsonMap]

@@ -10,6 +10,7 @@ from pydantic import (
     StringConstraints,
     computed_field,
     field_validator,
+    model_validator,
 )
 
 logger_ = logging.getLogger(__name__)
@@ -104,8 +105,30 @@ class Component(BaseModel):
     desc: str | None = None
     extras: list[str] | None = None
     file: str | None = None
+    macros: dict[str, str | int | float] | None = None
     devsta: list[str] | None = None
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(
+        # Makes sure that 'macros' is only allowed if 'file' is present
+        # (this is required for VSCode checks)
+        json_schema_extra={
+            "allOf": [
+                {
+                    "if": {"required": ["macros"]},
+                    "then": {
+                        "required": ["file"],
+                        "title": "'macros' is only allowed if 'file' is defined.",
+                    },
+                }
+            ]
+        },
+    )
+
+    @model_validator(mode="after")
+    def _check_macros_if_file_present(self):
+        if self.macros is not None:
+            if self.file is None:
+                raise AssertionError("'macros' is only allowed if 'file' is defined.")
+        return self
 
     @field_validator("prefix")
     @classmethod
@@ -150,21 +173,21 @@ class Component(BaseModel):
             raise ValueError("devsta must contain unique items")
         return v
 
-    @computed_field
+    @computed_field(repr=False, return_type=str | None)
     @property
     def P(self) -> str | None:  # noqa: N802
         match = re.match(_DLS_PREFIX_RE, self.prefix)
         if match:
             return match.group(1)
 
-    @computed_field
+    @computed_field(repr=False, return_type=str | None)
     @property
     def R(self) -> str | None:  # noqa: N802
         match = re.match(_DLS_PREFIX_RE, self.prefix)
         if match:
             return match.group(2)
 
-    @computed_field
+    @computed_field(repr=False, return_type=str | None)
     @property
     def attribute(self) -> str | None:
         match = re.match(_DLS_PREFIX_RE, self.prefix)
@@ -175,7 +198,10 @@ class Component(BaseModel):
 class TechUi(BaseModel):
     beamline: Beamline
     components: dict[str, Component]
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(
+        extra="forbid",
+        hide_input_in_errors=True,
+    )
 
 
 """

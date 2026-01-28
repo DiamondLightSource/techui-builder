@@ -151,6 +151,9 @@ def example_related_widget():
     )
     desc_element = SubElement(action_element, "description")
     desc_element.text = "placeholder description"
+    macros_element = SubElement(action_element, "macros")
+    macro_element = SubElement(macros_element, "P")
+    macro_element.text = "placeholder P"
 
     # ... which requires this horror
     widget_element = fromstring(tostring(widget_element))

@@ -78,7 +78,7 @@ class Autofiller:
             match macro:
                 case "prefix":
                     tag_name = "pv_name"
-                    component_attr = f"{component.P}:DEVSTA"
+                    component_attr = f"{component.P}:STA"
 
                 case "desc" | "file" | "macros":
                     # Get current component attribute

@@ -101,7 +101,7 @@ def test_autofiller_replace_content(
             fake_component,
         )
 
-        assert example_related_widget.pv_name == f"{prefix}:DEVSTA"
+        assert example_related_widget.pv_name == f"{prefix}:STA"
         assert example_related_widget.actions.action.description.text == expected_desc
         assert example_related_widget.actions.action.file.text == expected_file
         if macros is not None:

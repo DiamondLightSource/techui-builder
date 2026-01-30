@@ -5,7 +5,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from lxml import objectify
-from lxml.objectify import ObjectifiedElement
+from lxml.etree import Element, SubElement, tostring
+from lxml.objectify import ObjectifiedElement, fromstring
 
 from techui_builder.builder import Builder, _get_action_group
 from techui_builder.models import Component
@@ -17,7 +18,9 @@ logger_ = logging.getLogger(__name__)
 @dataclass
 class Autofiller:
     path: Path
-    macros: list[str] = field(default_factory=lambda: ["prefix", "desc", "file"])
+    macros: list[str] = field(
+        default_factory=lambda: ["prefix", "desc", "file", "macros"]
+    )
     widgets: dict[str, ObjectifiedElement] = field(
         default_factory=defaultdict, init=False, repr=False
     )
@@ -69,25 +72,51 @@ class Autofiller:
         component: Component,
     ):
         for macro in self.macros:
-            # Get current component attribute
-            component_attr = getattr(component, macro)
-
             # Fix to make sure widget is reverted back to widget that was passed in
             current_widget = widget
+
             match macro:
                 case "prefix":
                     tag_name = "pv_name"
-                    component_attr += ":DEVSTA"
-                case "desc":
-                    tag_name = "description"
+                    component_attr = f"{component.P}:DEVSTA"
+
+                case "desc" | "file" | "macros":
+                    # Get current component attribute
+                    component_attr = getattr(component, macro, None)
+
                     current_widget = _get_action_group(widget)
-                    if component_attr is None:
-                        component_attr = component_name
-                case "file":
-                    tag_name = "file"
-                    current_widget = _get_action_group(widget)
-                    if component_attr is None:
-                        component_attr = f"{component_name}.bob"
+                    match macro:
+                        case "desc":
+                            tag_name = "description"
+
+                            if component_attr is None:
+                                component_attr = component_name
+
+                        case "file":
+                            tag_name = "file"
+
+                            if component_attr is None:
+                                component_attr = f"{component_name}.bob"
+
+                        case "macros":
+                            tag_name = "macros"
+
+                            if component_attr is None:
+                                # If no custom macros are provided, don't run this code
+                                # As this will overwrite generated macros
+                                continue
+
+                            assert current_widget is not None
+                            # Remove all existing macros if they exist
+                            if current_widget.macros is not None:
+                                current_widget.remove(current_widget.macros)
+                            # Create new macros element
+                            current_widget.append(
+                                self._create_macro_element(component_attr)
+                            )
+                            # Break out of the loop
+                            continue
+
                 case _:
                     raise ValueError("The provided macro type is not supported.")
 
@@ -100,3 +129,17 @@ class Autofiller:
 
             # Set component's tag text to the corresponding widget tag
             current_widget[tag_name] = component_attr
+
+    def _create_macro_element(self, macros: dict):
+        # You cannot set a text tag of an ObjectifiedElement,
+        # so we need to make an etree.Element and convert it ...
+
+        macros_element = Element("macros")
+        for macro, val in macros.items():
+            macro_element = SubElement(macros_element, macro)
+            macro_element.text = val
+
+        # ... which requires this horror
+        obj_macros_element = fromstring(tostring(macros_element))
+
+        return obj_macros_element

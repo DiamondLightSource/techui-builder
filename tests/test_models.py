@@ -53,8 +53,7 @@ def test_component_repr(component: Component):
     assert (
         str(component)
         == "prefix='BL01T-EA-TEST-02' desc='Test Device' extras=None\
- file=None devsta=['BL01T-MO-MOTOR-01:Y'] P='BL01T-EA-TEST-02' R=None\
- attribute=None"
+ file=None macros=None devsta=['BL01T-MO-MOTOR-01:Y']"
     )
 
 

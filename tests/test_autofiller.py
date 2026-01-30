@@ -53,10 +53,25 @@ def test_autofiller_write_bob(autofiller):
 
 
 @pytest.mark.parametrize(
-    "prefix, description, filename, expected_desc, expected_file",
+    "prefix, description, filename, macros, expected_desc, expected_file",
     [
-        ("TEST_1", None, None, "test_component", "test_component.bob"),
-        ("TEST_2", "test_desc", "test_file.bob", "test_desc", "test_file.bob"),
+        ("BL01T-TS-TEST-01", None, None, None, "test_component", "test_component.bob"),
+        (
+            "BL01T-TS-TEST-02",
+            "test_desc",
+            "test_file.bob",
+            None,
+            "test_desc",
+            "test_file.bob",
+        ),
+        (
+            "BL01T-TS-TEST-03",
+            "test_desc",
+            "test_file.bob",
+            {"TEST": "TEST3"},
+            "test_desc",
+            "test_file.bob",
+        ),
     ],
 )
 def test_autofiller_replace_content(
@@ -65,28 +80,33 @@ def test_autofiller_replace_content(
     prefix,
     description,
     filename,
+    macros,
     expected_desc,
     expected_file,
 ):
     with patch("techui_builder.autofill._get_action_group") as mock_get:
         mock_get.return_value = example_related_widget.actions.action
 
-        mock_component = Mock(
-            spec=Component,
+        # Cannot use a Mock object as need P to be computed
+        fake_component = Component(
             prefix=prefix,
             desc=description,
             file=filename,
+            macros=macros,
         )
 
         autofiller.replace_content(
             example_related_widget,
             "test_component",
-            mock_component,
+            fake_component,
         )
 
         assert example_related_widget.pv_name == f"{prefix}:DEVSTA"
         assert example_related_widget.actions.action.description.text == expected_desc
         assert example_related_widget.actions.action.file.text == expected_file
+        if macros is not None:
+            for k, v in macros.items():
+                assert example_related_widget.actions.action.macros[k] == macros[k] == v
 
 
 def test_autofiller_replace_content_no_action_group(autofiller, caplog):

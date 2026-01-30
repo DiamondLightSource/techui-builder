@@ -69,13 +69,13 @@ def test_component_attributes(
         assert component.extras == extras
 
 
-def test_builder_create_devsta_pv(builder):
+def test_builder_create_status_pv(builder):
     p = "BL01T-MO-MOTOR-01"
     inpa = "BL01T-MO-MOTOR-01:MOTOR1.MOVN"
-    builder._create_devsta_pv(prefix=p, inputs=[inpa])
+    builder._create_status_pv(prefix=p, inputs=[inpa])
 
-    devsta_pv = """
-record(calc, "BL01T-MO-MOTOR-01:DEVSTA")
+    status_pv = """
+record(calc, "BL01T-MO-MOTOR-01:STA")
 {
     field(ACKT, "NO")
     field(CALC, "(A|B|C|D|E|F|G|H|I|J|K|L)>0?1:0")
@@ -95,44 +95,44 @@ record(calc, "BL01T-MO-MOTOR-01:DEVSTA")
 }
 """
 
-    assert builder.devsta_pvs != {}
+    assert builder.status_pvs != {}
 
     # Fake file-like object to "print" the record to
-    auto_devsta_pv = StringIO()
+    auto_status_pv = StringIO()
     # Get the string representation of the record
-    builder.devsta_pvs[p].Print(auto_devsta_pv)
+    builder.status_pvs[p].Print(auto_status_pv)
 
-    assert auto_devsta_pv.getvalue() == devsta_pv
+    assert auto_status_pv.getvalue() == status_pv
 
     # Make sure the record is deleted
     ClearRecords()
 
 
-def test_builder_write_devsta_pvs(builder):
-    # To mock the open() function used in _write_devsta_pvs
+def test_builder_write_status_pvs(builder):
+    # To mock the open() function used in _write_status_pvs
     m = mock_open()
 
     p = "BL01T-MO-MOTOR-01"
     inpa = "BL01T-MO-MOTOR-01:MOTOR1.MOVN"
-    devsta_pv = records.calc(  # pyright: ignore[reportAttributeAccessIssue]
-        f"{p}:DEVSTA",
+    status_pv = records.calc(  # pyright: ignore[reportAttributeAccessIssue]
+        f"{p}:STA",
         CALC="(A|B|C|D|E|F|G|H|I|J|K|L)>0?1:0",
         SCAN="1 second",
         ACKT="NO",
         INPA=inpa,
     )
-    builder.devsta_pvs[p] = devsta_pv
+    builder.status_pvs[p] = status_pv
 
     # Mock the Print() function so we don't actually write a file
     with (
         patch("builtins.open", m),
         patch("techui_builder.builder.Record.Print") as mock_print,
     ):
-        builder.write_devsta_pvs()
+        builder.write_status_pvs()
 
         # Check open() was called with the correct args
         m.assert_called_once_with(
-            Path(builder._write_directory.joinpath("config/devsta.db")),
+            Path(builder._write_directory.joinpath("config/status.db")),
             "w",
         )
         mock_print.assert_called_once()
@@ -208,8 +208,8 @@ def test_builder_validate_screen(builder_with_setup):
 
 
 def test_create_screens(builder_with_setup):
-    # We don't want to make a devsta PV in this test
-    builder_with_setup._create_devsta_pv = Mock()
+    # We don't want to make a status PV in this test
+    builder_with_setup._create_status_pv = Mock()
     # We don't want to access Generator in this test
     builder_with_setup._generate_screen = Mock()
     builder_with_setup._validate_screen = Mock()
@@ -221,8 +221,8 @@ def test_create_screens(builder_with_setup):
 
 
 def test_create_screens_no_entities(builder, caplog):
-    # We don't want to make a devsta PV in this test
-    builder._create_devsta_pv = Mock()
+    # We don't want to make a status PV in this test
+    builder._create_status_pv = Mock()
 
     builder.entities = []
 
@@ -236,8 +236,8 @@ def test_create_screens_no_entities(builder, caplog):
 
 
 def test_create_screens_extra_p_does_not_exist(builder_with_setup, caplog):
-    # We don't want to make a devsta PV in this test
-    builder_with_setup._create_devsta_pv = Mock()
+    # We don't want to make a status PV in this test
+    builder_with_setup._create_status_pv = Mock()
     # We don't want to actually generate a screen
     builder_with_setup._generate_screen = Mock(side_effect=None)
 

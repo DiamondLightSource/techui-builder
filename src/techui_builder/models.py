@@ -106,7 +106,7 @@ class Component(BaseModel):
     extras: list[str] | None = None
     file: str | None = None
     macros: dict[str, str | int | float] | None = None
-    devsta: list[str] | None = None
+    status: list[str] | None = None
     model_config = ConfigDict(
         # Makes sure that 'macros' is only allowed if 'file' is present
         # (this is required for VSCode checks)
@@ -148,9 +148,9 @@ class Component(BaseModel):
             raise ValueError("extras must contain unique items")
         return v
 
-    @field_validator("devsta")
+    @field_validator("status")
     @classmethod
-    def _check_devsta(cls, v: list[str]) -> list[str]:
+    def _check_status(cls, v: list[str]) -> list[str]:
         for p in v:
             # split up prefix and database link flags (if they exist)
             m = re.match(r"([\w:.-]+)[ ]?([\w ]*)", p)
@@ -160,17 +160,17 @@ class Component(BaseModel):
 
             if not _DLS_PREFIX_RE.match(prefix):
                 raise ValueError(
-                    f"devsta item '{p}' does not match extended DLS prefix pattern"
+                    f"status PV '{p}' does not match extended DLS prefix pattern"
                 )
             if flags is not None:
                 if not _DATABASE_FLAGS_RE.match(flags):
                     raise ValueError(
-                        f"devsta item '{p}' does have valid database link flags"
+                        f"status PV '{p}' does have valid database link flags"
                     )
 
         # ensure unique (schema enforces too)
         if len(set(v)) != len(v):
-            raise ValueError("devsta must contain unique items")
+            raise ValueError("status must contain unique items")
         return v
 
     @computed_field(repr=False, return_type=str | None)

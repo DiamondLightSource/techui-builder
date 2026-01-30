@@ -395,24 +395,26 @@ exist."
         if not node.children:
             return
 
-        # Count occurrences of each display_name
-        name_counts: defaultdict[str | None, int] = defaultdict(int)
+        # group by display_name
+        name_groups: defaultdict[str | None, list] = defaultdict(list)
         for child in node.children:
-            if child.display_name:
-                name_counts[child.display_name] += 1
+            name_groups[child.display_name].append(child)
 
-        # Track which number we're on for each duplicate name
-        name_indices: defaultdict[str | None, int] = defaultdict(int)
+        # fix duplicates by appending identifiers
+        for name, children in name_groups.items():
+            if name and len(children) > 1:
+                # append pv names when present
+                for child in children:
+                    if "P" in child.macros:
+                        child.display_name = f"{name} ({child.macros['P']})"
 
-        # Update display names for duplicates
+                # append NO PV NAME and enumeration when there is no pv name
+                no_pv_children = [c for c in children if "P" not in c.macros]
+                for i, child in enumerate(no_pv_children, 1):
+                    child.display_name = f"{name} (NO PV NAME {i})"
+
+        # recursively fix children
         for child in node.children:
-            if child.display_name and name_counts[child.display_name] > 1:
-                name_indices[child.display_name] += 1
-                child.display_name = (
-                    f"{child.display_name} {name_indices[child.display_name]}"
-                )
-
-            # Recursively fix children
             self._fix_duplicate_names(child)
 
     def write_json_map(

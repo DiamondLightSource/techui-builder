@@ -345,19 +345,29 @@ def test_fix_duplicate_names_recursive(builder, example_display_names_json):
     )
 
     test_display_names_json_det1 = JsonMap(
-        "test_child_bob.bob", "Detector", exists=False
+        "test_child_bob.bob", "Detector", macros={"P": "PV-DET-01"}, exists=False
     )
     test_display_names_json_det2 = JsonMap(
-        "test_child_bob.bob", "Detector", exists=False
+        "test_child_bob.bob", "Detector", macros={"P": "PV-DET-02"}, exists=False
     )
-    test_display_names_json_dev1 = JsonMap("test_child_bob.bob", "Device", exists=False)
-    test_display_names_json_dev2 = JsonMap("test_child_bob.bob", "Device", exists=False)
+    test_display_names_json_det3 = JsonMap(
+        "test_child_bob.bob", "Detector", macros={"P": "PV-DET-03"}, exists=False
+    )
+    test_display_names_json_det4 = JsonMap(
+        "test_child_bob.bob", "Detector", macros={"R": "NON-P-MACRO"}, exists=False
+    )
+    test_display_names_json_dev1 = JsonMap(
+        "test_child_bob.bob", "Device", macros={"P": "PV-DEV-01"}, exists=False
+    )
+    test_display_names_json_dev2 = JsonMap(
+        "test_child_bob.bob", "Device", macros={"P": "PV-DEV-02"}, exists=False
+    )
     test_display_names_json = JsonMap("test_bob.bob", "Beamline")
 
     test_display_names_json_dev1.children.append(test_display_names_json_det1)
     test_display_names_json_dev1.children.append(test_display_names_json_det2)
-    test_display_names_json_dev2.children.append(test_display_names_json_det1)
-    test_display_names_json_dev2.children.append(test_display_names_json_det2)
+    test_display_names_json_dev2.children.append(test_display_names_json_det3)
+    test_display_names_json_dev2.children.append(test_display_names_json_det4)
     test_display_names_json.children.append(test_display_names_json_dev1)
     test_display_names_json.children.append(test_display_names_json_dev2)
 

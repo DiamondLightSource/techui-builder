@@ -59,16 +59,48 @@ def example_json_map():
 @pytest.fixture
 def example_display_names_json():
     # Create test json map with correct display names
-    test_map_det1 = JsonMap("test_child_bob.bob", "Detector 1", exists=False)
-    test_map_det2 = JsonMap("test_child_bob.bob", "Detector 2", exists=False)
-    test_map_dev1 = JsonMap("test_child_bob.bob", "Device 1", exists=False)
-    test_map_dev2 = JsonMap("test_child_bob.bob", "Device 2", exists=False)
+    test_map_det1 = JsonMap(
+        "test_child_bob.bob",
+        "Detector (PV-DET-01)",
+        macros={"P": "PV-DET-01"},
+        exists=False,
+    )
+    test_map_det2 = JsonMap(
+        "test_child_bob.bob",
+        "Detector (PV-DET-02)",
+        macros={"P": "PV-DET-02"},
+        exists=False,
+    )
+    test_map_det3 = JsonMap(
+        "test_child_bob.bob",
+        "Detector (PV-DET-03)",
+        macros={"P": "PV-DET-03"},
+        exists=False,
+    )
+    test_map_det4 = JsonMap(
+        "test_child_bob.bob",
+        "Detector (NO PV NAME 1)",
+        macros={"R": "NON-P-MACRO"},
+        exists=False,
+    )
+    test_map_dev1 = JsonMap(
+        "test_child_bob.bob",
+        "Device (PV-DEV-01)",
+        macros={"P": "PV-DEV-01"},
+        exists=False,
+    )
+    test_map_dev2 = JsonMap(
+        "test_child_bob.bob",
+        "Device (PV-DEV-02)",
+        macros={"P": "PV-DEV-02"},
+        exists=False,
+    )
     test_map = JsonMap("test_bob.bob", "Beamline")
 
     test_map_dev1.children.append(test_map_det1)
     test_map_dev1.children.append(test_map_det2)
-    test_map_dev2.children.append(test_map_det1)
-    test_map_dev2.children.append(test_map_det2)
+    test_map_dev2.children.append(test_map_det3)
+    test_map_dev2.children.append(test_map_det4)
     test_map.children.append(test_map_dev1)
     test_map.children.append(test_map_dev2)
 

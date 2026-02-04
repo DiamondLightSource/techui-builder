@@ -21,12 +21,14 @@ def get_widgets(root: ObjectifiedElement):
     # but not any nested tags below them
     for child in root.iterchildren():
         # If widget is a symbol (i.e. a component)
-        if child.tag == "widget" and child.get("type", default=None) in [
-            "symbol",
-            "group",
-        ]:
-            name = child.name.text
-            assert name is not None
-            widgets[name] = child
-
+        if child.tag == "widget":
+            match child.get("type", default=None):
+                case "action_button" | "symbol":
+                    name = child.name.text
+                    assert name is not None
+                    widgets[name] = child
+                case "group":
+                    # Get all the widgets inside of the group objects
+                    groups_widgets = get_widgets(child)
+                    widgets.update(groups_widgets)
     return widgets

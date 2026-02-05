@@ -108,7 +108,7 @@ class Autofiller:
 
                             assert current_widget is not None
                             # Remove all existing macros if they exist
-                            if current_widget.macros is not None:
+                            if hasattr(current_widget, "macros"):
                                 current_widget.remove(current_widget.macros)
                             # Create new macros element
                             current_widget.append(
@@ -137,7 +137,7 @@ class Autofiller:
         macros_element = Element("macros")
         for macro, val in macros.items():
             macro_element = SubElement(macros_element, macro)
-            macro_element.text = val
+            macro_element.text = str(val)
 
         # ... which requires this horror
         obj_macros_element = fromstring(tostring(macros_element))

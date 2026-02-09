@@ -49,7 +49,7 @@ dev = [
     "tox-uv",
     "types-lxml",
     "types-mock",
-    "uv~=0.9.4",
+    "uv>=0.9.4,<0.11.0",
 ]
 
 [tool.setuptools_scm]

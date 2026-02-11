@@ -109,7 +109,7 @@ def main(
         (
             ixx_services.relative_to(cwd, walk_up=True)
             for parent in abs_path.parents
-            for ixx_services in parent.glob(f"{gui.conf.beamline.short_dom}-services")
+            for ixx_services in parent.glob(f"{gui.conf.beamline.location}-services")
         ),
         None,
     )
@@ -148,7 +148,7 @@ def main(
     logger_.debug(
         f"""
 
-Builder created for {gui.conf.beamline.short_dom}.
+Builder created for {gui.conf.beamline.location}.
 Services directory: {gui._services_dir}
 Write directory: {gui._write_directory}
 """,  # noqa: SLF001
@@ -158,7 +158,7 @@ Write directory: {gui._write_directory}
     gui.create_screens()
     gui.write_status_pvs()
 
-    logger_.info(f"Screens generated for {gui.conf.beamline.short_dom}.")
+    logger_.info(f"Screens generated for {gui.conf.beamline.location}.")
 
     autofiller = Autofiller(bob_file)
     autofiller.read_bob()
@@ -168,11 +168,11 @@ Write directory: {gui._write_directory}
 
     autofiller.write_bob(dest_bob)
 
-    logger_.info(f"Screens autofilled for {gui.conf.beamline.short_dom}.")
+    logger_.info(f"Screens autofilled for {gui.conf.beamline.location}.")
 
     gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
     logger_.info(
-        f"Json map generated for {gui.conf.beamline.short_dom} (from index.bob)"
+        f"Json map generated for {gui.conf.beamline.location} (from index.bob)"
     )
 
 

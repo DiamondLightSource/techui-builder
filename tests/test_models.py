@@ -11,8 +11,8 @@ from techui_builder.models import (
 @pytest.fixture
 def beamline() -> Beamline:
     return Beamline(
-        short_dom="t01",
-        long_dom="bl01t",
+        location="t01",
+        domain="bl01t",
         desc="Test Beamline",
         url="t01-opis.diamond.ac.uk",
     )
@@ -34,8 +34,8 @@ def gui_components() -> GuiComponentEntry:
 
 # @pytest.mark.parametrize("beamline,expected",[])
 def test_beamline_object(beamline: Beamline):
-    assert beamline.short_dom == "t01"
-    assert beamline.long_dom == "bl01t"
+    assert beamline.location == "t01"
+    assert beamline.domain == "bl01t"
     assert beamline.desc == "Test Beamline"
     assert beamline.url == "https://t01-opis.diamond.ac.uk"
 

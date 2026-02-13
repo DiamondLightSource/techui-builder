@@ -19,8 +19,8 @@ from techui_builder.builder import (
 @pytest.mark.parametrize(
     "attr, expected",
     [
-        ("short_dom", "t01"),
-        ("long_dom", "bl01t"),
+        ("location", "t01"),
+        ("domain", "bl01t"),
         ("desc", "Test Beamline"),
     ],
 )

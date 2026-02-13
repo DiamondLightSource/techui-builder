@@ -50,38 +50,38 @@ _DATABASE_FLAGS_RE = re.compile(
     r"(?:PP|NPP)?" + r"(?:[ ]+(?:MS|NMS|MSS|MSI))?$",
     re.VERBOSE,
 )
-_LONG_DOM_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
-_SHORT_DOM_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
+_DOMAIN_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
+_LOCATION_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
 _OPIS_URL_RE = re.compile(r"^(https:\/\/)?([a-z0-9]{3}-(?:[0-9]-)?opis(?:.[a-z0-9]*)*)")
 
 
 class Beamline(BaseModel):
-    short_dom: str = Field(description="Short BL domain e.g. b23, ixx-1")
-    long_dom: str = Field(description="Full BL domain e.g. bl23b")
+    location: str = Field(description="Short BL location e.g. b23, ixx-1")
+    domain: str = Field(description="Full BL domain e.g. bl23b")
     desc: str = Field(description="Description")
     model_config = ConfigDict(extra="forbid")
     url: str = Field(description="URL of ixx-opis")
 
-    @field_validator("short_dom")
+    @field_validator("location")
     @classmethod
-    def normalize_short_dom(cls, v: str) -> str:
+    def normalize_location(cls, v: str) -> str:
         v = v.strip().lower()
 
-        if _SHORT_DOM_RE.fullmatch(v):
+        if _LOCATION_RE.fullmatch(v):
             # e.g. b23 -> bl23b
             return v
 
-        raise ValueError("Invalid short dom.")
+        raise ValueError("Invalid beamline location.")
 
-    @field_validator("long_dom")
+    @field_validator("domain")
     @classmethod
-    def normalize_long_dom(cls, v: str) -> str:
+    def normalize_domain(cls, v: str) -> str:
         v = v.strip().lower()
-        if _LONG_DOM_RE.fullmatch(v):
+        if _DOMAIN_RE.fullmatch(v):
             # already long: bl23b
             return v
 
-        raise ValueError("Invalid long dom.")
+        raise ValueError("Invalid beamline domain.")
 
     @field_validator("url")
     @classmethod

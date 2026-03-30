@@ -53,7 +53,7 @@ def schema_callback(value: bool):
 
 def log_level(level: str):
     logging.basicConfig(
-        level=level,
+        level=level.upper(),
         format="%(message)s",
         handlers=[RichHandler(omit_repeated_times=False, markup=True)],
     )

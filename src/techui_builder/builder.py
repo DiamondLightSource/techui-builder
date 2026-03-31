@@ -199,7 +199,10 @@ Does it exist?"
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
         if len(self.entities) == 0:
-            logger_.critical("No ioc entities found, has setup() been run?")
+            logger_.critical(
+                "No ioc entities found. \
+This [italic]normally[/italic] suggests an issue with finding ixx-services."
+            )
             exit()
 
         # Loop over every component defined in techui.yaml and locate

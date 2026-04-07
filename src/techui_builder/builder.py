@@ -490,4 +490,11 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
         return None
     except AttributeError:
         # TODO: Find better way of handling there being no "actions" group
-        logger_.error(f"Actions group not found in component: {element.text}")
+        name = element.name
+
+        parent_name = p.name if (p := element.getparent()) is not None else None
+
+        logger_.error(
+            f"Actions group not found in component [bold]{name}[/bold] on "
+            f"[bold]{parent_name}[/bold]"
+        )

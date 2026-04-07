@@ -5,9 +5,9 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
-from rich.logging import RichHandler
 
 from techui_builder import __version__
+from techui_builder._logger import Logger
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
 from techui_builder.schema_generator import schema_generator
@@ -54,11 +54,7 @@ def schema_callback(value: bool):
 
 
 def log_level(level: str):
-    logging.basicConfig(
-        level=level.upper(),
-        format="%(message)s",
-        handlers=[RichHandler(omit_repeated_times=False, markup=True)],
-    )
+    Logger(level)
 
 
 def find_dirs(file_path: Path, beamline: str) -> tuple:

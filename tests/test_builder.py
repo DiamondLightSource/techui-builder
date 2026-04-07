@@ -232,7 +232,10 @@ def test_create_screens_no_entities(builder, caplog):
             builder.create_screens()
 
     for log_output in caplog.records:
-        assert "No ioc entities found, has setup() been run?" in log_output.message
+        assert (
+            "No ioc entities found. This [italic]normally[/italic]"
+            " suggests an issue with finding ixx-services."
+        ) in log_output.message
 
 
 def test_create_screens_extra_p_does_not_exist(builder_with_setup, caplog):
@@ -460,6 +463,8 @@ def test_get_action_group_no_action_elements():
 def test_get_action_group_no_actions_group(caplog):
     # Use a blank xml element
     widget = objectify.ObjectifiedElement()
+    # TODO: Do widgets always have a name attr, or _can_ it be empty??
+    widget.name = "Test"
 
     with caplog.at_level(logging.ERROR):
         _get_action_group(widget)

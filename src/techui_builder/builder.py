@@ -490,6 +490,7 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
         return None
     except AttributeError:
         # TODO: Find better way of handling there being no "actions" group
+        # TODO: Do widgets always have a name attr, or _can_ it be empty??
         name = element.name
 
         parent_name = p.name if (p := element.getparent()) is not None else None

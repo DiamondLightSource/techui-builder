@@ -8,7 +8,7 @@ from lxml import objectify
 from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
 
-from techui_builder.builder import Builder, _get_action_group
+from techui_builder.builder import _get_action_group
 from techui_builder.models import Component
 from techui_builder.utils import read_bob
 
@@ -18,6 +18,7 @@ logger_ = logging.getLogger(__name__)
 @dataclass
 class Autofiller:
     path: Path
+    gui_components: dict[str, Component]
     macros: list[str] = field(
         default_factory=lambda: ["prefix", "desc", "file", "macros"]
     )
@@ -28,21 +29,21 @@ class Autofiller:
     def read_bob(self) -> None:
         self.tree, self.widgets = read_bob(self.path)
 
-    def autofill_bob(self, gui: "Builder"):
+    def autofill_bob(self):
         # Get names from component list
 
         for symbol_name, child in self.widgets.items():
             # If the name exists in the component list
-            if symbol_name in gui.conf.components.keys():
+            if symbol_name in self.gui_components.keys():
                 # Get first copy of component (should only be one)
                 comp = next(
-                    (comp for comp in gui.conf.components if comp == symbol_name),
+                    (comp for comp in self.gui_components if comp == symbol_name),
                 )
 
                 self.replace_content(
                     widget=child,
                     component_name=comp,
-                    component=gui.conf.components[comp],
+                    component=self.gui_components[comp],
                 )
 
                 # Add option to allow left mouse click to run action

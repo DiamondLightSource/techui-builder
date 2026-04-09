@@ -21,14 +21,12 @@ def test_autofiller_read_bob(mock_read_bob, autofiller):
 
 def test_autofiller_autofill_bob(autofiller):
     autofiller.replace_content = Mock()
-    # This mess of a Mock represents a basic Builder object with a components dict
-    mock_builder = Mock(conf=Mock(components={"test_widget": Mock(spec=Component)}))
 
     mock_widget = Element("widget")
 
     autofiller.widgets = {"test_widget": mock_widget}
 
-    autofiller.autofill_bob(mock_builder)
+    autofiller.autofill_bob()
 
     autofiller.replace_content.assert_called()
     assert mock_widget.find("run_actions_on_mouse_click") == "true"

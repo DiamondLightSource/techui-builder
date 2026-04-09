@@ -166,9 +166,9 @@ Write directory: {gui._write_directory}
 
     logger_.info(f"Screens generated for {gui.conf.beamline.location}.")
 
-    autofiller = Autofiller(bob_file)
+    autofiller = Autofiller(bob_file, gui.conf.components)
     autofiller.read_bob()
-    autofiller.autofill_bob(gui)
+    autofiller.autofill_bob()
 
     dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
 

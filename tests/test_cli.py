@@ -12,6 +12,7 @@ from techui_builder.__main__ import (
     find_bob,
     find_dirs,
     log_level,
+    main,
     schema_callback,
 )
 
@@ -126,3 +127,16 @@ def test_find_bob_no_bob_file_found(caplog):
 
     # The function calls exit() with no value code
     assert exc_info.value.code is None
+
+
+@patch("techui_builder.__main__.find_bob")
+@patch("techui_builder.__main__.find_dirs")
+@patch("techui_builder.__main__.Autofiller")
+@patch("techui_builder.__main__.Builder")
+def test_main(mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob):
+    mock_find_dirs.return_value = Mock(), Mock()
+    mock_path = Mock(spec=Path)
+    main(mock_path)
+
+    mock_find_dirs.assert_called_once()
+    mock_find_bob.assert_called_once()

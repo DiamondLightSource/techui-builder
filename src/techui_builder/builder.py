@@ -241,7 +241,7 @@ class Builder:
 
             else:
                 logger_.warning(
-                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]"
+                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold] "
                     f"set in the component [bold]{component_name}[/bold] does not match"
                     " any P field in the ioc.yaml files in services"
                 )

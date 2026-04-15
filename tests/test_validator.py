@@ -21,13 +21,13 @@ def test_validator_check_bob(validator):
     assert list(validator.validate.keys())[0] == "motor-edited"
 
 
-def test_validator_read_bob(validator):
-    with patch("techui_builder.validator.read_bob") as mock_read_bob:
-        # We need to set the spec of the first Mock so it knows
-        # it has a getroot() function
-        mock_read_bob.return_value = (Mock(spec=_ElementTree), Mock())
+@patch("techui_builder.validator.read_bob")
+def test_validator_read_bob(mock_read_bob, validator):
+    # We need to set the spec of the first Mock so it knows
+    # it has a getroot() function
+    mock_read_bob.return_value = (Mock(spec=_ElementTree), Mock())
 
-        validator._read_bob(validator.bobs[0])
+    validator._read_bob(validator.bobs[0])
 
 
 # TODO: Clean up this test... (make fixture for mock xml?)

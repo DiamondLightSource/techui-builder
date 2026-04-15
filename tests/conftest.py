@@ -8,6 +8,7 @@ from lxml.objectify import fromstring
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder, JsonMap
 from techui_builder.generate import Generator
+from techui_builder.models import Component
 from techui_builder.validator import Validator
 
 
@@ -120,7 +121,7 @@ def generator():
 def autofiller():
     index_bob = Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
 
-    a = Autofiller(index_bob)
+    a = Autofiller(index_bob, {"test_widget": MagicMock(spec=Component)})
 
     return a
 

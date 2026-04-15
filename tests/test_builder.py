@@ -232,7 +232,10 @@ def test_create_screens_no_entities(builder, caplog):
             builder.create_screens()
 
     for log_output in caplog.records:
-        assert "No ioc entities found, has setup() been run?" in log_output.message
+        assert (
+            "No ioc entities found. This [italic]normally[/italic]"
+            " suggests an issue with finding ixx-services."
+        ) in log_output.message
 
 
 def test_create_screens_extra_p_does_not_exist(builder_with_setup, caplog):
@@ -285,20 +288,22 @@ def test_write_json_map(builder):
         os.remove(dest_path)
 
 
-def test_generate_json_map(builder_with_test_files, example_json_map, test_files):
+# We don't want to access the _get_action_group function in this test
+@patch("techui_builder.builder._get_action_group")
+def test_generate_json_map(
+    mock_get_action_group, builder_with_test_files, example_json_map, test_files
+):
     screen_path, dest_path = test_files
 
-    # We don't want to access the _get_action_group function in this test
-    with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
-        mock_xml = objectify.Element("action")
-        mock_xml["file"] = "test_child_bob.bob"
-        mock_get_action_group.return_value = mock_xml
+    mock_xml = objectify.Element("action")
+    mock_xml["file"] = "test_child_bob.bob"
+    mock_get_action_group.return_value = mock_xml
 
-        test_json_map = builder_with_test_files._generate_json_map(
-            screen_path.absolute(), dest_path
-        )
+    test_json_map = builder_with_test_files._generate_json_map(
+        screen_path.absolute(), dest_path
+    )
 
-        assert test_json_map == example_json_map
+    assert test_json_map == example_json_map
 
 
 # TODO: write this test
@@ -376,28 +381,26 @@ def test_fix_duplicate_names_recursive(builder, example_display_names_json):
     assert test_display_names_json == example_display_names_json
 
 
+# We don't want to access the _get_action_group function in this test
+@patch("techui_builder.builder._get_action_group")
 def test_generate_json_map_get_macros(
-    builder_with_test_files, example_json_map, test_files
+    mock_get_action_group, builder_with_test_files, example_json_map, test_files
 ):
     screen_path, dest_path = test_files
 
     # Set a custom macro to test against
     example_json_map.children[0].macros = {"macro": "value"}
 
-    # We don't want to access the _get_action_group function in this test
-    with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
-        mock_xml = objectify.Element("action")
-        mock_xml["file"] = "test_child_bob.bob"
-        macros = objectify.SubElement(mock_xml, "macros")
-        # Set a macro to test
-        macros["macro"] = "value"
-        mock_get_action_group.return_value = mock_xml
+    mock_xml = objectify.Element("action")
+    mock_xml["file"] = "test_child_bob.bob"
+    macros = objectify.SubElement(mock_xml, "macros")
+    # Set a macro to test
+    macros["macro"] = "value"
+    mock_get_action_group.return_value = mock_xml
 
-        test_json_map = builder_with_test_files._generate_json_map(
-            screen_path, dest_path
-        )
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
 
-        assert test_json_map == example_json_map
+    assert test_json_map == example_json_map
 
 
 def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
@@ -409,17 +412,17 @@ def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
     assert test_json_map.error.startswith("XML parse error:")
 
 
-def test_generate_json_map_other_exception(builder_with_test_files, test_files):
+@patch("techui_builder.builder._get_action_group")
+def test_generate_json_map_other_exception(
+    mock_get_action_group, builder_with_test_files, test_files
+):
     screen_path, dest_path = test_files
 
-    with patch("techui_builder.builder._get_action_group") as mock_get_action_group:
-        mock_get_action_group.side_effect = Exception("Some exception")
+    mock_get_action_group.side_effect = Exception("Some exception")
 
-        test_json_map = builder_with_test_files._generate_json_map(
-            screen_path, dest_path
-        )
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
 
-        assert test_json_map.error != ""
+    assert test_json_map.error != ""
 
 
 def test_serialise_json_map(example_json_map):
@@ -460,6 +463,8 @@ def test_get_action_group_no_action_elements():
 def test_get_action_group_no_actions_group(caplog):
     # Use a blank xml element
     widget = objectify.ObjectifiedElement()
+    # TODO: Do widgets always have a name attr, or _can_ it be empty??
+    widget.name = "Test"
 
     with caplog.at_level(logging.ERROR):
         _get_action_group(widget)

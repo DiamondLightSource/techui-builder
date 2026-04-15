@@ -161,8 +161,8 @@ class Builder:
                 self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
             except OSError:
                 logger_.error(
-                    f"No ioc.yaml file for service: [bold]{service.name}[/bold]. \
-Does it exist?"
+                    f"No ioc.yaml file for service: [bold]{service.name}[/bold]."
+                    " Does it exist?"
                 )
 
     def _extract_entities(self, ioc_yaml: Path):
@@ -199,7 +199,10 @@ Does it exist?"
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
         if len(self.entities) == 0:
-            logger_.critical("No ioc entities found, has setup() been run?")
+            logger_.critical(
+                "No ioc entities found. This [italic]normally[/italic]"
+                " suggests an issue with finding ixx-services."
+            )
             exit()
 
         # Loop over every component defined in techui.yaml and locate
@@ -218,8 +221,8 @@ Does it exist?"
                     for extra_p in component.extras:
                         if extra_p not in self.entities.keys():
                             logger_.error(
-                                f"Extra prefix {extra_p} for {component_name} does not \
-exist."
+                                f"Extra prefix {extra_p} for {component_name} does not"
+                                " exist."
                             )
                             continue
                         screen_entities.extend(self.entities[extra_p])
@@ -238,9 +241,9 @@ exist."
 
             else:
                 logger_.warning(
-                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold]\
- set in the component [bold]{component_name}[/bold] does not match any P field in the\
- ioc.yaml files in services"
+                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold] "
+                    f"set in the component [bold]{component_name}[/bold] does not match"
+                    " any P field in the ioc.yaml files in services"
                 )
 
     def _generate_json_map(self, screen_path: Path, dest_path: Path) -> JsonMap:
@@ -487,4 +490,12 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
         return None
     except AttributeError:
         # TODO: Find better way of handling there being no "actions" group
-        logger_.error(f"Actions group not found in component: {element.text}")
+        # TODO: Do widgets always have a name attr, or _can_ it be empty??
+        name = element.name
+
+        parent_name = p.name if (p := element.getparent()) is not None else None
+
+        logger_.error(
+            f"Actions group not found in component [bold]{name}[/bold] on "
+            f"[bold]{parent_name}[/bold]"
+        )

@@ -62,14 +62,16 @@ def test_find_dirs(caplog):
     mock_services.relative_to.return_value = Path("mock_rel_path")
     mock_parent = MagicMock(spec=Path)
     mock_parent.glob.return_value = [mock_services]
-    mock_absolute = MagicMock()
+    mock_absolute = MagicMock(spec=Path)
     mock_absolute.parents = [mock_parent]
+    mock_absolute.parent = mock_parent
     mock_path = MagicMock(spec=Path)
     mock_path.absolute.return_value = mock_absolute
 
     services, synoptic = find_dirs(mock_path, "ixx")
 
-    assert synoptic == Path("mock_rel_path/synoptic")
+    assert synoptic == mock_absolute.parent
+    assert services == Path("mock_rel_path")
 
 
 def test_find_dirs_no_ixx_services_dir(caplog):

@@ -56,11 +56,13 @@ _OPIS_URL_RE = re.compile(r"^(https:\/\/)?([a-z0-9]{3}-(?:[0-9]-)?opis(?:.[a-z0-
 
 
 class Beamline(BaseModel):
-    location: str = Field(description="Short BL location e.g. b23, ixx-1")
-    domain: str = Field(description="Full BL domain e.g. bl23b")
-    desc: str = Field(description="Description")
+    """Global Beamline values read from `beamline:` table in techui.yaml"""
+
+    location: Annotated[str, Field(description="Short BL location e.g. b23, ixx-1")]
+    domain: Annotated[str, Field(description="Full BL domain e.g. bl23b")]
+    desc: Annotated[str, Field(description="Description")]
+    url: Annotated[str, Field(description="URL of ixx-opis")]
     model_config = ConfigDict(extra="forbid")
-    url: str = Field(description="URL of ixx-opis")
 
     @field_validator("location")
     @classmethod
@@ -101,12 +103,30 @@ class Beamline(BaseModel):
 
 
 class Component(BaseModel):
-    prefix: str
-    desc: str | None = None
-    extras: list[str] | None = None
-    file: str | None = None
-    macros: dict[str, str | int | float] | None = None
-    status: list[str] | None = None
+    """One UI Component from techui.yaml `components:` dictionary"""
+
+    prefix: Annotated[str, Field(description="Component PV Prefix")]
+    desc: Annotated[str | None, Field(None, description="Component description")]
+    extras: Annotated[
+        list[str] | None,
+        Field(
+            None,
+            description="Extra PV Prefixes to include in the generation of "
+            "UI components",
+        ),
+    ]
+    file: Annotated[
+        str | None,
+        Field(None, description="File path for custom screen (bypasses generation)"),
+    ]
+    macros: Annotated[
+        dict[str, str | int | float] | None,
+        Field(None, description="Macro dictionary to pass to the custom screen"),
+    ]
+    status: Annotated[
+        list[str] | None,
+        Field(None, description="PVs to add to the component status PV"),
+    ]
     model_config = ConfigDict(
         # Makes sure that 'macros' is only allowed if 'file' is present
         # (this is required for VSCode checks)
@@ -196,8 +216,13 @@ class Component(BaseModel):
 
 
 class TechUi(BaseModel):
-    beamline: Beamline
-    components: dict[str, Component]
+    """Beamline values and Component objects read from techui.yaml"""
+
+    beamline: Annotated[Beamline, Field(description="Beamline table from techui.yaml")]
+    components: Annotated[
+        dict[str, Component],
+        Field(description="Components dictionary from techui.yaml"),
+    ]
     model_config = ConfigDict(
         extra="forbid",
         hide_input_in_errors=True,
@@ -235,8 +260,20 @@ class GuiComponents(RootModel[dict[str, GuiComponentUnion]]):
 
 
 class Entity(BaseModel):
-    type: str
-    P: str
-    desc: str | None = None
-    M: str | None
-    R: str | None
+    """One table of IOC variables extracted from an ioc.yaml file"""
+
+    type: Annotated[
+        str,
+        Field(
+            description="IOC module entity table in ioc.yaml, e.g. "
+            "ADAravis.aravisCamera"
+        ),
+    ]
+    P: Annotated[str, Field(description="PV Prefix for module entity")]
+    desc: Annotated[
+        str | None, Field(None, description="Optional description of module entity")
+    ]
+    M: Annotated[str | None, Field(description="Optional PV suffix for a motor")]
+    R: Annotated[
+        str | None, Field(description="Optional PV suffix for an ADAravis plugin")
+    ]

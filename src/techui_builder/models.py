@@ -106,27 +106,26 @@ class Component(BaseModel):
     """One UI Component from techui.yaml `components:` dictionary"""
 
     prefix: Annotated[str, Field(description="Component PV Prefix")]
-    desc: Annotated[str | None, Field(None, description="Component description")]
+    desc: Annotated[str | None, Field(description="Component description")] = None
     extras: Annotated[
         list[str] | None,
         Field(
-            None,
             description="Extra PV Prefixes to include in the generation of "
             "UI components",
         ),
-    ]
+    ] = None
     file: Annotated[
         str | None,
-        Field(None, description="File path for custom screen (bypasses generation)"),
-    ]
+        Field(description="File path for custom screen (bypasses generation)"),
+    ] = None
     macros: Annotated[
         dict[str, str | int | float] | None,
-        Field(None, description="Macro dictionary to pass to the custom screen"),
-    ]
+        Field(description="Macro dictionary to pass to the custom screen"),
+    ] = None
     status: Annotated[
         list[str] | None,
-        Field(None, description="PVs to add to the component status PV"),
-    ]
+        Field(description="PVs to add to the component status PV"),
+    ] = None
     model_config = ConfigDict(
         # Makes sure that 'macros' is only allowed if 'file' is present
         # (this is required for VSCode checks)
@@ -271,8 +270,8 @@ class Entity(BaseModel):
     ]
     P: Annotated[str, Field(description="PV Prefix for module entity")]
     desc: Annotated[
-        str | None, Field(None, description="Optional description of module entity")
-    ]
+        str | None, Field(description="Optional description of module entity")
+    ] = None
     M: Annotated[str | None, Field(description="Optional PV suffix for a motor")]
     R: Annotated[
         str | None, Field(description="Optional PV suffix for an ADAravis plugin")

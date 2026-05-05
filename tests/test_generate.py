@@ -212,6 +212,24 @@ def test_generator_initialise_name_suffix_none(generator):
     assert suffix_label == ""
 
 
+def test_generator_initialise_name_suffix_with_child_labels(generator):
+    component = Entity(
+        type="test",
+        P="TEST",
+        desc=None,
+        service_name="bl01t-mo-test-01",
+        M=None,
+        R="T1",
+        child_labels={"T1": "Test 1"},
+    )
+
+    name, suffix, suffix_label = generator._initialise_name_suffix(component)
+
+    assert name == "Test 1"
+    assert suffix == "T1"
+    assert suffix_label == "R"
+
+
 def test_generator_is_list_of_dicts(generator):
     list_of_dicts = [{"a": 1}, {"b": 2}]
     assert generator._is_list_of_dicts(list_of_dicts) is True
@@ -248,7 +266,7 @@ def test_generator_allocate_widget(generator):
 
 
 def test_generator_allocate_widget_with_suffix(generator):
-    generator._initilise_name_suffix = Mock(return_value=(":CAM:", ":CAM:", "R"))
+    generator._initialise_name_suffix = Mock(return_value=(":CAM:", ":CAM:", "R"))
 
     scrn_mapping = {
         "file": "ADAravis/ADAravis_summary.bob",
@@ -377,6 +395,42 @@ def test_generator_build_screen(generator):
     generator.build_groups(screen_name)
     generator.build_screen(screen_name)
     assert objectify.fromstring(str(generator.screen_)).xpath("//widget[@type='group']")
+
+
+def test_build_groups_with_label(generator):
+    screen_name = "motor"
+    generator.widgets = [Mock(), Mock(), Mock()]
+    generator._create_widget = Mock(return_value=Mock())
+    generator.layout_widgets = Mock(
+        return_value=[
+            pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120),
+            pwidget.EmbeddedDisplay(
+                name="Y", file="", x=0, y=150, width=205, height=120
+            ),
+        ]
+    )
+    generator._get_group_dimensions = Mock(return_value=(600, 400))
+    generator.build_groups(screen_name)
+    xml = objectify.fromstring(str(generator.group))
+    assert xml.xpath("//name")[0] == "Motor Stage"
+
+
+def test_build_groups(generator):
+    screen_name = "test"
+    generator.widgets = [Mock(), Mock(), Mock()]
+    generator._create_widget = Mock(return_value=Mock())
+    generator.layout_widgets = Mock(
+        return_value=[
+            pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120),
+            pwidget.EmbeddedDisplay(
+                name="Y", file="", x=0, y=150, width=205, height=120
+            ),
+        ]
+    )
+    generator._get_group_dimensions = Mock(return_value=(600, 400))
+    generator.build_groups(screen_name)
+    xml = objectify.fromstring(str(generator.group))
+    assert xml.xpath("//name")[0] == "test"
 
 
 def test_generator_write_screen(generator):

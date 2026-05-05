@@ -12,6 +12,7 @@ from softioc.builder import ClearRecords, records
 from techui_builder.builder import (
     JsonMap,
     _get_action_group,  # type: ignore
+    _get_labels,  # type: ignore
     _serialise_json_map,  # type: ignore
 )
 
@@ -29,10 +30,10 @@ def test_beamline_attributes(builder, attr, expected):
 
 
 @pytest.mark.parametrize(
-    "index, name, desc, P, R, attribute, file, extras",
+    "index, name, label, P, R, attribute, file, extras, child_labels",
     [
-        (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None),
-        (1, "d1", "Diode 1", "BL01T-DI-PHDGN-01", None, None, "test.bob", None),
+        (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None, None),
+        (1, "d1", "Diode 1", "BL01T-DI-PHDGN-01", None, None, "test.bob", None, None),
         (
             2,
             "motor",
@@ -42,6 +43,7 @@ def test_beamline_attributes(builder, attr, expected):
             None,
             None,
             None,
+            {"X": "X1", "Y": "Y1", "Z": "Z1"},
         ),
     ],
 )
@@ -49,20 +51,22 @@ def test_component_attributes(
     builder,
     index,
     name,
-    desc,
+    label,
     P,  # noqa: N803
     R,  # noqa: N803
     attribute,
     file,
     extras,
+    child_labels,
 ):
     components = list(builder.conf.components.keys())
     component = builder.conf.components[components[index]]
     assert components[index] == name
-    assert component.desc == desc
+    assert component.label == label
     assert component.P == P
     assert component.R == R
     assert component.attribute == attribute
+    assert component.child_labels == child_labels
     if file is not None:
         assert component.file == file
     if extras is not None:
@@ -301,7 +305,7 @@ def test_generate_json_map(
     mock_get_action_group.return_value = mock_xml
 
     test_json_map = builder_with_test_files._generate_json_map(
-        screen_path.absolute(), dest_path
+        screen_path.absolute(), dest_path, builder_with_test_files.conf.components
     )
 
     assert test_json_map == example_json_map
@@ -312,7 +316,9 @@ def test_generate_json_map_embedded_screen(builder_with_test_files, example_json
     screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
     dest_path = Path("tests/test_files/")
 
-    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
+    test_json_map = builder_with_test_files._generate_json_map(
+        screen_path, dest_path, builder_with_test_files.conf.components
+    )
     example_json_map.file = "test_bob_embedded.bob"
     example_json_map.children.append(
         JsonMap(
@@ -343,7 +349,7 @@ def test_parse_display_name_returns_none(builder):
     assert display_name is None
 
 
-def test_fix_duplicate_names_recursive(builder, example_display_names_json):
+def test_fix_names_json_map_recursive(builder, example_display_names_json):
     """Test duplicate names are enumerated correctly for all children"""
 
     test_display_names_json = JsonMap(
@@ -377,7 +383,7 @@ def test_fix_duplicate_names_recursive(builder, example_display_names_json):
     test_display_names_json.children.append(test_display_names_json_dev1)
     test_display_names_json.children.append(test_display_names_json_dev2)
 
-    builder._fix_duplicate_names(test_display_names_json)
+    builder._fix_names_json_map(test_display_names_json, builder.conf.components)
 
     assert test_display_names_json == example_display_names_json
 
@@ -399,7 +405,9 @@ def test_generate_json_map_get_macros(
     macros["macro"] = "value"
     mock_get_action_group.return_value = mock_xml
 
-    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
+    test_json_map = builder_with_test_files._generate_json_map(
+        screen_path, dest_path, builder_with_test_files.conf.components
+    )
 
     assert test_json_map == example_json_map
 
@@ -408,7 +416,9 @@ def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
     screen_path = Path("tests/test_files/test_bob_bad.bob").absolute()
     _, dest_path = test_files
 
-    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
+    test_json_map = builder_with_test_files._generate_json_map(
+        screen_path, dest_path, builder_with_test_files.conf.components
+    )
 
     assert test_json_map.error.startswith("XML parse error:")
 
@@ -421,7 +431,9 @@ def test_generate_json_map_other_exception(
 
     mock_get_action_group.side_effect = Exception("Some exception")
 
-    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
+    test_json_map = builder_with_test_files._generate_json_map(
+        screen_path, dest_path, builder_with_test_files.conf.components
+    )
 
     assert test_json_map.error != ""
 
@@ -472,3 +484,35 @@ def test_get_action_group_no_actions_group(caplog):
 
     for log_output in caplog.records:
         assert "Actions group not found" in log_output.message
+
+
+def test_get_labels(builder_with_test_files):
+    display_name = _get_labels(
+        "motor",
+        builder_with_test_files.conf.components,
+        None,
+        None,
+    )
+    assert display_name == "Motor Stage"
+
+
+def test_get_labels_child_labels(builder_with_test_files):
+    display_name = _get_labels(
+        "X",
+        builder_with_test_files.conf.components,
+        current_component_name="motor",
+        display_name="X",
+    )
+    assert display_name == "X1"
+
+
+def test_get_labels_child_labels_with_name_already_pregenerated(
+    builder_with_test_files,
+):
+    display_name = _get_labels(
+        "X1",
+        builder_with_test_files.conf.components,
+        current_component_name="motor",
+        display_name="X",
+    )
+    assert display_name == "X1"

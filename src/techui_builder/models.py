@@ -106,7 +106,10 @@ class Component(BaseModel):
     """One UI Component from techui.yaml `components:` dictionary"""
 
     prefix: Annotated[str, Field(description="Component PV Prefix")]
-    desc: Annotated[str | None, Field(description="Component description")] = None
+    label: Annotated[str | None, Field(description="Component label")] = None
+    child_labels: Annotated[
+        dict[str, str] | None, Field(description="Component Children Label")
+    ] = None
     extras: Annotated[
         list[str] | None,
         Field(
@@ -272,6 +275,10 @@ class Entity(BaseModel):
     P: Annotated[str, Field(description="PV Prefix for module entity")]
     desc: Annotated[
         str | None, Field(description="Optional description of module entity")
+    ] = None
+    child_labels: Annotated[
+        dict[str, str] | None,
+        Field(description="Optional child labels for module entity"),
     ] = None
     M: Annotated[str | None, Field(description="Optional PV suffix for a motor")]
     R: Annotated[

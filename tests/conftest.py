@@ -109,10 +109,10 @@ def example_display_names_json():
 
 
 @pytest.fixture
-def generator():
+def generator(builder: Builder):
     synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
 
-    g = Generator(synoptic_dir, "test_url")
+    g = Generator(synoptic_dir, "test_url", builder.conf.components)
 
     return g
 

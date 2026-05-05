@@ -12,7 +12,7 @@ from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.models import Entity
+from techui_builder.models import Component, Entity
 
 logger_ = logging.getLogger(__name__)
 
@@ -21,6 +21,7 @@ logger_ = logging.getLogger(__name__)
 class Generator:
     synoptic_dir: Path = field(repr=False)
     beamline_url: str = field(repr=False)
+    components: dict[str, Component] = field(default_factory=dict, repr=False)
 
     # These are global params for the class (not accessible by user)
     support_path: Path = field(init=False, repr=False)
@@ -40,6 +41,7 @@ class Generator:
     widget_x: int = field(default=0, init=False, repr=False)
     widget_count: int = field(default=0, init=False, repr=False)
     group_padding: int = field(default=50, init=False, repr=False)
+    label_flag: bool = field(default=False, init=False, repr=False)
 
     def __post_init__(self):
         # This needs to be before _read_map()
@@ -173,6 +175,18 @@ class Generator:
             suffix = ""
             suffix_label = ""
 
+            # Try to get name from child labels if they exist,
+            # if not, just use the name as it is.
+        if component.child_labels is not None:
+            if (
+                name.removeprefix(":").removesuffix(":")
+                in component.child_labels.keys()
+            ):
+                name = component.child_labels[name.removeprefix(":").removesuffix(":")]
+                self.label_flag = True
+
+                logger_.debug(f"Name after child label check: {name}")
+
         return (name, suffix, suffix_label)
 
     def _is_list_of_dicts(self, scrn_mapping: Mapping) -> bool:
@@ -201,7 +215,8 @@ class Generator:
                 )
                 if match:
                     suffix_label: str | None = match.group(2)
-                    name: str = suffix
+                    if self.label_flag is False:
+                        name = suffix
         except KeyError:
             pass
 
@@ -221,6 +236,7 @@ class Generator:
                 new_widget.macro(
                     f"{suffix_label}", suffix.removeprefix(":").removesuffix(":")
                 )
+                new_widget.macro("label", name.removeprefix(":").removesuffix(":"))
             # TODO: Change this to pvi_button
             if True:
                 new_widget.macro("IOC", f"{self.beamline_url}/{component.service_name}")
@@ -260,6 +276,7 @@ class Generator:
 
             # For some reason the version of action buttons is 3.0.0?
             new_widget.version("2.0.0")
+            self.label_flag = False
         return new_widget
 
     def _create_widget(
@@ -381,8 +398,16 @@ class Generator:
         # that will be created.
         height, width = self._get_group_dimensions(self.widgets)
 
+        if (
+            screen_name in self.components
+            and self.components[screen_name].label is not None
+        ):
+            label = self.components[screen_name].label or screen_name
+        else:
+            label = screen_name
+
         self.group = Group(
-            screen_name,
+            label,
             0,
             0,
             width,

@@ -13,7 +13,7 @@ from lxml.objectify import ObjectifiedElement
 from softioc.builder import records
 
 from techui_builder.generate import Generator
-from techui_builder.models import Entity, TechUi
+from techui_builder.models import Component, Entity, TechUi
 from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
@@ -66,7 +66,9 @@ class Builder:
 
         self.clean_files()
 
-        self.generator = Generator(synoptic_dir, self.conf.beamline.url)
+        self.generator = Generator(
+            synoptic_dir, self.conf.beamline.url, self.conf.components
+        )
 
     def clean_files(self):
         exclude = {"index.bob"}
@@ -220,7 +222,13 @@ class Builder:
 
             # ONLY IF there is a matching component and entity, generate a screen
             if component.prefix in self.entities.keys():
+                # Populate child labels for any entities
+                # with the same prefix as the component
+                for entity in self.entities[component.prefix]:
+                    entity.child_labels = component.child_labels
+
                 screen_entities.extend(self.entities[component.prefix])
+
                 if component.extras is not None:
                     # If component has any extras, add them to the entries to generate
                     for extra_p in component.extras:
@@ -251,7 +259,14 @@ class Builder:
                     " any P field in the ioc.yaml files in services"
                 )
 
-    def _generate_json_map(self, screen_path: Path, dest_path: Path) -> JsonMap:
+    def _generate_json_map(
+        self,
+        screen_path: Path,
+        dest_path: Path,
+        component: dict[str, Component],
+        current_component_name: str | None = None,
+        name_elem: str | None = None,
+    ) -> JsonMap:
         """Recursively generate JSON map from .bob file tree"""
 
         # Create initial node at top of .bob file
@@ -259,6 +274,10 @@ class Builder:
             str(screen_path.relative_to(self._write_directory)),
             display_name=None,
         )
+
+        # Get Current Component
+        if current_component_name is None and screen_path.stem in component:
+            current_component_name = screen_path.stem
 
         abs_path = screen_path.absolute()
 
@@ -271,7 +290,12 @@ class Builder:
             current_node.display_name = self._parse_display_name(
                 root.name.text, screen_path
             )
-
+            current_node.display_name = _get_labels(
+                name_elem,
+                component,
+                current_component_name,
+                current_node.display_name,
+            )
             # Find all <widget> elements
             widgets = [
                 w
@@ -307,6 +331,15 @@ class Builder:
                     case _:
                         continue
 
+                # Validated screen names don't get renegerated
+                display_name = name_elem
+                display_name = _get_labels(
+                    name_elem,
+                    component,
+                    current_component_name,
+                    display_name,
+                )
+
                 # Extract file path from file_elem
                 file_path = Path(file_elem.text.strip() if file_elem.text else "")
 
@@ -315,7 +348,7 @@ class Builder:
                     continue
 
                 # Create valid displayName
-                display_name = self._parse_display_name(name_elem, file_path)
+                display_name = self._parse_display_name(display_name, file_path)
 
                 # TODO: misleading var name?
                 next_file_path = dest_path.joinpath(file_path)
@@ -323,7 +356,13 @@ class Builder:
                 # Crawl the next file
                 if next_file_path.is_file():
                     # TODO: investigate non-recursive approaches?
-                    child_node = self._generate_json_map(next_file_path, dest_path)
+                    child_node = self._generate_json_map(
+                        next_file_path,
+                        dest_path,
+                        component,
+                        current_component_name=current_component_name,
+                        name_elem=name_elem,
+                    )
                 else:
                     child_node = JsonMap(
                         str(file_path), display_name, exists=("IOC" in macro_dict)
@@ -340,7 +379,7 @@ class Builder:
         except Exception as e:
             current_node.error = str(e)
 
-        self._fix_duplicate_names(current_node)
+        self._fix_names_json_map(current_node, component)
 
         return current_node
 
@@ -398,7 +437,9 @@ class Builder:
             # Populate displayName with null
             return None
 
-    def _fix_duplicate_names(self, node: JsonMap) -> None:
+    def _fix_names_json_map(
+        self, node: JsonMap, components: dict[str, Component]
+    ) -> None:
         """Recursively fix duplicate display names in children"""
         if not node.children:
             return
@@ -412,6 +453,7 @@ class Builder:
         for name, children in name_groups.items():
             if name and len(children) > 1:
                 # append pv names when present
+
                 for child in children:
                     if "P" in child.macros:
                         child.display_name = f"{name} ({child.macros['P']})"
@@ -423,7 +465,7 @@ class Builder:
 
         # recursively fix children
         for child in node.children:
-            self._fix_duplicate_names(child)
+            self._fix_names_json_map(child, components)
 
     def write_json_map(
         self,
@@ -439,7 +481,7 @@ class Builder:
                 f"Cannot generate json map for {synoptic}. Has it been generated?"
             )
 
-        map = self._generate_json_map(synoptic, dest)
+        map = self._generate_json_map(synoptic, dest, self.conf.components)
         with open(dest.joinpath("JsonMap.json"), "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
@@ -504,3 +546,34 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
             f"Actions group not found in component [bold]{name}[/bold] on "
             f"[bold]{parent_name}[/bold]"
         )
+
+
+def _get_labels(
+    name_elem: str | None,
+    component: dict[str, Component],
+    current_component_name: str | None,
+    display_name: str | None,
+) -> str | None:
+    """
+    Get display name from child labels if they exist, otherwise return name_elem
+     or existing display_name if name_elem is None.
+    """
+    if name_elem is not None:
+        if name_elem in component.keys() and component[name_elem].label is not None:
+            display_name = component[name_elem].label
+        elif current_component_name is not None and (
+            component[current_component_name].child_labels is not None
+        ):
+            child_labels = component[current_component_name].child_labels
+            if child_labels is not None:
+                # Because name_elem is initially
+                # grabbed from the .bob file, the generated .bob
+                # file might have already propagated the child label from techui.yaml
+                if name_elem in child_labels.values():
+                    display_name = name_elem
+                # In the case of screens not regenerated, such as validated screens,
+                # the name text will not be updated to the childlabel,so we check the
+                # keys solely for generating the json_map from the  top level .bob file
+                elif name_elem in child_labels:
+                    display_name = child_labels[name_elem]
+    return display_name

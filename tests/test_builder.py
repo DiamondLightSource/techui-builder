@@ -173,7 +173,8 @@ def test_missing_service(builder, caplog):
 )
 def test_gb_extract_entities(builder, index, type, desc, P, M, R):  # noqa: N803
     builder._extract_entities(
-        builder._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml")
+        "bl01t-mo-ioc-01",
+        builder._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml"),
     )
     entity = builder.entities[P][index]
     assert entity.type == type

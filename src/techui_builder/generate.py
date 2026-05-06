@@ -223,7 +223,7 @@ class Generator:
                 )
             # TODO: Change this to pvi_button
             if True:
-                new_widget.macro("IOC", f"{self.beamline_url}/{component.P.lower()}")
+                new_widget.macro("IOC", f"{self.beamline_url}/{component.service_name}")
 
         # The only other option is for related displays
         else:

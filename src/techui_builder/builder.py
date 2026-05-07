@@ -288,7 +288,7 @@ class Builder:
             current_node.display_name = self._parse_display_name(
                 root.name.text, screen_path
             )
-            current_node.display_name = _get_labels(
+            current_node.display_name = _get_label(
                 name_elem,
                 component,
                 current_component_name,
@@ -331,7 +331,7 @@ class Builder:
 
                 # Validated screen names don't get renegerated
                 display_name = name_elem
-                display_name = _get_labels(
+                display_name = _get_label(
                     name_elem,
                     component,
                     current_component_name,
@@ -546,15 +546,15 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
         )
 
 
-def _get_labels(
+def _get_label(
     name_elem: str | None,
     component: dict[str, Component],
     current_component_name: str | None,
     display_name: str | None,
 ) -> str | None:
     """
-    Get display name from child labels if they exist, otherwise return name_elem
-     or existing display_name if name_elem is None.
+    Get display name from the label or child labels if they exist, otherwise return
+    name_elem or existing display_name if name_elem is None.
     """
     if name_elem is not None:
         if name_elem in component.keys() and component[name_elem].label is not None:

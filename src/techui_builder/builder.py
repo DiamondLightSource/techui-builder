@@ -287,7 +287,7 @@ class Builder:
             current_node.display_name = self._parse_display_name(
                 root.name.text, screen_path
             )
-            current_node.display_name = self._get_component_name(
+            current_node.display_name = self._get_component_label(
                 name_elem,
                 current_component_name,
                 current_node.display_name,
@@ -329,7 +329,7 @@ class Builder:
 
                 # Validated screen names don't get renegerated
                 display_name = name_elem
-                display_name = self._get_component_name(
+                display_name = self._get_component_label(
                     name_elem,
                     current_component_name,
                     display_name,
@@ -377,7 +377,7 @@ class Builder:
 
         return current_node
 
-    def _get_component_name(
+    def _get_component_label(
         self,
         name_elem: str | None,
         current_component_name: str | None,

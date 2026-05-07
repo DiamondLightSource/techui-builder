@@ -261,6 +261,7 @@ class GuiComponents(RootModel[dict[str, GuiComponentUnion]]):
 class Entity(BaseModel):
     """One table of IOC variables extracted from an ioc.yaml file"""
 
+    service_name: Annotated[str, Field(description="Service name of the IOC")]
     type: Annotated[
         str,
         Field(

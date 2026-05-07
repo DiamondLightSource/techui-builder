@@ -110,7 +110,12 @@ def test_generator_create_widget_keyerror(generator, caplog):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     screen_name = "test"
     component = Entity(
-        type="key.notavailable", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+        service_name="bl01t-di-ioc-01",
+        type="key.notavailable",
+        P="BL01T-DI-IOC-01",
+        desc=None,
+        M=None,
+        R="CAM:",
     )
 
     result = generator._create_widget(name=screen_name, component=component)
@@ -132,7 +137,12 @@ def test_generator_create_widget_is_list_of_dicts(generator):
     )
     screen_name = "test"
     component = Entity(
-        type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+        service_name="bl01t-di-ioc-01",
+        type="ADAravis.aravisCamera",
+        P="BL01T-DI-IOC-01",
+        desc=None,
+        M=None,
+        R="CAM:",
     )
     widget = generator._create_widget(name=screen_name, component=component)
     for value in widget:
@@ -145,7 +155,12 @@ def test_generator_create_widget_embedded(generator):
     generator._get_screen_dimensions = Mock(return_value=(450, 860))
     screen_name = "test"
     component = Entity(
-        type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+        service_name="bl01t-di-ioc-01",
+        type="ADAravis.aravisCamera",
+        P="BL01T-DI-IOC-01",
+        desc=None,
+        M=None,
+        R="CAM:",
     )
 
     widget = generator._create_widget(
@@ -162,7 +177,9 @@ def test_generator_create_widget_embedded(generator):
 
 
 def test_generator_initialise_name_suffix_m(generator):
-    component = Entity(type="test", P="TEST", desc=None, M="T1", R=None)
+    component = Entity(
+        service_name="bl01t-mo-ioc-01", type="test", P="TEST", desc=None, M="T1", R=None
+    )
 
     name, suffix, suffix_label = generator._initialise_name_suffix(component)
 
@@ -172,7 +189,9 @@ def test_generator_initialise_name_suffix_m(generator):
 
 
 def test_generator_initialise_name_suffix_r(generator):
-    component = Entity(type="test", P="TEST", desc=None, M=None, R="T1")
+    component = Entity(
+        service_name="bl01t-di-ioc-01", type="test", P="TEST", desc=None, M=None, R="T1"
+    )
 
     name, suffix, suffix_label = generator._initialise_name_suffix(component)
 
@@ -182,7 +201,9 @@ def test_generator_initialise_name_suffix_r(generator):
 
 
 def test_generator_initialise_name_suffix_none(generator):
-    component = Entity(type="test", P="TEST", desc=None, M=None, R=None)
+    component = Entity(
+        service_name="bl01t-ea-ioc-01", type="test", P="TEST", desc=None, M=None, R=None
+    )
 
     name, suffix, suffix_label = generator._initialise_name_suffix(component)
 
@@ -210,7 +231,12 @@ def test_generator_allocate_widget(generator):
         "type": "embedded",
     }
     component = Entity(
-        type="ADAravis.aravisCamera", P="BL23B-DI-MOD-02", desc=None, M=None, R="CAM:"
+        service_name="bl01t-di-ioc-01",
+        type="ADAravis.aravisCamera",
+        P="BL01T-DI-IOC-01",
+        desc=None,
+        M=None,
+        R="CAM:",
     )
     widget = generator._allocate_widget(scrn_mapping, component)
     control_widget = Path("tests/test_files/widget.xml")
@@ -231,8 +257,9 @@ def test_generator_allocate_widget_with_suffix(generator):
         "type": "embedded",
     }
     component = Entity(
+        service_name="bl01t-di-ioc-01",
         type="detectorPlugins.detectorPlugins",
-        P="BL23B-DI-MOD-02",
+        P="BL01T-DI-IOC-01",
         desc=None,
         M=None,
         R=None,
@@ -250,7 +277,12 @@ def test_generator_create_widget_related(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     screen_name = "test"
     component = Entity(
-        type="pmac.GeoBrick", P="BL23B-MO-BRICK-01", desc=None, M=":M", R=None
+        service_name="bl01t-mo-ioc-01",
+        type="pmac.GeoBrick",
+        P="BL01T-MO-IOC-01",
+        desc=None,
+        M=":M",
+        R=None,
     )
 
     widget = generator._create_widget(
@@ -268,7 +300,12 @@ def test_generator_create_widget_related_no_suffix(generator):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     screen_name = "test"
     component = Entity(
-        type="pmac.GeoBrick", P="BL23B-MO-BRICK-01", desc=None, M=None, R=None
+        service_name="bl01t-mo-ioc-01",
+        type="pmac.GeoBrick",
+        P="BL01T-MO-IOC-01",
+        desc=None,
+        M=None,
+        R=None,
     )
 
     widget = generator._create_widget(

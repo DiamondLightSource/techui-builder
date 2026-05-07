@@ -156,16 +156,20 @@ class Builder:
 
         # Loop over every dir in services, ignoring anything that isn't a service
         for service in self._services_dir.glob(f"{self.conf.beamline.domain}-*-*-*"):
+            service_name = service.name
             # If service doesn't exist, file open will fail throwing exception
             try:
-                self._extract_entities(ioc_yaml=service.joinpath("config/ioc.yaml"))
+                self._extract_entities(
+                    service_name=service_name,
+                    ioc_yaml=service.joinpath("config/ioc.yaml"),
+                )
             except OSError:
                 logger_.error(
-                    f"No ioc.yaml file for service: [bold]{service.name}[/bold]."
+                    f"No ioc.yaml file for service: [bold]{service_name}[/bold]."
                     " Does it exist?"
                 )
 
-    def _extract_entities(self, ioc_yaml: Path):
+    def _extract_entities(self, service_name: str, ioc_yaml: Path):
         """
         Extracts the entries in ioc.yaml matching the defined prefix
         """
@@ -176,6 +180,7 @@ class Builder:
                 if "P" in entity.keys():
                     # Create Entity and append to entity list
                     new_entity = Entity(
+                        service_name=service_name,
                         type=entity["type"],
                         desc=entity.get("desc", None),
                         P=entity["P"],

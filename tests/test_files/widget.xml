@@ -7,8 +7,8 @@
   <height>450</height>
   <file>techui-support/bob/ADAravis/ADAravis_summary.bob</file>
   <macros>
-    <P>BL23B-DI-MOD-02</P>
+    <P>BL01T-DI-IOC-01</P>
     <R>CAM</R>
-    <IOC>test_url/bl23b-di-mod-02</IOC>
+    <IOC>test_url/bl01t-di-ioc-01</IOC>
   </macros>
 </widget>

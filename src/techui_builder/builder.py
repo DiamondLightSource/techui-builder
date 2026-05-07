@@ -13,7 +13,7 @@ from lxml.objectify import ObjectifiedElement
 from softioc.builder import records
 
 from techui_builder.generate import Generator
-from techui_builder.models import Component, Entity, TechUi
+from techui_builder.models import Entity, TechUi
 from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
@@ -261,7 +261,6 @@ class Builder:
         self,
         screen_path: Path,
         dest_path: Path,
-        component: dict[str, Component],
         current_component_name: str | None = None,
         name_elem: str | None = None,
     ) -> JsonMap:
@@ -274,7 +273,7 @@ class Builder:
         )
 
         # Get Current Component
-        if current_component_name is None and screen_path.stem in component:
+        if current_component_name is None and screen_path.stem in self.conf.components:
             current_component_name = screen_path.stem
 
         abs_path = screen_path.absolute()
@@ -288,9 +287,8 @@ class Builder:
             current_node.display_name = self._parse_display_name(
                 root.name.text, screen_path
             )
-            current_node.display_name = _get_label(
+            current_node.display_name = self._get_label(
                 name_elem,
-                component,
                 current_component_name,
                 current_node.display_name,
             )
@@ -331,9 +329,8 @@ class Builder:
 
                 # Validated screen names don't get renegerated
                 display_name = name_elem
-                display_name = _get_label(
+                display_name = self._get_label(
                     name_elem,
-                    component,
                     current_component_name,
                     display_name,
                 )
@@ -357,7 +354,6 @@ class Builder:
                     child_node = self._generate_json_map(
                         next_file_path,
                         dest_path,
-                        component,
                         current_component_name=current_component_name,
                         name_elem=name_elem,
                     )
@@ -377,9 +373,42 @@ class Builder:
         except Exception as e:
             current_node.error = str(e)
 
-        self._fix_names_json_map(current_node, component)
+        self._fix_names_json_map(current_node)
 
         return current_node
+
+    def _get_label(
+        self,
+        name_elem: str | None,
+        current_component_name: str | None,
+        display_name: str | None,
+    ) -> str | None:
+        """
+        Get display name from the label or child labels if they exist, otherwise return
+        name_elem or existing display_name if name_elem is None.
+        """
+        component = self.conf.components
+        if name_elem is not None:
+            if name_elem in component.keys() and component[name_elem].label is not None:
+                display_name = component[name_elem].label
+            elif (
+                current_component_name is not None
+                and (current_component_name in component.keys())
+                and (component[current_component_name].child_labels is not None)
+            ):
+                child_labels = component[current_component_name].child_labels
+                if child_labels is not None:
+                    # Because name_elem is initially grabbed from
+                    #  the .bob file, the generated .bobfile might have
+                    # already propagated the child label from techui.yaml
+                    if name_elem in child_labels.values():
+                        display_name = name_elem
+                    # In the case of screens not regenerated, such as validated screens,
+                    # the name text will not be updated to the childlabel,so we check
+                    # keys solely for generating the json_map from the top level .bob.
+                    elif name_elem in child_labels:
+                        display_name = child_labels[name_elem]
+        return display_name
 
     def _extract_action_button_file_from_embedded(
         self, file_elem: ObjectifiedElement, dest_path: Path
@@ -436,7 +465,8 @@ class Builder:
             return None
 
     def _fix_names_json_map(
-        self, node: JsonMap, components: dict[str, Component]
+        self,
+        node: JsonMap,
     ) -> None:
         """Recursively fix duplicate display names in children"""
         if not node.children:
@@ -463,7 +493,7 @@ class Builder:
 
         # recursively fix children
         for child in node.children:
-            self._fix_names_json_map(child, components)
+            self._fix_names_json_map(child)
 
     def write_json_map(
         self,
@@ -479,7 +509,7 @@ class Builder:
                 f"Cannot generate json map for {synoptic}. Has it been generated?"
             )
 
-        map = self._generate_json_map(synoptic, dest, self.conf.components)
+        map = self._generate_json_map(synoptic, dest)
         with open(dest.joinpath("JsonMap.json"), "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
@@ -544,36 +574,3 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
             f"Actions group not found in component [bold]{name}[/bold] on "
             f"[bold]{parent_name}[/bold]"
         )
-
-
-def _get_label(
-    name_elem: str | None,
-    component: dict[str, Component],
-    current_component_name: str | None,
-    display_name: str | None,
-) -> str | None:
-    """
-    Get display name from the label or child labels if they exist, otherwise return
-    name_elem or existing display_name if name_elem is None.
-    """
-    if name_elem is not None:
-        if name_elem in component.keys() and component[name_elem].label is not None:
-            display_name = component[name_elem].label
-        elif (
-            current_component_name is not None
-            and (current_component_name in component.keys())
-            and (component[current_component_name].child_labels is not None)
-        ):
-            child_labels = component[current_component_name].child_labels
-            if child_labels is not None:
-                # Because name_elem is initially
-                # grabbed from the .bob file, the generated .bob
-                # file might have already propagated the child label from techui.yaml
-                if name_elem in child_labels.values():
-                    display_name = name_elem
-                # In the case of screens not regenerated, such as validated screens,
-                # the name text will not be updated to the childlabel,so we check the
-                # keys solely for generating the json_map from the  top level .bob file
-                elif name_elem in child_labels:
-                    display_name = child_labels[name_elem]
-    return display_name

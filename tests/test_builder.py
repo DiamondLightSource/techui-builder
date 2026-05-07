@@ -12,7 +12,6 @@ from softioc.builder import ClearRecords, records
 from techui_builder.builder import (
     JsonMap,
     _get_action_group,  # type: ignore
-    _get_label,  # type: ignore
     _serialise_json_map,  # type: ignore
 )
 
@@ -295,35 +294,33 @@ def test_write_json_map(builder):
 
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.builder._get_action_group")
-@patch("techui_builder.builder._get_label")
 def test_generate_json_map(
-    mock_get_label,
     mock_get_action_group,
     builder_with_test_files,
     example_json_map,
     test_files,
-    components,
 ):
     screen_path, dest_path = test_files
 
     mock_xml = objectify.Element("action")
     mock_xml["file"] = "test_child_bob.bob"
     mock_get_action_group.return_value = mock_xml
-    mock_get_label.side_effect = ["Display", "Detector"]
+    builder_with_test_files._get_label = Mock(side_effect=["Display", "Detector"])
 
     test_json_map = builder_with_test_files._generate_json_map(
-        screen_path.absolute(), dest_path, components
+        screen_path.absolute(), dest_path
     )
 
     assert test_json_map == example_json_map
 
 
 # TODO: write this test
-@patch("techui_builder.builder._get_label")
 def test_generate_json_map_embedded_screen(
-    mock_get_label, builder_with_test_files, example_json_map, components
+    builder_with_test_files, example_json_map, components
 ):
-    mock_get_label.side_effect = ["Display", "Detector", "Embedded Display"]
+    builder_with_test_files._get_label = Mock(
+        side_effect=["Display", "Detector", "Embedded Display"]
+    )
 
     screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
     dest_path = Path("tests/test_files/")
@@ -397,21 +394,18 @@ def test_fix_names_json_map_recursive(builder, example_display_names_json):
     test_display_names_json.children.append(test_display_names_json_dev1)
     test_display_names_json.children.append(test_display_names_json_dev2)
 
-    builder._fix_names_json_map(test_display_names_json, builder.conf.components)
+    builder._fix_names_json_map(test_display_names_json)
 
     assert test_display_names_json == example_display_names_json
 
 
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.builder._get_action_group")
-@patch("techui_builder.builder._get_label")
 def test_generate_json_map_get_macros(
-    mock_get_label,
     mock_get_action_group,
     builder_with_test_files,
     example_json_map,
     test_files,
-    components,
 ):
     screen_path, dest_path = test_files
 
@@ -423,45 +417,34 @@ def test_generate_json_map_get_macros(
     macros = objectify.SubElement(mock_xml, "macros")
     # Set a macro to test
     macros["macro"] = "value"
-    mock_get_label.side_effect = ["Display", "Detector"]
+    builder_with_test_files._get_label = Mock(side_effect=["Display", "Detector"])
     mock_get_action_group.return_value = mock_xml
 
-    test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, components
-    )
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
     assert test_json_map == example_json_map
 
 
-def test_generate_json_map_xml_parse_error(
-    builder_with_test_files, test_files, components
-):
+def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
     screen_path = Path("tests/test_files/test_bob_bad.bob").absolute()
     _, dest_path = test_files
 
-    test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, components
-    )
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
 
     assert test_json_map.error.startswith("XML parse error:")
 
 
 @patch("techui_builder.builder._get_action_group")
-@patch("techui_builder.builder._get_label")
 def test_generate_json_map_other_exception(
-    mock_get_label,
     mock_get_action_group,
     builder_with_test_files,
     test_files,
-    components,
 ):
     screen_path, dest_path = test_files
 
     mock_get_action_group.side_effect = Exception("Some exception")
-    mock_get_label.side_effect = ["Display", "Detector"]
+    builder_with_test_files._get_label = Mock(side_effect=["Display", "Detector"])
 
-    test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, components
-    )
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
 
     assert test_json_map.error != ""
 
@@ -514,32 +497,27 @@ def test_get_action_group_no_actions_group(caplog):
         assert "Actions group not found" in log_output.message
 
 
-def test_get_label(components):
-    display_name = _get_label(
+def test_get_label(builder_with_test_files):
+    display_name = builder_with_test_files._get_label(
         "motor",
-        components,
         None,
         None,
     )
     assert display_name == "Motor Stage"
 
 
-def test_get_label_child_labels(components):
-    display_name = _get_label(
+def test_get_label_child_labels(builder_with_test_files):
+    display_name = builder_with_test_files._get_label(
         "X",
-        components,
         current_component_name="motor",
         display_name="X",
     )
     assert display_name == "X1"
 
 
-def test_get_label_child_labels_with_name_already_pregenerated(
-    components,
-):
-    display_name = _get_label(
+def test_get_label_child_labels_with_name_already_pregenerated(builder_with_test_files):
+    display_name = builder_with_test_files._get_label(
         "X1",
-        components,
         current_component_name="motor",
         display_name="X",
     )
@@ -547,11 +525,10 @@ def test_get_label_child_labels_with_name_already_pregenerated(
 
 
 def test_get_label_with_name_elem_invalid(
-    components,
+    builder_with_test_files,
 ):
-    display_name = _get_label(
+    display_name = builder_with_test_files._get_label(
         "invalid_name",
-        components,
         current_component_name=None,
         display_name="new_name",
     )
@@ -559,11 +536,10 @@ def test_get_label_with_name_elem_invalid(
 
 
 def test_get_label_with_current_component_name_invalid(
-    components,
+    builder_with_test_files,
 ):
-    display_name = _get_label(
+    display_name = builder_with_test_files._get_label(
         "invalid_name",
-        components,
         current_component_name="invalid_name",
         display_name="new_name",
     )

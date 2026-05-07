@@ -220,7 +220,13 @@ class Builder:
 
             # ONLY IF there is a matching component and entity, generate a screen
             if component.prefix in self.entities.keys():
+                # Populate child labels for any entities
+                # with the same prefix as the component
+                for entity in self.entities[component.prefix]:
+                    entity.child_labels = component.child_labels
+
                 screen_entities.extend(self.entities[component.prefix])
+
                 if component.extras is not None:
                     # If component has any extras, add them to the entries to generate
                     for extra_p in component.extras:
@@ -235,7 +241,7 @@ class Builder:
                 # This is used by both generate and validate,
                 # so called beforehand for tidyness
                 self.generator.build_widgets(component_name, screen_entities)
-                self.generator.build_groups(component_name)
+                self.generator.build_groups(component_name, self.conf.components)
 
                 screens_to_validate = list(self.validator.validate.keys())
 
@@ -251,7 +257,13 @@ class Builder:
                     " any P field in the ioc.yaml files in services"
                 )
 
-    def _generate_json_map(self, screen_path: Path, dest_path: Path) -> JsonMap:
+    def _generate_json_map(
+        self,
+        screen_path: Path,
+        dest_path: Path,
+        current_component_name: str | None = None,
+        name_elem: str | None = None,
+    ) -> JsonMap:
         """Recursively generate JSON map from .bob file tree"""
 
         # Create initial node at top of .bob file
@@ -259,6 +271,10 @@ class Builder:
             str(screen_path.relative_to(self._write_directory)),
             display_name=None,
         )
+
+        # Get Current Component
+        if current_component_name is None and screen_path.stem in self.conf.components:
+            current_component_name = screen_path.stem
 
         abs_path = screen_path.absolute()
 
@@ -271,7 +287,11 @@ class Builder:
             current_node.display_name = self._parse_display_name(
                 root.name.text, screen_path
             )
-
+            current_node.display_name = self._get_component_label(
+                name_elem,
+                current_component_name,
+                current_node.display_name,
+            )
             # Find all <widget> elements
             widgets = [
                 w
@@ -307,6 +327,14 @@ class Builder:
                     case _:
                         continue
 
+                # Validated screen names don't get renegerated
+                display_name = name_elem
+                display_name = self._get_component_label(
+                    name_elem,
+                    current_component_name,
+                    display_name,
+                )
+
                 # Extract file path from file_elem
                 file_path = Path(file_elem.text.strip() if file_elem.text else "")
 
@@ -315,7 +343,7 @@ class Builder:
                     continue
 
                 # Create valid displayName
-                display_name = self._parse_display_name(name_elem, file_path)
+                display_name = self._parse_display_name(display_name, file_path)
 
                 # TODO: misleading var name?
                 next_file_path = dest_path.joinpath(file_path)
@@ -323,7 +351,12 @@ class Builder:
                 # Crawl the next file
                 if next_file_path.is_file():
                     # TODO: investigate non-recursive approaches?
-                    child_node = self._generate_json_map(next_file_path, dest_path)
+                    child_node = self._generate_json_map(
+                        next_file_path,
+                        dest_path,
+                        current_component_name=current_component_name,
+                        name_elem=name_elem,
+                    )
                 else:
                     child_node = JsonMap(
                         str(file_path), display_name, exists=("IOC" in macro_dict)
@@ -340,9 +373,42 @@ class Builder:
         except Exception as e:
             current_node.error = str(e)
 
-        self._fix_duplicate_names(current_node)
+        self._fix_names_json_map(current_node)
 
         return current_node
+
+    def _get_component_label(
+        self,
+        name_elem: str | None,
+        current_component_name: str | None,
+        display_name: str | None,
+    ) -> str | None:
+        """
+        Get display name from the label or child labels if they exist, otherwise return
+        name_elem or existing display_name if name_elem is None.
+        """
+        component = self.conf.components
+        if name_elem is not None:
+            if name_elem in component.keys() and component[name_elem].label is not None:
+                display_name = component[name_elem].label
+            elif (
+                current_component_name is not None
+                and (current_component_name in component.keys())
+                and (component[current_component_name].child_labels is not None)
+            ):
+                child_labels = component[current_component_name].child_labels
+                if child_labels is not None:
+                    # Because name_elem is initially grabbed from
+                    #  the .bob file, the generated .bobfile might have
+                    # already propagated the child label from techui.yaml
+                    if name_elem in child_labels.values():
+                        display_name = name_elem
+                    # In the case of screens not regenerated, such as validated screens,
+                    # the name text will not be updated to the childlabel,so we check
+                    # keys solely for generating the json_map from the top level .bob.
+                    elif name_elem in child_labels:
+                        display_name = child_labels[name_elem]
+        return display_name
 
     def _extract_action_button_file_from_embedded(
         self, file_elem: ObjectifiedElement, dest_path: Path
@@ -398,7 +464,10 @@ class Builder:
             # Populate displayName with null
             return None
 
-    def _fix_duplicate_names(self, node: JsonMap) -> None:
+    def _fix_names_json_map(
+        self,
+        node: JsonMap,
+    ) -> None:
         """Recursively fix duplicate display names in children"""
         if not node.children:
             return
@@ -412,6 +481,7 @@ class Builder:
         for name, children in name_groups.items():
             if name and len(children) > 1:
                 # append pv names when present
+
                 for child in children:
                     if "P" in child.macros:
                         child.display_name = f"{name} ({child.macros['P']})"
@@ -423,7 +493,7 @@ class Builder:
 
         # recursively fix children
         for child in node.children:
-            self._fix_duplicate_names(child)
+            self._fix_names_json_map(child)
 
     def write_json_map(
         self,

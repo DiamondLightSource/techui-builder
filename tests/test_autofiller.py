@@ -87,7 +87,7 @@ def test_autofiller_replace_content(
     # Cannot use a Mock object as need P to be computed
     fake_component = Component(
         prefix=prefix,
-        desc=description,
+        label=description,
         file=filename,
         macros=macros,
     )

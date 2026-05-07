@@ -91,7 +91,11 @@ class Autofiller:
                             tag_name = "description"
 
                             if component_attr is None:
-                                component_attr = component_name
+                                component_attr = (
+                                    component_name
+                                    if component.label is None
+                                    else component.label
+                                )
 
                         case "file":
                             tag_name = "file"

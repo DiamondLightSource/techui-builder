@@ -40,6 +40,11 @@ def builder_with_test_files(builder: Builder):
 
 
 @pytest.fixture
+def components(builder_with_test_files: Builder):
+    return builder_with_test_files.conf.components
+
+
+@pytest.fixture
 def test_files():
     screen_path = Path("tests/test_files/test_bob.bob").absolute()
     dest_path = Path("tests/test_files/").absolute()

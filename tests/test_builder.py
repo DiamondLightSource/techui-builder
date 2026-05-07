@@ -29,10 +29,10 @@ def test_beamline_attributes(builder, attr, expected):
 
 
 @pytest.mark.parametrize(
-    "index, name, desc, P, R, attribute, file, extras",
+    "index, name, label, P, R, attribute, file, extras, child_labels",
     [
-        (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None),
-        (1, "d1", "Diode 1", "BL01T-DI-PHDGN-01", None, None, "test.bob", None),
+        (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None, None),
+        (1, "d1", "Diode 1", "BL01T-DI-PHDGN-01", None, None, "test.bob", None, None),
         (
             2,
             "motor",
@@ -42,6 +42,7 @@ def test_beamline_attributes(builder, attr, expected):
             None,
             None,
             None,
+            {"X": "X1", "Y": "Y1", "Z": "Z1"},
         ),
     ],
 )
@@ -49,20 +50,22 @@ def test_component_attributes(
     builder,
     index,
     name,
-    desc,
+    label,
     P,  # noqa: N803
     R,  # noqa: N803
     attribute,
     file,
     extras,
+    child_labels,
 ):
     components = list(builder.conf.components.keys())
     component = builder.conf.components[components[index]]
     assert components[index] == name
-    assert component.desc == desc
+    assert component.label == label
     assert component.P == P
     assert component.R == R
     assert component.attribute == attribute
+    assert component.child_labels == child_labels
     if file is not None:
         assert component.file == file
     if extras is not None:
@@ -292,13 +295,19 @@ def test_write_json_map(builder):
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.builder._get_action_group")
 def test_generate_json_map(
-    mock_get_action_group, builder_with_test_files, example_json_map, test_files
+    mock_get_action_group,
+    builder_with_test_files,
+    example_json_map,
+    test_files,
 ):
     screen_path, dest_path = test_files
 
     mock_xml = objectify.Element("action")
     mock_xml["file"] = "test_child_bob.bob"
     mock_get_action_group.return_value = mock_xml
+    builder_with_test_files._get_component_label = Mock(
+        side_effect=["Display", "Detector"]
+    )
 
     test_json_map = builder_with_test_files._generate_json_map(
         screen_path.absolute(), dest_path
@@ -308,17 +317,27 @@ def test_generate_json_map(
 
 
 # TODO: write this test
-def test_generate_json_map_embedded_screen(builder_with_test_files, example_json_map):
+def test_generate_json_map_embedded_screen(
+    builder_with_test_files, example_json_map, components
+):
+    builder_with_test_files._get_component_label = Mock(
+        side_effect=["Display", "Detector", "Embedded Display"]
+    )
+
     screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
     dest_path = Path("tests/test_files/")
 
-    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
     example_json_map.file = "test_bob_embedded.bob"
     example_json_map.children.append(
         JsonMap(
             "$(IOC)/pmacAxis.pvi.bob", display_name="Embedded Display", exists=False
         )
     )
+
+    test_json_map = builder_with_test_files._generate_json_map(
+        screen_path, dest_path, components
+    )
+
     assert test_json_map == example_json_map
 
 
@@ -343,7 +362,7 @@ def test_parse_display_name_returns_none(builder):
     assert display_name is None
 
 
-def test_fix_duplicate_names_recursive(builder, example_display_names_json):
+def test_fix_names_json_map_recursive(builder, example_display_names_json):
     """Test duplicate names are enumerated correctly for all children"""
 
     test_display_names_json = JsonMap(
@@ -377,7 +396,7 @@ def test_fix_duplicate_names_recursive(builder, example_display_names_json):
     test_display_names_json.children.append(test_display_names_json_dev1)
     test_display_names_json.children.append(test_display_names_json_dev2)
 
-    builder._fix_duplicate_names(test_display_names_json)
+    builder._fix_names_json_map(test_display_names_json)
 
     assert test_display_names_json == example_display_names_json
 
@@ -385,7 +404,10 @@ def test_fix_duplicate_names_recursive(builder, example_display_names_json):
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.builder._get_action_group")
 def test_generate_json_map_get_macros(
-    mock_get_action_group, builder_with_test_files, example_json_map, test_files
+    mock_get_action_group,
+    builder_with_test_files,
+    example_json_map,
+    test_files,
 ):
     screen_path, dest_path = test_files
 
@@ -397,10 +419,12 @@ def test_generate_json_map_get_macros(
     macros = objectify.SubElement(mock_xml, "macros")
     # Set a macro to test
     macros["macro"] = "value"
+    builder_with_test_files._get_component_label = Mock(
+        side_effect=["Display", "Detector"]
+    )
     mock_get_action_group.return_value = mock_xml
 
     test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
-
     assert test_json_map == example_json_map
 
 
@@ -415,11 +439,16 @@ def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
 
 @patch("techui_builder.builder._get_action_group")
 def test_generate_json_map_other_exception(
-    mock_get_action_group, builder_with_test_files, test_files
+    mock_get_action_group,
+    builder_with_test_files,
+    test_files,
 ):
     screen_path, dest_path = test_files
 
     mock_get_action_group.side_effect = Exception("Some exception")
+    builder_with_test_files._get_component_label = Mock(
+        side_effect=["Display", "Detector"]
+    )
 
     test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
 
@@ -472,3 +501,54 @@ def test_get_action_group_no_actions_group(caplog):
 
     for log_output in caplog.records:
         assert "Actions group not found" in log_output.message
+
+
+def test_get_component_label(builder_with_test_files):
+    display_name = builder_with_test_files._get_component_label(
+        "motor",
+        None,
+        None,
+    )
+    assert display_name == "Motor Stage"
+
+
+def test_get_component_label_child_labels(builder_with_test_files):
+    display_name = builder_with_test_files._get_component_label(
+        "X",
+        current_component_name="motor",
+        display_name="X",
+    )
+    assert display_name == "X1"
+
+
+def test_get_component_label_child_labels_with_name_already_pregenerated(
+    builder_with_test_files,
+):
+    display_name = builder_with_test_files._get_component_label(
+        "X1",
+        current_component_name="motor",
+        display_name="X",
+    )
+    assert display_name == "X1"
+
+
+def test_get_component_label_with_name_elem_invalid(
+    builder_with_test_files,
+):
+    display_name = builder_with_test_files._get_component_label(
+        "invalid_name",
+        current_component_name=None,
+        display_name="new_name",
+    )
+    assert display_name == "new_name"
+
+
+def test_get_component_label_with_current_component_name_invalid(
+    builder_with_test_files,
+):
+    display_name = builder_with_test_files._get_component_label(
+        "invalid_name",
+        current_component_name="invalid_name",
+        display_name="new_name",
+    )
+    assert display_name == "new_name"

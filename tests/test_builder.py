@@ -305,7 +305,9 @@ def test_generate_json_map(
     mock_xml = objectify.Element("action")
     mock_xml["file"] = "test_child_bob.bob"
     mock_get_action_group.return_value = mock_xml
-    builder_with_test_files._get_label = Mock(side_effect=["Display", "Detector"])
+    builder_with_test_files._get_component_name = Mock(
+        side_effect=["Display", "Detector"]
+    )
 
     test_json_map = builder_with_test_files._generate_json_map(
         screen_path.absolute(), dest_path
@@ -318,7 +320,7 @@ def test_generate_json_map(
 def test_generate_json_map_embedded_screen(
     builder_with_test_files, example_json_map, components
 ):
-    builder_with_test_files._get_label = Mock(
+    builder_with_test_files._get_component_name = Mock(
         side_effect=["Display", "Detector", "Embedded Display"]
     )
 
@@ -417,7 +419,9 @@ def test_generate_json_map_get_macros(
     macros = objectify.SubElement(mock_xml, "macros")
     # Set a macro to test
     macros["macro"] = "value"
-    builder_with_test_files._get_label = Mock(side_effect=["Display", "Detector"])
+    builder_with_test_files._get_component_name = Mock(
+        side_effect=["Display", "Detector"]
+    )
     mock_get_action_group.return_value = mock_xml
 
     test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
@@ -442,7 +446,9 @@ def test_generate_json_map_other_exception(
     screen_path, dest_path = test_files
 
     mock_get_action_group.side_effect = Exception("Some exception")
-    builder_with_test_files._get_label = Mock(side_effect=["Display", "Detector"])
+    builder_with_test_files._get_component_name = Mock(
+        side_effect=["Display", "Detector"]
+    )
 
     test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
 
@@ -497,8 +503,8 @@ def test_get_action_group_no_actions_group(caplog):
         assert "Actions group not found" in log_output.message
 
 
-def test_get_label(builder_with_test_files):
-    display_name = builder_with_test_files._get_label(
+def test_get_component_name(builder_with_test_files):
+    display_name = builder_with_test_files._get_component_name(
         "motor",
         None,
         None,
@@ -506,8 +512,8 @@ def test_get_label(builder_with_test_files):
     assert display_name == "Motor Stage"
 
 
-def test_get_label_child_labels(builder_with_test_files):
-    display_name = builder_with_test_files._get_label(
+def test_get_component_name_child_labels(builder_with_test_files):
+    display_name = builder_with_test_files._get_component_name(
         "X",
         current_component_name="motor",
         display_name="X",
@@ -515,8 +521,10 @@ def test_get_label_child_labels(builder_with_test_files):
     assert display_name == "X1"
 
 
-def test_get_label_child_labels_with_name_already_pregenerated(builder_with_test_files):
-    display_name = builder_with_test_files._get_label(
+def test_get_component_name_child_labels_with_name_already_pregenerated(
+    builder_with_test_files,
+):
+    display_name = builder_with_test_files._get_component_name(
         "X1",
         current_component_name="motor",
         display_name="X",
@@ -524,10 +532,10 @@ def test_get_label_child_labels_with_name_already_pregenerated(builder_with_test
     assert display_name == "X1"
 
 
-def test_get_label_with_name_elem_invalid(
+def test_get_component_name_with_name_elem_invalid(
     builder_with_test_files,
 ):
-    display_name = builder_with_test_files._get_label(
+    display_name = builder_with_test_files._get_component_name(
         "invalid_name",
         current_component_name=None,
         display_name="new_name",
@@ -535,10 +543,10 @@ def test_get_label_with_name_elem_invalid(
     assert display_name == "new_name"
 
 
-def test_get_label_with_current_component_name_invalid(
+def test_get_component_name_with_current_component_name_invalid(
     builder_with_test_files,
 ):
-    display_name = builder_with_test_files._get_label(
+    display_name = builder_with_test_files._get_component_name(
         "invalid_name",
         current_component_name="invalid_name",
         display_name="new_name",

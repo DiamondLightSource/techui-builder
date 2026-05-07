@@ -66,9 +66,7 @@ class Builder:
 
         self.clean_files()
 
-        self.generator = Generator(
-            synoptic_dir, self.conf.beamline.url, self.conf.components
-        )
+        self.generator = Generator(synoptic_dir, self.conf.beamline.url)
 
     def clean_files(self):
         exclude = {"index.bob"}
@@ -243,7 +241,7 @@ class Builder:
                 # This is used by both generate and validate,
                 # so called beforehand for tidyness
                 self.generator.build_widgets(component_name, screen_entities)
-                self.generator.build_groups(component_name)
+                self.generator.build_groups(component_name, self.conf.components)
 
                 screens_to_validate = list(self.validator.validate.keys())
 
@@ -561,8 +559,10 @@ def _get_labels(
     if name_elem is not None:
         if name_elem in component.keys() and component[name_elem].label is not None:
             display_name = component[name_elem].label
-        elif current_component_name is not None and (
-            component[current_component_name].child_labels is not None
+        elif (
+            current_component_name is not None
+            and (current_component_name in component.keys())
+            and (component[current_component_name].child_labels is not None)
         ):
             child_labels = component[current_component_name].child_labels
             if child_labels is not None:

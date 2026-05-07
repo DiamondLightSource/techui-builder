@@ -296,7 +296,11 @@ def test_write_json_map(builder):
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.builder._get_action_group")
 def test_generate_json_map(
-    mock_get_action_group, builder_with_test_files, example_json_map, test_files
+    mock_get_action_group,
+    builder_with_test_files,
+    example_json_map,
+    test_files,
+    components,
 ):
     screen_path, dest_path = test_files
 
@@ -305,19 +309,21 @@ def test_generate_json_map(
     mock_get_action_group.return_value = mock_xml
 
     test_json_map = builder_with_test_files._generate_json_map(
-        screen_path.absolute(), dest_path, builder_with_test_files.conf.components
+        screen_path.absolute(), dest_path, components
     )
 
     assert test_json_map == example_json_map
 
 
 # TODO: write this test
-def test_generate_json_map_embedded_screen(builder_with_test_files, example_json_map):
+def test_generate_json_map_embedded_screen(
+    builder_with_test_files, example_json_map, components
+):
     screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
     dest_path = Path("tests/test_files/")
 
     test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, builder_with_test_files.conf.components
+        screen_path, dest_path, components
     )
     example_json_map.file = "test_bob_embedded.bob"
     example_json_map.children.append(
@@ -391,7 +397,11 @@ def test_fix_names_json_map_recursive(builder, example_display_names_json):
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.builder._get_action_group")
 def test_generate_json_map_get_macros(
-    mock_get_action_group, builder_with_test_files, example_json_map, test_files
+    mock_get_action_group,
+    builder_with_test_files,
+    example_json_map,
+    test_files,
+    components,
 ):
     screen_path, dest_path = test_files
 
@@ -406,18 +416,20 @@ def test_generate_json_map_get_macros(
     mock_get_action_group.return_value = mock_xml
 
     test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, builder_with_test_files.conf.components
+        screen_path, dest_path, components
     )
 
     assert test_json_map == example_json_map
 
 
-def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
+def test_generate_json_map_xml_parse_error(
+    builder_with_test_files, test_files, components
+):
     screen_path = Path("tests/test_files/test_bob_bad.bob").absolute()
     _, dest_path = test_files
 
     test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, builder_with_test_files.conf.components
+        screen_path, dest_path, components
     )
 
     assert test_json_map.error.startswith("XML parse error:")
@@ -425,14 +437,14 @@ def test_generate_json_map_xml_parse_error(builder_with_test_files, test_files):
 
 @patch("techui_builder.builder._get_action_group")
 def test_generate_json_map_other_exception(
-    mock_get_action_group, builder_with_test_files, test_files
+    mock_get_action_group, builder_with_test_files, test_files, components
 ):
     screen_path, dest_path = test_files
 
     mock_get_action_group.side_effect = Exception("Some exception")
 
     test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, builder_with_test_files.conf.components
+        screen_path, dest_path, components
     )
 
     assert test_json_map.error != ""
@@ -486,20 +498,20 @@ def test_get_action_group_no_actions_group(caplog):
         assert "Actions group not found" in log_output.message
 
 
-def test_get_labels(builder_with_test_files):
+def test_get_labels(components):
     display_name = _get_labels(
         "motor",
-        builder_with_test_files.conf.components,
+        components,
         None,
         None,
     )
     assert display_name == "Motor Stage"
 
 
-def test_get_labels_child_labels(builder_with_test_files):
+def test_get_labels_child_labels(components):
     display_name = _get_labels(
         "X",
-        builder_with_test_files.conf.components,
+        components,
         current_component_name="motor",
         display_name="X",
     )
@@ -507,12 +519,36 @@ def test_get_labels_child_labels(builder_with_test_files):
 
 
 def test_get_labels_child_labels_with_name_already_pregenerated(
-    builder_with_test_files,
+    components,
 ):
     display_name = _get_labels(
         "X1",
-        builder_with_test_files.conf.components,
+        components,
         current_component_name="motor",
         display_name="X",
     )
     assert display_name == "X1"
+
+
+def test_get_labels_with_name_elem_invalid(
+    components,
+):
+    display_name = _get_labels(
+        "invalid_name",
+        components,
+        current_component_name=None,
+        display_name="new_name",
+    )
+    assert display_name == "new_name"
+
+
+def test_get_labels_with_current_component_name_invalid(
+    components,
+):
+    display_name = _get_labels(
+        "invalid_name",
+        components,
+        current_component_name="invalid_name",
+        display_name="new_name",
+    )
+    assert display_name == "new_name"

@@ -21,7 +21,6 @@ logger_ = logging.getLogger(__name__)
 class Generator:
     synoptic_dir: Path = field(repr=False)
     beamline_url: str = field(repr=False)
-    components: dict[str, Component] = field(default_factory=dict, repr=False)
 
     # These are global params for the class (not accessible by user)
     support_path: Path = field(init=False, repr=False)
@@ -175,17 +174,13 @@ class Generator:
             suffix = ""
             suffix_label = ""
 
-            # Try to get name from child labels if they exist,
-            # if not, just use the name as it is.
+        name = name.removeprefix(":").removesuffix(":")
+        # Try to get name from child labels if they exist,
+        # if not, just use the name as it is.
         if component.child_labels is not None:
-            if (
-                name.removeprefix(":").removesuffix(":")
-                in component.child_labels.keys()
-            ):
-                name = component.child_labels[name.removeprefix(":").removesuffix(":")]
+            if name in component.child_labels.keys():
+                name = component.child_labels[name]
                 self.label_flag = True
-
-                logger_.debug(f"Name after child label check: {name}")
 
         return (name, suffix, suffix_label)
 
@@ -384,7 +379,7 @@ class Generator:
                 continue
             self.widgets.append(new_widget)
 
-    def build_groups(self, screen_name: str):
+    def build_groups(self, screen_name: str, builder_components: dict[str, Component]):
         """
         Create a group to fill with widgets
         """
@@ -399,10 +394,10 @@ class Generator:
         height, width = self._get_group_dimensions(self.widgets)
 
         if (
-            screen_name in self.components
-            and self.components[screen_name].label is not None
+            screen_name in builder_components.keys()
+            and builder_components[screen_name].label is not None
         ):
-            label = self.components[screen_name].label or screen_name
+            label = builder_components[screen_name].label or screen_name
         else:
             label = screen_name
 

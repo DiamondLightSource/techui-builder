@@ -40,6 +40,11 @@ def builder_with_test_files(builder: Builder):
 
 
 @pytest.fixture
+def components(builder_with_test_files: Builder):
+    return builder_with_test_files.conf.components
+
+
+@pytest.fixture
 def test_files():
     screen_path = Path("tests/test_files/test_bob.bob").absolute()
     dest_path = Path("tests/test_files/").absolute()
@@ -109,10 +114,10 @@ def example_display_names_json():
 
 
 @pytest.fixture
-def generator(builder: Builder):
+def generator():
     synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
 
-    g = Generator(synoptic_dir, "test_url", builder.conf.components)
+    g = Generator(synoptic_dir, "test_url")
 
     return g
 

@@ -377,7 +377,7 @@ def test_generator_layout_widgets(generator, index, x, y):
 
 
 # TODO: Split up test
-def test_generator_build_screen(generator):
+def test_generator_build_screen(generator, components):
     generator._create_widget = Mock(return_value=Mock())
     generator.layout_widgets = Mock(
         return_value=[
@@ -392,12 +392,12 @@ def test_generator_build_screen(generator):
     screen_components = [Mock(), Mock(), Mock()]
 
     generator.build_widgets(screen_name, screen_components)
-    generator.build_groups(screen_name)
+    generator.build_groups(screen_name, components)
     generator.build_screen(screen_name)
     assert objectify.fromstring(str(generator.screen_)).xpath("//widget[@type='group']")
 
 
-def test_build_groups_with_label(generator):
+def test_build_groups_with_label(generator, components):
     screen_name = "motor"
     generator.widgets = [Mock(), Mock(), Mock()]
     generator._create_widget = Mock(return_value=Mock())
@@ -410,12 +410,13 @@ def test_build_groups_with_label(generator):
         ]
     )
     generator._get_group_dimensions = Mock(return_value=(600, 400))
-    generator.build_groups(screen_name)
+
+    generator.build_groups(screen_name, components)
     xml = objectify.fromstring(str(generator.group))
     assert xml.xpath("//name")[0] == "Motor Stage"
 
 
-def test_build_groups(generator):
+def test_build_groups(generator, components):
     screen_name = "test"
     generator.widgets = [Mock(), Mock(), Mock()]
     generator._create_widget = Mock(return_value=Mock())
@@ -428,7 +429,8 @@ def test_build_groups(generator):
         ]
     )
     generator._get_group_dimensions = Mock(return_value=(600, 400))
-    generator.build_groups(screen_name)
+
+    generator.build_groups(screen_name, components)
     xml = objectify.fromstring(str(generator.group))
     assert xml.xpath("//name")[0] == "test"
 

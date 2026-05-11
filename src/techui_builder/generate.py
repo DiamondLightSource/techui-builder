@@ -228,9 +228,7 @@ class Generator:
             # Add macros to the widgets
             new_widget.macro(self.P, component.P)
             if suffix_label != "":
-                new_widget.macro(
-                    f"{suffix_label}", suffix.removeprefix(":").removesuffix(":")
-                )
+                new_widget.macro(f"{suffix_label}", suffix)
                 new_widget.macro("label", name.removeprefix(":").removesuffix(":"))
             # TODO: Change this to pvi_button
             if True:

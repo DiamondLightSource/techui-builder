@@ -1188,7 +1188,7 @@ dev = [
     { name = "tox-uv" },
     { name = "types-lxml" },
     { name = "types-mock" },
-    { name = "uv", specifier = "~=0.9.4" },
+    { name = "uv", specifier = ">=0.9.4,<0.12.0" },
 ]
 
 [[package]]

@@ -115,7 +115,7 @@ def test_generator_create_widget_keyerror(generator, caplog):
         P="BL01T-DI-IOC-01",
         desc=None,
         M=None,
-        R="CAM:",
+        R=":CAM:",
     )
 
     result = generator._create_widget(name=screen_name, component=component)
@@ -142,7 +142,7 @@ def test_generator_create_widget_is_list_of_dicts(generator):
         P="BL01T-DI-IOC-01",
         desc=None,
         M=None,
-        R="CAM:",
+        R=":CAM:",
     )
     widget = generator._create_widget(name=screen_name, component=component)
     for value in widget:
@@ -160,7 +160,7 @@ def test_generator_create_widget_embedded(generator):
         P="BL01T-DI-IOC-01",
         desc=None,
         M=None,
-        R="CAM:",
+        R=":CAM:",
     )
 
     widget = generator._create_widget(
@@ -254,7 +254,7 @@ def test_generator_allocate_widget(generator):
         P="BL01T-DI-IOC-01",
         desc=None,
         M=None,
-        R="CAM:",
+        R=":CAM:",
     )
     widget = generator._allocate_widget(scrn_mapping, component)
     control_widget = Path("tests/test_files/widget.xml")

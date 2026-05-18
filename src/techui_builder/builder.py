@@ -27,6 +27,7 @@ class JsonMap:
     duplicate: bool = False
     children: list["JsonMap"] = field(default_factory=list)
     macros: dict[str, str] = field(default_factory=dict)
+    symbol: str = ""
     error: str = ""
 
 
@@ -304,6 +305,7 @@ class Builder:
             for widget_elem in widgets:
                 # Obtain macros associated with file_elem
                 macro_dict: dict[str, str] = {}
+                symbol_path: str = ""
                 widget_type = widget_elem.get("type", default=None)
 
                 match widget_type:
@@ -316,6 +318,12 @@ class Builder:
                         file_elem = open_display.file
                         name_elem = widget_elem.name.text
                         macro_dict = self._get_macros(open_display)
+
+                        if widget_type == "symbol":
+                            try:
+                                symbol_path = str(widget_elem.symbols.symbol)
+                            except AttributeError:
+                                pass
 
                     case "embedded":
                         file_elem = self._extract_action_button_file_from_embedded(
@@ -363,6 +371,7 @@ class Builder:
                     )
 
                 child_node.macros = macro_dict
+                child_node.symbol = symbol_path
                 # TODO: make this work for only list[JsonMap]
                 assert isinstance(current_node.children, list)
                 # TODO: fix typing

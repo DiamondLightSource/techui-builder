@@ -318,9 +318,7 @@ class Builder:
                         macro_dict = self._get_macros(open_display)
 
                     case "embedded":
-                        file_elem = self._extract_action_button_file_from_embedded(
-                            widget_elem.file, dest_path
-                        )
+                        file_elem = widget_elem.file
                         name_elem = widget_elem.name.text
                         macro_dict = self._get_macros(widget_elem)
 
@@ -362,11 +360,18 @@ class Builder:
                         str(file_path), display_name, exists=("IOC" in macro_dict)
                     )
 
-                child_node.macros = macro_dict
-                # TODO: make this work for only list[JsonMap]
-                assert isinstance(current_node.children, list)
-                # TODO: fix typing
-                current_node.children.append(child_node)
+                if widget_type == "embedded":
+                    for embedded_child in child_node.children:
+                        embedded_child.macros = {**embedded_child.macros, **macro_dict}
+                        embedded_child.display_name = display_name
+                        current_node.children.append(embedded_child)
+
+                else:
+                    child_node.macros = macro_dict
+                    # TODO: make this work for only list[JsonMap]
+                    assert isinstance(current_node.children, list)
+                    # TODO: fix typing
+                    current_node.children.append(child_node)
 
         except etree.ParseError as e:
             current_node.error = f"XML parse error: {e}"

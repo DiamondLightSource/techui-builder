@@ -2,7 +2,7 @@ import logging
 import os
 from io import StringIO
 from pathlib import Path
-from unittest.mock import Mock, mock_open, patch
+from unittest.mock import MagicMock, Mock, mock_open, patch
 
 import pytest
 from lxml import objectify
@@ -12,6 +12,7 @@ from softioc.builder import ClearRecords, records
 from techui_builder.builder import (
     JsonMap,
     _get_action_group,  # type: ignore
+    _get_nav_tabs,  # type: ignore
     _serialise_json_map,  # type: ignore
 )
 
@@ -556,3 +557,20 @@ def test_get_component_label_with_current_component_name_invalid(
         display_name="new_name",
     )
     assert display_name == "new_name"
+
+
+def test_get_nav_tabs(example_navtabs_widget):
+    tabs_widget = _get_nav_tabs(example_navtabs_widget)
+
+    assert isinstance(tabs_widget, list)
+
+
+def test_get_nav_tabs_no_tabs_group(caplog):
+    mock_navtabs = MagicMock(spec=objectify.ObjectifiedElement)
+    mock_navtabs.name = "no_tabs"
+
+    with caplog.at_level(logging.ERROR):
+        _get_nav_tabs(mock_navtabs)
+
+    for log_output in caplog.records:
+        assert "Tabs group not found" in log_output.message

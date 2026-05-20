@@ -201,8 +201,7 @@ class Generator:
             # Path of screen relative to data/ so it knows where to open the file from
             data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
         except KeyError:
-            scrn_path = None
-            data_scrn_path = None
+            scrn_path = data_scrn_path = f"$(IOC)/{scrn_mapping['remote_screen']}"
 
         # For Gui Components with multiple components embedded, we add a suffix field
         # to the components, and adjust the name and suffix accordingly

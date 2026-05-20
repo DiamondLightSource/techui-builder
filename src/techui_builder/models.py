@@ -248,6 +248,7 @@ ScreenType = Literal["embedded", "related"]
 
 class GuiComponentEntry(BaseModel):
     file: BobPath | None = None
+    remote_screen: BobPath | None = None
     prefix: MacroString
     suffix: MacroString | None = None
     type: ScreenType

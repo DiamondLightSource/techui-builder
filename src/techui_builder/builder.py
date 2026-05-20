@@ -268,7 +268,9 @@ class Builder:
 
         # ------------ USEFUL FUNCTIONS ------------
 
-        def _get_display_name(name_element, component_name, file_path):
+        def _get_display_name(
+            name_element: str | None, component_name: str | None, file_path: Path
+        ):
             # Validated screen names don't get renegerated
             name = name_element
             display_name = self._get_component_label(

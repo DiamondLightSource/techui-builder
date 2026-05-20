@@ -346,6 +346,27 @@ def test_generate_json_map_embedded_screen(builder_with_test_files, example_json
     assert test_json_map == example_json_map
 
 
+def test_generate_json_map_nav_tabs(builder_with_test_files, example_json_map_root):
+    builder_with_test_files._get_component_label = Mock(
+        side_effect=["Display", "Tab1", "Tab2"]
+    )
+
+    screen_path = Path("tests/test_files/test_bob_navtabs.bob").absolute()
+    dest_path = Path("tests/test_files/")
+
+    example_json_map_root.file = "test_bob_navtabs.bob"
+    example_json_map_root.children.extend(
+        [
+            JsonMap(display_name="Tab1", file="tab1.bob", exists=False),
+            JsonMap(display_name="Tab2", file="tab2.bob", exists=False),
+        ]
+    )
+
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
+
+    assert test_json_map == example_json_map_root
+
+
 def test_parse_display_name_with_name(builder):
     """Test parse display name when <name> tag is present"""
     display_name = builder._parse_display_name(

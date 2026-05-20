@@ -53,13 +53,20 @@ def test_files():
 
 
 @pytest.fixture
-def example_json_map():
+def example_json_map_root():
+    test_map_base = JsonMap("test_bob.bob", "Display")
+
+    return test_map_base
+
+
+@pytest.fixture
+def example_json_map(example_json_map_root):
     # Create test json map with child json map
     test_map_child = JsonMap("test_child_bob.bob", "Detector", exists=False)
-    test_map = JsonMap("test_bob.bob", "Display")
-    test_map.children.append(test_map_child)
 
-    return test_map
+    example_json_map_root.children.append(test_map_child)
+
+    return example_json_map_root
 
 
 @pytest.fixture

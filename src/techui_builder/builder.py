@@ -50,7 +50,6 @@ class Builder:
     )
     status_pvs: dict[str, Record] = field(default_factory=dict, init=False)
     _services_dir: Path = field(init=False, repr=False)
-    _gui_map: dict = field(init=False, repr=False)
     _write_directory: Path = field(default=Path("opis"), init=False, repr=False)
 
     def __post_init__(self):

@@ -194,11 +194,15 @@ class Generator:
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         name, suffix, suffix_label = self._initialise_name_suffix(component)
         # Get relative path to screen
-        scrn_path = self.support_path.joinpath(f"bob/{scrn_mapping['file']}")
-        logger_.debug(f"Screen path: {scrn_path}")
+        try:
+            scrn_path = self.support_path.joinpath(f"bob/{scrn_mapping['file']}")
+            logger_.debug(f"Screen path: {scrn_path}")
 
-        # Path of screen relative to data/ so it knows where to open the file from
-        data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
+            # Path of screen relative to data/ so it knows where to open the file from
+            data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
+        except KeyError:
+            scrn_path = None
+            data_scrn_path = None
 
         # For Gui Components with multiple components embedded, we add a suffix field
         # to the components, and adjust the name and suffix accordingly
@@ -255,6 +259,7 @@ class Generator:
                     target="tab",
                     macros={
                         "P": component.P,
+                        "IOC": f"{self.beamline_url}/{component.service_name}",
                         f"{suffix_label}": suffix,
                     },
                 )
@@ -264,6 +269,7 @@ class Generator:
                     target="tab",
                     macros={
                         "P": component.P,
+                        "IOC": f"{self.beamline_url}/{component.service_name}",
                     },
                 )
 

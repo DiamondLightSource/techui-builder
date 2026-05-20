@@ -12,6 +12,7 @@
       <description>Open Display</description>
       <macros>
         <P>BL01T-MO-IOC-01</P>
+        <IOC>test_url/bl01t-mo-ioc-01</IOC>
       </macros>
       <file>techui-support/bob/pmac/pmacController.bob</file>
       <target>tab</target>

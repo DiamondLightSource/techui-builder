@@ -265,6 +265,31 @@ def test_generator_allocate_widget(generator):
     assert str(widget) == xml_content
 
 
+def test_generator_allocate_widget_with_remote_screens(generator):
+    generator._initilise_name_suffix = Mock(return_value=("CAM:", "CAM:", "R"))
+
+    scrn_mapping = {
+        "file": "$(IOC)/ADAravis_summary.bob",
+        "prefix": "$(P)$(R)",
+        "type": "related",
+    }
+    component = Entity(
+        service_name="bl01t-di-ioc-01",
+        type="ADAravis.aravisCamera",
+        P="BL01T-DI-IOC-01",
+        desc=None,
+        M=None,
+        R=":CAM:",
+    )
+    widget = generator._allocate_widget(scrn_mapping, component)
+    control_widget = Path("tests/test_files/widget_url_screen.xml")
+
+    with open(control_widget) as f:
+        xml_content = f.read()
+    print(str(widget))
+    assert str(widget) == xml_content
+
+
 def test_generator_allocate_widget_with_suffix(generator):
     generator._initialise_name_suffix = Mock(return_value=(":CAM:", ":CAM:", "R"))
 

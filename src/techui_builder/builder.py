@@ -268,7 +268,7 @@ class Builder:
 
         # Create initial node at top of .bob file
         current_node = JsonMap(
-            str(screen_path.relative_to(self._write_directory)),
+            str(screen_path.resolve().relative_to(self._write_directory.resolve())),
             display_name=None,
         )
 
@@ -318,9 +318,7 @@ class Builder:
                         macro_dict = self._get_macros(open_display)
 
                     case "embedded":
-                        file_elem = self._extract_action_button_file_from_embedded(
-                            widget_elem.file, dest_path
-                        )
+                        file_elem = widget_elem.file
                         name_elem = widget_elem.name.text
                         macro_dict = self._get_macros(widget_elem)
 
@@ -359,14 +357,23 @@ class Builder:
                     )
                 else:
                     child_node = JsonMap(
-                        str(file_path), display_name, exists=("IOC" in macro_dict)
+                        str(file_path),
+                        display_name,
+                        exists=("IOC" in macro_dict or ("https:/" in str(file_path))),
                     )
 
-                child_node.macros = macro_dict
-                # TODO: make this work for only list[JsonMap]
-                assert isinstance(current_node.children, list)
-                # TODO: fix typing
-                current_node.children.append(child_node)
+                if widget_type == "embedded":
+                    for embedded_child in child_node.children:
+                        embedded_child.macros = {**embedded_child.macros, **macro_dict}
+                        embedded_child.display_name = display_name
+                        current_node.children.append(embedded_child)
+
+                else:
+                    child_node.macros = macro_dict
+                    # TODO: make this work for only list[JsonMap]
+                    assert isinstance(current_node.children, list)
+                    # TODO: fix typing
+                    current_node.children.append(child_node)
 
         except etree.ParseError as e:
             current_node.error = f"XML parse error: {e}"
@@ -409,34 +416,6 @@ class Builder:
                     elif name_elem in child_labels:
                         display_name = child_labels[name_elem]
         return display_name
-
-    def _extract_action_button_file_from_embedded(
-        self, file_elem: ObjectifiedElement, dest_path: Path
-    ) -> ObjectifiedElement:
-        file_path = Path(file_elem.text.strip() if file_elem.text else "")
-        file_path = dest_path.joinpath(file_path)
-        if not file_path.exists():
-            rel_file_path = Path(str(file_elem.base)).relative_to(
-                dest_path.absolute(), walk_up=True
-            )
-            file_path = dest_path.joinpath(rel_file_path)
-        tree = objectify.parse(file_path.absolute())
-        root: ObjectifiedElement = tree.getroot()
-
-        # Find all <widget> elements
-        widgets = [
-            w
-            for w in root.findall(".//widget")
-            if w.get("type", default=None) == "action_button"
-        ]
-
-        for widget_elem in widgets:
-            open_display = _get_action_group(widget_elem)
-            if open_display is None:
-                continue
-            file_elem = open_display.file
-            return file_elem
-        return file_elem
 
     def _get_macros(self, element: ObjectifiedElement):
         if hasattr(element, "macros"):

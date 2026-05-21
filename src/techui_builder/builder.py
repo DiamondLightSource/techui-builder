@@ -357,7 +357,9 @@ class Builder:
                     )
                 else:
                     child_node = JsonMap(
-                        str(file_path), display_name, exists=("IOC" in macro_dict)
+                        str(file_path),
+                        display_name,
+                        exists=("IOC" in macro_dict or ("https:/" in str(file_path))),
                     )
 
                 if widget_type == "embedded":

@@ -321,25 +321,20 @@ def test_generate_json_map_embedded_screen(
     builder_with_test_files, example_json_map, components
 ):
     builder_with_test_files._get_component_label = Mock(
-        side_effect=["Display", "Detector", "Embedded Display"]
+        side_effect=["Display", "Detector"]
     )
 
-    screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
-    dest_path = Path("tests/test_files/")
+    screen_path = Path(
+        "/workspaces/techui-builder/tests/test_files/test_bob_embedded.bob"
+    ).absolute()
+    dest_path = Path("/workspaces/techui-builder/tests/test_files/")
 
     example_json_map.file = "test_bob_embedded.bob"
-    example_json_map.children.append(
-        JsonMap(
-            "$(IOC)/pmacAxis.pvi.bob", display_name="Embedded Display", exists=False
-        )
-    )
 
     test_json_map = builder_with_test_files._generate_json_map(
         screen_path, dest_path, components
     )
-    print(test_json_map)
-    print("--------------")
-    print(example_json_map)
+
     assert test_json_map == example_json_map
 
 

@@ -2,17 +2,16 @@ import logging
 import os
 import re
 from collections import defaultdict
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
-import yaml
 from lxml import objectify
 from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.models import Component, Entity
+from techui_builder.models import Component, Entity, TechUiSupport
 
 logger_ = logging.getLogger(__name__)
 
@@ -23,12 +22,10 @@ class Generator:
     beamline_url: str = field(repr=False)
 
     # These are global params for the class (not accessible by user)
-    support_path: Path = field(init=False, repr=False)
-    techui_support: dict = field(init=False, repr=False)
+    support_path: Path = field(repr=False)
+    techui_support: TechUiSupport = field(repr=False)
     default_size: int = field(default=100, init=False, repr=False)
-    P: str = field(default="P", init=False, repr=False)
-    M: str = field(default="M", init=False, repr=False)
-    R: str = field(default="R", init=False, repr=False)
+    prefix: str = field(default="P", init=False, repr=False)
     widgets: list[ActionButton | EmbeddedDisplay] = field(
         default_factory=list[ActionButton | EmbeddedDisplay], init=False, repr=False
     )
@@ -41,20 +38,6 @@ class Generator:
     widget_count: int = field(default=0, init=False, repr=False)
     group_padding: int = field(default=50, init=False, repr=False)
     label_flag: bool = field(default=False, init=False, repr=False)
-
-    def __post_init__(self):
-        # This needs to be before _read_map()
-        self.support_path = self.synoptic_dir.joinpath("techui-support")
-
-        self._read_map()
-
-    def _read_map(self):
-        """Read the techui-support.yaml file from techui-support."""
-        support_yaml = self.support_path.joinpath("techui-support.yaml").absolute()
-        logger_.debug(f"techui-support.yaml location: {support_yaml}")
-
-        with open(support_yaml) as map:
-            self.techui_support = yaml.safe_load(map)
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
@@ -161,16 +144,18 @@ class Generator:
         )
 
     def _initialise_name_suffix(self, component: Entity) -> tuple[str, str, str | None]:
-        if component.M is not None:
-            name: str = component.M
-            suffix: str = component.M
-            suffix_label: str | None = self.M
-        elif component.R is not None:
-            name = component.R
-            suffix = component.R
-            suffix_label = self.R
+        if "M" in component.macros.keys():
+            m: str = component.macros["M"]
+            name: str = m
+            suffix: str = m
+            suffix_label: str = m.removeprefix(":").removesuffix(":")
+        elif "R" in component.macros.keys():
+            r: str = component.macros["R"]
+            name: str = r
+            suffix: str = r
+            suffix_label: str = r.removeprefix(":").removesuffix(":")
         else:
-            name = component.P
+            name = component.prefix
             suffix = ""
             suffix_label = ""
 
@@ -183,11 +168,6 @@ class Generator:
                 self.label_flag = True
 
         return (name, suffix, suffix_label)
-
-    def _is_list_of_dicts(self, scrn_mapping: Mapping) -> bool:
-        return isinstance(scrn_mapping, Sequence) and all(
-            isinstance(scrn, Mapping) for scrn in scrn_mapping
-        )
 
     def _allocate_widget(
         self, scrn_mapping: Mapping, component: Entity
@@ -238,7 +218,7 @@ class Generator:
                 height,
             )
             # Add macros to the widgets
-            new_widget.macro(self.P, component.P)
+            new_widget.macro(self.prefix, component.prefix)
             if suffix_label != "":
                 new_widget.macro(f"{suffix_label}", suffix)
                 new_widget.macro("label", name.removeprefix(":").removesuffix(":"))
@@ -266,7 +246,7 @@ class Generator:
                     file=str(data_scrn_path),
                     target="tab",
                     macros={
-                        "P": component.P,
+                        "P": component.prefix,
                         f"{suffix_label}": suffix,
                     },
                 )
@@ -275,7 +255,7 @@ class Generator:
                     file=str(data_scrn_path),
                     target="tab",
                     macros={
-                        "P": component.P,
+                        "P": component.prefix,
                     },
                 )
 
@@ -294,7 +274,7 @@ class Generator:
         new_widget = []
 
         try:
-            scrn_mapping = self.techui_support[component.type]
+            scrn_mapping = self.techui_support.support_modules[component.type].screens
         except KeyError:
             logger_.warning(
                 f"No available widget for {component.type} in screen \
@@ -302,11 +282,8 @@ class Generator:
             )
             return None
 
-        if self._is_list_of_dicts(scrn_mapping):
-            for value in scrn_mapping:
-                new_widget.append(self._allocate_widget(value, component))
-        else:
-            new_widget = self._allocate_widget(scrn_mapping, component)
+        for value in scrn_mapping:
+            new_widget.append(self._allocate_widget(value, component))
 
         return new_widget
 
@@ -374,14 +351,14 @@ class Generator:
 
         return sorted_widgets
 
-    def build_widgets(self, screen_name: str, screen_components: list[Entity]):
+    def build_widgets(self, screen_name: str, screen_entities: list[Entity]):
         # Empty widget buffer
         self.widgets = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
-        for component in screen_components:
-            new_widget = self._create_widget(name=screen_name, component=component)
+        for entity in screen_entities:
+            new_widget = self._create_widget(name=screen_name, component=entity)
             if new_widget is None:
                 continue
             if isinstance(new_widget, list):

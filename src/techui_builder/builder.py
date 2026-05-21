@@ -8,12 +8,13 @@ from typing import Any
 
 import yaml
 from epicsdbbuilder.recordbase import Record
+from jinja2 import Template
 from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
 from softioc.builder import records
 
 from techui_builder.generate import Generator
-from techui_builder.models import Entity, TechUi
+from techui_builder.models import Entity, SupportEntity, TechUi, TechUiSupport
 from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
@@ -49,8 +50,10 @@ class Builder:
         default_factory=lambda: defaultdict(list), init=False
     )
     status_pvs: dict[str, Record] = field(default_factory=dict, init=False)
+
+    # These are global params for the class (not accessible by user)
     _services_dir: Path = field(init=False, repr=False)
-    _write_directory: Path = field(default=Path("opis"), init=False, repr=False)
+    _write_directory: Path = field(init=False, repr=False)
 
     def __post_init__(self):
         # Populate beamline and components
@@ -60,12 +63,30 @@ class Builder:
 
     def setup(self):
         """Run intial setup, e.g. extracting entries from service ioc.yaml."""
+        # This needs to be before _read_map()
+        self.support_path = self._write_directory.joinpath("techui-support")
+
+        self._read_map()
+
         self._extract_services()
-        synoptic_dir = self._write_directory
 
         self.clean_files()
 
-        self.generator = Generator(synoptic_dir, self.conf.beamline.url)
+        self.generator = Generator(
+            self._write_directory,
+            self.conf.beamline.url,
+            self.support_path,
+            self.techui_support,
+        )
+
+    def _read_map(self):
+        """Read the techui-support.yaml file from techui-support."""
+        support_yaml = self.support_path.joinpath("techui-support.yaml").absolute()
+        logger_.debug(f"techui-support.yaml location: {support_yaml}")
+
+        self.techui_support = TechUiSupport.model_validate(
+            yaml.safe_load(support_yaml.read_text(encoding="utf-8"))
+        )
 
     def clean_files(self):
         exclude = {"index.bob"}
@@ -176,17 +197,26 @@ class Builder:
         with open(ioc_yaml) as ioc:
             ioc_conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
             for entity in ioc_conf["entities"]:
-                if "P" in entity.keys():
+                if entity["type"] in self.techui_support.support_modules:
+                    support_mapping: SupportEntity = (
+                        self.techui_support.support_modules[entity["type"]]
+                    )
+                    support_macros = support_mapping.macros
+
+                    macros = {k: v for k, v in entity.items() if k in support_macros}
+
+                    prefix_template = Template(support_mapping.prefix)
+                    prefix = prefix_template.render(macros)
+
                     # Create Entity and append to entity list
                     new_entity = Entity(
                         service_name=service_name,
                         type=entity["type"],
                         desc=entity.get("desc", None),
-                        P=entity["P"],
-                        M=None if (val := entity.get("M")) is None else val,
-                        R=None if (val := entity.get("R")) is None else val,
+                        prefix=prefix,
+                        macros=macros,
                     )
-                    self.entities[new_entity.P].append(new_entity)
+                    self.entities[new_entity.prefix].append(new_entity)
 
     def _generate_screen(self, screen_name: str):
         self.generator.build_screen(screen_name)

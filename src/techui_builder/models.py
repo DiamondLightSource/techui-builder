@@ -293,10 +293,17 @@ class SupportEntity(BaseModel):
 
     prefix: Annotated[str, Field(description="Prefix for techui-support screen")]
     macros: Annotated[
-        dict[str, Any],
+        list[str],
         Field(description="Macros for the matching screen (can be empty)"),
     ]
     screens: Annotated[
-        dict[str, str],
+        list[dict[str, str]],
         Field(description="Dictionary of available screens for the support module"),
+    ]
+
+
+class TechUiSupport(BaseModel):
+    support_modules: Annotated[
+        dict[str, SupportEntity],
+        Field(description="The dictionary of techui-support.yaml entities"),
     ]

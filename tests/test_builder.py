@@ -317,22 +317,31 @@ def test_generate_json_map(
 
 
 # TODO: write this test
-def test_generate_json_map_embedded_screen(
-    builder_with_test_files, example_json_map, components
-):
+def test_generate_json_map_embedded_screen(builder_with_test_files, example_json_map):
     builder_with_test_files._get_component_label = Mock(
-        side_effect=["Display", "Detector"]
+        side_effect=[
+            "Display",
+            "Detector",
+            "Embedded Display",
+            "Embedded Display",
+            "Embedded Display",
+        ]
     )
 
     screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
     dest_path = Path("tests/test_files/")
 
     example_json_map.file = "test_bob_embedded.bob"
-
-    test_json_map = builder_with_test_files._generate_json_map(
-        screen_path, dest_path, components
+    example_json_map.children.append(
+        JsonMap(
+            "$(IOC)/pmacAxis.pvi.bob",
+            display_name="Embedded Display",
+            exists=False,
+            macros={"M": "$(M)", "P": "$(P)"},
+        )
     )
 
+    test_json_map = builder_with_test_files._generate_json_map(screen_path, dest_path)
     assert test_json_map == example_json_map
 
 

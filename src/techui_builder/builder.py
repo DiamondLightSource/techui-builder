@@ -268,7 +268,7 @@ class Builder:
 
         # Create initial node at top of .bob file
         current_node = JsonMap(
-            str(screen_path.relative_to(self._write_directory)),
+            str(screen_path.resolve().relative_to(self._write_directory.resolve())),
             display_name=None,
         )
 

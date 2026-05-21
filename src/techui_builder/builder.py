@@ -417,34 +417,6 @@ class Builder:
                         display_name = child_labels[name_elem]
         return display_name
 
-    def _extract_action_button_file_from_embedded(
-        self, file_elem: ObjectifiedElement, dest_path: Path
-    ) -> ObjectifiedElement:
-        file_path = Path(file_elem.text.strip() if file_elem.text else "")
-        file_path = dest_path.joinpath(file_path)
-        if not file_path.exists():
-            rel_file_path = Path(str(file_elem.base)).relative_to(
-                dest_path.absolute(), walk_up=True
-            )
-            file_path = dest_path.joinpath(rel_file_path)
-        tree = objectify.parse(file_path.absolute())
-        root: ObjectifiedElement = tree.getroot()
-
-        # Find all <widget> elements
-        widgets = [
-            w
-            for w in root.findall(".//widget")
-            if w.get("type", default=None) == "action_button"
-        ]
-
-        for widget_elem in widgets:
-            open_display = _get_action_group(widget_elem)
-            if open_display is None:
-                continue
-            file_elem = open_display.file
-            return file_elem
-        return file_elem
-
     def _get_macros(self, element: ObjectifiedElement):
         if hasattr(element, "macros"):
             macros = element.macros.getchildren()

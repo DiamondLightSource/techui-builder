@@ -337,7 +337,9 @@ def test_generate_json_map_embedded_screen(
     test_json_map = builder_with_test_files._generate_json_map(
         screen_path, dest_path, components
     )
-
+    print(test_json_map)
+    print("--------------")
+    print(example_json_map)
     assert test_json_map == example_json_map
 
 

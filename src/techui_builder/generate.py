@@ -193,15 +193,24 @@ class Generator:
         self, scrn_mapping: Mapping, component: Entity
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         name, suffix, suffix_label = self._initialise_name_suffix(component)
+
         # Get relative path to screen
-        try:
-            scrn_path = self.support_path.joinpath(f"bob/{scrn_mapping['file']}")
+        file = scrn_mapping["file"]
+        if file.startswith("$(IOC)"):
+            scrn_path = data_scrn_path = file.replace(
+                "$(IOC)", f"{self.beamline_url}/{component.service_name}"
+            )  # Only works with related displays as
+            # embedded displays need to access the file to get dimensions
+
+            assert scrn_mapping["type"] == "related", (
+                "Only related displays can have remote screens"
+            )
+        else:
+            scrn_path = self.support_path.joinpath(f"bob/{file}")
             logger_.debug(f"Screen path: {scrn_path}")
 
             # Path of screen relative to data/ so it knows where to open the file from
             data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
-        except KeyError:
-            scrn_path = data_scrn_path = f"$(IOC)/{scrn_mapping['remote_screen']}"
 
         # For Gui Components with multiple components embedded, we add a suffix field
         # to the components, and adjust the name and suffix accordingly
@@ -258,7 +267,6 @@ class Generator:
                     target="tab",
                     macros={
                         "P": component.P,
-                        "IOC": f"{self.beamline_url}/{component.service_name}",
                         f"{suffix_label}": suffix,
                     },
                 )
@@ -268,7 +276,6 @@ class Generator:
                     target="tab",
                     macros={
                         "P": component.P,
-                        "IOC": f"{self.beamline_url}/{component.service_name}",
                     },
                 )
 

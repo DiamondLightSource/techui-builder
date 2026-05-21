@@ -324,10 +324,8 @@ def test_generate_json_map_embedded_screen(
         side_effect=["Display", "Detector"]
     )
 
-    screen_path = Path(
-        "/workspaces/techui-builder/tests/test_files/test_bob_embedded.bob"
-    ).absolute()
-    dest_path = Path("/workspaces/techui-builder/tests/test_files/")
+    screen_path = Path("tests/test_files/test_bob_embedded.bob").absolute()
+    dest_path = Path("tests/test_files/")
 
     example_json_map.file = "test_bob_embedded.bob"
 

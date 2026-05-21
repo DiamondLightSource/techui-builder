@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import (
     BaseModel,
@@ -272,7 +272,7 @@ class Entity(BaseModel):
             "ADAravis.aravisCamera"
         ),
     ]
-    P: Annotated[str, Field(description="PV Prefix for module entity")]
+    prefix: Annotated[str, Field(description="PV Prefix for module entity")]
     desc: Annotated[
         str | None, Field(description="Optional description of module entity")
     ] = None
@@ -280,7 +280,23 @@ class Entity(BaseModel):
         dict[str, str] | None,
         Field(description="Optional child labels for module entity"),
     ] = None
-    M: Annotated[str | None, Field(description="Optional PV suffix for a motor")]
-    R: Annotated[
-        str | None, Field(description="Optional PV suffix for an ADAravis plugin")
+    macros: Annotated[
+        dict[str, Any],
+        Field(description="Macros for the matching screen (can be empty)"),
+    ]
+
+
+class SupportEntity(BaseModel):
+    """
+    Table of variables from corresponding support module in techui-support.yaml file
+    """
+
+    prefix: Annotated[str, Field(description="Prefix for techui-support screen")]
+    macros: Annotated[
+        dict[str, Any],
+        Field(description="Macros for the matching screen (can be empty)"),
+    ]
+    screens: Annotated[
+        dict[str, str],
+        Field(description="Dictionary of available screens for the support module"),
     ]

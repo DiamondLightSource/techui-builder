@@ -144,30 +144,23 @@ class Generator:
         )
 
     def _initialise_name_suffix(self, component: Entity) -> tuple[str, str, str | None]:
-        if "M" in component.macros.keys():
-            m: str = component.macros["M"]
-            name: str = m
-            suffix: str = m
-            suffix_label: str = m.removeprefix(":").removesuffix(":")
-        elif "R" in component.macros.keys():
-            r: str = component.macros["R"]
-            name: str = r
-            suffix: str = r
-            suffix_label: str = r.removeprefix(":").removesuffix(":")
-        else:
-            name = component.prefix
-            suffix = ""
-            suffix_label = ""
+        try:
+            component_name = component.prefix.split(":", maxsplit=1)[1]
+            raw_name = component_name.removesuffix(":")
+        except IndexError:
+            component_name = ""
+            raw_name = ""
 
-        name = name.removeprefix(":").removesuffix(":")
+        suffix = component_name
+
         # Try to get name from child labels if they exist,
         # if not, just use the name as it is.
         if component.child_labels is not None:
-            if name in component.child_labels.keys():
-                name = component.child_labels[name]
+            if raw_name in component.child_labels.keys():
+                component_name = component.child_labels[raw_name]
                 self.label_flag = True
 
-        return (name, suffix, suffix_label)
+        return (component_name, suffix, raw_name)
 
     def _allocate_widget(
         self, scrn_mapping: Mapping, component: Entity

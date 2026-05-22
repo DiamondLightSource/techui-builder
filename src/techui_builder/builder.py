@@ -206,7 +206,7 @@ class Builder:
                     macros = {k: v for k, v in entity.items() if k in support_macros}
 
                     prefix_template = Template(support_mapping.prefix)
-                    prefix = prefix_template.render(macros)
+                    prefix: str = prefix_template.render(macros)
 
                     # Create Entity and append to entity list
                     new_entity = Entity(
@@ -216,7 +216,9 @@ class Builder:
                         prefix=prefix,
                         macros=macros,
                     )
-                    self.entities[macros["P"]].append(new_entity)
+
+                    pv_root = prefix.split(":", maxsplit=1)[0]
+                    self.entities[pv_root].append(new_entity)
 
     def _generate_screen(self, screen_name: str):
         self.generator.build_screen(screen_name)

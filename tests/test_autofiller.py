@@ -32,8 +32,8 @@ def test_autofiller_autofill_bob(autofiller):
     assert mock_widget.find("run_actions_on_mouse_click") == "true"
 
 
-@patch("techui_builder.builder.objectify.deannotate")
-@patch("techui_builder.builder.etree.ElementTree")
+@patch("techui_builder.generate_jsonmap.objectify.deannotate")
+@patch("techui_builder.generate_jsonmap.etree.ElementTree")
 def test_autofiller_write_bob(mock_tree, mock_deannotate, autofiller):
     autofiller.tree = mock_tree
 

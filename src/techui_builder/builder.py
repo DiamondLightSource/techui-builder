@@ -216,7 +216,7 @@ class Builder:
                         prefix=prefix,
                         macros=macros,
                     )
-                    self.entities[new_entity.prefix].append(new_entity)
+                    self.entities[macros["P"]].append(new_entity)
 
     def _generate_screen(self, screen_name: str):
         self.generator.build_screen(screen_name)

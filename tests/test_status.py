@@ -5,7 +5,7 @@ from unittest.mock import mock_open, patch
 from softioc.builder import ClearRecords, records
 
 
-def test_builder_create_status_pv(status_gen):
+def test_status_create_status_pv(status_gen):
     p = "BL01T-MO-MOTOR-01"
     inpa = "BL01T-MO-MOTOR-01:MOTOR1.MOVN"
     status_gen.create_status_pv(prefix=p, inputs=[inpa])
@@ -44,7 +44,7 @@ record(calc, "BL01T-MO-MOTOR-01:STA")
     ClearRecords()
 
 
-def test_builder_write_status_pvs(status_gen):
+def test_status_write_status_pvs(status_gen):
     # To mock the open() function used in _write_status_pvs
     m = mock_open()
 
@@ -62,7 +62,7 @@ def test_builder_write_status_pvs(status_gen):
     # Mock the Print() function so we don't actually write a file
     with (
         patch("builtins.open", m),
-        patch("techui_builder.builder.Record.Print") as mock_print,
+        patch("techui_builder.status.Record.Print") as mock_print,
     ):
         status_gen.write_status_pvs()
 

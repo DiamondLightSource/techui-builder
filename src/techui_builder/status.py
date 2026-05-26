@@ -13,6 +13,7 @@ class GenerateStatusPvs:
 
     def __post_init__(self):
         self.status_pvs = {}
+        self._write_directory = self.techui_path.parent
 
     def _create_status_pv(self, prefix: str, inputs: list[str]):
         # Extract all input PVs, provided a default "" if not provided

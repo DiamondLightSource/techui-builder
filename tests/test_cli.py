@@ -172,7 +172,7 @@ def test_main_json_map_generation(caplog):
         app,
         [
             "--generate-jsonmap",
-            "/workspaces/techui-builder/tests/t01-services/synoptic/index.bob",
+            "tests/t01-services/synoptic/index.bob",
         ],
     )
     for log_output in caplog.records:

@@ -11,6 +11,7 @@ from techui_builder.builder import Builder
 from techui_builder.generate import Generator
 from techui_builder.generate_jsonmap import JsonMap, JsonMapGenerator
 from techui_builder.models import Component, SupportEntity
+from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
 
@@ -121,6 +122,11 @@ def json_map_generator():
     return JsonMapGenerator(
         Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
     )
+
+
+@pytest.fixture
+def status_gen():
+    return GenerateStatusPvs(Path("tests/t01-services/synoptic/techui.yaml").absolute())
 
 
 @pytest.fixture

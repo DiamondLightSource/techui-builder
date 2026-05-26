@@ -1,9 +1,18 @@
+import logging
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Annotated
 
+import typer
+import yaml
 from epicsdbbuilder.recordbase import Record
 from softioc.builder import records
+from typer.cli import app
+
+from techui_builder.models import TechUi
+
+logger_ = logging.getLogger(__name__)
 
 
 @dataclass
@@ -12,14 +21,21 @@ class GenerateStatusPvs:
     status_pvs: dict[str, Record] = field(default_factory=dict, init=False)
 
     def __post_init__(self):
-        self.status_pvs = {}
         self._write_directory = self.techui_path.parent
 
-    def _create_status_pv(self, prefix: str, inputs: list[str]):
+        try:
+            self.techui_yaml: TechUi = TechUi.model_validate(
+                yaml.safe_load(self.techui_path.read_text(encoding="utf-8"))
+            )
+        except Exception as e:
+            logger_.error(f"Error loading techui.yaml: {e}")
+
+            raise
+
+    def create_status_pv(self, prefix: str, inputs: list[str]):
         # Extract all input PVs, provided a default "" if not provided
         values = [(inputs[i] if i < len(inputs) else "") for i in range(12)]
         inpa, inpb, inpc, inpd, inpe, inpf, inpg, inph, inpi, inpj, inpk, inpl = values
-
         status_pv = records.calc(  # pyright: ignore[reportAttributeAccessIssue]
             f"{prefix}:STA",
             CALC="(A|B|C|D|E|F|G|H|I|J|K|L)>0?1:0",
@@ -62,3 +78,20 @@ class GenerateStatusPvs:
             # Write the status PVs
             for dpv in self.status_pvs.values():
                 dpv.Print(f)
+
+
+@app.callback(invoke_without_command=True)
+def status_run(
+    techui: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
+):
+    status_gen = GenerateStatusPvs(techui)
+    for component in status_gen.techui_yaml.components.values():
+        if component.status is not None:
+            # if a status field is provided, generate a status PV for the component
+            status_gen.create_status_pv(component.prefix, component.status)
+    # write the generated PVs to a file
+    status_gen.write_status_pvs()
+
+
+if __name__ == "__main__":
+    app()

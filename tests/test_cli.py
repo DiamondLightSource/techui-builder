@@ -53,6 +53,21 @@ def test_app_schema():
 #     assert result.exit_code == 0
 
 
+@patch("techui_builder.__main__.status_run")
+def test_status_run(mock_status_run, caplog):
+    mock_status_run.return_value = Mock()
+    result = runner.invoke(
+        app, ["--status", "example/t01-services/synoptic/techui.yaml"]
+    )
+    assert result.exit_code == 0
+
+
+@patch("techui_builder.__main__.schema_generator")
+def test_schema_callback(mock_schema_generator):
+    with pytest.raises(typer.Exit):
+        schema_callback(True)
+
+
 @patch("techui_builder._logger.Logger")
 def test_log_level(mock_logger):
     log_level("INFO")
@@ -140,11 +155,15 @@ def test_find_bob_no_bob_file_found(caplog):
     assert exc_info.value.code is None
 
 
-@patch("techui_builder.main_app.find_bob")
-@patch("techui_builder.main_app.find_dirs")
-@patch("techui_builder.main_app.Autofiller")
-@patch("techui_builder.main_app.Builder")
-def test_main(mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob):
+@patch("techui_builder.__main__.find_bob")
+@patch("techui_builder.__main__.find_dirs")
+@patch("techui_builder.__main__.Autofiller")
+@patch("techui_builder.__main__.Builder")
+@patch("techui_builder.__main__.status_run")
+def test_main(
+    mock_status, mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob
+):
+    mock_status.return_value = Mock()
     mock_find_dirs.return_value = Mock(), Mock()
     mock_path = Mock(spec=Path)
     main(mock_path)

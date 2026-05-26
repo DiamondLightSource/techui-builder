@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -175,11 +176,12 @@ def test_main_json_map_generation(caplog):
             "tests/t01-services/synoptic/index.bob",
         ],
     )
+    if Path.exists(Path("tests/t01-services/synoptic/JsonMap.json")):
+        os.remove("tests/t01-services/synoptic/JsonMap.json")
     for log_output in caplog.records:
         assert "Json map generated for (from" in log_output.message
 
 
 def test_main_without_techui_yaml(caplog):
     result = runner.invoke(app)
-    print(result.output)
     assert "Techui.yaml file must be provided as an argument." in result.output

@@ -5,19 +5,45 @@ from unittest.mock import Mock, patch
 
 import pytest
 from lxml import objectify
+from typer.testing import CliRunner
 
 from techui_builder.generate_jsonmap import (
     JsonMap,
     _get_action_group,
     _get_nav_tabs,  # type: ignore
     _serialise_json_map,
+    app,
+    log_level,
 )
+
+runner = CliRunner()
+
+
+@patch("techui_builder.generate_jsonmap.Logger")
+def test_log_level(mock_logger):
+    log_level("INFO")
+    mock_logger.assert_called_once()
 
 
 def test_write_json_map_no_synoptic(json_map_generator):
     with pytest.raises(FileNotFoundError):
         json_map_generator.bob_path = Path("Synoptic")
         json_map_generator.write_json_map()
+
+
+def test_app():
+    result = runner.invoke(app, ["tests/t01-services/synoptic/techui.yaml"])
+    if Path.exists(Path("tests/t01-services/synoptic/JsonMap.json")):
+        os.remove("tests/t01-services/synoptic/JsonMap.json")
+    assert result.exit_code == 0
+
+
+@patch("techui_builder.generate_jsonmap.yaml.safe_load")
+def test_json_map_generator_techui_exception(mock_safe_load, json_map_generator):
+    mock_safe_load.side_effect = Exception("YAML load error")
+    with pytest.raises(Exception) as excinfo:
+        json_map_generator.__init__(bob_path=Path("tests/test_files/test_bob.bob"))
+    assert "No such file or directory" in str(excinfo.value)
 
 
 def test_write_json_map(json_map_generator):

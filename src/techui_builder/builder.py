@@ -334,7 +334,9 @@ class Builder:
                 )
 
                 # Extract file path from file_elem
-                file_path = Path(file_elem.text.strip() if file_elem.text else "")
+                # Keep raw string to preserve urls
+                file_text = file_elem.text.strip() if file_elem.text else ""
+                file_path = Path(file_text)
 
                 # If file is already a .bob file, skip it
                 if not file_path.suffix == ".bob":
@@ -357,15 +359,18 @@ class Builder:
                     )
                 else:
                     child_node = JsonMap(
-                        str(file_path),
+                        file_text,
                         display_name,
-                        exists=("IOC" in macro_dict or ("https:/" in str(file_path))),
+                        exists=("IOC" in macro_dict or ("https://" in file_text)),
                     )
 
                 if widget_type == "embedded":
                     for embedded_child in child_node.children:
                         embedded_child.macros = {**embedded_child.macros, **macro_dict}
                         embedded_child.display_name = display_name
+                        embedded_child.exists = "IOC" in macro_dict or (
+                            "https://" in str(embedded_child.file)
+                        )
                         current_node.children.append(embedded_child)
 
                 else:

@@ -74,7 +74,7 @@ def test_autofiller_write_bob(mock_tree, mock_deannotate, autofiller):
 def test_autofiller_replace_content(
     mock_get,
     autofiller,
-    example_related_widget,
+    example_xml_related_widget,
     prefix,
     description,
     filename,
@@ -82,7 +82,7 @@ def test_autofiller_replace_content(
     expected_desc,
     expected_file,
 ):
-    mock_get.return_value = example_related_widget.actions.action
+    mock_get.return_value = example_xml_related_widget.actions.action
 
     # Cannot use a Mock object as need P to be computed
     fake_component = Component(
@@ -93,17 +93,17 @@ def test_autofiller_replace_content(
     )
 
     autofiller.replace_content(
-        example_related_widget,
+        example_xml_related_widget,
         "test_component",
         fake_component,
     )
 
-    assert example_related_widget.pv_name == f"{prefix}:STA"
-    assert example_related_widget.actions.action.description.text == expected_desc
-    assert example_related_widget.actions.action.file.text == expected_file
+    assert example_xml_related_widget.pv_name == f"{prefix}:STA"
+    assert example_xml_related_widget.actions.action.description.text == expected_desc
+    assert example_xml_related_widget.actions.action.file.text == expected_file
     if macros is not None:
         for k, v in macros.items():
-            assert example_related_widget.actions.action.macros[k] == macros[k] == v
+            assert example_xml_related_widget.actions.action.macros[k] == macros[k] == v
 
 
 @patch("techui_builder.autofill._get_action_group")

@@ -18,9 +18,9 @@ def test_read_bob(mock_get_widgets):
     mock_get_widgets.assert_called_once()
 
 
-def test_get_widgets(example_symbol_widget):
+def test_get_widgets(example_xml_symbol_widget):
     test_root = Element("root")
-    test_root.append(example_symbol_widget)
+    test_root.append(example_xml_symbol_widget)
 
     widgets = get_widgets(test_root)
 

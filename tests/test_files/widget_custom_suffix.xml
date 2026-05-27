@@ -1,21 +1,21 @@
 <?xml version="1.0" ?>
 <widget type="action_button" version="2.0.0">
-  <name>CAM</name>
+  <name>STAT</name>
   <x>0</x>
   <y>0</y>
   <width>100</width>
   <height>40</height>
   <pv_name/>
-  <text>CAM</text>
+  <text>STAT</text>
   <actions>
     <action type="open_display">
       <description>Open Display</description>
       <macros>
         <P>BL01T-DI-IOC-01</P>
-        <R>:CAM:</R>
-        <label>CAM</label>
+        <R>:STAT:</R>
+        <label>STAT</label>
       </macros>
-      <file>test_url/bl01t-di-ioc-01/ADUVC.pvi.bob</file>
+      <file>techui-support/bob/ADAravis/NDPluginStats.pvi.bob</file>
       <target>tab</target>
     </action>
   </actions>

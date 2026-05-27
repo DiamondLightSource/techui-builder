@@ -297,7 +297,7 @@ class SupportEntity(BaseModel):
         Field(description="Macros for the matching screen (can be empty)"),
     ]
     screens: Annotated[
-        list[dict[str, str]],
+        list[dict[str, str | dict[str, str]]],
         Field(description="Dictionary of available screens for the support module"),
     ]
 

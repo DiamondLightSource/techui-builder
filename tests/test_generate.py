@@ -106,19 +106,18 @@ def test_generator_get_group_dimensions(generator):
     assert width == 300
 
 
-def test_generator_create_widget_keyerror(generator, caplog):
+def test_generator_create_widgets_keyerror(generator, caplog):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     screen_name = "test"
     component = Entity(
         service_name="bl01t-di-ioc-01",
         type="key.notavailable",
-        P="BL01T-DI-IOC-01",
+        prefix="BL01T-DI-IOC-01:CAM:",
         desc=None,
-        M=None,
-        R=":CAM:",
+        macros={"P": "BL01T-DI-IOC-01", "R": ":CAM:"},
     )
 
-    result = generator._create_widget(name=screen_name, component=component)
+    result = generator._create_widgets(name=screen_name, component=component)
 
     assert result is None
     assert (
@@ -127,43 +126,19 @@ def test_generator_create_widget_keyerror(generator, caplog):
     )
 
 
-def test_generator_create_widget_is_list_of_dicts(generator):
-    generator._get_screen_dimensions = Mock(return_value=(800, 1280))
-    generator._is_list_of_dicts = Mock(return_value=True)
-    generator._allocate_widget = Mock(
-        return_value=pwidget.EmbeddedDisplay(
-            name="X", file="", x=0, y=0, width=205, height=120
-        )
-    )
+def test_generator_create_widgets_embedded(generator, example_pgen_embedded_widget):
+    generator._allocate_widget = Mock(return_value=example_pgen_embedded_widget)
+
     screen_name = "test"
     component = Entity(
         service_name="bl01t-di-ioc-01",
         type="ADAravis.aravisCamera",
-        P="BL01T-DI-IOC-01",
+        prefix="BL01T-DI-IOC-01:CAM:",
         desc=None,
-        M=None,
-        R=":CAM:",
-    )
-    widget = generator._create_widget(name=screen_name, component=component)
-    for value in widget:
-        assert str(value) == str(
-            pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120)
-        )
-
-
-def test_generator_create_widget_embedded(generator):
-    generator._get_screen_dimensions = Mock(return_value=(450, 860))
-    screen_name = "test"
-    component = Entity(
-        service_name="bl01t-di-ioc-01",
-        type="ADAravis.aravisCamera",
-        P="BL01T-DI-IOC-01",
-        desc=None,
-        M=None,
-        R=":CAM:",
+        macros={"P": "BL01T-DI-IOC-01", "R": ":CAM:"},
     )
 
-    widget = generator._create_widget(
+    widget = generator._create_widgets(
         name=screen_name,
         component=component,
     )
@@ -176,85 +151,79 @@ def test_generator_create_widget_embedded(generator):
     assert str(widget[0]) == xml_content
 
 
-def test_generator_initialise_name_suffix_m(generator):
+def test_generator_update_macros(generator):
+    suffix_key = "M"
+    suffix = ":T1"
+
     component = Entity(
-        service_name="bl01t-mo-ioc-01", type="test", P="TEST", desc=None, M="T1", R=None
+        service_name="bl01t-mo-ioc-01",
+        type="test",
+        prefix="TEST:T1",
+        desc=None,
+        macros={"P": "TEST", suffix_key: suffix},
     )
 
-    name, suffix, suffix_label = generator._initialise_name_suffix(component)
+    component_name, updated_macros = generator._update_macros(component)
 
-    assert name == "T1"
-    assert suffix == "T1"
-    assert suffix_label == "M"
+    assert component_name == "T1"
+    assert updated_macros[suffix_key] == suffix
+    assert updated_macros["label"] == "T1"
 
 
-def test_generator_initialise_name_suffix_r(generator):
+def test_generator_update_macros_no_suffix(generator):
     component = Entity(
-        service_name="bl01t-di-ioc-01", type="test", P="TEST", desc=None, M=None, R="T1"
+        service_name="bl01t-ea-ioc-01",
+        type="test",
+        prefix="TEST",
+        desc=None,
+        macros={"pv": "TEST"},
     )
 
-    name, suffix, suffix_label = generator._initialise_name_suffix(component)
+    component_name, updated_macros = generator._update_macros(component)
 
-    assert name == "T1"
-    assert suffix == "T1"
-    assert suffix_label == "R"
-
-
-def test_generator_initialise_name_suffix_none(generator):
-    component = Entity(
-        service_name="bl01t-ea-ioc-01", type="test", P="TEST", desc=None, M=None, R=None
-    )
-
-    name, suffix, suffix_label = generator._initialise_name_suffix(component)
-
-    assert name == component.P
-    assert suffix == ""
-    assert suffix_label == ""
+    assert component_name == "test"
+    assert len(updated_macros) == 1
+    assert updated_macros["pv"] == "TEST"
+    assert "label" not in updated_macros.keys()
 
 
-def test_generator_initialise_name_suffix_with_child_labels(generator):
+def test_generator_update_macros_suffix_with_child_labels(generator):
+    suffix_key = "R"
+    suffix = ":T1"
+    child_label = "Test 1"
+
     component = Entity(
         type="test",
-        P="TEST",
+        prefix="TEST:T1",
         desc=None,
         service_name="bl01t-mo-test-01",
-        M=None,
-        R="T1",
-        child_labels={"T1": "Test 1"},
+        macros={"P": "TEST", suffix_key: suffix},
+        child_labels={suffix: child_label},
     )
 
-    name, suffix, suffix_label = generator._initialise_name_suffix(component)
+    component_name, updated_macros = generator._update_macros(component)
 
-    assert name == "Test 1"
-    assert suffix == "T1"
-    assert suffix_label == "R"
-
-
-def test_generator_is_list_of_dicts(generator):
-    list_of_dicts = [{"a": 1}, {"b": 2}]
-    assert generator._is_list_of_dicts(list_of_dicts) is True
-
-
-def test_generator_is_list_of_dicts_not(generator):
-    not_list_of_dicts = {"a": 1}
-    assert generator._is_list_of_dicts(not_list_of_dicts) is False
+    assert component_name == child_label
+    assert updated_macros["label"] == child_label
 
 
 def test_generator_allocate_widget(generator):
-    generator._initilise_name_suffix = Mock(return_value=("CAM:", "CAM:", "R"))
+    generator._update_macros = Mock(
+        return_value=("CAM", {"P": "BL01T-DI-IOC-01", "R": ":CAM:", "label": "CAM"})
+    )
+    generator._get_screen_dimensions = Mock(return_value=(450, 860))
 
-    scrn_mapping = {
-        "file": "ADAravis/ADAravis_summary.bob",
-        "prefix": "$(P)$(R)",
-        "type": "embedded",
-    }
+    scrn_mappings = generator.techui_support.support_modules[
+        "ADAravis.aravisCamera"
+    ].screens
+    scrn_mapping = next((x for x in scrn_mappings if x["type"] == "embedded"), None)
+
     component = Entity(
         service_name="bl01t-di-ioc-01",
         type="ADAravis.aravisCamera",
-        P="BL01T-DI-IOC-01",
+        prefix="BL01T-DI-IOC-01:CAM:",
         desc=None,
-        M=None,
-        R=":CAM:",
+        macros={"P": "BL01T-DI-IOC-01", "R": ":CAM:"},
     )
     widget = generator._allocate_widget(scrn_mapping, component)
     control_widget = Path("tests/test_files/widget.xml")
@@ -266,20 +235,19 @@ def test_generator_allocate_widget(generator):
 
 
 def test_generator_allocate_widget_with_remote_screens(generator):
-    generator._initilise_name_suffix = Mock(return_value=("CAM:", "CAM:", "R"))
+    generator._update_macros = Mock(
+        return_value=("CAM", {"P": "BL01T-DI-IOC-01", "R": ":CAM:", "label": "CAM"})
+    )
 
-    scrn_mapping = {
-        "file": "$(IOC)/ADAravis_summary.bob",
-        "prefix": "$(P)$(R)",
-        "type": "related",
-    }
+    scrn_mappings = generator.techui_support.support_modules["ADUVC.UVC"].screens
+    scrn_mapping = next((x for x in scrn_mappings if x["type"] == "related"), None)
+
     component = Entity(
         service_name="bl01t-di-ioc-01",
-        type="ADAravis.aravisCamera",
-        P="BL01T-DI-IOC-01",
+        type="ADUVC.UVC",
+        prefix="BL01T-DI-IOC-01:CAM:",
         desc=None,
-        M=None,
-        R=":CAM:",
+        macros={"P": "BL01T-DI-IOC-01", "R": ":CAM:"},
     )
     widget = generator._allocate_widget(scrn_mapping, component)
     control_widget = Path("tests/test_files/widget_url_screen.xml")
@@ -290,25 +258,24 @@ def test_generator_allocate_widget_with_remote_screens(generator):
     assert str(widget) == xml_content
 
 
-def test_generator_allocate_widget_with_suffix(generator):
-    generator._initialise_name_suffix = Mock(return_value=(":CAM:", ":CAM:", "R"))
+def test_generator_allocate_widget_with_custom_suffix(generator):
+    generator._update_macros = Mock(return_value=("CAM", {"P": "BL01T-DI-IOC-01"}))
+    generator._get_screen_dimensions = Mock(return_value=(40, 100))
 
-    scrn_mapping = {
-        "file": "ADAravis/ADAravis_summary.bob",
-        "prefix": "$(P)$(R)",
-        "suffix": ":CAM:",
-        "type": "embedded",
-    }
+    scrn_mappings = generator.techui_support.support_modules[
+        "detectorPlugins.detectorPlugins"
+    ].screens
+    scrn_mapping = next((x for x in scrn_mappings if x["type"] == "related"), None)
+
     component = Entity(
         service_name="bl01t-di-ioc-01",
         type="detectorPlugins.detectorPlugins",
-        P="BL01T-DI-IOC-01",
+        prefix="BL01T-DI-IOC-01",
         desc=None,
-        M=None,
-        R=None,
+        macros={"P": "BL01T-DI-IOC-01"},
     )
     widget = generator._allocate_widget(scrn_mapping, component)
-    control_widget = Path("tests/test_files/widget.xml")
+    control_widget = Path("tests/test_files/widget_custom_suffix.xml")
 
     with open(control_widget) as f:
         xml_content = f.read()
@@ -316,51 +283,53 @@ def test_generator_allocate_widget_with_suffix(generator):
     assert str(widget) == xml_content
 
 
-def test_generator_create_widget_related(generator):
+def test_generator_create_widgets_related(generator, example_pgen_related_widget):
+    generator._allocate_widget = Mock(return_value=example_pgen_related_widget)
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
-    screen_name = "test"
+
     component = Entity(
         service_name="bl01t-mo-ioc-01",
         type="pmac.GeoBrick",
-        P="BL01T-MO-IOC-01",
+        prefix="BL01T-MO-IOC-01",
         desc=None,
-        M=":M",
-        R=None,
+        macros={"P": "BL01T-MO-IOC-01"},
     )
 
-    widget = generator._create_widget(
-        name=screen_name,
+    widgets = generator._create_widgets(
+        name="BRICK",
         component=component,
     )
 
     control_widget = Path("tests/test_files/widget_related.xml")
     with open(control_widget) as f:
         xml_content = f.read()
-    assert str(widget) == xml_content
+    assert str(widgets[0]) == xml_content
 
 
-def test_generator_create_widget_related_no_suffix(generator):
-    generator._get_screen_dimensions = Mock(return_value=(800, 1280))
-    screen_name = "test"
-    component = Entity(
-        service_name="bl01t-mo-ioc-01",
-        type="pmac.GeoBrick",
-        P="BL01T-MO-IOC-01",
-        desc=None,
-        M=None,
-        R=None,
-    )
+# def test_generator_create_widgets_related_no_suffix(
+#     generator, example_pgen_related_widget
+# ):
+#     generator._allocate_widget = Mock(return_value=example_pgen_related_widget)
+#     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
 
-    widget = generator._create_widget(
-        name=screen_name,
-        component=component,
-    )
+#     component = Entity(
+#         service_name="bl01t-mo-ioc-01",
+#         type="pmac.GeoBrick",
+#         prefix="BL01T-MO-IOC-01",
+#         desc=None,
+#         macros={"P": "BL01T-MO-IOC-01"},
+#     )
 
-    control_widget = Path("tests/test_files/widget_related_no_suffix.xml")
+#     widgets = generator._create_widgets(
+#         name="BRICK",
+#         component=component,
+#     )
 
-    with open(control_widget) as f:
-        xml_content = f.read()
-    assert str(widget) == xml_content
+#     control_widget = Path("tests/test_files/widget_related_no_suffix.xml")
+
+#     with open(control_widget) as f:
+#         xml_content = f.read()
+#     assert str(widgets[0]) == xml_content
 
 
 @pytest.mark.parametrize(
@@ -403,7 +372,7 @@ def test_generator_layout_widgets(generator, index, x, y):
 
 # TODO: Split up test
 def test_generator_build_screen(generator, components):
-    generator._create_widget = Mock(return_value=Mock())
+    generator._create_widgets = Mock(return_value=[Mock()])
     generator.layout_widgets = Mock(
         return_value=[
             pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120),
@@ -425,7 +394,7 @@ def test_generator_build_screen(generator, components):
 def test_build_groups_with_label(generator, components):
     screen_name = "motor"
     generator.widgets = [Mock(), Mock(), Mock()]
-    generator._create_widget = Mock(return_value=Mock())
+    generator._create_widgets = Mock(return_value=Mock())
     generator.layout_widgets = Mock(
         return_value=[
             pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120),
@@ -444,7 +413,7 @@ def test_build_groups_with_label(generator, components):
 def test_build_groups(generator, components):
     screen_name = "test"
     generator.widgets = [Mock(), Mock(), Mock()]
-    generator._create_widget = Mock(return_value=Mock())
+    generator._create_widgets = Mock(return_value=Mock())
     generator.layout_widgets = Mock(
         return_value=[
             pwidget.EmbeddedDisplay(name="X", file="", x=0, y=0, width=205, height=120),

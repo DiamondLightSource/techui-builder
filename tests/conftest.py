@@ -53,13 +53,20 @@ def test_files():
 
 
 @pytest.fixture
-def example_json_map():
+def example_json_map_root():
+    test_map_base = JsonMap("test_bob.bob", "Display")
+
+    return test_map_base
+
+
+@pytest.fixture
+def example_json_map(example_json_map_root):
     # Create test json map with child json map
     test_map_child = JsonMap("test_child_bob.bob", "Detector", exists=False)
-    test_map = JsonMap("test_bob.bob", "Display")
-    test_map.children.append(test_map_child)
 
-    return test_map
+    example_json_map_root.children.append(test_map_child)
+
+    return example_json_map_root
 
 
 @pytest.fixture
@@ -212,6 +219,46 @@ def example_symbol_widget():
     width_element.text = "205"
     height_element = SubElement(widget_element, "height")
     height_element.text = "120"
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element
+
+
+@pytest.fixture
+def example_navtabs_widget():
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+
+    widget_element = Element("widget")
+    widget_element.set("type", "navtabs")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "navtab"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+    tabs_element = SubElement(widget_element, "tabs")
+    tab_element_1 = SubElement(tabs_element, "tab")
+    tab_element_2 = SubElement(tabs_element, "tab")
+
+    name_element_1 = SubElement(tab_element_1, "name")
+    name_element_1.text = "tab1"
+    file_element_1 = SubElement(tab_element_1, "file")
+    file_element_1.text = "tests/test-files/motor_embed.bob"
+    macros_element_1 = SubElement(tab_element_1, "macros")
+    macro_element_1 = SubElement(macros_element_1, "macro1")
+    macro_element_1.text = "test_macro_1"
+
+    name_element_2 = SubElement(tab_element_2, "name")
+    name_element_2.text = "tab2"
+    file_element_2 = SubElement(tab_element_2, "file")
+    file_element_2.text = "tests/test-files/motor_embed.bob"
+    macros_element_2 = SubElement(tab_element_2, "macros")
+    macro_element_2 = SubElement(macros_element_2, "macro2")
+    macro_element_2.text = "test_macro_2"
 
     # ... which requires this horror
     widget_element = fromstring(tostring(widget_element))

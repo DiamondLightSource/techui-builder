@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2026-05-20 13:34:00 by ryi58813-->
+<display version="2.0.0">
+  <name>Display</name>
+  <widget type="navtabs" version="2.0.0">
+    <name>Navigation Tabs</name>
+    <tabs>
+      <tab>
+        <name>Tab1</name>
+        <file>tab1.bob</file>
+        <macros>
+        </macros>
+        <group_name/>
+        <selected_color>
+          <color red="236" green="236" blue="236">
+          </color>
+        </selected_color>
+        <deselected_color>
+          <color red="200" green="200" blue="200">
+          </color>
+        </deselected_color>
+      </tab>
+      <tab>
+        <name>Tab2</name>
+        <file>tab2.bob</file>
+        <macros>
+        </macros>
+        <group_name/>
+        <selected_color>
+          <color red="236" green="236" blue="236">
+          </color>
+        </selected_color>
+        <deselected_color>
+          <color red="200" green="200" blue="200">
+          </color>
+        </deselected_color>
+      </tab>
+    </tabs>
+    <x>150</x>
+    <y>120</y>
+    <width>820</width>
+    <height>530</height>
+    <direction>0</direction>
+    <tab_height>20</tab_height>
+  </widget>
+</display>

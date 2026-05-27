@@ -266,6 +266,53 @@ class Builder:
     ) -> JsonMap:
         """Recursively generate JSON map from .bob file tree"""
 
+        # ------------ USEFUL FUNCTIONS ------------
+
+        def _get_display_name(
+            name_element: str | None, component_name: str | None, file_path: Path
+        ):
+            # Validated screen names don't get renegerated
+            name = name_element
+            display_name = self._get_component_label(
+                name_element,
+                component_name,
+                name,
+            )
+            # Create valid displayName
+            display_name = self._parse_display_name(display_name, file_path)
+            return display_name
+
+        def _next_file_crawl(
+            file_path: Path,
+            destination_path: Path,
+            name_element: str | None,
+            component_name: str | None,
+            display_name: str | None,
+            macro_dictionary: dict[str, Any],
+        ):
+            # TODO: misleading var name?
+            next_file_path = destination_path.joinpath(file_path)
+
+            # Crawl the next file
+            if next_file_path.is_file():
+                # TODO: investigate non-recursive approaches?
+                child_node = self._generate_json_map(
+                    next_file_path,
+                    destination_path,
+                    current_component_name=component_name,
+                    name_elem=name_element,
+                )
+            else:
+                child_node = JsonMap(
+                    str(file_path),
+                    display_name,
+                    exists=("IOC" in macro_dictionary or ("https:/" in str(file_path))),
+                )
+
+            return child_node
+
+        # ------------------------------------------
+
         # Create initial node at top of .bob file
         current_node = JsonMap(
             str(screen_path.resolve().relative_to(self._write_directory.resolve())),
@@ -298,7 +345,7 @@ class Builder:
                 for w in root.findall(".//widget")
                 if w.get("type", default=None)
                 # in ["symbol", "embedded", "action_button"]
-                in ["symbol", "action_button", "embedded"]
+                in ["symbol", "action_button", "embedded", "navtabs"]
             ]
 
             for widget_elem in widgets:
@@ -322,16 +369,49 @@ class Builder:
                         name_elem = widget_elem.name.text
                         macro_dict = self._get_macros(widget_elem)
 
-                    case _:
+                    case "navtabs":
+                        tabs = _get_nav_tabs(widget_elem)
+                        if tabs is None:
+                            continue
+
+                        for tab in tabs:
+                            name_elem = tab.name.text
+                            file_elem = tab.file
+                            macro_dict = self._get_macros(tab)
+
+                            # Extract file path from file_elem
+                            # Keep raw string to preserve urls
+                            file_text = file_elem.text.strip() if file_elem.text else ""
+                            file_path = Path(file_text)
+
+                            # If file is already a .bob file, skip it
+                            if not file_path.suffix == ".bob":
+                                continue
+
+                            display_name = _get_display_name(
+                                name_elem, current_component_name, file_path
+                            )
+
+                            child_node = _next_file_crawl(
+                                file_path,
+                                dest_path,
+                                name_elem,
+                                current_component_name,
+                                display_name,
+                                macro_dict,
+                            )
+
+                            child_node.macros = macro_dict
+                            # TODO: make this work for only list[JsonMap]
+                            assert isinstance(current_node.children, list)
+                            # TODO: fix typing
+                            current_node.children.append(child_node)
+
+                        # We have already done the logic, so skip to the next widget
                         continue
 
-                # Validated screen names don't get renegerated
-                display_name = name_elem
-                display_name = self._get_component_label(
-                    name_elem,
-                    current_component_name,
-                    display_name,
-                )
+                    case _:
+                        continue
 
                 # Extract file path from file_elem
                 # Keep raw string to preserve urls
@@ -342,27 +422,18 @@ class Builder:
                 if not file_path.suffix == ".bob":
                     continue
 
-                # Create valid displayName
-                display_name = self._parse_display_name(display_name, file_path)
+                display_name = _get_display_name(
+                    name_elem, current_component_name, file_path
+                )
 
-                # TODO: misleading var name?
-                next_file_path = dest_path.joinpath(file_path)
-
-                # Crawl the next file
-                if next_file_path.is_file():
-                    # TODO: investigate non-recursive approaches?
-                    child_node = self._generate_json_map(
-                        next_file_path,
-                        dest_path,
-                        current_component_name=current_component_name,
-                        name_elem=name_elem,
-                    )
-                else:
-                    child_node = JsonMap(
-                        file_text,
-                        display_name,
-                        exists=("IOC" in macro_dict or ("https://" in file_text)),
-                    )
+                child_node = _next_file_crawl(
+                    file_path,
+                    dest_path,
+                    name_elem,
+                    current_component_name,
+                    display_name,
+                    macro_dict,
+                )
 
                 if widget_type == "embedded":
                     for embedded_child in child_node.children:
@@ -499,6 +570,11 @@ class Builder:
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
                 + "\n"
             )
+            # f.writelines(
+            #     self.conf.model_dump_json(
+            #         indent=4, exclude_defaults=True, exclude_none=True
+            #     )
+            # )
 
 
 # Function to convert the JsonMap objects into dictionaries,
@@ -556,5 +632,27 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
 
         logger_.error(
             f"Actions group not found in component [bold]{name}[/bold] on "
+            f"[bold]{parent_name}[/bold]"
+        )
+
+
+def _get_nav_tabs(element: ObjectifiedElement) -> list[ObjectifiedElement] | None:
+    try:
+        element_tabs = element.tabs
+        assert element_tabs is not None
+
+        tabs = list(element_tabs.iterchildren("tab"))
+
+        return tabs
+
+    except AttributeError:
+        # TODO: Find better way of handling there being no "tabs" group
+        # TODO: Do widgets always have a name attr, or _can_ it be empty??
+        name = element.name
+
+        parent_name = p.name if (p := element.getparent()) is not None else None
+
+        logger_.error(
+            f"Tabs group not found in component [bold]{name}[/bold] on "
             f"[bold]{parent_name}[/bold]"
         )

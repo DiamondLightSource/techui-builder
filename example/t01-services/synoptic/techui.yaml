@@ -9,6 +9,8 @@ components:
   fshtr:
     label: Fast Shutter
     prefix: BL01T-EA-FSHTR-01
+    status:
+      - BL01T-EA-FSHTR-01:FSHTR1.STAT
 
   d1:
     label: Diode 1

@@ -1,8 +1,25 @@
 from io import StringIO
 from pathlib import Path
-from unittest.mock import mock_open, patch
+from unittest.mock import Mock, mock_open, patch
 
+import pytest
 from softioc.builder import ClearRecords, records
+
+from techui_builder.status import status_run
+
+
+@patch("techui_builder.status.GenerateStatusPvs.write_status_pvs")
+@patch("techui_builder.status.GenerateStatusPvs.create_status_pv")
+def test_status_run(mock_create, mock_write):
+    mock_create.return_value = Mock()
+    mock_write.return_value = Mock()
+    status_run(Path("tests/t01-services/synoptic/techui.yaml").absolute())
+
+
+def test_status_run_invalid_yaml(caplog):
+    with pytest.raises(Exception):  # noqa: B017
+        status_run(Path("tests/invalid_techui.yaml").absolute())
+    assert "Error loading techui.yaml" in caplog.text
 
 
 def test_status_create_status_pv(status_gen):

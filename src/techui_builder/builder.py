@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import re
 from collections import defaultdict
 from dataclasses import _MISSING_TYPE, dataclass, field
 from pathlib import Path
@@ -187,83 +188,57 @@ class Builder:
                 if service_yaml is None:
                     raise OSError()
 
-                if service_yaml.name.startswith("fastcs"):
-                    self._extract_fastcs_entities(
-                        service_name=service_name,
-                        service_yaml=service_yaml,
-                    )
-                else:
-                    self._extract_ioc_entities(
-                        service_name=service_name,
-                        service_yaml=service_yaml,
-                    )
+                self._extract_entities(
+                    service_name=service_name,
+                    service_yaml=service_yaml,
+                )
+
             except OSError:
                 logger_.error(
                     "No ioc.yaml or fastcs.yaml found for service: "
                     f"[bold]{service_name}[/bold]. Does it exist?"
                 )
 
-    def _extract_ioc_entities(self, service_name: str, service_yaml: Path):
+    def _extract_entities(self, service_name: str, service_yaml: Path):
         """
         Extracts the entries in ioc.yaml matching the defined prefix
         """
 
         with open(service_yaml) as ioc:
             ioc_conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
-            for entity in ioc_conf["entities"]:
-                if entity["type"] in self.techui_support.support_modules:
-                    support_mapping: SupportEntity = (
-                        self.techui_support.support_modules[entity["type"]]
-                    )
-                    support_macros = support_mapping.macros
 
-                    macros = {k: v for k, v in entity.items() if k in support_macros}
+            for key in ioc_conf.keys():
+                _regex = re.compile(r"^(?:(entities)|(controllers))$")
+                match = _regex.match(key)
+                if match:
+                    entity_key = match.group()
 
-                    prefix_template = Template(support_mapping.prefix)
-                    prefix: str = prefix_template.render(macros)
+                    for entity in ioc_conf[entity_key]:
+                        if entity["type"] in self.techui_support.support_modules:
+                            support_mapping: SupportEntity = (
+                                self.techui_support.support_modules[entity["type"]]
+                            )
+                            support_macros = support_mapping.macros
 
-                    # Create Entity and append to entity list
-                    new_entity = Entity(
-                        service_name=service_name,
-                        type=entity["type"],
-                        desc=entity.get("desc", None),
-                        prefix=prefix,
-                        macros=macros,
-                    )
+                            macros = {
+                                k: v for k, v in entity.items() if k in support_macros
+                            }
 
-                    pv_root = prefix.split(":", maxsplit=1)[0]
-                    self.entities[pv_root].append(new_entity)
+                            prefix_template = Template(support_mapping.prefix)
+                            prefix: str = prefix_template.render(macros)
 
-    def _extract_fastcs_entities(self, service_name: str, service_yaml: Path):
-        """
-        Extracts the entries in fastcs.yaml matching the defined prefix
-        """
+                            # Create Entity and append to entity list
+                            new_entity = Entity(
+                                service_name=service_name,
+                                type=entity["type"],
+                                desc=entity.get("desc", None),
+                                prefix=prefix,
+                                macros=macros,
+                            )
 
-        with open(service_yaml) as ioc:
-            ioc_conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
-            for entity in ioc_conf["controllers"]:
-                if entity["type"] in self.techui_support.support_modules:
-                    support_mapping: SupportEntity = (
-                        self.techui_support.support_modules[entity["type"]]
-                    )
-                    support_macros = support_mapping.macros
-
-                    macros = {k: v for k, v in entity.items() if k in support_macros}
-
-                    prefix_template = Template(support_mapping.prefix)
-                    prefix: str = prefix_template.render(macros)
-
-                    # Create Entity and append to entity list
-                    new_entity = Entity(
-                        service_name=service_name,
-                        type=entity["type"],
-                        desc=entity.get("desc", None),
-                        prefix=prefix,
-                        macros=macros,
-                    )
-
-                    pv_root = prefix.split(":", maxsplit=1)[0]
-                    self.entities[pv_root].append(new_entity)
+                            pv_root = prefix.split(":", maxsplit=1)[0]
+                            self.entities[pv_root].append(new_entity)
+                    break
 
     def _generate_screen(self, screen_name: str):
         self.generator.build_screen(screen_name)

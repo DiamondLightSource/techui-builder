@@ -306,7 +306,9 @@ class Builder:
                 child_node = JsonMap(
                     str(file_path),
                     display_name,
-                    exists=("IOC" in macro_dictionary or ("https:/" in str(file_path))),
+                    exists=(
+                        "IOC" in macro_dictionary or ("https://" in str(file_path))
+                    ),
                 )
 
             return child_node

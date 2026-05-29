@@ -179,14 +179,51 @@ def test_missing_service(builder, caplog):
         ),
     ],
 )
-def test_gb_extract_entities(builder_with_setup, index, type, desc, pv, macros):  # noqa: N803
+def test_gb_extract_entities_ioc_yaml(
+    builder, techui_support, index, type, desc, pv, macros
+):
+    # We don't want to use builder_with_setup as that calls _extract_services()
+    # and in turn that calls _extract_entities()
+    builder.techui_support = techui_support
     prefix = pv.split(":", maxsplit=1)[0]
 
-    builder_with_setup._extract_entities(
+    builder._extract_entities(
         "bl01t-mo-ioc-01",
-        builder_with_setup._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml"),
+        builder._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml"),
     )
-    entity = builder_with_setup.entities[prefix][index]
+    entity = builder.entities[prefix][index]
+    assert entity.type == type
+    assert entity.desc == desc
+    assert entity.prefix == pv
+    assert entity.macros == macros
+
+
+@pytest.mark.parametrize(
+    "index, type, desc, pv, macros",
+    [
+        (
+            0,
+            "fastcs.TemperatureController",
+            None,
+            "BL01T-EA-TEST-01",
+            {"name": "BL01T-EA-TEST-01"},
+        ),
+    ],
+)
+def test_gb_extract_entities_fastcs_yaml(
+    builder, techui_support, index, type, desc, pv, macros
+):
+    # We don't want to use builder_with_setup as that calls _extract_services()
+    # and in turn that calls _extract_entities()
+    builder.techui_support = techui_support
+
+    prefix = pv.split(":", maxsplit=1)[0]
+
+    builder._extract_entities(
+        "bl01t-ea-ioc-01",
+        builder._services_dir.joinpath("bl01t-ea-ioc-01/config/fastcs.yaml"),
+    )
+    entity = builder.entities[prefix][index]
     assert entity.type == type
     assert entity.desc == desc
     assert entity.prefix == pv

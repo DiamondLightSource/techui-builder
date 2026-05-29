@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=schema.json
+controllers:
+  - name: BL01T-EA-TEST-01
+    type: fastcs.TemperatureController
+    ip_settings:
+      ip: "localhost"
+      port: 25565
+    num_ramp_controllers: 4
+
+transport:
+  - graphql:
+      host: localhost
+      port: 8083
+      log_level: info
+  - epicsca: {}
+    gui:
+      title: Temperature Controller Demo
+      output_dir: .

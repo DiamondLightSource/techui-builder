@@ -149,7 +149,7 @@ def test_missing_service(builder, caplog):
     builder._extract_entities = Mock(side_effect=OSError())
     builder._extract_services()
     for log_output in caplog.records:
-        assert "No ioc.yaml file for service:" in log_output.message
+        assert "No ioc.yaml or fastcs.yaml found for service:" in log_output.message
 
 
 @pytest.mark.parametrize(

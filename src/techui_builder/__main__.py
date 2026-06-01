@@ -1,16 +1,12 @@
 """Interface for ``python -m techui_builder``."""
 
 import logging
-from pathlib import Path
-from typing import Annotated
 
 import typer
 
-from techui_builder import __version__
-from techui_builder._logger import Logger
-from techui_builder.autofill import Autofiller
-from techui_builder.builder import Builder
-from techui_builder.schema_generator import schema_generator
+from techui_builder.main_app import app as main_app
+from techui_builder.schema_generator import app as schema_app
+from techui_builder.version import app as version_app
 
 logger_ = logging.getLogger(__name__)
 
@@ -38,148 +34,10 @@ app = typer.Typer(
 """,
 )
 
-default_bobfile = "index.bob"
 
-
-def version_callback(value: bool):
-    if value:
-        print(f"techui-builder version: {__version__}")
-        raise typer.Exit()
-
-
-def schema_callback(value: bool):
-    if value:
-        schema_generator()
-        raise typer.Exit()
-
-
-def log_level(level: str):
-    Logger(level)
-
-
-def find_dirs(file_path: Path, beamline: str) -> tuple:
-    # Get the relative path to the techui file from working dir
-    abs_path = file_path.absolute()
-    logger_.debug(f"techui.yaml absolute path: {abs_path}")
-
-    # Get the current working dir
-    cwd = Path.cwd()
-    logger_.debug(f"Working directory: {cwd}")
-
-    # Get the relative path of ixx-services to techui.yaml
-    ixx_services_dir = next(
-        (
-            ixx_services.relative_to(cwd, walk_up=True)
-            for parent in abs_path.parents
-            for ixx_services in parent.glob(f"{beamline}-services")
-        ),
-        None,
-    )
-    if ixx_services_dir is None:
-        logging.critical("ixx-services not found. Is you file structure correct?")
-        exit()
-    logger_.debug(f"ixx-services relative path: {ixx_services_dir}")
-
-    # Get the synoptic dir relative to the parent dir
-    synoptic_dir = ixx_services_dir.joinpath("synoptic")
-    logger_.debug(f"synoptic relative path: {synoptic_dir}")
-
-    return ixx_services_dir, synoptic_dir
-
-
-def find_bob(bob_file: Path | None, synoptic_dir: Path):
-    if bob_file is None:
-        # Search default relative dir to techui filename
-        # There will only ever be one file, but if not return None
-        bob_file = next(
-            synoptic_dir.glob(default_bobfile),
-            None,
-        )
-        if bob_file is None:
-            logging.critical(
-                f"Source bob file '{default_bobfile}' not found in \
-{synoptic_dir}. Does it exist?"
-            )
-            exit()
-    elif not bob_file.exists():
-        logging.critical(f"Source bob file '{bob_file}' not found. Does it exist?")
-        exit()
-
-    logger_.debug(f"bob file: {bob_file}")
-    return bob_file
-
-
-# This is the default behaviour when no command provided
-@app.callback(invoke_without_command=True)
-def main(
-    filename: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
-    bobfile: Annotated[
-        Path | None,
-        typer.Argument(help="Override for template bob file location."),
-    ] = None,
-    version: Annotated[
-        bool | None, typer.Option("--version", callback=version_callback)
-    ] = None,
-    loglevel: Annotated[
-        str,
-        typer.Option(
-            "--log-level",
-            "-l",
-            help="Set log level to INFO, DEBUG, WARNING, ERROR or CRITICAL",
-            case_sensitive=False,
-            callback=log_level,
-        ),
-    ] = "INFO",
-    schema: Annotated[
-        bool | None,
-        typer.Option(
-            "--schema",
-            help="Generate schema for validating techui and ibek-mapping yaml files",
-            callback=schema_callback,
-        ),
-    ] = None,
-) -> None:
-    """Default function called from cmd line tool."""
-
-    gui = Builder(techui=filename)
-
-    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.location)
-
-    bob_file = find_bob(bobfile, synoptic_dir)
-
-    # # Overwrite after initialised to make sure this is picked up
-    gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
-    gui._write_directory = synoptic_dir  # noqa: SLF001
-
-    logger_.debug(
-        f"""
-
-Builder created for {gui.conf.beamline.location}.
-Services directory: {gui._services_dir}
-Write directory: {gui._write_directory}
-""",  # noqa: SLF001
-    )
-
-    gui.setup()
-    gui.create_screens()
-    gui.write_status_pvs()
-
-    logger_.info(f"Screens generated for {gui.conf.beamline.location}.")
-
-    autofiller = Autofiller(bob_file, gui.conf.components)
-    autofiller.read_bob()
-    autofiller.autofill_bob()
-
-    dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
-
-    autofiller.write_bob(dest_bob)
-
-    logger_.info(f"Screens autofilled for {gui.conf.beamline.location}.")
-
-    gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    logger_.info(
-        f"Json map generated for {gui.conf.beamline.location} (from index.bob)"
-    )
+app.add_typer(main_app)
+app.add_typer(version_app, name="version")
+app.add_typer(schema_app, name="schema")
 
 
 if __name__ == "__main__":

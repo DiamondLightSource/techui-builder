@@ -96,7 +96,7 @@ class JsonMapGenerator:
             return display_name
 
         def _next_file_crawl(
-            file_path: Path,
+            file_path_text: str,
             destination_path: Path,
             name_element: str | None,
             component_name: str | None,
@@ -104,7 +104,7 @@ class JsonMapGenerator:
             macro_dictionary: dict[str, Any],
         ):
             # TODO: misleading var name?
-            next_file_path = destination_path.joinpath(file_path)
+            next_file_path = destination_path.joinpath(file_path_text)
 
             # Crawl the next file
             if next_file_path.is_file():
@@ -117,9 +117,9 @@ class JsonMapGenerator:
                 )
             else:
                 child_node = JsonMap(
-                    str(file_path),
+                    file_path_text,
                     display_name,
-                    exists=("IOC" in macro_dictionary or ("https:/" in str(file_path))),
+                    exists=("IOC" in macro_dictionary or ("https:/" in file_path_text)),
                 )
 
             return child_node
@@ -208,7 +208,7 @@ class JsonMapGenerator:
                             )
 
                             child_node = _next_file_crawl(
-                                file_path,
+                                file_text,
                                 dest_path,
                                 name_elem,
                                 current_component_name,
@@ -243,7 +243,7 @@ class JsonMapGenerator:
                 )
 
                 child_node = _next_file_crawl(
-                    file_path,
+                    file_text,
                     dest_path,
                     name_elem,
                     current_component_name,

@@ -7,6 +7,7 @@ import pytest
 from typer.testing import CliRunner
 
 from techui_builder.__main__ import app
+from techui_builder.generate_jsonmap import app as generate_jsonmap_app
 
 # from techui_builder.main_app import app as main_app
 from techui_builder.main_app import (
@@ -161,18 +162,16 @@ def test_main_json_map_no_bob_generation(caplog):
 
 
 def test_main_json_map_wrong_file(caplog):
-    result = runner.invoke(app, ["--generate-jsonmap", "map.json"])
-    assert (
-        "Invalid value: Json map generation requires a bob file as input."
-        in result.output
-    )
+    result = runner.invoke(generate_jsonmap_app, ["map.json"])
+    assert result.exit_code == 1
+    for log_output in caplog.records:
+        assert "No such file or directory" in log_output.message
 
 
 def test_main_json_map_generation(caplog):
     runner.invoke(
-        app,
+        generate_jsonmap_app,
         [
-            "--generate-jsonmap",
             "tests/t01-services/synoptic/index.bob",
         ],
     )
@@ -183,5 +182,5 @@ def test_main_json_map_generation(caplog):
 
 
 def test_main_without_techui_yaml(caplog):
-    result = runner.invoke(app)
-    assert "Techui.yaml file must be provided as an argument." in result.output
+    result = runner.invoke(generate_jsonmap_app)
+    assert "Missing argument 'BOB_PATH'." in result.output

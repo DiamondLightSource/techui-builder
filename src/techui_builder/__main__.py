@@ -5,6 +5,7 @@ import logging
 import typer
 
 from techui_builder._version import __version__
+from techui_builder.generate_jsonmap import app as generate_jsonmap_app
 from techui_builder.main_app import app as main_app
 from techui_builder.schema_generator import app as schema_app
 
@@ -59,6 +60,7 @@ def _(
 
 app.add_typer(main_app)
 app.add_typer(schema_app, name="schema")
+app.add_typer(generate_jsonmap_app, name="generate-jsonmap")
 
 
 if __name__ == "__main__":

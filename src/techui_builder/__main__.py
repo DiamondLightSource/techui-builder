@@ -4,9 +4,9 @@ import logging
 
 import typer
 
+from techui_builder._version import __version__
 from techui_builder.main_app import app as main_app
 from techui_builder.schema_generator import app as schema_app
-from techui_builder.version import app as version_app
 
 logger_ = logging.getLogger(__name__)
 
@@ -36,8 +36,27 @@ app = typer.Typer(
 )
 
 
+def version_callback(value: bool):
+    if value:
+        print(f"techui-builder version: {__version__}")
+        raise typer.Exit()
+
+
+@app.callback()
+def _(
+    version: bool = typer.Option(
+        False,
+        "--version",
+        callback=version_callback,
+        is_eager=True,
+        help="Show version of techui-builder and exit",
+    ),
+):
+    """Boilerplate callback function to allow for --version CLI option"""
+    pass
+
+
 app.add_typer(main_app)
-app.add_typer(version_app, name="version")
 app.add_typer(schema_app, name="schema")
 
 

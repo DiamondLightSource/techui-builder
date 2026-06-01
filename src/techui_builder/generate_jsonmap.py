@@ -23,7 +23,7 @@ def log_level(level: str):
 app = typer.Typer(
     pretty_exceptions_show_locals=False,
     help="""
-    A script for generating a .json file mapping of phoebus gui screens.
+    Generate a JSON file mapping of phoebus gui screens.
 
     This is the required file structure:\n
 \n

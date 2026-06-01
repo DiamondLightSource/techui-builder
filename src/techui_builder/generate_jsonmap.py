@@ -56,7 +56,11 @@ class JsonMapGenerator:
     def __post_init__(self):
         # Get the directory to that holds the bob file and techui_yaml,
         self._write_directory: Path = self.bob_path.parent
-        if self.techui == Path("techui.yaml"):
+        # Check if techui is default value and that it doesn't exist
+        if (
+            self.techui == self.__class__.__dataclass_fields__["techui"].default
+            and not self.techui.exists()
+        ):
             self.techui = self._write_directory.joinpath("techui.yaml")
         try:
             self.techui_yaml: TechUi = TechUi.model_validate(

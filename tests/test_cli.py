@@ -16,7 +16,6 @@ from techui_builder.main_app import (
     main,
 )
 from techui_builder.schema_generator import app as schema_app
-from techui_builder.version import app as version_app
 
 runner = CliRunner()
 
@@ -33,7 +32,7 @@ def test_app():
 
 
 def test_app_version():
-    result = runner.invoke(version_app)
+    result = runner.invoke(app, ["--version"])
     assert result.exit_code == 0
     assert "techui-builder version:" in result.output
 

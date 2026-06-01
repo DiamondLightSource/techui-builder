@@ -32,6 +32,7 @@ app = typer.Typer(
     .   |-- techui.yaml\n
     .   `-- index.bob\n
 """,
+    no_args_is_help=True,
 )
 
 

@@ -87,6 +87,9 @@ def test_generate_json_map(
     mock_xml = objectify.Element("action")
     mock_xml["file"] = "test_child_bob.bob"
     mock_get_action_group.return_value = mock_xml
+    json_map_generator_with_test_files._parse_display_name = Mock(
+        side_effect=["Display", "Detector"]
+    )
     json_map_generator_with_test_files._get_component_label = Mock(
         side_effect=["Display", "Detector"]
     )
@@ -102,14 +105,18 @@ def test_generate_json_map(
 def test_generate_json_map_embedded_screen(
     json_map_generator_with_test_files, example_json_map
 ):
+    list_names = [
+        "Display",
+        "Detector",
+        "Embedded Display",
+        "Embedded Display",
+        "Embedded Display",
+    ]
+    json_map_generator_with_test_files._parse_display_name = Mock(
+        side_effect=list_names
+    )
     json_map_generator_with_test_files._get_component_label = Mock(
-        side_effect=[
-            "Display",
-            "Detector",
-            "Embedded Display",
-            "Embedded Display",
-            "Embedded Display",
-        ]
+        side_effect=list_names
     )
 
     json_map_generator_with_test_files.bob_path = Path(
@@ -136,6 +143,9 @@ def test_generate_json_map_embedded_screen(
 def test_generate_json_map_nav_tabs(
     json_map_generator_with_test_files, example_json_map_root
 ):
+    json_map_generator_with_test_files._parse_display_name = Mock(
+        side_effect=["Display", "Tab1", "Tab2"]
+    )
     json_map_generator_with_test_files._get_component_label = Mock(
         side_effect=["Display", "Tab1", "Tab2"]
     )

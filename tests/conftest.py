@@ -7,8 +7,9 @@ from lxml.objectify import fromstring
 from phoebusgen import widget as pwidget
 
 from techui_builder.autofill import Autofiller
-from techui_builder.builder import Builder, JsonMap
+from techui_builder.builder import Builder
 from techui_builder.generate import Generator
+from techui_builder.generate_jsonmap import JsonMap, JsonMapGenerator
 from techui_builder.models import Component, SupportEntity
 from techui_builder.validator import Validator
 
@@ -116,6 +117,13 @@ def components(builder_with_test_files: Builder):
 
 
 @pytest.fixture
+def json_map_generator():
+    return JsonMapGenerator(
+        Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
+    )
+
+
+@pytest.fixture
 def test_files():
     screen_path = Path("tests/test_files/test_bob.bob").absolute()
     dest_path = Path("tests/test_files/").absolute()
@@ -128,6 +136,16 @@ def example_json_map_root():
     test_map_base = JsonMap("test_bob.bob", "Display")
 
     return test_map_base
+
+
+@pytest.fixture
+def json_map_generator_with_test_files():
+    return JsonMapGenerator(
+        bob_path=Path("tests/test_files/test_bob.bob").absolute(),
+        techui=Path(__file__).parent.joinpath(
+            Path("t01-services/synoptic/techui.yaml")
+        ),
+    )
 
 
 @pytest.fixture

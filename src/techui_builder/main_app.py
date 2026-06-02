@@ -13,7 +13,7 @@ logger_ = logging.getLogger(__name__)
 default_bobfile = "index.bob"
 
 
-app = typer.Typer()
+app = typer.Typer(context_settings={"allow_interspersed_args": True})
 
 
 def find_dirs(file_path: Path, beamline: str) -> tuple:
@@ -123,8 +123,3 @@ Write directory: {gui._write_directory}
     autofiller.write_bob(dest_bob)
 
     logger_.info(f"Screens autofilled for {gui.conf.beamline.location}.")
-
-    gui.write_json_map(synoptic=dest_bob, dest=gui._write_directory)  # noqa: SLF001
-    logger_.info(
-        f"Json map generated for {gui.conf.beamline.location} (from index.bob)"
-    )

@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -6,6 +7,7 @@ import pytest
 from typer.testing import CliRunner
 
 from techui_builder.__main__ import app
+from techui_builder.generate_jsonmap import app as generate_jsonmap_app
 
 # from techui_builder.main_app import app as main_app
 from techui_builder.main_app import (
@@ -149,3 +151,36 @@ def test_main(mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob):
 
     mock_find_dirs.assert_called_once()
     mock_find_bob.assert_called_once()
+
+
+def test_main_json_map_no_bob_generation(caplog):
+    runner.invoke(app, ["--generate-jsonmap"])
+    for log_output in caplog.records:
+        assert (
+            " Option '--generate-jsonmap' requires an argument." in log_output.message
+        )
+
+
+def test_main_json_map_wrong_file(caplog):
+    result = runner.invoke(generate_jsonmap_app, ["map.json"])
+    assert result.exit_code == 1
+    for log_output in caplog.records:
+        assert "No such file or directory" in log_output.message
+
+
+def test_main_json_map_generation(caplog):
+    runner.invoke(
+        generate_jsonmap_app,
+        [
+            "tests/t01-services/synoptic/index.bob",
+        ],
+    )
+    if Path.exists(Path("tests/t01-services/synoptic/JsonMap.json")):
+        os.remove("tests/t01-services/synoptic/JsonMap.json")
+    for log_output in caplog.records:
+        assert "Json map generated for (from" in log_output.message
+
+
+def test_main_without_techui_yaml(caplog):
+    result = runner.invoke(generate_jsonmap_app)
+    assert "Missing argument 'BOB_PATH'." in result.output

@@ -3,6 +3,8 @@ requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
+scripts = { techui-builder = "techui_builder.__main__:app" }
+
 name = "techui-builder"
 dynamic = ["version"]
 description = "A package for building Phoebus GUIs"
@@ -16,6 +18,7 @@ authors = [
     { name = "Oliver Copping", email = "oliver.copping@diamond.ac.uk" },
     { name = "Adedamola Sode", email = "adedamola.sode@diamond.ac.uk" },
     { name = "Niamh Dougan", email = "niamh.dougan@diamond.ac.uk" },
+    { name = "Thomas Kane", email = "thomas.kane@diamond.ac.uk" },
 ]
 license-files = ["LICENSE"]
 readme = "README.md"
@@ -30,8 +33,6 @@ dependencies = [
     "softioc>=4.7.0",
     "epicsdbbuilder>=1.5",
 ]
-scripts = { techui-builder = "techui_builder.__main__:app" }
-
 [dependency-groups]
 dev = [
     "copier",

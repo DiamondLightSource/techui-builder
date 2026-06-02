@@ -143,23 +143,11 @@ def test_find_bob_no_bob_file_found(caplog):
     assert exc_info.value.code is None
 
 
-<<<<<<< HEAD
-@patch("techui_builder.__main__.find_bob")
-@patch("techui_builder.__main__.find_dirs")
-@patch("techui_builder.__main__.Autofiller")
-@patch("techui_builder.__main__.Builder")
-@patch("techui_builder.__main__.status_run")
-def test_main(
-    mock_status, mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob
-):
-    mock_status.return_value = Mock()
-=======
 @patch("techui_builder.main_app.find_bob")
 @patch("techui_builder.main_app.find_dirs")
 @patch("techui_builder.main_app.Autofiller")
 @patch("techui_builder.main_app.Builder")
 def test_main(mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob):
->>>>>>> 32c5815 (rebased on main)
     mock_find_dirs.return_value = Mock(), Mock()
     mock_path = Mock(spec=Path)
     main(mock_path)

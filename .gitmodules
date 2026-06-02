@@ -1,0 +1,3 @@
+[submodule "example/t01-services/synoptic/techui-support"]
+	path = example/t01-services/synoptic/techui-support
+	url = https://github.com/DiamondLightSource/techui-support.git

@@ -153,39 +153,44 @@ def test_missing_service(builder, caplog):
 
 
 @pytest.mark.parametrize(
-    "index, type, desc, P, M, R",
+    "index, type, desc, pv, macros",
     [
-        (0, "pmac.GeoBrick", None, "BL01T-MO-BRICK-01", None, None),
-        (0, "pmac.autohome", None, "BL01T-MO-MOTOR-01", None, None),
+        (0, "pmac.GeoBrick", None, "BL01T-MO-BRICK-01", {"P": "BL01T-MO-BRICK-01"}),
+        (
+            0,
+            "pmac.autohome",
+            None,
+            "BL01T-MO-MOTOR-01",
+            {"P": "BL01T-MO-MOTOR-01"},
+        ),
         (
             1,
             "pmac.dls_pmac_asyn_motor",
             None,
-            "BL01T-MO-MOTOR-01",
-            ":X",
-            None,
+            "BL01T-MO-MOTOR-01:X",
+            {"P": "BL01T-MO-MOTOR-01", "M": ":X"},
         ),
         (
             2,
             "pmac.dls_pmac_asyn_motor",
             None,
-            "BL01T-MO-MOTOR-01",
-            ":A",
-            None,
+            "BL01T-MO-MOTOR-01:A",
+            {"P": "BL01T-MO-MOTOR-01", "M": ":A"},
         ),
     ],
 )
-def test_gb_extract_entities(builder, index, type, desc, P, M, R):  # noqa: N803
-    builder._extract_entities(
+def test_gb_extract_entities(builder_with_setup, index, type, desc, pv, macros):  # noqa: N803
+    prefix = pv.split(":", maxsplit=1)[0]
+
+    builder_with_setup._extract_entities(
         "bl01t-mo-ioc-01",
-        builder._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml"),
+        builder_with_setup._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml"),
     )
-    entity = builder.entities[P][index]
+    entity = builder_with_setup.entities[prefix][index]
     assert entity.type == type
     assert entity.desc == desc
-    assert entity.P == P
-    assert entity.M == M
-    assert entity.R == R
+    assert entity.prefix == pv
+    assert entity.macros == macros
 
 
 def test_builder_generate_screen(builder_with_setup):
@@ -581,8 +586,8 @@ def test_get_component_label_with_current_component_name_invalid(
     assert display_name == "new_name"
 
 
-def test_get_nav_tabs(example_navtabs_widget):
-    tabs_widget = _get_nav_tabs(example_navtabs_widget)
+def test_get_nav_tabs(example_xml_navtabs_widget):
+    tabs_widget = _get_nav_tabs(example_xml_navtabs_widget)
 
     assert isinstance(tabs_widget, list)
 

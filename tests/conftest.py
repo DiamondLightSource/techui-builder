@@ -1,14 +1,15 @@
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import fromstring
+from phoebusgen import widget as pwidget
 
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder, JsonMap
 from techui_builder.generate import Generator
-from techui_builder.models import Component
+from techui_builder.models import Component, SupportEntity
 from techui_builder.validator import Validator
 
 
@@ -24,9 +25,76 @@ def builder():
 
 
 @pytest.fixture
-def builder_with_setup(builder: Builder):
+def techui_support():
+    ts = MagicMock()
+    ts.support_modules = {
+        "pmac.GeoBrick": SupportEntity(prefix="{{ P }}", macros=["P"], screens=[{}]),
+        "pmac.autohome": SupportEntity(prefix="{{ P }}", macros=["P"], screens=[{}]),
+        "pmac.dls_pmac_asyn_motor": SupportEntity(
+            prefix="{{ P }}{{ M }}", macros=["P", "M"], screens=[{}]
+        ),
+        "ADAravis.aravisCamera": SupportEntity(
+            prefix="{{ P }}{{ R }}",
+            macros=["P", "R"],
+            screens=[
+                {"file": "ADAravis/ADAravis_summary.bob", "type": "embedded"},
+                {"file": "ADAravis/ADAravis_detail.bob", "type": "related"},
+            ],
+        ),
+        "ADUVC.UVC": SupportEntity(
+            prefix="{{ P }}{{ R }}",
+            macros=["P", "R"],
+            screens=[
+                {"file": "ADUVC/ADUVC_summary.bob", "type": "embedded"},
+                {"file": "$(IOC)/ADUVC.pvi.bob", "type": "related"},
+            ],
+        ),
+        "detectorPlugins.detectorPlugins": SupportEntity(
+            prefix="{{ P }}{{ R }}",
+            macros=["P", "R"],
+            screens=[
+                {
+                    "file": "ADAravis/NDPluginStats.pvi.bob",
+                    "suffixes": {
+                        "R": ":STAT:",
+                    },
+                    "type": "related",
+                },
+                {
+                    "file": "ADAravis/NDPluginPva.pvi.bob",
+                    "suffixes": {
+                        "R": ":PVA:",
+                    },
+                    "type": "related",
+                },
+                {
+                    "file": "ADAravis/NDPluginROIStat.pvi.bob",
+                    "suffixes": {
+                        "R": ":ROISTAT:",
+                    },
+                    "type": "related",
+                },
+                {
+                    "file": "ADAravis/NDFileHDF5.pvi.bob",
+                    "suffixes": {
+                        "R": ":HDF5:",
+                    },
+                    "type": "related",
+                },
+            ],
+        ),
+    }
+
+    return ts
+
+
+@pytest.fixture
+def builder_with_setup(builder: Builder, techui_support):
     with patch("techui_builder.builder.Generator") as mock_generator:
         mock_generator.return_value = MagicMock()
+
+        builder._read_map = Mock()
+        builder.techui_support = techui_support
 
         builder.setup()
         return builder
@@ -121,10 +189,11 @@ def example_display_names_json():
 
 
 @pytest.fixture
-def generator():
+def generator(techui_support):
     synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
+    techui_support_path = synoptic_dir.joinpath("techui-support")
 
-    g = Generator(synoptic_dir, "test_url")
+    g = Generator(synoptic_dir, "test_url", techui_support_path, techui_support)
 
     return g
 
@@ -147,7 +216,7 @@ def validator():
 
 
 @pytest.fixture
-def example_embedded_widget():
+def example_xml_embedded_widget():
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -173,7 +242,7 @@ def example_embedded_widget():
 
 
 @pytest.fixture
-def example_related_widget():
+def example_xml_related_widget():
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -207,7 +276,7 @@ def example_related_widget():
 
 
 @pytest.fixture
-def example_symbol_widget():
+def example_xml_symbol_widget():
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
     widget_element = Element("widget")
@@ -227,7 +296,7 @@ def example_symbol_widget():
 
 
 @pytest.fixture
-def example_navtabs_widget():
+def example_xml_navtabs_widget():
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -264,3 +333,32 @@ def example_navtabs_widget():
     widget_element = fromstring(tostring(widget_element))
 
     return widget_element
+
+
+@pytest.fixture
+def example_pgen_embedded_widget():
+    embedded_widget = pwidget.EmbeddedDisplay(
+        "CAM", "techui-support/bob/ADAravis/ADAravis_summary.bob", 0, 0, 860, 450
+    )
+    embedded_widget.macro("P", "BL01T-DI-IOC-01")
+    embedded_widget.macro("R", ":CAM:")
+    embedded_widget.macro("label", "CAM")
+    embedded_widget.macro("IOC", "test_url/bl01t-di-ioc-01")
+
+    return embedded_widget
+
+
+@pytest.fixture
+def example_pgen_related_widget():
+    related_widget = pwidget.ActionButton(
+        "BRICK", "BRICK", "", x=0, y=0, width=100, height=40
+    )
+    related_widget.action_open_display(
+        file="techui-support/bob/pmac/pmacController.bob",
+        target="tab",
+        macros={"P": "BL01T-MO-IOC-01"},
+    )
+    # For some reason the version of action buttons is 3.0.0?
+    related_widget.version("2.0.0")
+
+    return related_widget

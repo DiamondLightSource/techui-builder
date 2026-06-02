@@ -2,17 +2,16 @@ import logging
 import os
 import re
 from collections import defaultdict
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
-import yaml
 from lxml import objectify
 from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.models import Component, Entity
+from techui_builder.models import Component, Entity, TechUiSupport
 
 logger_ = logging.getLogger(__name__)
 
@@ -23,12 +22,10 @@ class Generator:
     beamline_url: str = field(repr=False)
 
     # These are global params for the class (not accessible by user)
-    support_path: Path = field(init=False, repr=False)
-    techui_support: dict = field(init=False, repr=False)
+    support_path: Path = field(repr=False)
+    techui_support: TechUiSupport = field(repr=False)
     default_size: int = field(default=100, init=False, repr=False)
-    P: str = field(default="P", init=False, repr=False)
-    M: str = field(default="M", init=False, repr=False)
-    R: str = field(default="R", init=False, repr=False)
+    prefix: str = field(default="P", init=False, repr=False)
     widgets: list[ActionButton | EmbeddedDisplay] = field(
         default_factory=list[ActionButton | EmbeddedDisplay], init=False, repr=False
     )
@@ -41,20 +38,6 @@ class Generator:
     widget_count: int = field(default=0, init=False, repr=False)
     group_padding: int = field(default=50, init=False, repr=False)
     label_flag: bool = field(default=False, init=False, repr=False)
-
-    def __post_init__(self):
-        # This needs to be before _read_map()
-        self.support_path = self.synoptic_dir.joinpath("techui-support")
-
-        self._read_map()
-
-    def _read_map(self):
-        """Read the techui-support.yaml file from techui-support."""
-        support_yaml = self.support_path.joinpath("techui-support.yaml").absolute()
-        logger_.debug(f"techui-support.yaml location: {support_yaml}")
-
-        with open(support_yaml) as map:
-            self.techui_support = yaml.safe_load(map)
 
     def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
         """
@@ -160,88 +143,100 @@ class Generator:
             max(width_list) + self.group_padding,
         )
 
-    def _initialise_name_suffix(self, component: Entity) -> tuple[str, str, str | None]:
-        if component.M is not None:
-            name: str = component.M
-            suffix: str = component.M
-            suffix_label: str | None = self.M
-        elif component.R is not None:
-            name = component.R
-            suffix = component.R
-            suffix_label = self.R
-        else:
-            name = component.P
-            suffix = ""
-            suffix_label = ""
+    def _update_macros(self, component: Entity) -> tuple[str, dict[str, str]]:
+        # try statement below is check if the suffix is part of the component prefix.
+        # If not missing, use as name of widget. If missing, use type as name.
 
-        name = name.removeprefix(":").removesuffix(":")
+        new_macros = {}
+
+        try:
+            # re.split() returns the remainder as the final element,
+            # so this needs to be ignored
+            prefix, suffix = re.split(r"(:[A-Z0-9:]+)", component.prefix, maxsplit=1)[
+                :2
+            ]
+            component_name = suffix.removeprefix(":").removesuffix(":")
+            suffix_key = next(k for k, v in component.macros.items() if v == suffix)
+        except (IndexError, ValueError):
+            prefix = component.prefix
+            component_name = component.type
+            suffix_key = suffix = ""
+
         # Try to get name from child labels if they exist,
         # if not, just use the name as it is.
         if component.child_labels is not None:
-            if name in component.child_labels.keys():
-                name = component.child_labels[name]
+            if suffix in component.child_labels.keys():
+                component_name = component.child_labels[suffix]
                 self.label_flag = True
 
-        return (name, suffix, suffix_label)
+        prefix_key = next(k for k, v in component.macros.items() if v == prefix)
 
-    def _is_list_of_dicts(self, scrn_mapping: Mapping) -> bool:
-        return isinstance(scrn_mapping, Sequence) and all(
-            isinstance(scrn, Mapping) for scrn in scrn_mapping
-        )
+        new_macros[prefix_key] = prefix
+        if suffix_key != "":
+            new_macros[suffix_key] = suffix
+            new_macros["label"] = component_name
+
+        return component_name, new_macros
 
     def _allocate_widget(
-        self, scrn_mapping: Mapping, component: Entity
+        self, screen_mapping: Mapping, component: Entity
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
-        name, suffix, suffix_label = self._initialise_name_suffix(component)
+        component_name, updated_macros = self._update_macros(component)
 
         # Get relative path to screen
-        file = scrn_mapping["file"]
+        file = screen_mapping["file"]
         if file.startswith("$(IOC)"):
-            scrn_path = data_scrn_path = file.replace(
+            screen_path = support_screen_path = file.replace(
                 "$(IOC)", f"{self.beamline_url}/{component.service_name}"
             )  # Only works with related displays as
             # embedded displays need to access the file to get dimensions
 
-            assert scrn_mapping["type"] == "related", (
+            assert screen_mapping["type"] == "related", (
                 "Only related displays can have remote screens"
             )
         else:
-            scrn_path = self.support_path.joinpath(f"bob/{file}")
-            logger_.debug(f"Screen path: {scrn_path}")
+            screen_path = self.support_path.joinpath(f"bob/{file}")
+            logger_.debug(f"Screen path: {screen_path}")
 
-            # Path of screen relative to data/ so it knows where to open the file from
-            data_scrn_path = scrn_path.relative_to(self.synoptic_dir, walk_up=True)
+            # Path of screen relative to synoptic/
+            support_screen_path = screen_path.relative_to(
+                self.synoptic_dir, walk_up=True
+            )
 
         # For Gui Components with multiple components embedded, we add a suffix field
         # to the components, and adjust the name and suffix accordingly
         try:
-            if scrn_mapping["suffix"] is not None:
-                suffix: str = scrn_mapping["suffix"]
-                match: re.Match[str] | None = re.match(
-                    r"^\$\(([A-Z])\)\$\(([A-Z])\)$", scrn_mapping["prefix"]
-                )
-                if match:
-                    suffix_label: str | None = match.group(2)
-                    if self.label_flag is False:
-                        name = suffix
+            if screen_mapping["suffixes"] is not None:
+                suffix_dict: dict[str, str] = screen_mapping["suffixes"]
+                for suffix_key, suffix in suffix_dict.items():
+                    updated_macros[suffix_key] = suffix
+
+                # If no child label was specified...
+                if self.label_flag is False:
+                    # TODO: think of a better fallback component name for this
+                    component_name = (
+                        list(suffix_dict.values())[0]
+                        .removeprefix(":")
+                        .removesuffix(":")
+                    )
+                    updated_macros["label"] = component_name
         except KeyError:
             pass
 
-        if scrn_mapping["type"] == "embedded":
-            height, width = self._get_screen_dimensions(str(scrn_path))
+        if screen_mapping["type"] == "embedded":
+            height, width = self._get_screen_dimensions(str(screen_path))
             new_widget = pwidget.EmbeddedDisplay(
-                name.removeprefix(":").removesuffix(":"),
-                str(data_scrn_path),
+                component_name,
+                str(support_screen_path),
                 0,
                 0,  # Change depending on the order
                 width,
                 height,
             )
             # Add macros to the widgets
-            new_widget.macro(self.P, component.P)
-            if suffix_label != "":
-                new_widget.macro(f"{suffix_label}", suffix)
-                new_widget.macro("label", name.removeprefix(":").removesuffix(":"))
+            for macro, macro_val in updated_macros.items():
+                new_widget.macro(macro, macro_val)
+
             # TODO: Change this to pvi_button
             if True:
                 new_widget.macro("IOC", f"{self.beamline_url}/{component.service_name}")
@@ -251,8 +246,8 @@ class Generator:
             height, width = (40, 100)
 
             new_widget = pwidget.ActionButton(
-                name.removeprefix(":").removesuffix(":"),
-                name.removeprefix(":").removesuffix(":"),
+                component_name,
+                component_name,
                 "",
                 0,
                 0,
@@ -261,40 +256,23 @@ class Generator:
             )
 
             # Add action to action button: to open related display
-            if suffix_label != "":
-                new_widget.action_open_display(
-                    file=str(data_scrn_path),
-                    target="tab",
-                    macros={
-                        "P": component.P,
-                        f"{suffix_label}": suffix,
-                    },
-                )
-            else:
-                new_widget.action_open_display(
-                    file=str(data_scrn_path),
-                    target="tab",
-                    macros={
-                        "P": component.P,
-                    },
-                )
+
+            new_widget.action_open_display(
+                file=str(support_screen_path), target="tab", macros=updated_macros
+            )
 
             # For some reason the version of action buttons is 3.0.0?
             new_widget.version("2.0.0")
             self.label_flag = False
         return new_widget
 
-    def _create_widget(
+    def _create_widgets(
         self, name: str, component: Entity
-    ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
-        # if statement below is check if the suffix is
-        # missing from the component description. If
-        # not missing, use as name of widget, if missing,
-        # use type as name.
+    ) -> list[EmbeddedDisplay | ActionButton] | None:
         new_widget = []
 
         try:
-            scrn_mapping = self.techui_support[component.type]
+            screen_mapping = self.techui_support.support_modules[component.type].screens
         except KeyError:
             logger_.warning(
                 f"No available widget for {component.type} in screen \
@@ -302,11 +280,8 @@ class Generator:
             )
             return None
 
-        if self._is_list_of_dicts(scrn_mapping):
-            for value in scrn_mapping:
-                new_widget.append(self._allocate_widget(value, component))
-        else:
-            new_widget = self._allocate_widget(scrn_mapping, component)
+        for screen_dict in screen_mapping:
+            new_widget.append(self._allocate_widget(screen_dict, component))
 
         return new_widget
 
@@ -374,20 +349,17 @@ class Generator:
 
         return sorted_widgets
 
-    def build_widgets(self, screen_name: str, screen_components: list[Entity]):
+    def build_widgets(self, screen_name: str, screen_entities: list[Entity]):
         # Empty widget buffer
         self.widgets = []
 
         # order is an enumeration of the components, used to list them,
         # and serves as functionality in the math for formatting.
-        for component in screen_components:
-            new_widget = self._create_widget(name=screen_name, component=component)
-            if new_widget is None:
+        for entity in screen_entities:
+            new_widgets = self._create_widgets(name=screen_name, component=entity)
+            if new_widgets is None:
                 continue
-            if isinstance(new_widget, list):
-                self.widgets.extend(new_widget)
-                continue
-            self.widgets.append(new_widget)
+            self.widgets.extend(new_widgets)
 
     def build_groups(self, screen_name: str, builder_components: dict[str, Component]):
         """

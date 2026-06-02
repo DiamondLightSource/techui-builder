@@ -31,11 +31,11 @@ def test_validator_read_bob(mock_read_bob, validator):
 
 
 # TODO: Clean up this test... (make fixture for mock xml?)
-def test_validator_validate_bob(validator, example_embedded_widget):
+def test_validator_validate_bob(validator, example_xml_embedded_widget):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
     mock_root_element = Element("root")
-    mock_root_element.append(example_embedded_widget)
+    mock_root_element.append(example_xml_embedded_widget)
     # ... which requires this horror
     mock_element = fromstring(tostring(mock_root_element))
     # mock_element = ObjectifiedElement(mock_widget_element)

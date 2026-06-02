@@ -25,22 +25,34 @@ def find_dirs(file_path: Path, beamline: str) -> tuple:
     cwd = Path.cwd()
     logger_.debug(f"Working directory: {cwd}")
 
+    directory = beamline
+
+    if not beamline.startswith("i"):
+        # If not found, try searching for Ixx-services as some
+        # J/K beamlines are in Ixx-services dir
+        directory = f"i{beamline[1:]}"
+        logger_.info(
+            f"{beamline}-services not found. Searching for I{beamline[1:]}-services..."
+        )
     # Get the relative path of ixx-services to techui.yaml
     ixx_services_dir = next(
         (
             ixx_services.relative_to(cwd, walk_up=True)
             for parent in abs_path.parents
-            for ixx_services in parent.glob(f"{beamline}-services")
+            for ixx_services in parent.glob(f"{directory}-services")
         ),
         None,
     )
+
     if ixx_services_dir is None:
-        logging.critical("ixx-services not found. Is you file structure correct?")
+        logging.critical(
+            f"{beamline}-services not found. Is you file structure correct?"
+        )
         exit()
     logger_.debug(f"ixx-services relative path: {ixx_services_dir}")
 
     # Get the synoptic dir relative to the parent dir
-    synoptic_dir = ixx_services_dir.joinpath("synoptic")
+    synoptic_dir = abs_path.parent
     logger_.debug(f"synoptic relative path: {synoptic_dir}")
 
     return ixx_services_dir, synoptic_dir

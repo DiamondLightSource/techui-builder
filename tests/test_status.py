@@ -14,6 +14,8 @@ def test_status_run(mock_create, mock_write):
     mock_create.return_value = Mock()
     mock_write.return_value = Mock()
     status_run(Path("tests/t01-services/synoptic/techui.yaml").absolute())
+    mock_create.assert_called_once()
+    mock_write.assert_called_once()
 
 
 def test_status_run_invalid_yaml(caplog):

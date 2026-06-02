@@ -8,11 +8,16 @@ import typer
 import yaml
 from epicsdbbuilder.recordbase import Record
 from softioc.builder import records
-from typer.cli import app
 
 from techui_builder.models import TechUi
 
 logger_ = logging.getLogger(__name__)
+
+app = typer.Typer(
+    help="""
+    A script for generating status PVs for a techui.yaml file.
+    """,
+)
 
 
 @dataclass

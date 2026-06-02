@@ -11,7 +11,7 @@ from techui_builder.models import (
 SCHEMAS_DIR = Path("schemas")
 SCHEMAS_DIR.mkdir(exist_ok=True)
 
-app = typer.Typer()
+app = typer.Typer(context_settings={"allow_interspersed_args": True})
 
 
 def write_json_schema(model_name: str, schema_dict: dict) -> None:

@@ -22,6 +22,7 @@ def log_level(level: str):
 
 app = typer.Typer(
     pretty_exceptions_show_locals=False,
+    context_settings={"allow_interspersed_args": True},
     help="""
     Generate a JSON file mapping of phoebus gui screens.
 

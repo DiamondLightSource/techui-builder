@@ -247,6 +247,9 @@ def test_generate_json_map_get_macros(
     macros = objectify.SubElement(mock_xml, "macros")
     # Set a macro to test
     macros["macro"] = "value"
+    json_map_generator_with_test_files._parse_display_name = Mock(
+        side_effect=["Display", "Detector"]
+    )
     json_map_generator_with_test_files._get_component_label = Mock(
         side_effect=["Display", "Detector"]
     )
@@ -278,9 +281,11 @@ def test_generate_json_map_xml_parse_error(
 def test_generate_json_map_other_exception(
     mock_get_action_group,
     json_map_generator_with_test_files,
-    test_files,
 ):
     mock_get_action_group.side_effect = Exception("Some exception")
+    json_map_generator_with_test_files._parse_display_name = Mock(
+        side_effect=["Display", "Detector"]
+    )
     json_map_generator_with_test_files._get_component_label = Mock(
         side_effect=["Display", "Detector"]
     )
@@ -392,8 +397,8 @@ def test_get_component_label_with_current_component_name_invalid(
     assert display_name == "new_name"
 
 
-def test_get_nav_tabs(example_navtabs_widget):
-    tabs_widget = _get_nav_tabs(example_navtabs_widget)
+def test_get_nav_tabs(example_xml_navtabs_widget):
+    tabs_widget = _get_nav_tabs(example_xml_navtabs_widget)
 
     assert isinstance(tabs_widget, list)
 

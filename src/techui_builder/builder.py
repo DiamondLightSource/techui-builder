@@ -8,8 +8,6 @@ from pathlib import Path
 import yaml
 from epicsdbbuilder.recordbase import Record
 from jinja2 import Template
-from lxml import etree, objectify
-from lxml.objectify import ObjectifiedElement
 from softioc.builder import records
 
 from techui_builder.generate import Generator

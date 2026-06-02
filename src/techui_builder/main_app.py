@@ -13,7 +13,7 @@ logger_ = logging.getLogger(__name__)
 default_bobfile = "index.bob"
 
 
-app = typer.Typer()
+app = typer.Typer(context_settings={"allow_interspersed_args": True})
 
 
 def find_dirs(file_path: Path, beamline: str) -> tuple:

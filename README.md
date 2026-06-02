@@ -53,7 +53,7 @@ The process to use this module goes as follows (WIP):
     > `extras` is optional, but allows any embedded screen to be added to make a summary screen e.g. combining all imgs, pirgs and ionps associated with a vacuum space.
 1. Run this command to locally generate a schema, which can be used for validation testing
 
-    ```$ techui-builder --schema```
+    ```$ techui-builder schema```
 
     Add the following at the top of the `techui.yaml` to validate it against a schema
     
@@ -63,9 +63,21 @@ The process to use this module goes as follows (WIP):
 
 ## Generating the Synoptic
 
-`$ techui-builder /path/to/synoptic/techui.yaml`
+`$ techui-builder build /path/to/synoptic/techui.yaml`
 
 This populates `index.bob` and individual component screens inside `ixx-services/synoptic`.
+
+## Generating the JsonMap
+
+`$ techui-builder generate-jsonmap /path/to/synoptic/index.bob`
+
+This populates `JsonMap.json` with the tree of component screens inside `ixx-services/synoptic/index.bob`.
+
+## Generating the Status PV datatase file
+
+`$ techui-builder status /path/to/synoptic/techui.yaml`
+
+This populates `config/status.db` with the status PVs of components inside `ixx-services/synoptic/techui.yaml`.
 
 ## Viewing the Synoptic
 

@@ -16,3 +16,7 @@ class Logger:
             format="%(message)s",
             handlers=[self.handler],
         )
+
+
+def log_level(level: str):
+    Logger(level)

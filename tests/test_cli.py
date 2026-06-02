@@ -3,26 +3,32 @@ from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-import typer
 from typer.testing import CliRunner
 
-from techui_builder.__main__ import (
-    app,
+from techui_builder.__main__ import app
+
+# from techui_builder.main_app import app as main_app
+from techui_builder.main_app import (
     default_bobfile,
     find_bob,
     find_dirs,
     log_level,
     main,
-    schema_callback,
 )
+from techui_builder.schema_generator import app as schema_app
 
 runner = CliRunner()
 
 
-# def test_app():
-#     result = runner.invoke(app, ["example/t01-services/synoptic/techui.yaml"])
-#     with patch("techui_builder.builder")
-#     assert result.exit_code == 0
+def test_app():
+    result = runner.invoke(app)
+    help_result = runner.invoke(app, ["--help"])
+    assert result.exit_code == 2
+    assert help_result.exit_code == 0
+    # for some reason passing '--help' outputs an extra newline at the end
+    # so they will never be ==...
+    # This could be due to the no arg call failing and defaulting to help?
+    assert result.output in help_result.output
 
 
 def test_app_version():
@@ -31,18 +37,21 @@ def test_app_version():
     assert "techui-builder version:" in result.output
 
 
-# def test_app_log_level():
-#     result = runner.invoke(app, ["--log-level", "INFO"])
+def test_app_schema():
+    result = runner.invoke(schema_app)
+    assert result.exit_code == 0
+    assert (
+        "\u2705 Wrote schemas/techui.schema.json\n\u2705 "
+        "Wrote schemas/techui.support.schema.json\n" in result.output
+    )
+
+
+# def test_main_app_log_level():
+#     result = runner.invoke(main_app, ["--log-level", "INFO"])
 #     assert result.exit_code == 0
 
 
-@patch("techui_builder.__main__.schema_generator")
-def test_schema_callback(mock_schema_generator):
-    with pytest.raises(typer.Exit):
-        schema_callback(True)
-
-
-@patch("techui_builder.__main__.Logger")
+@patch("techui_builder._logger.Logger")
 def test_log_level(mock_logger):
     log_level("INFO")
     mock_logger.assert_called_once()
@@ -129,10 +138,10 @@ def test_find_bob_no_bob_file_found(caplog):
     assert exc_info.value.code is None
 
 
-@patch("techui_builder.__main__.find_bob")
-@patch("techui_builder.__main__.find_dirs")
-@patch("techui_builder.__main__.Autofiller")
-@patch("techui_builder.__main__.Builder")
+@patch("techui_builder.main_app.find_bob")
+@patch("techui_builder.main_app.find_dirs")
+@patch("techui_builder.main_app.Autofiller")
+@patch("techui_builder.main_app.Builder")
 def test_main(mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob):
     mock_find_dirs.return_value = Mock(), Mock()
     mock_path = Mock(spec=Path)

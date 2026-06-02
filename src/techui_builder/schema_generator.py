@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import typer
+
 from techui_builder.models import (
     GuiComponents,
     TechUi,
@@ -8,6 +10,8 @@ from techui_builder.models import (
 
 SCHEMAS_DIR = Path("schemas")
 SCHEMAS_DIR.mkdir(exist_ok=True)
+
+app = typer.Typer()
 
 
 def write_json_schema(model_name: str, schema_dict: dict) -> None:
@@ -17,6 +21,10 @@ def write_json_schema(model_name: str, schema_dict: dict) -> None:
     print(f"✅ Wrote {out}")
 
 
+@app.callback(
+    help="Generate schema for validating techui and ibek-mapping yaml files",
+    invoke_without_command=True,
+)
 def schema_generator() -> None:
     # techui
     tu = TechUi.model_json_schema()

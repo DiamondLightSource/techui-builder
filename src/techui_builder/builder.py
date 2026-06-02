@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import re
 from collections import defaultdict
 from dataclasses import _MISSING_TYPE, dataclass, field
 from pathlib import Path
@@ -62,7 +63,10 @@ class Builder:
         )
 
     def setup(self):
-        """Run intial setup, e.g. extracting entries from service ioc.yaml."""
+        """
+        Run intial setup, e.g. extracting entries
+        from service ioc.yaml or fastcs.yaml.
+        """
         # This needs to be before _read_map()
         self.support_path = self._write_directory.joinpath("techui-support")
 
@@ -179,46 +183,62 @@ class Builder:
             service_name = service.name
             # If service doesn't exist, file open will fail throwing exception
             try:
+                service_yaml_dir = service.joinpath("config")
+                service_yaml = next(service_yaml_dir.glob("*.yaml"), None)
+                if service_yaml is None:
+                    raise OSError()
+
                 self._extract_entities(
                     service_name=service_name,
-                    ioc_yaml=service.joinpath("config/ioc.yaml"),
-                )
-            except OSError:
-                logger_.error(
-                    f"No ioc.yaml file for service: [bold]{service_name}[/bold]."
-                    " Does it exist?"
+                    service_yaml=service_yaml,
                 )
 
-    def _extract_entities(self, service_name: str, ioc_yaml: Path):
+            except OSError:
+                logger_.error(
+                    "No ioc.yaml or fastcs.yaml found for service: "
+                    f"[bold]{service_name}[/bold]. Does it exist?"
+                )
+
+    def _extract_entities(self, service_name: str, service_yaml: Path):
         """
         Extracts the entries in ioc.yaml matching the defined prefix
         """
 
-        with open(ioc_yaml) as ioc:
+        with open(service_yaml) as ioc:
             ioc_conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
-            for entity in ioc_conf["entities"]:
-                if entity["type"] in self.techui_support.support_modules:
-                    support_mapping: SupportEntity = (
-                        self.techui_support.support_modules[entity["type"]]
-                    )
-                    support_macros = support_mapping.macros
 
-                    macros = {k: v for k, v in entity.items() if k in support_macros}
+            for key in ioc_conf.keys():
+                _regex = re.compile(r"^(?:(entities)|(controllers))$")
+                match = _regex.match(key)
+                if match:
+                    entity_key = match.group()
 
-                    prefix_template = Template(support_mapping.prefix)
-                    prefix: str = prefix_template.render(macros)
+                    for entity in ioc_conf[entity_key]:
+                        if entity["type"] in self.techui_support.support_modules:
+                            support_mapping: SupportEntity = (
+                                self.techui_support.support_modules[entity["type"]]
+                            )
+                            support_macros = support_mapping.macros
 
-                    # Create Entity and append to entity list
-                    new_entity = Entity(
-                        service_name=service_name,
-                        type=entity["type"],
-                        desc=entity.get("desc", None),
-                        prefix=prefix,
-                        macros=macros,
-                    )
+                            macros = {
+                                k: v for k, v in entity.items() if k in support_macros
+                            }
 
-                    pv_root = prefix.split(":", maxsplit=1)[0]
-                    self.entities[pv_root].append(new_entity)
+                            prefix_template = Template(support_mapping.prefix)
+                            prefix: str = prefix_template.render(macros)
+
+                            # Create Entity and append to entity list
+                            new_entity = Entity(
+                                service_name=service_name,
+                                type=entity["type"],
+                                desc=entity.get("desc", None),
+                                prefix=prefix,
+                                macros=macros,
+                            )
+
+                            pv_root = prefix.split(":", maxsplit=1)[0]
+                            self.entities[pv_root].append(new_entity)
+                    break
 
     def _generate_screen(self, screen_name: str):
         self.generator.build_screen(screen_name)

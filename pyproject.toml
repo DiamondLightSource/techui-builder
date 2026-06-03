@@ -24,6 +24,7 @@ license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = [
+    "jinja2>=3.1.6",
     "pyyaml>=6.0.2",
     "phoebusgen>=3.0.0",
     "lxml>=5.4.0",

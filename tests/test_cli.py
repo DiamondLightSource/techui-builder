@@ -18,6 +18,7 @@ from techui_builder.main_app import (
     main,
 )
 from techui_builder.schema_generator import app as schema_app
+from techui_builder.status import app as status_app
 
 runner = CliRunner()
 
@@ -48,9 +49,11 @@ def test_app_schema():
     )
 
 
-# def test_main_app_log_level():
-#     result = runner.invoke(main_app, ["--log-level", "INFO"])
-#     assert result.exit_code == 0
+@patch("techui_builder.status.status_run")
+def test_status_run(mock_status_run, caplog):
+    mock_status_run.return_value = Mock()
+    result = runner.invoke(status_app, ["example/t01-services/synoptic/techui.yaml"])
+    assert result.exit_code == 0
 
 
 @patch("techui_builder._logger.Logger")

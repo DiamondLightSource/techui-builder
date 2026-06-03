@@ -31,7 +31,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: generate-schema
-        run: uv run techui-builder --schema
+        run: uv run techui-builder schema
 
       - name: Create GitHub Release
         # We pin to the SHA, not the tag, for security reasons.

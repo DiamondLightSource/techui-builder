@@ -73,7 +73,7 @@ This populates `index.bob` and individual component screens inside `ixx-services
 
 This populates `JsonMap.json` with the tree of component screens inside `ixx-services/synoptic/index.bob`.
 
-## Generating the Status PV datatase file
+## Generating the Status PV database file
 
 `$ techui-builder status /path/to/synoptic/techui.yaml`
 

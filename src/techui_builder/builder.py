@@ -73,7 +73,7 @@ class Builder:
         )
 
     def clean_files(self):
-        exclude = {"index.bob", "JsonMap.json"}
+        exclude = {"index.bob"}
         bobs = [
             bob
             for bob in self._write_directory.glob("*.bob")

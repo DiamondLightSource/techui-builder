@@ -89,7 +89,7 @@ class Builder:
         logger_.info("Preserving edited screens for validation.")
         logger_.debug(f"Screens to validate: {list(self.validator.validate.keys())}")
 
-        logger_.info("Cleaning synoptic/ of generated screens.")
+        logger_.info("Cleaning synoptic directory of generated screens.")
 
         try:
             # Find the JsonMap file

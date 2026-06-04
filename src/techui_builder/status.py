@@ -15,7 +15,7 @@ logger_ = logging.getLogger(__name__)
 
 app = typer.Typer(
     help="""
-    A script for generating status PVs for a techui.yaml file.
+    Generate status PVs for a techui.yaml file.
     """,
     context_settings={"allow_interspersed_args": True},
 )

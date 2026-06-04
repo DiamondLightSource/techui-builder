@@ -67,7 +67,10 @@ def _(
         ),
     ] = "INFO",
 ):
-    """Boilerplate callback function to allow for --version and global --log-level CLI options"""
+    """
+    Boilerplate callback function to allow for --version
+    and global --log-level CLI options
+    """
     pass
 
 

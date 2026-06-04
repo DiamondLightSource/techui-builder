@@ -13,16 +13,9 @@ from techui_builder.generate_jsonmap import (
     _get_nav_tabs,  # type: ignore
     _serialise_json_map,
     app,
-    log_level,
 )
 
 runner = CliRunner()
-
-
-@patch("techui_builder.generate_jsonmap.Logger")
-def test_log_level(mock_logger):
-    log_level("INFO")
-    mock_logger.assert_called_once()
 
 
 def test_write_json_map_no_synoptic(json_map_generator):

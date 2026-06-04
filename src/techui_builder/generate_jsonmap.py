@@ -10,14 +10,9 @@ import yaml
 from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
 
-from techui_builder._logger import Logger
 from techui_builder.models import TechUi
 
 logger_ = logging.getLogger(__name__)
-
-
-def log_level(level: str):
-    Logger(level)
 
 
 app = typer.Typer(
@@ -474,16 +469,6 @@ def generate_jsonmap(
         Path,
         typer.Argument(help="Top level bobfile to generate json mapping from."),
     ],
-    loglevel: Annotated[
-        str,
-        typer.Option(
-            "--log-level",
-            "-l",
-            help="Set log level to INFO, DEBUG, WARNING, ERROR or CRITICAL",
-            case_sensitive=False,
-            callback=log_level,
-        ),
-    ] = "INFO",
 ) -> None:
     """Default function called from cmd line tool."""
     jg = JsonMapGenerator(bob_path=bob_path)

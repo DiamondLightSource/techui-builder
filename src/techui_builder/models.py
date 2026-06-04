@@ -1,13 +1,11 @@
 import logging
 import re
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any
 
 from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
-    RootModel,
-    StringConstraints,
     computed_field,
     field_validator,
     model_validator,
@@ -234,31 +232,6 @@ class TechUi(BaseModel):
 """
 techui-support mapping models
 """
-
-BobPath = Annotated[
-    str, StringConstraints(pattern=r"^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.bob$")
-]
-# Must contain at least one $(NAME) macro
-MacroString = Annotated[
-    str,
-    StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
-]
-ScreenType = Literal["embedded", "related"]
-
-
-class GuiComponentEntry(BaseModel):
-    file: BobPath
-    prefix: MacroString
-    suffix: MacroString | None = None
-    type: ScreenType
-    model_config = ConfigDict(extra="forbid")
-
-
-GuiComponentUnion = list[GuiComponentEntry] | GuiComponentEntry
-
-
-class GuiComponents(RootModel[dict[str, GuiComponentUnion]]):
-    pass
 
 
 class Entity(BaseModel):

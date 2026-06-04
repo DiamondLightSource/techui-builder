@@ -3,8 +3,7 @@ import pytest
 from techui_builder.models import (
     Beamline,
     Component,
-    GuiComponentEntry,
-    GuiComponents,
+    SupportEntity,
 )
 
 
@@ -29,9 +28,11 @@ def component() -> Component:
 
 
 @pytest.fixture
-def gui_components() -> GuiComponentEntry:
-    return GuiComponentEntry(
-        file="digitelMpc/digitelMpcIonp.bob", prefix="$(P)", type="embedded"
+def support_entity() -> SupportEntity:
+    return SupportEntity(
+        prefix="{{ P }}",
+        macros=["P"],
+        screens=[{"file": "digitelMpc/digitelMpcIonp.bob", "type": "embedded"}],
     )
 
 
@@ -67,16 +68,8 @@ def test_component_bad_prefix():
         Component(prefix="Test 2", label="BAD_PREFIX")
 
 
-def test_gui_component_entry(gui_components: GuiComponentEntry):
-    assert gui_components.file == "digitelMpc/digitelMpcIonp.bob"
-    assert gui_components.prefix == "$(P)"
-    assert gui_components.type == "embedded"
-
-
-def test_gui_components_object(gui_components: GuiComponentEntry):
-    gc = GuiComponents({"digitelMpc.digitelMpcIonp": [gui_components]})
-    entry = gc.root["digitelMpc.digitelMpcIonp"][0]  # type: ignore
-    assert entry.file == "digitelMpc/digitelMpcIonp.bob"
-
-    assert entry.prefix == "$(P)"
-    assert entry.type == "embedded"
+def test_gui_component_entry(support_entity: SupportEntity):
+    assert support_entity.prefix == "{{ P }}"
+    assert support_entity.macros == ["P"]
+    assert support_entity.screens[0]["file"] == "digitelMpc/digitelMpcIonp.bob"
+    assert support_entity.screens[0]["type"] == "embedded"

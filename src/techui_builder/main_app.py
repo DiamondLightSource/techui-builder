@@ -4,7 +4,6 @@ from typing import Annotated
 
 import typer
 
-from techui_builder._logger import log_level
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
 
@@ -76,16 +75,6 @@ def main(
         Path | None,
         typer.Argument(help="Override for template bob file location."),
     ] = None,
-    loglevel: Annotated[
-        str,
-        typer.Option(
-            "--log-level",
-            "-l",
-            help="Set log level to INFO, DEBUG, WARNING, ERROR or CRITICAL",
-            case_sensitive=False,
-            callback=log_level,
-        ),
-    ] = "INFO",
 ) -> None:
     """Default function called from cmd line tool."""
 

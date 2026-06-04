@@ -1,9 +1,11 @@
 """Interface for ``python -m techui_builder``."""
 
 import logging
+from typing import Annotated
 
 import typer
 
+from techui_builder._logger import log_level
 from techui_builder._version import __version__
 from techui_builder.generate_jsonmap import app as generate_jsonmap_app
 from techui_builder.main_app import app as main_app
@@ -54,8 +56,21 @@ def _(
         is_eager=True,
         help="Show version of techui-builder and exit",
     ),
+    loglevel: Annotated[
+        str,
+        typer.Option(
+            "--log-level",
+            "-l",
+            help="Set log level to INFO, DEBUG, WARNING, ERROR or CRITICAL",
+            case_sensitive=False,
+            callback=log_level,
+        ),
+    ] = "INFO",
 ):
-    """Boilerplate callback function to allow for --version CLI option"""
+    """
+    Boilerplate callback function to allow for --version
+    and global --log-level CLI options
+    """
     pass
 
 

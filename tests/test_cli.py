@@ -7,6 +7,7 @@ import pytest
 from typer.testing import CliRunner
 
 from techui_builder.__main__ import app
+from techui_builder._logger import log_level
 from techui_builder.generate_jsonmap import app as generate_jsonmap_app
 
 # from techui_builder.main_app import app as main_app
@@ -14,7 +15,6 @@ from techui_builder.main_app import (
     default_bobfile,
     find_bob,
     find_dirs,
-    log_level,
     main,
 )
 from techui_builder.schema_generator import app as schema_app

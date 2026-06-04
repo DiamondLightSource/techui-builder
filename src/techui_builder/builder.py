@@ -73,7 +73,7 @@ class Builder:
         )
 
     def clean_files(self):
-        exclude = {"index.bob"}
+        exclude = {"index.bob", "JsonMap.json"}
         bobs = [
             bob
             for bob in self._write_directory.glob("*.bob")
@@ -91,13 +91,7 @@ class Builder:
 
         logger_.info("Cleaning synoptic/ of generated screens.")
 
-        try:
-            # Find the JsonMap file
-            json_map_file = next(self._write_directory.glob("JsonMap.json"))
-            # If it exists, we want to remove it too
-            generated_files = [*self.generated_bobs, json_map_file]
-        except StopIteration:
-            generated_files = self.generated_bobs
+        generated_files = self.generated_bobs
 
         # Remove any generated files that exist
         for file_ in generated_files:

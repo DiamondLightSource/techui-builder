@@ -1,6 +1,5 @@
 import logging
 import os
-import random
 import re
 from collections import defaultdict
 from collections.abc import Mapping
@@ -12,7 +11,13 @@ from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.models import Component, Entity, TechUi, TechUiSupport
+from techui_builder.models import (
+    Component,
+    Entity,
+    PipeComponent,
+    TechUi,
+    TechUiSupport,
+)
 
 logger_ = logging.getLogger(__name__)
 
@@ -327,15 +332,15 @@ class Generator:
         self._make_color_element(background_color, *color)
         return widget
 
-    def _get_available_symbols(self) -> list[Path]:
-        """Get list of available symbol SVG files."""
-        symbols_dir = self.support_path.joinpath("symbols")
-        if symbols_dir.exists():
-            return sorted(symbols_dir.glob("*.svg"))
-        return []
+    def _symbol_path(self, icon_type: str) -> Path | None:
+        """Derive SVG path from icon_type by converting underscores to hyphens."""
+        filename = icon_type.replace("_", "-") + ".svg"
+        path = self.support_path / "symbols" / filename
+        return path if path.exists() else None
 
     def _create_symbol_widget(
         self,
+        component_name: str,
         label: str,
         symbol_path: Path,
         x: int,
@@ -343,8 +348,7 @@ class Generator:
         width: int,
         height: int,
     ) -> etree.Element:
-        """Create a symbol widget with display action."""
-        # Make symbol path relative to synoptic dir
+        """Create a symbol widget that opens the component's bob on click."""
         try:
             rel_symbol_path = symbol_path.relative_to(
                 self.synoptic_dir,
@@ -360,11 +364,26 @@ class Generator:
             y=y,
             width=width,
             height=height,
-            pv_name=label,
         )
         symbols = etree.SubElement(widget, "symbols")
         symbol = etree.SubElement(symbols, "symbol")
         symbol.text = str(rel_symbol_path)
+
+        actions = etree.SubElement(widget, "actions")
+        actions.set("execute_as_one", "true")
+        action = etree.SubElement(actions, "action")
+        action.set("type", "open_display")
+        file_el = etree.SubElement(action, "file")
+        file_el.text = f"{component_name}.bob"
+        target_el = etree.SubElement(action, "target")
+        target_el.text = "tab"
+
+        run_actions = etree.SubElement(widget, "run_actions_on_mouse_click")
+        run_actions.text = "true"
+
+        desc_el = etree.SubElement(action, "description")
+        desc_el.text = f"Open {label}"
+
         return widget
 
     def _create_label_widget(
@@ -388,41 +407,11 @@ class Generator:
         )
         return widget
 
-    def _create_component_widget(
-        self,
-        component_name: str,
-        label: str,
-        x: int,
-        y: int,
-        width: int,
-        height: int,
-    ) -> etree.Element:
-        """Create a symbol widget with display action."""
-        widget = self._new_widget_element(
-            "action_button",
-            name=label,
-            x=x,
-            y=y,
-            width=width,
-            height=height,
-        )
-        actions = etree.SubElement(widget, "actions")
-        action = etree.SubElement(actions, "action")
-        action.set("type", "open_display")
-        file_el = etree.SubElement(action, "file")
-        file_el.text = f"{component_name}.bob"
-        target_el = etree.SubElement(action, "target")
-        target_el.text = "replace"
-        desc_el = etree.SubElement(action, "description")
-        desc_el.text = "Open Display"
-        return widget
-
     def _format_pipe_section(
         self,
         display: etree.Element,
         section_name: str,
-        component_names: list[str],
-        components: dict[str, Component],
+        components: dict[str, PipeComponent],
         pipe_left: int,
         pipe_top: int,
         pipe_width: int,
@@ -441,27 +430,23 @@ class Generator:
             )
         )
 
-        if not component_names:
+        if not components:
             return
 
-        available_symbols = self._get_available_symbols()
         symbol_width = 60
         symbol_height = 60
-        # label_height = 20
-        count = len(component_names)
-        spacing = int((pipe_width - count * symbol_width) / (count + 1))
-        spacing = max(20, spacing)
+        count = len(components)
+        spacing = max(20, int((pipe_width - count * symbol_width) / (count + 1)))
 
         x = pipe_left + spacing
-        for component_name in component_names:
-            component = components[component_name]
+        for component_name, component in components.items():
             label = component.label or component_name
-            symbol_path = (
-                random.choice(available_symbols) if available_symbols else None
-            )
+            symbol_path = self._symbol_path(component.icon_type)
+
             if symbol_path:
                 display.append(
                     self._create_symbol_widget(
+                        component_name,
                         label,
                         symbol_path,
                         x,
@@ -470,6 +455,15 @@ class Generator:
                         symbol_height,
                     )
                 )
+            else:
+                logger_.warning(
+                    f"No SVG found for icon_type '{component.icon_type}' "
+                    f"(component '{component_name}'): expected "
+                    f"{component.icon_type.replace('_', '-')}.svg in "
+                    f"{self.support_path / 'symbols'}. "
+                    f"Add the SVG to techui-support or fix the icon_type string."
+                )
+
             display.append(
                 self._create_label_widget(
                     label,
@@ -484,20 +478,24 @@ class Generator:
         techui: TechUi,
         output_dir: Path | None = None,
     ) -> None:
-        """Generate an index.bob from ordered components in techui.yaml."""
+        """Generate an index.bob from beam_pipe and vacuum_pipe in techui.yaml."""
         if output_dir is None:
             output_dir = self.synoptic_dir
 
         if not techui.beam_pipe and not techui.vacuum_pipe:
             logger_.warning(
-                "No beam_pipe or vacuum_pipe sections defined; "
-                "skipping index.bob generation."
+                "No beam_pipe or vacuum_pipe defined; skipping index.bob generation."
             )
             return
 
         pipe_left = 100
-        pipe_width = 1200
         pipe_height = 8
+        component_count = max(
+            len(techui.beam_pipe or {}),
+            len(techui.vacuum_pipe or {}),
+        )
+        pipe_width = max(1200, component_count * 120 + 200)
+
         display = etree.Element("display", version="2.0.0")
         title = etree.SubElement(display, "name")
         title.text = techui.beamline.location
@@ -507,13 +505,12 @@ class Generator:
                 display,
                 "vacuum_pipe",
                 techui.vacuum_pipe,
-                techui.components,
                 pipe_left,
-                120,
-                pipe_width,
-                pipe_height,
-                80,
-                (180, 180, 180),
+                pipe_top=120,
+                pipe_width=pipe_width,
+                pipe_height=pipe_height,
+                button_y=80,
+                color=(180, 180, 180),
             )
 
         if techui.beam_pipe:
@@ -521,17 +518,16 @@ class Generator:
                 display,
                 "beam_pipe",
                 techui.beam_pipe,
-                techui.components,
                 pipe_left,
-                260,
-                pipe_width,
-                pipe_height,
-                220,
-                (0, 120, 215),
+                pipe_top=260,
+                pipe_width=pipe_width,
+                pipe_height=pipe_height,
+                button_y=180,
+                color=(0, 255, 255),
             )
 
         output_dir.mkdir(parents=True, exist_ok=True)
-        output_path = output_dir.joinpath("index.bob")
+        output_path = output_dir / "index.bob"
         tree = etree.ElementTree(display)
         tree.write(
             output_path,

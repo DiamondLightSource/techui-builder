@@ -7,7 +7,8 @@ from lxml import objectify
 from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 
-from techui_builder.models import Entity
+from techui_builder.generate import Generator
+from techui_builder.models import Beamline, Component, Entity, TechUi, TechUiSupport
 
 
 @dataclass
@@ -389,6 +390,35 @@ def test_generator_build_screen(generator, components):
     generator.build_groups(screen_name, components)
     generator.build_screen(screen_name)
     assert objectify.fromstring(str(generator.screen_)).xpath("//widget[@type='group']")
+
+
+def test_generator_generate_index_bob(tmp_path):
+    techui = TechUi(
+        beamline=Beamline(
+            location="t01",
+            domain="bl01t",
+            desc="Test Beamline",
+            url="t01-opis.diamond.ac.uk",
+        ),
+        components={
+            "fshtr": Component(prefix="BL01T-EA-FSHTR-01", label="Fast Shutter"),
+            "valve": Component(prefix="BL01T-VA-VALVE-01", label="Vacuum Valve"),
+        },
+        beam_pipe=["fshtr"],
+        vacuum_pipe=["valve"],
+    )
+    generator = Generator(
+        tmp_path,
+        "test_url",
+        tmp_path,
+        TechUiSupport(support_modules={}),
+    )
+    generator.generate_index_bob(techui, tmp_path)
+    assert (tmp_path / "index.bob").exists()
+    xml = objectify.parse(tmp_path / "index.bob").getroot()
+    names = [name.text for name in xml.xpath("//widget/name")]
+    assert "Fast Shutter" in names
+    assert "Vacuum Valve" in names
 
 
 def test_build_groups_with_label(generator, components):

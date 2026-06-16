@@ -102,6 +102,14 @@ class Beamline(BaseModel):
         raise ValueError("Invalid opis URL.")
 
 
+class PipeComponent(BaseModel):
+    """Simple visualization component for beam_pipe/vacuum_pipe in techui.yaml"""
+
+    label: Annotated[
+        str | None, Field(description="Display label for the component")
+    ] = None
+
+
 class Component(BaseModel):
     """One UI Component from techui.yaml `components:` dictionary"""
 
@@ -224,11 +232,55 @@ class TechUi(BaseModel):
     components: Annotated[
         dict[str, Component],
         Field(description="Components dictionary from techui.yaml"),
-    ]
+    ] = Field(default_factory=dict)
+    beam_pipe: Annotated[
+        dict[str, PipeComponent] | list[str] | None,
+        Field(
+            default=None,
+            description="Components on beam pipe",
+        ),
+    ] = None
+    vacuum_pipe: Annotated[
+        dict[str, PipeComponent] | list[str] | None,
+        Field(
+            default=None,
+            description="Components on vacuum pipe",
+        ),
+    ] = None
+    beam_pipe_order: Annotated[
+        list[str] | None,
+        Field(default=None, exclude=True),
+    ] = None
+    vacuum_pipe_order: Annotated[
+        list[str] | None,
+        Field(default=None, exclude=True),
+    ] = None
     model_config = ConfigDict(
         extra="forbid",
         hide_input_in_errors=True,
     )
+
+    @model_validator(mode="before")
+    @classmethod
+    def _extract_pipe_component_names(cls, data):
+        """Extract component names from beam_pipe/vacuum_pipe dicts and store order."""
+        if isinstance(data, dict):
+            # Just convert the dicts to ordered lists, keep the names
+            # (don't try to merge with components section)
+
+            # Process beam_pipe
+            beam_pipe = data.get("beam_pipe")
+            if isinstance(beam_pipe, dict):
+                data["beam_pipe_order"] = list(beam_pipe.keys())
+                data["beam_pipe"] = list(beam_pipe.keys())
+
+            # Process vacuum_pipe
+            vacuum_pipe = data.get("vacuum_pipe")
+            if isinstance(vacuum_pipe, dict):
+                data["vacuum_pipe_order"] = list(vacuum_pipe.keys())
+                data["vacuum_pipe"] = list(vacuum_pipe.keys())
+
+        return data
 
 
 """

@@ -7,6 +7,7 @@ import typer
 from techui_builder._version import __version__
 from techui_builder.generate_jsonmap import app as generate_jsonmap_app
 from techui_builder.main_app import app as main_app
+from techui_builder.main_app import main as build_main
 from techui_builder.schema_generator import app as schema_app
 from techui_builder.status import app as status_app
 
@@ -60,6 +61,7 @@ def _(
 
 
 app.add_typer(main_app)
+app.command("generate", help="Run techui-builder for a given techui.yaml")(build_main)
 app.add_typer(schema_app, name="schema")
 app.add_typer(generate_jsonmap_app, name="generate-jsonmap")
 app.add_typer(status_app, name="status")

@@ -3,13 +3,10 @@ requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-scripts = { techui-builder = "techui_builder.__main__:app" }
-
 name = "techui-builder"
 dynamic = ["version"]
 description = "A package for building Phoebus GUIs"
 classifiers = [
-    "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
@@ -20,6 +17,7 @@ authors = [
     { name = "Niamh Dougan", email = "niamh.dougan@diamond.ac.uk" },
     { name = "Thomas Kane", email = "thomas.kane@diamond.ac.uk" },
 ]
+license = "Apache-2.0"
 license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
@@ -34,6 +32,8 @@ dependencies = [
     "softioc>=4.7.0",
     "epicsdbbuilder>=1.5",
 ]
+scripts = { techui-builder = "techui_builder.__main__:app" }
+
 [dependency-groups]
 dev = [
     "copier",

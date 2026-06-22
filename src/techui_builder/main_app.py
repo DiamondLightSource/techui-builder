@@ -46,7 +46,7 @@ def find_dirs(file_path: Path, beamline: str) -> tuple:
     return ixx_services_dir, synoptic_dir
 
 
-def find_bob(bob_file: Path | None, synoptic_dir: Path):
+def find_bob(bob_file: Path | None, synoptic_dir: Path) -> Path | None:
     if bob_file is None:
         # Search default relative dir to techui filename
         # There will only ever be one file, but if not return None
@@ -55,11 +55,10 @@ def find_bob(bob_file: Path | None, synoptic_dir: Path):
             None,
         )
         if bob_file is None:
-            logging.critical(
-                f"Source bob file '{default_bobfile}' not found in \
-{synoptic_dir}. Does it exist?"
+            logger_.debug(
+                f"Default bob file '{default_bobfile}' not found in {synoptic_dir}."
             )
-            exit()
+            return None
     elif not bob_file.exists():
         logging.critical(f"Source bob file '{bob_file}' not found. Does it exist?")
         exit()
@@ -113,12 +112,18 @@ Write directory: {gui._write_directory}
 
     logger_.info(f"Screens generated for {gui.conf.beamline.location}.")
 
-    autofiller = Autofiller(bob_file, gui.conf.components)
-    autofiller.read_bob()
-    autofiller.autofill_bob()
+    if gui.conf.beam_pipe is not None or gui.conf.vacuum_pipe is not None:
+        gui.generator.generate_index_bob(gui.conf, gui._write_directory)  # noqa: SLF001
+    elif bob_file is not None:
+        autofiller = Autofiller(bob_file, gui.conf.components)
+        autofiller.read_bob()
+        autofiller.autofill_bob()
 
-    dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
-
-    autofiller.write_bob(dest_bob)
-
-    logger_.info(f"Screens autofilled for {gui.conf.beamline.location}.")
+        dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
+        autofiller.write_bob(dest_bob)
+        logger_.info(f"Screens autofilled for {gui.conf.beamline.location}.")
+    else:
+        logging.critical(
+            "No source index.bob found and no beam_pipe/vacuum_pipe sections defined."
+        )
+        exit()

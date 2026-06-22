@@ -6,12 +6,18 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from lxml import objectify
+from lxml import etree, objectify
 from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.models import Component, Entity, TechUiSupport
+from techui_builder.models import (
+    Component,
+    Entity,
+    PipeComponent,
+    TechUi,
+    TechUiSupport,
+)
 
 logger_ = logging.getLogger(__name__)
 
@@ -156,7 +162,12 @@ class Generator:
                 :2
             ]
             component_name = suffix.removeprefix(":").removesuffix(":")
-            suffix_key = next(k for k, v in component.macros.items() if v == suffix)
+            suffix_key = next(
+                (k for k, v in component.macros.items() if v == suffix), None
+            )
+            if suffix_key is None:
+                # Suffix not found in macros, use empty suffix
+                raise ValueError("Suffix not in macros")
         except (IndexError, ValueError):
             prefix = component.prefix
             component_name = component.type
@@ -169,7 +180,14 @@ class Generator:
                 component_name = component.child_labels[suffix]
                 self.label_flag = True
 
-        prefix_key = next(k for k, v in component.macros.items() if v == prefix)
+        prefix_key = next((k for k, v in component.macros.items() if v == prefix), None)
+        if prefix_key is None:
+            # Prefix not found in macros - skip this entity
+            # This shouldn't happen with properly formed entities, but handle gracefully
+            logger_.warning(
+                f"Could not find P={prefix} in entity macros for {component.type}"
+            )
+            return component_name, {}
 
         new_macros[prefix_key] = prefix
         if suffix_key != "":
@@ -265,6 +283,259 @@ class Generator:
             new_widget.version("2.0.0")
             self.label_flag = False
         return new_widget
+
+    def _new_widget_element(self, widget_type: str, **attrs) -> etree.Element:
+        widget = etree.Element("widget", type=widget_type, version="2.0.0")
+        for name, value in attrs.items():
+            if value is None:
+                continue
+            child = etree.SubElement(widget, name)
+            child.text = str(value)
+        return widget
+
+    def _make_color_element(
+        self,
+        parent: etree.Element,
+        red: int,
+        green: int,
+        blue: int,
+    ):
+        color_el = etree.SubElement(parent, "color")
+        color_el.set("red", str(red))
+        color_el.set("green", str(green))
+        color_el.set("blue", str(blue))
+        return color_el
+
+    def _create_beamline_widget(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        color: tuple[int, int, int] = (0, 120, 215),
+    ) -> etree.Element:
+        widget = self._new_widget_element(
+            "rectangle",
+            name="BeamPipe",
+            x=x,
+            y=y,
+            width=width,
+            height=height,
+            line_width=1,
+        )
+        line_color = etree.SubElement(widget, "line_color")
+        self._make_color_element(
+            line_color,
+            *color,
+        )
+        background_color = etree.SubElement(widget, "background_color")
+        self._make_color_element(background_color, *color)
+        return widget
+
+    def _symbol_path(self, icon_type: str) -> Path | None:
+        """Derive SVG path from icon_type by converting underscores to hyphens."""
+        filename = icon_type.replace("_", "-") + ".svg"
+        path = self.support_path / "symbols" / filename
+        return path if path.exists() else None
+
+    def _create_symbol_widget(
+        self,
+        component_name: str,
+        label: str,
+        symbol_path: Path,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+    ) -> etree.Element:
+        """Create a symbol widget that opens the component's bob on click."""
+        try:
+            rel_symbol_path = symbol_path.relative_to(
+                self.synoptic_dir,
+                walk_up=True,
+            )
+        except ValueError:
+            rel_symbol_path = symbol_path
+
+        widget = self._new_widget_element(
+            "symbol",
+            name=label,
+            x=x,
+            y=y,
+            width=width,
+            height=height,
+        )
+        symbols = etree.SubElement(widget, "symbols")
+        symbol = etree.SubElement(symbols, "symbol")
+        symbol.text = str(rel_symbol_path)
+
+        actions = etree.SubElement(widget, "actions")
+        actions.set("execute_as_one", "true")
+        action = etree.SubElement(actions, "action")
+        action.set("type", "open_display")
+        file_el = etree.SubElement(action, "file")
+        file_el.text = f"{component_name}.bob"
+        target_el = etree.SubElement(action, "target")
+        target_el.text = "tab"
+
+        run_actions = etree.SubElement(widget, "run_actions_on_mouse_click")
+        run_actions.text = "true"
+
+        desc_el = etree.SubElement(action, "description")
+        desc_el.text = f"Open {label}"
+
+        return widget
+
+    def _create_label_widget(
+        self,
+        label: str,
+        x: int,
+        y: int,
+        width: int = 80,
+    ) -> etree.Element:
+        """Create a label widget centered below a component symbol."""
+        # Center label under icon by offsetting its x position
+        label_x = x - (width - 60) // 2
+        widget = self._new_widget_element(
+            "label",
+            name=f"Label_{label}",
+            text=label,
+            x=label_x,
+            y=y,
+            width=width,
+            horizontal_alignment="1",
+        )
+        return widget
+
+    def _format_pipe_section(
+        self,
+        display: etree.Element,
+        section_name: str,
+        components: dict[str, PipeComponent],
+        pipe_left: int,
+        pipe_top: int,
+        pipe_width: int,
+        pipe_height: int,
+        button_y: int,
+        color: tuple[int, int, int],
+    ) -> None:
+        """Add a pipe line and ordered components to the display."""
+        display.append(
+            self._create_beamline_widget(
+                pipe_left,
+                pipe_top,
+                pipe_width,
+                pipe_height,
+                color,
+            )
+        )
+
+        if not components:
+            return
+
+        symbol_width = 60
+        symbol_height = 60
+        count = len(components)
+        spacing = max(20, int((pipe_width - count * symbol_width) / (count + 1)))
+
+        x = pipe_left + spacing
+        for component_name, component in components.items():
+            label = component.label or component_name
+            symbol_path = self._symbol_path(component.icon_type)
+
+            if symbol_path:
+                display.append(
+                    self._create_symbol_widget(
+                        component_name,
+                        label,
+                        symbol_path,
+                        x,
+                        button_y,
+                        symbol_width,
+                        symbol_height,
+                    )
+                )
+            else:
+                logger_.warning(
+                    f"No SVG found for icon_type '{component.icon_type}' "
+                    f"(component '{component_name}'): expected "
+                    f"{component.icon_type.replace('_', '-')}.svg in "
+                    f"{self.support_path / 'symbols'}. "
+                    f"Add the SVG to techui-support or fix the icon_type string."
+                )
+
+            display.append(
+                self._create_label_widget(
+                    label,
+                    x,
+                    button_y + symbol_height + 5,
+                )
+            )
+            x += symbol_width + spacing
+
+    def generate_index_bob(
+        self,
+        techui: TechUi,
+        output_dir: Path | None = None,
+    ) -> None:
+        """Generate an index.bob from beam_pipe and vacuum_pipe in techui.yaml."""
+        if output_dir is None:
+            output_dir = self.synoptic_dir
+
+        if not techui.beam_pipe and not techui.vacuum_pipe:
+            logger_.warning(
+                "No beam_pipe or vacuum_pipe defined; skipping index.bob generation."
+            )
+            return
+
+        pipe_left = 100
+        pipe_height = 8
+        component_count = max(
+            len(techui.beam_pipe or {}),
+            len(techui.vacuum_pipe or {}),
+        )
+        pipe_width = max(1200, component_count * 120 + 200)
+
+        display = etree.Element("display", version="2.0.0")
+        title = etree.SubElement(display, "name")
+        title.text = techui.beamline.location
+
+        if techui.vacuum_pipe:
+            self._format_pipe_section(
+                display,
+                "vacuum_pipe",
+                techui.vacuum_pipe,
+                pipe_left,
+                pipe_top=120,
+                pipe_width=pipe_width,
+                pipe_height=pipe_height,
+                button_y=80,
+                color=(180, 180, 180),
+            )
+
+        if techui.beam_pipe:
+            self._format_pipe_section(
+                display,
+                "beam_pipe",
+                techui.beam_pipe,
+                pipe_left,
+                pipe_top=260,
+                pipe_width=pipe_width,
+                pipe_height=pipe_height,
+                button_y=180,
+                color=(0, 255, 255),
+            )
+
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_dir / "index.bob"
+        tree = etree.ElementTree(display)
+        tree.write(
+            output_path,
+            pretty_print=True,
+            xml_declaration=True,
+            encoding="utf-8",
+        )
+        logger_.info(f"Generated index.bob at {output_path}")
 
     def _create_widgets(
         self, name: str, component: Entity

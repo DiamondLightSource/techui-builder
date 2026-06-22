@@ -102,6 +102,36 @@ class Beamline(BaseModel):
         raise ValueError("Invalid opis URL.")
 
 
+class PipeComponent(BaseModel):
+    """A device on a beam pipe or vacuum pipe."""
+
+    label: Annotated[
+        str | None,
+        Field(default=None, description="Display label for the component"),
+    ] = None
+    prefix: Annotated[
+        str,
+        Field(description="PV prefix for this device"),
+    ]
+    icon_type: Annotated[
+        str,
+        Field(
+            description="Device type — must match SVG filename as kebab-case, "
+            "e.g. 'ion_pump' -> 'ion-pump.svg'"
+        ),
+    ]
+
+    @field_validator("icon_type")
+    @classmethod
+    def icon_type_must_be_snake_case(cls, v: str) -> str:
+        if "-" in v:
+            raise ValueError(
+                f"icon_type '{v}' should use underscores not hyphens "
+                f"(the SVG filename will use hyphens automatically)"
+            )
+        return v
+
+
 class Component(BaseModel):
     """One UI Component from techui.yaml `components:` dictionary"""
 
@@ -224,7 +254,21 @@ class TechUi(BaseModel):
     components: Annotated[
         dict[str, Component],
         Field(description="Components dictionary from techui.yaml"),
-    ]
+    ] = Field(default_factory=dict)
+    beam_pipe: Annotated[
+        dict[str, PipeComponent] | None,
+        Field(
+            default=None,
+            description="Ordered devices on the beam pipe",
+        ),
+    ] = None
+    vacuum_pipe: Annotated[
+        dict[str, PipeComponent] | None,
+        Field(
+            default=None,
+            description="Ordered devices on the vacuum pipe",
+        ),
+    ] = None
     model_config = ConfigDict(
         extra="forbid",
         hide_input_in_errors=True,

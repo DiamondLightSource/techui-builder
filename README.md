@@ -7,7 +7,9 @@
 
 A package for building Phoebus GUIs
 
-Techui-builder is a module for building and organising phoebus gui screens using a builder-ibek yaml description of an IOC, with a user created techui.yaml file containing a description of the screens the user wants to create.
+Techui-builder is a module for building and organising Phoebus CS-Studio `.bob` screens from a `techui.yaml` description of a beamline's IOC services. It also can auto-generate a synoptic `index.bob` showing devices laid out along the beam pipe and vacuum pipe, eliminating the need to hand-craft the overview screen in Phoebus.
+
+The `.bob` file screens are intended to be served to [Daedalus](https://github.com/DiamondLightSource/daedalus), Diamond's web-based control system UI.
 
 Source          | <https://github.com/DiamondLightSource/techui-builder>
 :---:           | :---:
@@ -17,40 +19,70 @@ Releases        | <https://github.com/DiamondLightSource/techui-builder/releases
 The process to use this module goes as follows (WIP): 
 
 ## Requirements
+
 1. Docker
 2. VSCode
 3. CS-Studio (Phoebus)
 
-## Installation
-1. Clone this module with the `--recursive` flag to pull in [techui-support](git@github.com:DiamondLightSource/techui-support.git) for the associated bob files. 
-2. Open the project using VSCode.
-3. Reopen the project in a container. Make sure you are using the VSCode extension: Dev Containers by Microsoft.
-    
-## Setting Up
+## Setup
 
-1. Clone the beamline `ixx-services` repo to the root of this project, ensuring each IOC service has been converted to the [ibek](git@github.com:epics-containers/ibek.git) format.
+1. Clone this module with the `--recursive` flag to pull in [techui-support](https://github.com/DiamondLightSource/techui-support) for the associated bob file templates and SVG symbols.
 
-    `git clone --recursive git@gitlab.diamond.ac.uk:controls/containers/beamline/ixx-services.git`
-1. Create your handmade synoptic overview screen in Phoebus and place at `ixx-services/synoptic/index.bob`.
+2. Open the project using VSCode and reopen in the dev container when prompted. Make sure you are using the VSCode extension: Dev Containers by Microsoft.
+
+3. Clone your beamline `ixx-services` repo to the root of this project, ensuring each IOC service has been converted to the ibek format.
+
+
+## Writing a `techui.yaml` from scratch
+
 1. Construct a `techui.yaml` file inside `ixx-services/synoptic` containing all the components from the services:
 
     ```
     beamline:
-        short_dom: {e.g. b23, b01-1}
-        long_dom: {e.g. bl23b}
+        location: {e.g. ixx, ixx-1}
+        domain: {e.g. blxxi}
         desc: {beamline description}
-        url: {e.g. b23-opis.diamond.ac.uk}
+        url: {e.g. ixx-opis.diamond.ac.uk}
 
-    components:
-        {component name}:
-            desc: {component description}
+    beam_pipe:
+        {component name, e.g. S1}:
+            label: {component description}
             prefix: {PV prefix}
+            icon_type: {e.g. slits}
             extras: 
                 - {extra prefix 1}
                 - {extra prefix 2}
+
+    vacuum_pipe:
+        {component name, e.g. img01}:
+            label: {e.g. IMG 01}
+            prefix: {PV prefix}
+            icon_type: {e.g. img}
+
     ```
     > [!NOTE] 
-    > `extras` is optional, but allows any embedded screen to be added to make a summary screen e.g. combining all imgs, pirgs and ionps associated with a vacuum space.
+    > `extras` is optional, but allows any embedded screen to be added to a summary screen
+
+    Devices are rendered left-to-right in the order they appear in the file.
+
+    For devices not on the beam/vacuum pipe (e.g. detectors, sample environments etc), declare they under `components`. These generate `.bob` screens but do not appear on the synoptic overview.
+
+    > [!NOTE]
+    > If you already have a hand-crafted `index.bob` and do not define `beam_pipe` or `vacuum_pipe` in `techui.yaml`, it will be preserved as is. Defining either section will auto-generate and overwrite `index.bob`.
+
+## Icon Type Naming Convention ##
+
+`icon_type` values must use underscores. The corresponding SVG in `techui-support/symbols/` must use hyphens. For example:
+
+| `icon_type` | SVG file
+| ----------- | -----------
+| `ion_pump`  | `ion-pump.svg`
+| `camera`    | `camera.svg`
+
+See the techui-support README for the full list of available symbols.
+
+## Schema Generation ## 
+
 1. Run this command to locally generate a schema, which can be used for validation testing
 
     ```$ techui-builder schema```
@@ -63,15 +95,19 @@ The process to use this module goes as follows (WIP):
 
 ## Generating the Synoptic
 
-`$ techui-builder build /path/to/synoptic/techui.yaml`
+`$ techui-builder generate /path/to/synoptic/techui.yaml`
 
 This populates `index.bob` and individual component screens inside `ixx-services/synoptic`.
+
+Output files are written to `ixx-services/synoptic/`.
 
 ## Generating the JsonMap
 
 `$ techui-builder generate-jsonmap /path/to/synoptic/index.bob`
 
-This populates `JsonMap.json` with the tree of component screens inside `ixx-services/synoptic/index.bob`.
+This populates `JsonMap.json` with the tree of component screens inside `ixx-services/synoptic/index.bob`. This is used for Daedalus navigation to create the tree view in the side panel.
+
+Output files are written to `ixx-services/synoptic/`.
 
 ## Generating the Status PV database file
 

@@ -40,6 +40,12 @@ def test_app_version():
     assert "techui-builder version:" in result.output
 
 
+def test_app_generate_alias():
+    result = runner.invoke(app, ["generate", "--help"])
+    assert result.exit_code == 0
+    assert "Run techui-builder for a given techui.yaml" in result.output
+
+
 def test_app_schema():
     result = runner.invoke(schema_app)
     assert result.exit_code == 0
@@ -130,17 +136,14 @@ def test_find_bob_no_bob_file_found(caplog):
     mock_synoptic_dir = MagicMock(spec=Path)
     mock_synoptic_dir.glob.return_value = iter([])
 
-    with caplog.at_level(logging.CRITICAL) and pytest.raises(SystemExit) as exc_info:
-        _ = find_bob(None, mock_synoptic_dir)
+    with caplog.at_level(logging.DEBUG):
+        bob_file = find_bob(None, mock_synoptic_dir)
 
-    for log_output in caplog.records:
-        assert (
-            f"Source bob file '{default_bobfile}' not found in {mock_synoptic_dir}"
-            in log_output.message
-        )
-
-    # The function calls exit() with no value code
-    assert exc_info.value.code is None
+    assert bob_file is None
+    assert (
+        f"Default bob file '{default_bobfile}' not found in {mock_synoptic_dir}."
+        in caplog.text
+    )
 
 
 @patch("techui_builder.main_app.find_bob")

@@ -178,6 +178,70 @@ class Builder:
         widget_group_name = widget_group.get_element_value("name")
         self.validator.validate_bob(screen_name, widget_group_name, widgets)
 
+    def _create_component_screens(self):
+        """Create screens for components defined in techui.yaml"""
+        for component_name, component in self.conf.components.items():
+            screen_entities: list[Entity] = []
+
+            if component.prefix not in self.entities.keys():
+                logger_.warning(
+                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold] "
+                    f"set in the component [bold]{component_name}[/bold] does not match"
+                    " any P field in the ioc.yaml files in services"
+                )
+                continue
+
+            for entity in self.entities[component.prefix]:
+                entity.child_labels = component.child_labels
+
+            screen_entities.extend(self.entities[component.prefix])
+
+            if component.extras is not None:
+                for extra_p in component.extras:
+                    if extra_p not in self.entities.keys():
+                        logger_.error(
+                            f"Extra prefix {extra_p} for {component_name} does not"
+                            " exist."
+                        )
+                        continue
+                    screen_entities.extend(self.entities[extra_p])
+
+            self.generator.build_widgets(component_name, screen_entities)
+            self.generator.build_groups(component_name, self.conf.components)
+
+            if component_name in list(self.validator.validate.keys()):
+                self._validate_screen(component_name)
+            else:
+                self._generate_screen(component_name)
+
+    def _create_pipe_screens(self):
+        """Create screens for beam_pipe and vacuum_pipe components"""
+        all_pipe_components = {
+            **(self.conf.beam_pipe or {}),
+            **(self.conf.vacuum_pipe or {}),
+        }
+
+        for component_name, pipe_component in all_pipe_components.items():
+            pv_root = pipe_component.prefix.split(":", maxsplit=1)[0]
+
+            if pv_root not in self.entities:
+                logger_.warning(
+                    f"Pipe component '{component_name}' with prefix "
+                    f"'{pipe_component.prefix}' does not match any entity "
+                    f"in the ioc.yaml files — skipping screen generation."
+                )
+                continue
+
+            screen_entities = self.entities[pv_root]
+
+            self.generator.build_widgets(component_name, screen_entities)
+            self.generator.build_groups(component_name, {})
+
+            if component_name in list(self.validator.validate.keys()):
+                self._validate_screen(component_name)
+            else:
+                self._generate_screen(component_name)
+
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
         if len(self.entities) == 0:
@@ -185,48 +249,7 @@ class Builder:
                 "No ioc entities found. This [italic]normally[/italic]"
                 " suggests an issue with finding ixx-services."
             )
-            exit()
+            return
 
-        # Loop over every component defined in techui.yaml and locate
-        # any extras defined
-        for component_name, component in self.conf.components.items():
-            screen_entities: list[Entity] = []
-
-            # ONLY IF there is a matching component and entity, generate a screen
-            if component.prefix in self.entities.keys():
-                # Populate child labels for any entities
-                # with the same prefix as the component
-                for entity in self.entities[component.prefix]:
-                    entity.child_labels = component.child_labels
-
-                screen_entities.extend(self.entities[component.prefix])
-
-                if component.extras is not None:
-                    # If component has any extras, add them to the entries to generate
-                    for extra_p in component.extras:
-                        if extra_p not in self.entities.keys():
-                            logger_.error(
-                                f"Extra prefix {extra_p} for {component_name} does not"
-                                " exist."
-                            )
-                            continue
-                        screen_entities.extend(self.entities[extra_p])
-
-                # This is used by both generate and validate,
-                # so called beforehand for tidyness
-                self.generator.build_widgets(component_name, screen_entities)
-                self.generator.build_groups(component_name, self.conf.components)
-
-                screens_to_validate = list(self.validator.validate.keys())
-
-                if component_name in screens_to_validate:
-                    self._validate_screen(component_name)
-                else:
-                    self._generate_screen(component_name)
-
-            else:
-                logger_.warning(
-                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold] "
-                    f"set in the component [bold]{component_name}[/bold] does not match"
-                    " any P field in the ioc.yaml files in services"
-                )
+        self._create_component_screens()
+        self._create_pipe_screens()

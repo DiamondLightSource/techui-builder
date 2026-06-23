@@ -36,8 +36,8 @@ The process to use this module goes as follows (WIP):
 
     ```
     beamline:
-        short_dom: {e.g. b23, b01-1}
-        long_dom: {e.g. bl23b}
+        location: {e.g. b23, b01-1}
+        domain: {e.g. bl23b}
         desc: {beamline description}
         url: {e.g. b23-opis.diamond.ac.uk}
 

@@ -14,7 +14,6 @@ logger_ = logging.getLogger(__name__)
 
 app = typer.Typer(
     pretty_exceptions_show_locals=False,
-    context_settings={"allow_interspersed_args": True},
     help="""
     A script for building Phoebus GUIs.
 

@@ -104,12 +104,12 @@ def test_find_dirs_jxx_services(caplog):
     mock_path = MagicMock(spec=Path)
     mock_path.absolute.return_value = mock_absolute
 
-    with caplog.at_level(logging.INFO):
+    with caplog.at_level(logging.DEBUG):
         services, synoptic = find_dirs(mock_path, "jxx")
 
     assert synoptic == mock_absolute.parent
     assert services == Path("mock_rel_path")
-    assert "jxx-services not found. Searching for Ixx-services..." in caplog.text
+    assert "ixx-services relative path:" in caplog.text
 
 
 def test_find_bob(caplog):

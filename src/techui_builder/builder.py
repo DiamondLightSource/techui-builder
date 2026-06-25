@@ -110,7 +110,15 @@ class Builder:
             # If service doesn't exist, file open will fail throwing exception
             try:
                 service_yaml_dir = service.joinpath("config")
-                service_yaml = next(service_yaml_dir.glob("*.yaml"), None)
+
+                yaml_matches = [
+                    p
+                    for name in ("ioc.yaml", "fastcs.yaml")
+                    if (p := service_yaml_dir / name).exists()
+                ]
+                assert len(yaml_matches) <= 1
+                service_yaml = yaml_matches[0] if yaml_matches else None
+
                 if service_yaml is None:
                     raise OSError()
 
@@ -124,6 +132,11 @@ class Builder:
                     "No ioc.yaml or fastcs.yaml found for service: "
                     f"[bold]{service_name}[/bold]. Does it exist?"
                 )
+            except AssertionError:
+                logger_.critical(
+                    f"Both ioc.yaml and fastcs.yaml found for {service_name}"
+                )
+                exit()
 
     def _extract_entities(self, service_name: str, service_yaml: Path):
         """

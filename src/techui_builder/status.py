@@ -25,9 +25,15 @@ app = typer.Typer(
 class GenerateStatusPvs:
     techui_path: Path = field(repr=False)
     status_pvs: dict[str, Record] = field(default_factory=dict, init=False)
+    output: Path | None = field(default=None)
 
     def __post_init__(self):
-        self._write_directory = self.techui_path.parent
+        # Determine the directory to write the json map file to.
+        # By default, this looks at the location of the techui file, but can
+        # be overwritten using the --output flag
+        self._write_directory: Path = (
+            self.output if self.output is not None else self.techui_path.parent
+        )
 
         try:
             self.techui_yaml: TechUi = TechUi.model_validate(
@@ -89,8 +95,16 @@ class GenerateStatusPvs:
 @app.callback(invoke_without_command=True)
 def status_run(
     techui: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
+    output_path: Annotated[
+        Path | None,
+        typer.Option(
+            "--output",
+            "-o",
+            help="Alternative output location for generated status db file.",
+        ),
+    ] = None,
 ):
-    status_gen = GenerateStatusPvs(techui)
+    status_gen = GenerateStatusPvs(techui, output=output_path)
     for component in status_gen.techui_yaml.components.values():
         if component.status is not None:
             # if a status field is provided, generate a status PV for the component

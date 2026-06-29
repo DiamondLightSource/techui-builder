@@ -146,6 +146,47 @@ def test_gb_extract_entities_fastcs_yaml(
     assert entity.macros == macros
 
 
+def test_gb_extract_services_no_yaml_files(builder, caplog, tmp_path):
+    # We don't want to use builder_with_setup as that calls _extract_services()
+    # and in turn that calls _extract_entities()
+    builder._extract_entities = Mock()
+
+    # overwrite to not see the bl01t service dirs
+    builder.conf.beamline.domain = "bl01z"
+    builder._services_dir = tmp_path
+    # Temporary files to test against
+    (tmp_path / "bl01z-ea-ioc-01").mkdir()
+    (tmp_path / "bl01z-ea-ioc-01/config").mkdir()
+
+    with pytest.raises(OSError) and caplog.at_level(logging.ERROR):
+        builder._extract_services()
+
+    for log_output in caplog.records:
+        assert ("No ioc.yaml or fastcs.yaml found for service:") in log_output.message
+
+
+def test_gb_extract_services_both_yaml_files(builder, caplog, tmp_path):
+    # We don't want to use builder_with_setup as that calls _extract_services()
+    # and in turn that calls _extract_entities()
+    builder._extract_entities = Mock()
+
+    # overwrite to not see the bl01t service dirs
+    builder.conf.beamline.domain = "bl01z"
+    builder._services_dir = tmp_path
+    # Temporary files to test against
+    (tmp_path / "bl01z-ea-ioc-01").mkdir()
+    (tmp_path / "bl01z-ea-ioc-01/config").mkdir()
+    (tmp_path / "bl01z-ea-ioc-01/config/ioc.yaml").write_text("name: test")
+    (tmp_path / "bl01z-ea-ioc-01/config/fastcs.yaml").write_text("name: other")
+
+    with caplog.at_level(logging.CRITICAL):
+        with pytest.raises(SystemExit):
+            builder._extract_services()
+
+    for log_output in caplog.records:
+        assert ("Both ioc.yaml and fastcs.yaml found for") in log_output.message
+
+
 def test_builder_generate_screen(builder_with_setup):
     # with (
     #     patch("techui_builder.builder.Generator.build_screen") as mock_build_screen,

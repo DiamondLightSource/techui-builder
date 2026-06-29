@@ -56,6 +56,18 @@ def test_status_run(mock_status_run, caplog):
     assert result.exit_code == 0
 
 
+@patch("techui_builder.status.status_run")
+def test_status_run_output_directory(mock_status_run, caplog):
+    mock_status_run.return_value = Mock()
+    output_dir = Path("example/t01-services/")
+    result = runner.invoke(
+        status_app, ["-o", str(output_dir), "example/t01-services/synoptic/techui.yaml"]
+    )
+    assert Path.exists(output_dir.joinpath("config/status.db"))
+    os.remove(output_dir.joinpath("config/status.db"))
+    assert result.exit_code == 0
+
+
 @patch("techui_builder._logger.Logger")
 def test_log_level(mock_logger):
     log_level("INFO")
@@ -201,6 +213,22 @@ def test_main_json_map_generation(caplog):
     )
     if Path.exists(Path("tests/t01-services/synoptic/JsonMap.json")):
         os.remove("tests/t01-services/synoptic/JsonMap.json")
+    for log_output in caplog.records:
+        assert "Json map generated for (from" in log_output.message
+
+
+def test_main_json_map_generation_output_directory(caplog):
+    output_dir = Path("tests/t01-services/")
+    runner.invoke(
+        generate_jsonmap_app,
+        [
+            "-o",
+            str(output_dir),
+            "tests/t01-services/synoptic/index.bob",
+        ],
+    )
+    assert Path.exists(output_dir.joinpath("JsonMap.json"))
+    os.remove(output_dir.joinpath("JsonMap.json"))
     for log_output in caplog.records:
         assert "Json map generated for (from" in log_output.message
 

@@ -62,12 +62,13 @@ class JsonMapGenerator:
         self._write_directory: Path = (
             self.output if self.output is not None else self.bob_path.parent
         )
+        self._parent_path: Path = self.bob_path.parent
         # Check if techui is default value and that it doesn't exist
         if (
             self.techui == self.__class__.__dataclass_fields__["techui"].default
             and not self.techui.exists()
         ):
-            self.techui = self._write_directory.joinpath("techui.yaml")
+            self.techui = self._parent_path.joinpath("techui.yaml")
         try:
             self.techui_yaml: TechUi = TechUi.model_validate(
                 yaml.safe_load(self.techui.read_text(encoding="utf-8"))
@@ -134,7 +135,7 @@ class JsonMapGenerator:
 
         # Create initial node at top of .bob file
         current_node = JsonMap(
-            str(screen_path.resolve().relative_to(self._write_directory.resolve())),
+            str(screen_path.resolve().relative_to(self._parent_path.resolve())),
             display_name=None,
         )
 
@@ -384,7 +385,7 @@ class JsonMapGenerator:
                 f"Cannot generate json map for {self.bob_path}. Has it been generated?"
             )
 
-        map = self.generate_json_map(self.bob_path, self._write_directory)
+        map = self.generate_json_map(self.bob_path, self._parent_path)
         with open(self._write_directory.joinpath("JsonMap.json"), "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))

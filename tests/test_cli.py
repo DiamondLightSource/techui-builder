@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
+from softioc.builder import ClearRecords
 from typer.testing import CliRunner
 
 from techui_builder.__main__ import app
@@ -51,21 +52,23 @@ def test_app_schema():
 
 @patch("techui_builder.status.status_run")
 def test_status_run(mock_status_run, caplog):
+    ClearRecords()
     mock_status_run.return_value = Mock()
     result = runner.invoke(status_app, ["example/t01-services/synoptic/techui.yaml"])
     assert result.exit_code == 0
 
 
-@patch("techui_builder.status.status_run")
-def test_status_run_output_directory(mock_status_run, caplog):
-    mock_status_run.return_value = Mock()
+def test_status_run_output_directory():
+    ClearRecords()
     output_dir = Path("example/t01-services/")
     result = runner.invoke(
         status_app, ["-o", str(output_dir), "example/t01-services/synoptic/techui.yaml"]
     )
-    assert Path.exists(output_dir.joinpath("config/status.db"))
-    os.remove(output_dir.joinpath("config/status.db"))
     assert result.exit_code == 0
+    assert Path.exists(output_dir.joinpath("config/status.db"))
+    if Path.exists(output_dir.joinpath("config/status.db")):
+        os.remove(output_dir.joinpath("config/status.db"))
+        os.removedirs(output_dir.joinpath("config"))
 
 
 @patch("techui_builder._logger.Logger")

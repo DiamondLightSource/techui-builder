@@ -9,8 +9,9 @@ A package for building Phoebus GUIs
 
 Techui-builder is a module for building and organising phoebus gui screens using a builder-ibek yaml description of an IOC, with a user created techui.yaml file containing a description of the screens the user wants to create.
 
-Source          | <https://github.com/DiamondLightSource/techui-builder>
+What            | Where
 :---:           | :---:
+Source          | <https://github.com/DiamondLightSource/techui-builder>
 PyPI            | `pip install techui-builder`
 Releases        | <https://github.com/DiamondLightSource/techui-builder/releases>
 

@@ -9,6 +9,7 @@ description = "A package for building Phoebus GUIs"
 classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 urls = { GitHub = "https://github.com/DiamondLightSource/techui-builder" }
 authors = [
@@ -124,7 +125,7 @@ commands = [
     [
         "basedpyright",
         "--pythonpath",
-        ".venv/bin/python",
+        "{env:VIRTUAL_ENV}/bin/python",
         "src",
         "tests",
         { replace = "posargs", default = [

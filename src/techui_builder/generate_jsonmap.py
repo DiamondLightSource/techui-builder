@@ -53,16 +53,22 @@ class JsonMap:
 class JsonMapGenerator:
     bob_path: Path = field(default=Path("index.bob"))
     techui: Path = field(default=Path("techui.yaml"))
+    output: Path | None = field(default=None)
 
     def __post_init__(self):
-        # Get the directory to that holds the bob file and techui_yaml,
-        self._write_directory: Path = self.bob_path.parent
+        # Determine the directory to write the json map file to.
+        # By default, this looks at the location of the bob file, but can
+        # be overwritten using the --output flag
+        self._write_directory: Path = (
+            self.output if self.output is not None else self.bob_path.parent
+        )
+        self._parent_path: Path = self.bob_path.parent
         # Check if techui is default value and that it doesn't exist
         if (
             self.techui == self.__class__.__dataclass_fields__["techui"].default
             and not self.techui.exists()
         ):
-            self.techui = self._write_directory.joinpath("techui.yaml")
+            self.techui = self._parent_path.joinpath("techui.yaml")
         try:
             self.techui_yaml: TechUi = TechUi.model_validate(
                 yaml.safe_load(self.techui.read_text(encoding="utf-8"))
@@ -129,7 +135,7 @@ class JsonMapGenerator:
 
         # Create initial node at top of .bob file
         current_node = JsonMap(
-            str(screen_path.resolve().relative_to(self._write_directory.resolve())),
+            str(screen_path.resolve().relative_to(self._parent_path.resolve())),
             display_name=None,
         )
 
@@ -379,7 +385,7 @@ class JsonMapGenerator:
                 f"Cannot generate json map for {self.bob_path}. Has it been generated?"
             )
 
-        map = self.generate_json_map(self.bob_path, self._write_directory)
+        map = self.generate_json_map(self.bob_path, self._parent_path)
         with open(self._write_directory.joinpath("JsonMap.json"), "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
@@ -474,6 +480,14 @@ def generate_jsonmap(
         Path,
         typer.Argument(help="Top level bobfile to generate json mapping from."),
     ],
+    output_path: Annotated[
+        Path | None,
+        typer.Option(
+            "--output",
+            "-o",
+            help="Alternative output location for generated json map file.",
+        ),
+    ] = None,
     loglevel: Annotated[
         str,
         typer.Option(
@@ -486,7 +500,9 @@ def generate_jsonmap(
     ] = "INFO",
 ) -> None:
     """Default function called from cmd line tool."""
-    jg = JsonMapGenerator(bob_path=bob_path)
+    if output_path is not None:
+        logger_.info(f"Using user provided output location of: {output_path}")
+    jg = JsonMapGenerator(bob_path=bob_path, output=output_path)
     jg.write_json_map()
     logger_.info(
         f"Json map generated for {jg.techui_yaml.beamline.location} (from index.bob)"

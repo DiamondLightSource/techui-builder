@@ -1,7 +1,7 @@
 # create_gui example for Phoebus GuiBuilder
 beamline:
-  location: t01
-  domain: bl01t
+  location: bl01t
+  domain: t01
   desc: Test Beamline
   url: t01-opis.diamond.ac.uk
 

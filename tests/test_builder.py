@@ -8,8 +8,8 @@ from phoebusgen.widget import ActionButton, Group
 @pytest.mark.parametrize(
     "attr, expected",
     [
-        ("location", "t01"),
-        ("domain", "bl01t"),
+        ("location", "bl01t"),
+        ("domain", "t01"),
         ("desc", "Test Beamline"),
     ],
 )
@@ -152,7 +152,7 @@ def test_gb_extract_services_no_yaml_files(builder, caplog, tmp_path):
     builder._extract_entities = Mock()
 
     # overwrite to not see the bl01t service dirs
-    builder.conf.beamline.domain = "bl01z"
+    builder.conf.beamline.location = "bl01z"
     builder._services_dir = tmp_path
     # Temporary files to test against
     (tmp_path / "bl01z-ea-ioc-01").mkdir()
@@ -171,7 +171,7 @@ def test_gb_extract_services_both_yaml_files(builder, caplog, tmp_path):
     builder._extract_entities = Mock()
 
     # overwrite to not see the bl01t service dirs
-    builder.conf.beamline.domain = "bl01z"
+    builder.conf.beamline.location = "bl01z"
     builder._services_dir = tmp_path
     # Temporary files to test against
     (tmp_path / "bl01z-ea-ioc-01").mkdir()

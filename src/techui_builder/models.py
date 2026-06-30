@@ -50,40 +50,40 @@ _DATABASE_FLAGS_RE = re.compile(
     r"(?:PP|NPP)?" + r"(?:[ ]+(?:MS|NMS|MSS|MSI))?$",
     re.VERBOSE,
 )
-_DOMAIN_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
-_LOCATION_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
+_LOCATION_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
+_DOMAIN_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
 _OPIS_URL_RE = re.compile(r"^(https:\/\/)?([a-z0-9]{3}-(?:[0-9]-)?opis(?:.[a-z0-9]*)*)")
 
 
 class Beamline(BaseModel):
     """Global Beamline values read from `beamline:` table in techui.yaml"""
 
-    location: Annotated[str, Field(description="Short BL location e.g. b23, ixx-1")]
-    domain: Annotated[str, Field(description="Full BL domain e.g. bl23b")]
+    domain: Annotated[str, Field(description="Short BL location e.g. b23, ixx-1")]
+    location: Annotated[str, Field(description="Full BL domain e.g. bl23b")]
     desc: Annotated[str, Field(description="Description")]
     url: Annotated[str, Field(description="URL of ixx-opis")]
     model_config = ConfigDict(extra="forbid")
-
-    @field_validator("location")
-    @classmethod
-    def normalize_location(cls, v: str) -> str:
-        v = v.strip().lower()
-
-        if _LOCATION_RE.fullmatch(v):
-            # e.g. b23 -> bl23b
-            return v
-
-        raise ValueError("Invalid beamline location.")
 
     @field_validator("domain")
     @classmethod
     def normalize_domain(cls, v: str) -> str:
         v = v.strip().lower()
+
         if _DOMAIN_RE.fullmatch(v):
-            # already long: bl23b
+            # e.g. t01
             return v
 
         raise ValueError("Invalid beamline domain.")
+
+    @field_validator("location")
+    @classmethod
+    def normalize_location(cls, v: str) -> str:
+        v = v.strip().lower()
+        if _LOCATION_RE.fullmatch(v):
+            # already long: bl01t
+            return v
+
+        raise ValueError("Invalid beamline location.")
 
     @field_validator("url")
     @classmethod

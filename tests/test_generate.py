@@ -198,7 +198,7 @@ def test_generator_update_macros_suffix_with_child_labels(generator):
         desc=None,
         service_name="bl01t-mo-test-01",
         macros={"P": "TEST", suffix_key: suffix},
-        child_labels={suffix: child_label},
+        child_labels={"T1": child_label},
     )
 
     component_name, updated_macros = generator._update_macros(component)

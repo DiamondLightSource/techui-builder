@@ -115,7 +115,7 @@ def main(
 
     gui = Builder(techui=filename)
 
-    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.location)
+    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.domain)
 
     bob_file = find_bob(bobfile, synoptic_dir)
 
@@ -126,7 +126,7 @@ def main(
     logger_.debug(
         f"""
 
-Builder created for {gui.conf.beamline.location}.
+Builder created for {gui.conf.beamline.domain}.
 Services directory: {gui._services_dir}
 Write directory: {gui._write_directory}
 """,  # noqa: SLF001
@@ -135,7 +135,7 @@ Write directory: {gui._write_directory}
     gui.setup()
     gui.create_screens()
 
-    logger_.info(f"Screens generated for {gui.conf.beamline.location}.")
+    logger_.info(f"Screens generated for {gui.conf.beamline.domain}.")
 
     autofiller = Autofiller(bob_file, gui.conf.components)
     autofiller.read_bob()
@@ -145,4 +145,4 @@ Write directory: {gui._write_directory}
 
     autofiller.write_bob(dest_bob)
 
-    logger_.info(f"Screens autofilled for {gui.conf.beamline.location}.")
+    logger_.info(f"Screens autofilled for {gui.conf.beamline.domain}.")

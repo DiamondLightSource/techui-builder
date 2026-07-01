@@ -165,8 +165,8 @@ class Generator:
         # Try to get name from child labels if they exist,
         # if not, just use the name as it is.
         if component.child_labels is not None:
-            if suffix in component.child_labels.keys():
-                component_name = component.child_labels[suffix]
+            if component_name in component.child_labels.keys():
+                component_name = component.child_labels[component_name]
                 self.label_flag = True
 
         prefix_key = next(k for k, v in component.macros.items() if v == prefix)

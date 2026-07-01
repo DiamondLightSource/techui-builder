@@ -105,7 +105,7 @@ class Builder:
         """
 
         # Loop over every dir in services, ignoring anything that isn't a service
-        for service in self._services_dir.glob(f"{self.conf.beamline.domain}-*-*-*"):
+        for service in self._services_dir.glob(f"{self.conf.beamline.location}-*-*-*"):
             service_name = service.name
             # If service doesn't exist, file open will fail throwing exception
             try:

@@ -115,7 +115,7 @@ def main(
 
     gui = Builder(techui=filename)
 
-    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.location)
+    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.domain)
 
     bob_file = find_bob(bobfile, synoptic_dir)
 

@@ -1,4 +1,5 @@
 import json
+import logging
 from pathlib import Path
 
 import typer
@@ -9,7 +10,8 @@ from techui_builder.models import (
 )
 
 SCHEMAS_DIR = Path("schemas")
-SCHEMAS_DIR.mkdir(exist_ok=True)
+
+logger_ = logging.getLogger(__name__)
 
 app = typer.Typer(context_settings={"allow_interspersed_args": True})
 
@@ -26,6 +28,13 @@ def write_json_schema(model_name: str, schema_dict: dict) -> None:
     invoke_without_command=True,
 )
 def schema_generator() -> None:
+    if not SCHEMAS_DIR.exists():
+        try:
+            SCHEMAS_DIR.mkdir()
+        except OSError:
+            logger_.critical("Unable to make schemas dir.")
+            exit()
+
     # techui
     tu = TechUi.model_json_schema()
     write_json_schema("techui", tu)

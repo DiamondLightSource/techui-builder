@@ -392,7 +392,7 @@ def test_generator_build_screen(generator, components):
 
 
 def test_build_groups_with_label(generator, components):
-    screen_name = "motor"
+    screen_name = "motor1"
     generator.widgets = [Mock(), Mock(), Mock()]
     generator._create_widgets = Mock(return_value=Mock())
     generator.layout_widgets = Mock(

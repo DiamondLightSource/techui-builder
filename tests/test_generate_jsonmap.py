@@ -348,7 +348,7 @@ def test_get_action_group_no_actions_group(caplog):
 
 def test_get_component_label(json_map_generator_with_test_files):
     display_name = json_map_generator_with_test_files._get_component_label(
-        "motor",
+        "motor1",
         None,
         None,
     )
@@ -358,7 +358,7 @@ def test_get_component_label(json_map_generator_with_test_files):
 def test_get_component_label_child_labels(json_map_generator_with_test_files):
     display_name = json_map_generator_with_test_files._get_component_label(
         "X",
-        current_component_name="motor",
+        current_component_name="motor1",
         display_name="X",
     )
     assert display_name == "X1"
@@ -369,7 +369,7 @@ def test_get_component_label_child_labels_with_name_already_pregenerated(
 ):
     display_name = json_map_generator_with_test_files._get_component_label(
         "X1",
-        current_component_name="motor",
+        current_component_name="motor1",
         display_name="X",
     )
     assert display_name == "X1"

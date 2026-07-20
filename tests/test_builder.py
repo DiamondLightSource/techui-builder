@@ -21,10 +21,20 @@ def test_beamline_attributes(builder, attr, expected):
     "index, name, label, P, R, attribute, file, extras, child_labels",
     [
         (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None, None),
-        (1, "d1", "Diode 1", "BL01T-DI-PHDGN-01", None, None, "test.bob", None, None),
         (
-            2,
-            "motor",
+            1,
+            "diode1",
+            "Diode 1",
+            "BL01T-DI-PHDGN-01",
+            None,
+            None,
+            "test.bob",
+            None,
+            None,
+        ),
+        (
+            4,
+            "motor1",
             "Motor Stage",
             "BL01T-MO-MOTOR-01",
             None,
@@ -104,8 +114,8 @@ def test_gb_extract_entities_ioc_yaml(
     prefix = pv.split(":", maxsplit=1)[0]
 
     builder._extract_entities(
-        "bl01t-mo-ioc-01",
-        builder._services_dir.joinpath("bl01t-mo-ioc-01/config/ioc.yaml"),
+        "bl01t-mo-motor-01",
+        builder._services_dir.joinpath("bl01t-mo-motor-01/config/ioc.yaml"),
     )
     entity = builder.entities[prefix][index]
     assert entity.type == type
@@ -121,8 +131,8 @@ def test_gb_extract_entities_ioc_yaml(
             0,
             "fastcs.TemperatureController",
             None,
-            "BL01T-EA-TEST-01",
-            {"name": "BL01T-EA-TEST-01"},
+            "BL01T-EA-TEMP-01",
+            {"name": "BL01T-EA-TEMP-01"},
         ),
     ],
 )
@@ -136,8 +146,8 @@ def test_gb_extract_entities_fastcs_yaml(
     prefix = pv.split(":", maxsplit=1)[0]
 
     builder._extract_entities(
-        "bl01t-ea-ioc-01",
-        builder._services_dir.joinpath("bl01t-ea-ioc-01/config/fastcs.yaml"),
+        "bl01t-ea-temp-01",
+        builder._services_dir.joinpath("bl01t-ea-temp-01/config/fastcs.yaml"),
     )
     entity = builder.entities[prefix][index]
     assert entity.type == type
@@ -155,8 +165,8 @@ def test_gb_extract_services_no_yaml_files(builder, caplog, tmp_path):
     builder.conf.beamline.location = "bl01z"
     builder._services_dir = tmp_path
     # Temporary files to test against
-    (tmp_path / "bl01z-ea-ioc-01").mkdir()
-    (tmp_path / "bl01z-ea-ioc-01/config").mkdir()
+    (tmp_path / "bl01z-ea-temp-01").mkdir()
+    (tmp_path / "bl01z-ea-temp-01/config").mkdir()
 
     with pytest.raises(OSError) and caplog.at_level(logging.ERROR):
         builder._extract_services()
@@ -174,10 +184,10 @@ def test_gb_extract_services_both_yaml_files(builder, caplog, tmp_path):
     builder.conf.beamline.location = "bl01z"
     builder._services_dir = tmp_path
     # Temporary files to test against
-    (tmp_path / "bl01z-ea-ioc-01").mkdir()
-    (tmp_path / "bl01z-ea-ioc-01/config").mkdir()
-    (tmp_path / "bl01z-ea-ioc-01/config/ioc.yaml").write_text("name: test")
-    (tmp_path / "bl01z-ea-ioc-01/config/fastcs.yaml").write_text("name: other")
+    (tmp_path / "bl01z-ea-temp-01").mkdir()
+    (tmp_path / "bl01z-ea-temp-01/config").mkdir()
+    (tmp_path / "bl01z-ea-temp-01/config/ioc.yaml").write_text("name: test")
+    (tmp_path / "bl01z-ea-temp-01/config/fastcs.yaml").write_text("name: other")
 
     with caplog.at_level(logging.CRITICAL):
         with pytest.raises(SystemExit):

@@ -10,12 +10,12 @@ from techui_builder.status import status_run
 
 @patch("techui_builder.status.GenerateStatusPvs.write_status_pvs")
 @patch("techui_builder.status.GenerateStatusPvs.create_status_pv")
-def test_status_run(mock_create, mock_write):
+def test_status_run(mock_create: Mock, mock_write: Mock):
     mock_create.return_value = Mock()
     mock_write.return_value = Mock()
     status_run(Path("tests/t01-services/synoptic/techui.yaml").absolute())
-    mock_create.assert_called_once()
-    mock_write.assert_called_once()
+    mock_create.assert_called()
+    mock_write.assert_called()
 
 
 def test_status_run_invalid_yaml(caplog):

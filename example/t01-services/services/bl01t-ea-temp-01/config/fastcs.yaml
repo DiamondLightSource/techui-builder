@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=schema.json
 controllers:
-  - name: BL01T-EA-TEST-01
+  - name: BL01T-EA-TEMP-01
     type: fastcs.TemperatureController
     ip_settings:
       ip: "localhost"

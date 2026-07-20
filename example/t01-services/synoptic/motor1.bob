@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <display version="2.0.0">
+    <name>motor1</name>
+    <widget type="group" version="2.0.0">
+      <name>Motor Stage</name>
+      <x>0</x>
+      <y>0</y>
+      <width>270</width>
+      <height>390</height>
+      <widget type="embedded" version="2.0.0">
+        <name>X1</name>
+        <width>220</width>
+        <height>120</height>
+        <file>techui-support/bob/pmac/motor_embed.bob</file>
+        <macros>
+          <P>BL01T-MO-MOTOR-01</P>
+          <M>:X</M>
+          <label>X1</label>
+          <IOC>https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01</IOC>
+        </macros>
+        <x>0</x>
+        <y>0</y>
+      </widget>
+      <widget type="embedded" version="2.0.0">
+        <name>A</name>
+        <width>220</width>
+        <height>120</height>
+        <file>techui-support/bob/pmac/motor_embed.bob</file>
+        <macros>
+          <P>BL01T-MO-MOTOR-01</P>
+          <M>:A</M>
+          <label>A</label>
+          <IOC>https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01</IOC>
+        </macros>
+        <x>0</x>
+        <y>150</y>
+      </widget>
+      <widget type="action_button" version="2.0.0">
+        <name>pmac.GeoBrick</name>
+        <width>100</width>
+        <height>40</height>
+        <pv_name/>
+        <text>pmac.GeoBrick</text>
+        <actions>
+          <action type="open_display">
+            <description>Open Display</description>
+            <macros>
+              <P>BL01T-MO-BRICK-01</P>
+            </macros>
+            <file>techui-support/bob/pmac/pmacController.bob</file>
+            <target>tab</target>
+          </action>
+        </actions>
+        <x>0</x>
+        <y>300</y>
+      </widget>
+    </widget>
+  </display>

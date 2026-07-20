@@ -12,12 +12,22 @@ components:
     status:
       - BL01T-EA-FSHTR-01:FSHTR1.STAT
 
-  d1:
+  diode1:
     label: Diode 1
     prefix: BL01T-DI-PHDGN-01
     file: test.bob
 
-  motor:
+  dcam1:
+    label: Diagnostic Camera 1
+    prefix: BL01T-DI-CAM-01
+    status:
+      - BL01T-DI-CAM-01:CAM:DetectorState_RBV
+
+  temp1:
+    label: Temperaure Controller 1
+    prefix: BL01T-EA-TEMP-01
+
+  motor1:
     label: Motor Stage
     prefix: BL01T-MO-MOTOR-01
     extras:

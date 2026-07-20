@@ -20,7 +20,7 @@ runner = CliRunner()
 
 
 @patch("techui_builder.generate_jsonmap.Logger")
-def test_log_level(mock_logger):
+def test_log_level(mock_logger: MagicMock):
     log_level("INFO")
     mock_logger.assert_called_once()
 
@@ -39,7 +39,9 @@ def test_app():
 
 
 @patch("techui_builder.generate_jsonmap.yaml.safe_load")
-def test_json_map_generator_techui_exception(mock_safe_load, json_map_generator):
+def test_json_map_generator_techui_exception(
+    mock_safe_load: MagicMock, json_map_generator
+):
     mock_safe_load.side_effect = Exception("YAML load error")
     with pytest.raises(Exception) as excinfo:
         json_map_generator.__init__(bob_path=Path("tests/test_files/test_bob.bob"))
@@ -76,7 +78,7 @@ def test_write_json_map(json_map_generator):
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.generate_jsonmap._get_action_group")
 def test_generate_json_map(
-    mock_get_action_group,
+    mock_get_action_group: MagicMock,
     json_map_generator_with_test_files,
     example_json_map,
 ):
@@ -235,7 +237,7 @@ def test_fix_names_json_map_recursive(json_map_generator, example_display_names_
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.generate_jsonmap._get_action_group")
 def test_generate_json_map_get_macros(
-    mock_get_action_group,
+    mock_get_action_group: MagicMock,
     json_map_generator_with_test_files,
     example_json_map,
 ):
@@ -279,7 +281,7 @@ def test_generate_json_map_xml_parse_error(
 
 @patch("techui_builder.generate_jsonmap._get_action_group")
 def test_generate_json_map_other_exception(
-    mock_get_action_group,
+    mock_get_action_group: MagicMock,
     json_map_generator_with_test_files,
 ):
     mock_get_action_group.side_effect = Exception("Some exception")
@@ -333,7 +335,7 @@ def test_get_action_group_no_action_elements():
     assert action_group is None
 
 
-def test_get_action_group_no_actions_group(caplog):
+def test_get_action_group_no_actions_group(caplog: pytest.LogCaptureFixture):
     # Use a blank xml element
     widget = objectify.ObjectifiedElement()
     # TODO: Do widgets always have a name attr, or _can_ it be empty??
@@ -403,7 +405,7 @@ def test_get_nav_tabs(example_xml_navtabs_widget):
     assert isinstance(tabs_widget, list)
 
 
-def test_get_nav_tabs_no_tabs_group(caplog):
+def test_get_nav_tabs_no_tabs_group(caplog: pytest.LogCaptureFixture):
     mock_navtabs = MagicMock(spec=objectify.ObjectifiedElement)
     mock_navtabs.name = "no_tabs"
 

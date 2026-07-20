@@ -1,5 +1,5 @@
 from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 from lxml.etree import Element, _ElementTree, tostring
 from lxml.objectify import fromstring
@@ -22,7 +22,7 @@ def test_validator_check_bob(validator):
 
 
 @patch("techui_builder.validator.read_bob")
-def test_validator_read_bob(mock_read_bob, validator):
+def test_validator_read_bob(mock_read_bob: MagicMock, validator):
     # We need to set the spec of the first Mock so it knows
     # it has a getroot() function
     mock_read_bob.return_value = (Mock(spec=_ElementTree), Mock())

@@ -106,7 +106,7 @@ def test_generator_get_group_dimensions(generator):
     assert width == 300
 
 
-def test_generator_create_widgets_keyerror(generator, caplog):
+def test_generator_create_widgets_keyerror(generator, caplog: pytest.LogCaptureFixture):
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
     screen_name = "test"
     component = Entity(
@@ -438,7 +438,7 @@ def test_generator_write_screen(generator):
     Path("tests/test_files/test.bob").unlink()
 
 
-def test_generator_write_screen_no_widgets(generator, caplog):
+def test_generator_write_screen_no_widgets(generator, caplog: pytest.LogCaptureFixture):
     screen_name = "test"
     generator.screen_ = pscreen.Screen("test")
     generator.widgets = []

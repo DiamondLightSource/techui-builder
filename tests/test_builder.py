@@ -71,7 +71,7 @@ def test_component_attributes(
         assert component.extras == extras
 
 
-def test_missing_service(builder, caplog):
+def test_missing_service(builder, caplog: pytest.LogCaptureFixture):
     builder._extract_entities = Mock(side_effect=OSError())
     builder._extract_services()
     for log_output in caplog.records:
@@ -156,7 +156,9 @@ def test_gb_extract_entities_fastcs_yaml(
     assert entity.macros == macros
 
 
-def test_gb_extract_services_no_yaml_files(builder, caplog, tmp_path):
+def test_gb_extract_services_no_yaml_files(
+    builder, caplog: pytest.LogCaptureFixture, tmp_path
+):
     # We don't want to use builder_with_setup as that calls _extract_services()
     # and in turn that calls _extract_entities()
     builder._extract_entities = Mock()
@@ -175,7 +177,9 @@ def test_gb_extract_services_no_yaml_files(builder, caplog, tmp_path):
         assert ("No ioc.yaml or fastcs.yaml found for service:") in log_output.message
 
 
-def test_gb_extract_services_both_yaml_files(builder, caplog, tmp_path):
+def test_gb_extract_services_both_yaml_files(
+    builder, caplog: pytest.LogCaptureFixture, tmp_path
+):
     # We don't want to use builder_with_setup as that calls _extract_services()
     # and in turn that calls _extract_entities()
     builder._extract_entities = Mock()
@@ -232,7 +236,7 @@ def test_create_screens(builder_with_setup):
     # builder_with_setup._validate_screen.assert_called()
 
 
-def test_create_screens_no_entities(builder, caplog):
+def test_create_screens_no_entities(builder, caplog: pytest.LogCaptureFixture):
     builder.entities = []
 
     # We only wan't to capture CRITICAL output in this test
@@ -247,7 +251,9 @@ def test_create_screens_no_entities(builder, caplog):
         ) in log_output.message
 
 
-def test_create_screens_extra_p_does_not_exist(builder_with_setup, caplog):
+def test_create_screens_extra_p_does_not_exist(
+    builder_with_setup, caplog: pytest.LogCaptureFixture
+):
     # We don't want to actually generate a screen
     builder_with_setup._generate_screen = Mock(side_effect=None)
 

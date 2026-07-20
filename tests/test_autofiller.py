@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 from lxml.etree import ElementTree
@@ -11,7 +11,7 @@ from techui_builder.models import Component
 
 # Imported in to autofill from utils, so that needs to be patched
 @patch("techui_builder.autofill.read_bob")
-def test_autofiller_read_bob(mock_read_bob, autofiller):
+def test_autofiller_read_bob(mock_read_bob: MagicMock, autofiller):
     mock_read_bob.return_value = (Mock(spec=ElementTree), Mock())
 
     autofiller.read_bob()
@@ -34,7 +34,9 @@ def test_autofiller_autofill_bob(autofiller):
 
 @patch("techui_builder.generate_jsonmap.objectify.deannotate")
 @patch("techui_builder.generate_jsonmap.etree.ElementTree")
-def test_autofiller_write_bob(mock_tree, mock_deannotate, autofiller):
+def test_autofiller_write_bob(
+    mock_tree: MagicMock, mock_deannotate: MagicMock, autofiller
+):
     autofiller.tree = mock_tree
 
     autofiller.write_bob(Path("tests/test_files/test_autofilled_bob.bob"))
@@ -72,7 +74,7 @@ def test_autofiller_write_bob(mock_tree, mock_deannotate, autofiller):
 )
 @patch("techui_builder.autofill._get_action_group")
 def test_autofiller_replace_content(
-    mock_get,
+    mock_get: MagicMock,
     autofiller,
     example_xml_related_widget,
     prefix,
@@ -107,7 +109,9 @@ def test_autofiller_replace_content(
 
 
 @patch("techui_builder.autofill._get_action_group")
-def test_autofiller_replace_content_no_action_group(mock_get, autofiller, caplog):
+def test_autofiller_replace_content_no_action_group(
+    mock_get: MagicMock, autofiller, caplog: pytest.LogCaptureFixture
+):
     # Just to only run the code we want to test
     autofiller.macros = ["desc"]
 

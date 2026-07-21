@@ -31,10 +31,12 @@ def test_write_json_map_no_synoptic(json_map_generator):
         json_map_generator.write_json_map()
 
 
-def test_app():
-    result = runner.invoke(app, ["tests/t01-services/synoptic/techui.yaml"])
-    if Path.exists(Path("tests/t01-services/synoptic/JsonMap.json")):
-        os.remove("tests/t01-services/synoptic/JsonMap.json")
+def test_app(tmp_path):
+    result = runner.invoke(
+        app, ["tests/t01-services/synoptic/index.bob", "--output", tmp_path]
+    )
+    if Path.exists(Path(tmp_path / "JsonMap.json")):
+        os.remove(tmp_path / "JsonMap.json")
     assert result.exit_code == 0
 
 
@@ -48,17 +50,13 @@ def test_json_map_generator_techui_exception(
     assert "No such file or directory" in str(excinfo.value)
 
 
-def test_write_json_map(json_map_generator):
+def test_write_json_map(json_map_generator, tmp_path):
     test_map = JsonMap(
         str(Path(__file__).parent.joinpath("test_files/test_bob.bob")), None
     )
 
     # We don't want cover _generate_json_map in this test
     json_map_generator.generate_json_map = Mock(return_value=test_map)
-
-    # Make sure opis/ dir exists
-    if not Path.exists(json_map_generator._write_directory):
-        os.mkdir(json_map_generator._write_directory)
 
     # We don't want to access the _serialise_json_map function in this test
     with patch(
@@ -71,9 +69,6 @@ def test_write_json_map(json_map_generator):
     dest_path = json_map_generator._write_directory.joinpath("JsonMap.json")
     assert Path.exists(dest_path)
 
-    if Path.exists(dest_path):
-        os.remove(dest_path)
-
 
 # We don't want to access the _get_action_group function in this test
 @patch("techui_builder.generate_jsonmap._get_action_group")
@@ -81,10 +76,9 @@ def test_generate_json_map(
     mock_get_action_group: MagicMock,
     json_map_generator_with_test_files,
     example_json_map,
+    tmp_path,
 ):
-    json_map_generator_with_test_files.bob_path = Path(
-        "tests/test_files/test_bob.bob"
-    ).absolute()
+    json_map_generator_with_test_files.bob_path = tmp_path / "test_files/test_bob.bob"
 
     mock_xml = objectify.Element("action")
     mock_xml["file"] = "test_child_bob.bob"
@@ -105,7 +99,7 @@ def test_generate_json_map(
 
 
 def test_generate_json_map_embedded_screen(
-    json_map_generator_with_test_files, example_json_map
+    json_map_generator_with_test_files, example_json_map, tmp_path
 ):
     list_names = [
         "Display",
@@ -121,9 +115,9 @@ def test_generate_json_map_embedded_screen(
         side_effect=list_names
     )
 
-    json_map_generator_with_test_files.bob_path = Path(
-        "tests/test_files/test_bob_embedded.bob"
-    ).absolute()
+    json_map_generator_with_test_files.bob_path = (
+        tmp_path / "test_files/test_bob_embedded.bob"
+    )
 
     example_json_map.file = "test_bob_embedded.bob"
     example_json_map.children.append(
@@ -131,7 +125,7 @@ def test_generate_json_map_embedded_screen(
             "$(IOC)/pmacAxis.pvi.bob",
             display_name="Embedded Display",
             exists=False,
-            macros={"M": "$(M)", "P": "$(P)"},
+            macros={"M": ":EMBED", "P": "BL01T-MO-MOTOR-01", "label": "EMBED"},
         )
     )
 
@@ -143,7 +137,7 @@ def test_generate_json_map_embedded_screen(
 
 
 def test_generate_json_map_nav_tabs(
-    json_map_generator_with_test_files, example_json_map_root
+    json_map_generator_with_test_files, example_json_map_root, tmp_path
 ):
     json_map_generator_with_test_files._parse_display_name = Mock(
         side_effect=["Display", "Tab1", "Tab2"]
@@ -152,9 +146,9 @@ def test_generate_json_map_nav_tabs(
         side_effect=["Display", "Tab1", "Tab2"]
     )
 
-    json_map_generator_with_test_files.bob_path = Path(
-        "tests/test_files/test_bob_navtabs.bob"
-    ).absolute()
+    json_map_generator_with_test_files.bob_path = (
+        tmp_path / "test_files/test_bob_navtabs.bob"
+    )
 
     example_json_map_root.file = "test_bob_navtabs.bob"
     example_json_map_root.children.extend(
@@ -265,11 +259,11 @@ def test_generate_json_map_get_macros(
 
 
 def test_generate_json_map_xml_parse_error(
-    json_map_generator_with_test_files,
+    json_map_generator_with_test_files, tmp_path
 ):
-    json_map_generator_with_test_files.bob_path = Path(
-        "tests/test_files/test_bob_bad.bob"
-    ).absolute()
+    json_map_generator_with_test_files.bob_path = (
+        tmp_path / "test_files/test_bob_bad.bob"
+    )
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,

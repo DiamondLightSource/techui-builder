@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -118,15 +119,18 @@ def components(builder_with_test_files: Builder):
 
 
 @pytest.fixture
-def json_map_generator():
+def json_map_generator(tmp_path):
     return JsonMapGenerator(
-        Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
+        Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob")),
+        output=tmp_path,
     )
 
 
 @pytest.fixture
-def status_gen():
-    return GenerateStatusPvs(Path("tests/t01-services/synoptic/techui.yaml").absolute())
+def status_gen(tmp_path):
+    return GenerateStatusPvs(
+        Path("tests/t01-services/synoptic/techui.yaml").absolute(), output=tmp_path
+    )
 
 
 @pytest.fixture
@@ -145,12 +149,15 @@ def example_json_map_root():
 
 
 @pytest.fixture
-def json_map_generator_with_test_files():
+def json_map_generator_with_test_files(tmp_path):
+    # Copy test files to tmp_path so they are visible to the tests
+    shutil.copytree(Path("tests/test_files/"), tmp_path / "test_files")
+    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
+
     return JsonMapGenerator(
-        bob_path=Path("tests/test_files/test_bob.bob").absolute(),
-        techui=Path(__file__).parent.joinpath(
-            Path("t01-services/synoptic/techui.yaml")
-        ),
+        bob_path=tmp_path / "test_files/test_bob.bob",
+        techui=tmp_path / "t01-services/synoptic/techui.yaml",
+        output=tmp_path / "test_files",
     )
 
 

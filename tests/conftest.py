@@ -17,13 +17,29 @@ from techui_builder.validator import Validator
 
 
 @pytest.fixture
-def builder():
-    ixx_services = Path(__file__).parent.joinpath(Path("t01-services"))
-    techui_path = ixx_services.joinpath("synoptic/techui.yaml")
+def tmp_t01_services(tmp_path) -> Path:
+    # Copy test files to tmp_path so they are visible to the tests
+    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
+
+    return tmp_path / "t01-services"
+
+
+@pytest.fixture
+def tmp_test_files(tmp_path) -> Path:
+    # Copy test files to tmp_path so they are visible to the tests
+    shutil.copytree(Path("tests/test_files/"), tmp_path / "test_files")
+
+    return tmp_path / "test_files"
+
+
+@pytest.fixture
+def builder(tmp_t01_services):
+    ixx_services = tmp_t01_services
+    techui_path = ixx_services / "synoptic/techui.yaml"
 
     b = Builder(techui_path)
-    b._services_dir = ixx_services.joinpath("services")
-    b._write_directory = ixx_services.joinpath("synoptic")
+    b._services_dir = ixx_services / "services"
+    b._write_directory = ixx_services / "synoptic"
     return b
 
 
@@ -107,8 +123,8 @@ def builder_with_setup(builder: Builder, techui_support):
 
 
 @pytest.fixture
-def builder_with_test_files(builder: Builder):
-    builder._write_directory = Path("tests/test_files/").absolute()
+def builder_with_test_files(builder: Builder, tmp_test_files):
+    builder._write_directory = tmp_test_files
 
     return builder
 
@@ -119,24 +135,26 @@ def components(builder_with_test_files: Builder):
 
 
 @pytest.fixture
-def json_map_generator(tmp_path):
+def json_map_generator(tmp_t01_services):
     return JsonMapGenerator(
-        Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob")),
-        output=tmp_path,
+        tmp_t01_services / "synoptic/index.bob",
+        tmp_t01_services / "synoptic/techui.yaml",
+        output=tmp_t01_services / "synoptic",
     )
 
 
 @pytest.fixture
-def status_gen(tmp_path):
+def status_gen(tmp_t01_services):
     return GenerateStatusPvs(
-        Path("tests/t01-services/synoptic/techui.yaml").absolute(), output=tmp_path
+        tmp_t01_services / "synoptic/techui.yaml",
+        output=tmp_t01_services / "synoptic/config",
     )
 
 
 @pytest.fixture
-def test_files():
-    screen_path = Path("tests/test_files/test_bob.bob").absolute()
-    dest_path = Path("tests/test_files/").absolute()
+def test_files(tmp_test_files):
+    screen_path = tmp_test_files / "test_bob.bob"
+    dest_path = tmp_test_files
 
     return screen_path, dest_path
 
@@ -149,15 +167,11 @@ def example_json_map_root():
 
 
 @pytest.fixture
-def json_map_generator_with_test_files(tmp_path):
-    # Copy test files to tmp_path so they are visible to the tests
-    shutil.copytree(Path("tests/test_files/"), tmp_path / "test_files")
-    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
-
+def json_map_generator_with_test_files(tmp_t01_services, tmp_test_files):
     return JsonMapGenerator(
-        bob_path=tmp_path / "test_files/test_bob.bob",
-        techui=tmp_path / "t01-services/synoptic/techui.yaml",
-        output=tmp_path / "test_files",
+        bob_path=tmp_test_files / "test_bob.bob",
+        techui=tmp_t01_services / "synoptic/techui.yaml",
+        output=tmp_test_files,
     )
 
 
@@ -223,8 +237,8 @@ def example_display_names_json():
 
 
 @pytest.fixture
-def generator(techui_support):
-    synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
+def generator(techui_support, tmp_t01_services):
+    synoptic_dir = tmp_t01_services / "synoptic"
     techui_support_path = synoptic_dir.joinpath("techui-support")
 
     g = Generator(synoptic_dir, "test_url", techui_support_path, techui_support)
@@ -233,8 +247,8 @@ def generator(techui_support):
 
 
 @pytest.fixture
-def autofiller():
-    index_bob = Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
+def autofiller(tmp_t01_services):
+    index_bob = tmp_t01_services / "synoptic/index.bob"
 
     a = Autofiller(index_bob, {"test_widget": MagicMock(spec=Component)})
 
@@ -242,8 +256,8 @@ def autofiller():
 
 
 @pytest.fixture
-def validator():
-    test_bobs = [Path("tests/test_files/motor-edited.bob")]
+def validator(tmp_test_files):
+    test_bobs = [tmp_test_files / "motor_edited.bob"]
     v = Validator(test_bobs)
 
     return v

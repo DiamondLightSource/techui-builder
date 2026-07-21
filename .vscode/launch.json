@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run techui-builder",
+            "name": "Run techui-builder build",
             "type": "debugpy",
             "request": "launch",
             "justMyCode": true,
@@ -13,6 +13,16 @@
             "program": "${workspaceFolder}/src/techui_builder/__main__.py",
             "console": "integratedTerminal",
             "args": "build ${workspaceFolder}/example/t01-services/synoptic/techui.yaml"
+        },
+        {
+            "name": "Run techui-builder status",
+            "type": "debugpy",
+            "request": "launch",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/src/techui_builder/__main__.py",
+            "console": "integratedTerminal",
+            "args": "status ${workspaceFolder}/example/t01-services/synoptic/techui.yaml"
         },
     ]
 }

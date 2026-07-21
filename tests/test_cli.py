@@ -1,5 +1,5 @@
 import logging
-import os
+import shutil
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -27,6 +27,7 @@ runner = CliRunner()
 def test_app():
     result = runner.invoke(app)
     help_result = runner.invoke(app, ["--help"])
+
     assert result.exit_code == 2
     assert help_result.exit_code == 0
     # for some reason passing '--help' outputs an extra newline at the end
@@ -37,12 +38,14 @@ def test_app():
 
 def test_app_version():
     result = runner.invoke(app, ["--version"])
+
     assert result.exit_code == 0
     assert "techui-builder version:" in result.output
 
 
 def test_app_schema():
     result = runner.invoke(schema_app)
+
     assert result.exit_code == 0
     assert (
         "\u2705 Wrote schemas/techui.schema.json\n\u2705 "
@@ -54,21 +57,27 @@ def test_app_schema():
 def test_status_run(mock_status_run: MagicMock):
     ClearRecords()
     mock_status_run.return_value = Mock()
+
     result = runner.invoke(status_app, ["example/t01-services/synoptic/techui.yaml"])
+
     assert result.exit_code == 0
 
 
-def test_status_run_output_directory():
+def test_status_run_output_directory(tmp_path):
     ClearRecords()
-    output_dir = Path("example/t01-services/")
+
+    # Copy t01-services to tmp_path so we don't affect the actual files
+    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
+
+    output_dir = tmp_path / "t01-services"
+
     result = runner.invoke(
-        status_app, ["-o", str(output_dir), "example/t01-services/synoptic/techui.yaml"]
+        status_app,
+        [str(tmp_path / "t01-services/synoptic/techui.yaml"), "-o", str(output_dir)],
     )
+
     assert result.exit_code == 0
-    assert Path.exists(output_dir.joinpath("config/status.db"))
-    if Path.exists(output_dir.joinpath("config/status.db")):
-        os.remove(output_dir.joinpath("config/status.db"))
-        os.removedirs(output_dir.joinpath("config"))
+    assert Path.exists(output_dir / "config/status.db")
 
 
 @patch("techui_builder._logger.Logger")
@@ -140,6 +149,7 @@ def test_find_bob(caplog: pytest.LogCaptureFixture):
 
 def test_find_bob_bob_file_does_not_exist(caplog: pytest.LogCaptureFixture):
     bad_bob_file = Path("bad_bob_file")
+
     with caplog.at_level(logging.CRITICAL) and pytest.raises(SystemExit) as exc_info:
         find_bob(bad_bob_file, Mock(spec=Path))
 
@@ -199,6 +209,7 @@ def test_main(
 
 def test_main_json_map_no_bob_generation(caplog: pytest.LogCaptureFixture):
     runner.invoke(app, ["--generate-jsonmap"])
+
     for log_output in caplog.records:
         assert (
             " Option '--generate-jsonmap' requires an argument." in log_output.message
@@ -207,40 +218,49 @@ def test_main_json_map_no_bob_generation(caplog: pytest.LogCaptureFixture):
 
 def test_main_json_map_wrong_file(caplog: pytest.LogCaptureFixture):
     result = runner.invoke(generate_jsonmap_app, ["map.json"])
+
     assert result.exit_code == 1
     for log_output in caplog.records:
         assert "No such file or directory" in log_output.message
 
 
-def test_main_json_map_generation(caplog: pytest.LogCaptureFixture):
+def test_main_json_map_generation(caplog: pytest.LogCaptureFixture, tmp_path):
+    # Copy t01-services to tmp_path so we don't affect the actual files
+    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
+
     runner.invoke(
         generate_jsonmap_app,
         [
-            "tests/t01-services/synoptic/index.bob",
+            str(tmp_path / "t01-services/synoptic/index.bob"),
         ],
     )
-    if Path.exists(Path("tests/t01-services/synoptic/JsonMap.json")):
-        os.remove("tests/t01-services/synoptic/JsonMap.json")
+
     for log_output in caplog.records:
         assert "Json map generated for (from" in log_output.message
 
 
-def test_main_json_map_generation_output_directory(caplog: pytest.LogCaptureFixture):
-    output_dir = Path("tests/t01-services/")
+def test_main_json_map_generation_output_directory(
+    caplog: pytest.LogCaptureFixture, tmp_path
+):
+    # Copy t01-services to tmp_path so we don't affect the actual files
+    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
+
+    output_dir = tmp_path / "t01-services"
+
     runner.invoke(
         generate_jsonmap_app,
         [
+            str(tmp_path / "t01-services/synoptic/index.bob"),
             "-o",
             str(output_dir),
-            "tests/t01-services/synoptic/index.bob",
         ],
     )
+
     assert Path.exists(output_dir.joinpath("JsonMap.json"))
-    os.remove(output_dir.joinpath("JsonMap.json"))
     for log_output in caplog.records:
         assert "Json map generated for (from" in log_output.message
 
 
-def test_main_without_techui_yaml(caplog: pytest.LogCaptureFixture):
+def test_main_json_map_generation_without_techui_yaml(caplog: pytest.LogCaptureFixture):
     result = runner.invoke(generate_jsonmap_app)
     assert "Missing argument 'BOB_PATH'." in result.output

@@ -115,7 +115,7 @@ def test_gb_extract_entities_ioc_yaml(
 
     builder._extract_entities(
         "bl01t-mo-motor-01",
-        builder._services_dir.joinpath("bl01t-mo-motor-01/config/ioc.yaml"),
+        builder._services_dir / "bl01t-mo-motor-01/config/ioc.yaml",
     )
     entity = builder.entities[prefix][index]
     assert entity.type == type
@@ -147,7 +147,7 @@ def test_gb_extract_entities_fastcs_yaml(
 
     builder._extract_entities(
         "bl01t-ea-temp-01",
-        builder._services_dir.joinpath("bl01t-ea-temp-01/config/fastcs.yaml"),
+        builder._services_dir / "bl01t-ea-temp-01/config/fastcs.yaml",
     )
     entity = builder.entities[prefix][index]
     assert entity.type == type

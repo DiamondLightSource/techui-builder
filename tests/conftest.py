@@ -147,7 +147,7 @@ def json_map_generator(tmp_t01_services):
 def status_gen(tmp_t01_services):
     return GenerateStatusPvs(
         tmp_t01_services / "synoptic/techui.yaml",
-        output=tmp_t01_services / "synoptic/config",
+        output=tmp_t01_services / "synoptic/",
     )
 
 
@@ -264,7 +264,7 @@ def validator(tmp_test_files):
 
 
 @pytest.fixture
-def example_xml_embedded_widget():
+def example_xml_embedded_widget(tmp_test_files):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -278,7 +278,7 @@ def example_xml_embedded_widget():
     height_element = SubElement(widget_element, "height")
     height_element.text = "120"
     file_element = SubElement(widget_element, "file")
-    file_element.text = "tests/test-files/motor_embed.bob"
+    file_element.text = str(tmp_test_files / "motor_embed.bob")
     macros_element = SubElement(widget_element, "macros")
     macro_element_1 = SubElement(macros_element, "macro1")
     macro_element_1.text = "test_macro_1"
@@ -290,7 +290,7 @@ def example_xml_embedded_widget():
 
 
 @pytest.fixture
-def example_xml_related_widget():
+def example_xml_related_widget(tmp_t01_services):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -308,8 +308,8 @@ def example_xml_related_widget():
     action_element = SubElement(actions_element, "action")
     action_element.set("type", "open_display")
     file_element = SubElement(action_element, "file")
-    file_element.text = (
-        "example/t01-services/synoptic/techui-support/bob/pmac/motor.bob"
+    file_element.text = str(
+        tmp_t01_services / "synoptic/techui-support/bob/pmac/motor.bob"
     )
     desc_element = SubElement(action_element, "description")
     desc_element.text = "placeholder description"
@@ -344,7 +344,7 @@ def example_xml_symbol_widget():
 
 
 @pytest.fixture
-def example_xml_navtabs_widget():
+def example_xml_navtabs_widget(tmp_test_files):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -364,7 +364,7 @@ def example_xml_navtabs_widget():
     name_element_1 = SubElement(tab_element_1, "name")
     name_element_1.text = "tab1"
     file_element_1 = SubElement(tab_element_1, "file")
-    file_element_1.text = "tests/test-files/motor_embed.bob"
+    file_element_1.text = str(tmp_test_files / "motor_embed.bob")
     macros_element_1 = SubElement(tab_element_1, "macros")
     macro_element_1 = SubElement(macros_element_1, "macro1")
     macro_element_1.text = "test_macro_1"
@@ -372,7 +372,7 @@ def example_xml_navtabs_widget():
     name_element_2 = SubElement(tab_element_2, "name")
     name_element_2.text = "tab2"
     file_element_2 = SubElement(tab_element_2, "file")
-    file_element_2.text = "tests/test-files/motor_embed.bob"
+    file_element_2.text = str(tmp_test_files / "motor_embed.bob")
     macros_element_2 = SubElement(tab_element_2, "macros")
     macro_element_2 = SubElement(macros_element_2, "macro2")
     macro_element_2.text = "test_macro_2"

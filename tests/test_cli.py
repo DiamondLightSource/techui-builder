@@ -1,5 +1,4 @@
 import logging
-import shutil
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -54,30 +53,27 @@ def test_app_schema():
 
 
 @patch("techui_builder.status.status_run")
-def test_status_run(mock_status_run: MagicMock):
+def test_status_run(mock_status_run: MagicMock, tmp_t01_services):
     ClearRecords()
     mock_status_run.return_value = Mock()
 
-    result = runner.invoke(status_app, ["example/t01-services/synoptic/techui.yaml"])
+    result = runner.invoke(status_app, [str(tmp_t01_services / "synoptic/techui.yaml")])
 
     assert result.exit_code == 0
 
 
-def test_status_run_output_directory(tmp_path):
+def test_status_run_output_directory(tmp_t01_services):
     ClearRecords()
 
-    # Copy t01-services to tmp_path so we don't affect the actual files
-    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
-
-    output_dir = tmp_path / "t01-services"
+    output_dir = tmp_t01_services
 
     result = runner.invoke(
         status_app,
-        [str(tmp_path / "t01-services/synoptic/techui.yaml"), "-o", str(output_dir)],
+        [str(tmp_t01_services / "synoptic/techui.yaml"), "-o", str(output_dir)],
     )
 
     assert result.exit_code == 0
-    assert Path.exists(output_dir / "config/status.db")
+    assert Path.exists(output_dir / "synoptic/config/status.db")
 
 
 @patch("techui_builder._logger.Logger")
@@ -224,14 +220,11 @@ def test_main_json_map_wrong_file(caplog: pytest.LogCaptureFixture):
         assert "No such file or directory" in log_output.message
 
 
-def test_main_json_map_generation(caplog: pytest.LogCaptureFixture, tmp_path):
-    # Copy t01-services to tmp_path so we don't affect the actual files
-    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
-
+def test_main_json_map_generation(caplog: pytest.LogCaptureFixture, tmp_t01_services):
     runner.invoke(
         generate_jsonmap_app,
         [
-            str(tmp_path / "t01-services/synoptic/index.bob"),
+            str(tmp_t01_services / "synoptic/index.bob"),
         ],
     )
 
@@ -240,23 +233,20 @@ def test_main_json_map_generation(caplog: pytest.LogCaptureFixture, tmp_path):
 
 
 def test_main_json_map_generation_output_directory(
-    caplog: pytest.LogCaptureFixture, tmp_path
+    caplog: pytest.LogCaptureFixture, tmp_t01_services
 ):
-    # Copy t01-services to tmp_path so we don't affect the actual files
-    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
-
-    output_dir = tmp_path / "t01-services"
+    output_dir = tmp_t01_services
 
     runner.invoke(
         generate_jsonmap_app,
         [
-            str(tmp_path / "t01-services/synoptic/index.bob"),
+            str(tmp_t01_services / "synoptic/index.bob"),
             "-o",
             str(output_dir),
         ],
     )
 
-    assert Path.exists(output_dir.joinpath("JsonMap.json"))
+    assert Path.exists(output_dir / "JsonMap.json")
     for log_output in caplog.records:
         assert "Json map generated for (from" in log_output.message
 

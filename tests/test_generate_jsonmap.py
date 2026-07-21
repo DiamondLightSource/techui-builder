@@ -1,5 +1,4 @@
 import logging
-import os
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -31,29 +30,32 @@ def test_write_json_map_no_synoptic(json_map_generator):
         json_map_generator.write_json_map()
 
 
-def test_app(tmp_path):
+def test_app(tmp_t01_services):
     result = runner.invoke(
-        app, ["tests/t01-services/synoptic/index.bob", "--output", tmp_path]
+        app,
+        [
+            str(tmp_t01_services / "synoptic/index.bob"),
+            "--output",
+            str(tmp_t01_services / "synoptic"),
+        ],
     )
-    if Path.exists(Path(tmp_path / "JsonMap.json")):
-        os.remove(tmp_path / "JsonMap.json")
+
     assert result.exit_code == 0
 
 
 @patch("techui_builder.generate_jsonmap.yaml.safe_load")
 def test_json_map_generator_techui_exception(
-    mock_safe_load: MagicMock, json_map_generator
+    mock_safe_load: MagicMock, json_map_generator, tmp_test_files
 ):
     mock_safe_load.side_effect = Exception("YAML load error")
     with pytest.raises(Exception) as excinfo:
-        json_map_generator.__init__(bob_path=Path("tests/test_files/test_bob.bob"))
+        json_map_generator.__init__(bob_path=tmp_test_files / "test_bob.bob")
+
     assert "No such file or directory" in str(excinfo.value)
 
 
-def test_write_json_map(json_map_generator, tmp_path):
-    test_map = JsonMap(
-        str(Path(__file__).parent.joinpath("test_files/test_bob.bob")), None
-    )
+def test_write_json_map(json_map_generator, tmp_test_files):
+    test_map = JsonMap(str(tmp_test_files / "test_bob.bob"), None)
 
     # We don't want cover _generate_json_map in this test
     json_map_generator.generate_json_map = Mock(return_value=test_map)
@@ -66,7 +68,8 @@ def test_write_json_map(json_map_generator, tmp_path):
 
         json_map_generator.write_json_map()
 
-    dest_path = json_map_generator._write_directory.joinpath("JsonMap.json")
+    dest_path = json_map_generator._write_directory / "JsonMap.json"
+
     assert Path.exists(dest_path)
 
 
@@ -76,10 +79,7 @@ def test_generate_json_map(
     mock_get_action_group: MagicMock,
     json_map_generator_with_test_files,
     example_json_map,
-    tmp_path,
 ):
-    json_map_generator_with_test_files.bob_path = tmp_path / "test_files/test_bob.bob"
-
     mock_xml = objectify.Element("action")
     mock_xml["file"] = "test_child_bob.bob"
     mock_get_action_group.return_value = mock_xml
@@ -99,7 +99,7 @@ def test_generate_json_map(
 
 
 def test_generate_json_map_embedded_screen(
-    json_map_generator_with_test_files, example_json_map, tmp_path
+    json_map_generator_with_test_files, example_json_map, tmp_test_files
 ):
     list_names = [
         "Display",
@@ -116,7 +116,7 @@ def test_generate_json_map_embedded_screen(
     )
 
     json_map_generator_with_test_files.bob_path = (
-        tmp_path / "test_files/test_bob_embedded.bob"
+        tmp_test_files / "test_bob_embedded.bob"
     )
 
     example_json_map.file = "test_bob_embedded.bob"
@@ -137,7 +137,7 @@ def test_generate_json_map_embedded_screen(
 
 
 def test_generate_json_map_nav_tabs(
-    json_map_generator_with_test_files, example_json_map_root, tmp_path
+    json_map_generator_with_test_files, example_json_map_root, tmp_test_files
 ):
     json_map_generator_with_test_files._parse_display_name = Mock(
         side_effect=["Display", "Tab1", "Tab2"]
@@ -147,7 +147,7 @@ def test_generate_json_map_nav_tabs(
     )
 
     json_map_generator_with_test_files.bob_path = (
-        tmp_path / "test_files/test_bob_navtabs.bob"
+        tmp_test_files / "test_bob_navtabs.bob"
     )
 
     example_json_map_root.file = "test_bob_navtabs.bob"
@@ -189,12 +189,12 @@ def test_parse_display_name_returns_none(json_map_generator):
     assert display_name is None
 
 
-def test_fix_names_json_map_recursive(json_map_generator, example_display_names_json):
+def test_fix_names_json_map_recursive(
+    json_map_generator, example_display_names_json, tmp_test_files
+):
     """Test duplicate names are enumerated correctly for all children"""
 
-    test_display_names_json = JsonMap(
-        str(Path(__file__).parent.joinpath("test_files/test_bob.bob")), None
-    )
+    test_display_names_json = JsonMap(str(tmp_test_files / "test_bob.bob"), None)
 
     test_display_names_json_det1 = JsonMap(
         "test_child_bob.bob", "Detector", macros={"P": "PV-DET-01"}, exists=False
@@ -259,11 +259,9 @@ def test_generate_json_map_get_macros(
 
 
 def test_generate_json_map_xml_parse_error(
-    json_map_generator_with_test_files, tmp_path
+    json_map_generator_with_test_files, tmp_test_files
 ):
-    json_map_generator_with_test_files.bob_path = (
-        tmp_path / "test_files/test_bob_bad.bob"
-    )
+    json_map_generator_with_test_files.bob_path = tmp_test_files / "test_bob_bad.bob"
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
@@ -306,8 +304,8 @@ def test_serialise_json_map(example_json_map):
     }
 
 
-def test_get_action_group():
-    test_bob = objectify.parse("tests/test_files/test_bob.bob")
+def test_get_action_group(tmp_test_files):
+    test_bob = objectify.parse(tmp_test_files / "test_bob.bob")
 
     widget = test_bob.find(".//widget")
     assert widget is not None
@@ -316,8 +314,8 @@ def test_get_action_group():
     assert action_group is not None
 
 
-def test_get_action_group_no_action_elements():
-    test_bob = objectify.parse("tests/test_files/test_bob.bob")
+def test_get_action_group_no_action_elements(tmp_test_files):
+    test_bob = objectify.parse(tmp_test_files / "test_bob.bob")
 
     widget = test_bob.find(".//widget")
     assert widget is not None

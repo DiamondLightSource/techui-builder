@@ -1,5 +1,4 @@
 import logging
-from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
@@ -35,15 +34,15 @@ def test_autofiller_autofill_bob(autofiller):
 @patch("techui_builder.generate_jsonmap.objectify.deannotate")
 @patch("techui_builder.generate_jsonmap.etree.ElementTree")
 def test_autofiller_write_bob(
-    mock_tree: MagicMock, mock_deannotate: MagicMock, autofiller
+    mock_tree: MagicMock, mock_deannotate: MagicMock, autofiller, tmp_test_files
 ):
     autofiller.tree = mock_tree
 
-    autofiller.write_bob(Path("tests/test_files/test_autofilled_bob.bob"))
+    autofiller.write_bob(tmp_test_files / "test_autofilled_bob.bob")
 
     mock_deannotate.assert_called_once()
     mock_tree.write.assert_called_once_with(
-        Path("tests/test_files/test_autofilled_bob.bob"),
+        tmp_test_files / "test_autofilled_bob.bob",
         pretty_print=True,
         encoding="utf-8",
         xml_declaration=True,

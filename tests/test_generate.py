@@ -24,15 +24,15 @@ class FakeWidget:
         self._y = val
 
 
-def test_generator_get_screen_dimensions_good(generator):
-    test_embedded_screen = "tests/test_files/motor_embed.bob"
+def test_generator_get_screen_dimensions_good(generator, tmp_test_files):
+    test_embedded_screen = tmp_test_files / "motor_embed.bob"
     x, y = generator._get_screen_dimensions(test_embedded_screen)
     assert x == 120
     assert y == 205
 
 
-def test_generator_get_screen_dimensions_default(generator):
-    test_embedded_screen = "tests/test_files/motor_bad.bob"
+def test_generator_get_screen_dimensions_default(generator, tmp_test_files):
+    test_embedded_screen = tmp_test_files / "motor_bad.bob"
     x, y = generator._get_screen_dimensions(test_embedded_screen)
     assert x == 100
     assert y == 100
@@ -46,8 +46,8 @@ def test_generator_get_widget_dimensions_good(generator):
     assert width == 205
 
 
-def test_generator_get_widget_dimensions_default(generator):
-    widget_bad = Path("tests/test_files/widget_bad.xml")
+def test_generator_get_widget_dimensions_default(generator, tmp_test_files):
+    widget_bad = tmp_test_files / "widget_bad.xml"
 
     with open(widget_bad) as f:
         xml_content_bad = f.read()
@@ -57,8 +57,10 @@ def test_generator_get_widget_dimensions_default(generator):
     assert width == 100
 
 
-def test_generator_get_widget_dimensions_default_attribute_error(generator):
-    widget_bad = Path("tests/test_files/widget_bad_2.xml")
+def test_generator_get_widget_dimensions_default_attribute_error(
+    generator, tmp_test_files
+):
+    widget_bad = tmp_test_files / "widget_bad_2.xml"
 
     with open(widget_bad) as f:
         xml_content_bad = f.read()
@@ -76,8 +78,8 @@ def test_generator_get_widget_position(generator):
     assert y == 0
 
 
-def test_generator_get_widget_position_default(generator):
-    widget_bad = Path("tests/test_files/widget_bad.xml")
+def test_generator_get_widget_position_default(generator, tmp_test_files):
+    widget_bad = tmp_test_files / "widget_bad.xml"
 
     with open(widget_bad) as f:
         xml_content_bad = f.read()
@@ -87,8 +89,10 @@ def test_generator_get_widget_position_default(generator):
     assert y == 100
 
 
-def test_generator_get_widget_position_default_attribute_error(generator):
-    widget_bad = Path("tests/test_files/widget_bad_2.xml")
+def test_generator_get_widget_position_default_attribute_error(
+    generator, tmp_test_files
+):
+    widget_bad = tmp_test_files / "widget_bad_2.xml"
 
     with open(widget_bad) as f:
         xml_content_bad = f.read()
@@ -126,7 +130,9 @@ def test_generator_create_widgets_keyerror(generator, caplog: pytest.LogCaptureF
     )
 
 
-def test_generator_create_widgets_embedded(generator, example_pgen_embedded_widget):
+def test_generator_create_widgets_embedded(
+    generator, example_pgen_embedded_widget, tmp_test_files
+):
     generator._allocate_widget = Mock(return_value=example_pgen_embedded_widget)
 
     screen_name = "test"
@@ -142,7 +148,7 @@ def test_generator_create_widgets_embedded(generator, example_pgen_embedded_widg
         name=screen_name,
         component=component,
     )
-    control_widget = Path("tests/test_files/widget.xml")
+    control_widget = tmp_test_files / "widget.xml"
     with open(control_widget) as f:
         xml_content = f.read()
 
@@ -207,7 +213,7 @@ def test_generator_update_macros_suffix_with_child_labels(generator):
     assert updated_macros["label"] == child_label
 
 
-def test_generator_allocate_widget(generator):
+def test_generator_allocate_widget(generator, tmp_test_files):
     generator._update_macros = Mock(
         return_value=("CAM", {"P": "BL01T-DI-IOC-01", "R": ":CAM:", "label": "CAM"})
     )
@@ -226,7 +232,7 @@ def test_generator_allocate_widget(generator):
         macros={"P": "BL01T-DI-IOC-01", "R": ":CAM:"},
     )
     widget = generator._allocate_widget(scrn_mapping, component)
-    control_widget = Path("tests/test_files/widget.xml")
+    control_widget = tmp_test_files / "widget.xml"
 
     with open(control_widget) as f:
         xml_content = f.read()
@@ -234,7 +240,7 @@ def test_generator_allocate_widget(generator):
     assert str(widget) == xml_content
 
 
-def test_generator_allocate_widget_with_remote_screens(generator):
+def test_generator_allocate_widget_with_remote_screens(generator, tmp_test_files):
     generator._update_macros = Mock(
         return_value=("CAM", {"P": "BL01T-DI-IOC-01", "R": ":CAM:", "label": "CAM"})
     )
@@ -250,7 +256,7 @@ def test_generator_allocate_widget_with_remote_screens(generator):
         macros={"P": "BL01T-DI-IOC-01", "R": ":CAM:"},
     )
     widget = generator._allocate_widget(scrn_mapping, component)
-    control_widget = Path("tests/test_files/widget_url_screen.xml")
+    control_widget = tmp_test_files / "widget_url_screen.xml"
 
     with open(control_widget) as f:
         xml_content = f.read()
@@ -258,7 +264,7 @@ def test_generator_allocate_widget_with_remote_screens(generator):
     assert str(widget) == xml_content
 
 
-def test_generator_allocate_widget_with_custom_suffix(generator):
+def test_generator_allocate_widget_with_custom_suffix(generator, tmp_test_files):
     generator._update_macros = Mock(return_value=("CAM", {"P": "BL01T-DI-IOC-01"}))
     generator._get_screen_dimensions = Mock(return_value=(40, 100))
 
@@ -275,7 +281,7 @@ def test_generator_allocate_widget_with_custom_suffix(generator):
         macros={"P": "BL01T-DI-IOC-01"},
     )
     widget = generator._allocate_widget(scrn_mapping, component)
-    control_widget = Path("tests/test_files/widget_custom_suffix.xml")
+    control_widget = tmp_test_files / "widget_custom_suffix.xml"
 
     with open(control_widget) as f:
         xml_content = f.read()
@@ -283,7 +289,9 @@ def test_generator_allocate_widget_with_custom_suffix(generator):
     assert str(widget) == xml_content
 
 
-def test_generator_create_widgets_related(generator, example_pgen_related_widget):
+def test_generator_create_widgets_related(
+    generator, example_pgen_related_widget, tmp_test_files
+):
     generator._allocate_widget = Mock(return_value=example_pgen_related_widget)
     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
 
@@ -300,14 +308,15 @@ def test_generator_create_widgets_related(generator, example_pgen_related_widget
         component=component,
     )
 
-    control_widget = Path("tests/test_files/widget_related.xml")
+    control_widget = tmp_test_files / "widget_related.xml"
     with open(control_widget) as f:
         xml_content = f.read()
+
     assert str(widgets[0]) == xml_content
 
 
 # def test_generator_create_widgets_related_no_suffix(
-#     generator, example_pgen_related_widget
+#     generator, example_pgen_related_widget, tmp_test_files
 # ):
 #     generator._allocate_widget = Mock(return_value=example_pgen_related_widget)
 #     generator._get_screen_dimensions = Mock(return_value=(800, 1280))
@@ -325,7 +334,7 @@ def test_generator_create_widgets_related(generator, example_pgen_related_widget
 #         component=component,
 #     )
 
-#     control_widget = Path("tests/test_files/widget_related_no_suffix.xml")
+#     control_widget = tmp_test_files / "widget_related_no_suffix.xml"
 
 #     with open(control_widget) as f:
 #         xml_content = f.read()
@@ -429,18 +438,20 @@ def test_build_groups(generator, components):
     assert xml.xpath("//name")[0] == "test"
 
 
-def test_generator_write_screen(generator):
+def test_generator_write_screen(generator, tmp_test_files):
     screen_name = "test"
     generator.screen_ = pscreen.Screen("test")
     generator.widgets = [Mock(), Mock()]
-    generator.write_screen(screen_name, Path("tests/test_files/"))
-    assert Path("tests/test_files/test.bob").exists()
-    Path("tests/test_files/test.bob").unlink()
+    generator.write_screen(screen_name, tmp_test_files)
+
+    assert Path.exists(tmp_test_files / "test.bob")
 
 
-def test_generator_write_screen_no_widgets(generator, caplog: pytest.LogCaptureFixture):
+def test_generator_write_screen_no_widgets(
+    generator, caplog: pytest.LogCaptureFixture, tmp_test_files
+):
     screen_name = "test"
     generator.screen_ = pscreen.Screen("test")
     generator.widgets = []
-    generator.write_screen(screen_name, Path("tests/test_files/"))
+    generator.write_screen(screen_name, tmp_test_files)
     assert "Could not write screen: test as no widgets were available" in caplog.text

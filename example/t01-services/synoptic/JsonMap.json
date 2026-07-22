@@ -67,7 +67,7 @@
             "file": "motor1.bob",
             "children": [
                 {
-                    "file": "$(IOC)/pmacAxis.pvi.bob",
+                    "file": "../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                     "macros": {
                         "M": ":X",
                         "P": "BL01T-MO-MOTOR-01",
@@ -77,7 +77,7 @@
                     "displayName": "X1"
                 },
                 {
-                    "file": "$(IOC)/pmacAxis.pvi.bob",
+                    "file": "../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                     "macros": {
                         "M": ":A",
                         "P": "BL01T-MO-MOTOR-01",

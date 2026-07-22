@@ -1,0 +1,123 @@
+<display version="2.0.0">
+  <name>bl01t-mo-brick-01</name>
+  <x>0</x>
+  <y use_class="true">0</y>
+  <width>388</width>
+  <height>230</height>
+  <grid_step_x>4</grid_step_x>
+  <grid_step_y>4</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <class>TITLE</class>
+    <text>bl01t-mo-brick-01</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>388</width>
+    <height>25</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>ppmacController</text>
+    <x>23</x>
+    <y>30</y>
+    <width>150</width>
+    <height>20</height>
+    <tooltip>$(text)</tooltip>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>OpenDisplay</name>
+    <actions>
+      <action type="open_display">
+        <file>ppmacController.pvi.bob</file>
+        <target>tab</target>
+        <description>Open Display</description>
+        <macros>
+          <P>BL01T-MO-BRICK-01</P>
+        </macros>
+      </action>
+    </actions>
+    <text>BL01T-MO-BRICK-01</text>
+    <x>178</x>
+    <y>30</y>
+    <width>205</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>pmacAxis</text>
+    <x>23</x>
+    <y>55</y>
+    <width>150</width>
+    <height>20</height>
+    <tooltip>$(text)</tooltip>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>OpenDisplay</name>
+    <actions>
+      <action type="open_display">
+        <file>pmacAxis.pvi.bob</file>
+        <target>tab</target>
+        <description>Open Display</description>
+        <macros>
+          <P>BL01T-MO-MOTOR-01</P>
+          <M>:X</M>
+        </macros>
+      </action>
+    </actions>
+    <text>BL01T-MO-MOTOR-01 :X</text>
+    <x>178</x>
+    <y>55</y>
+    <width>205</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>pmacAxis</text>
+    <x>23</x>
+    <y>80</y>
+    <width>150</width>
+    <height>20</height>
+    <tooltip>$(text)</tooltip>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>OpenDisplay</name>
+    <actions>
+      <action type="open_display">
+        <file>pmacAxis.pvi.bob</file>
+        <target>tab</target>
+        <description>Open Display</description>
+        <macros>
+          <P>BL01T-MO-MOTOR-01</P>
+          <M>:A</M>
+        </macros>
+      </action>
+    </actions>
+    <text>BL01T-MO-MOTOR-01 :A</text>
+    <x>178</x>
+    <y>80</y>
+    <width>205</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>pmacAxis</text>
+    <x>23</x>
+    <y>105</y>
+    <width>150</width>
+    <height>20</height>
+    <tooltip>$(text)</tooltip>
+  </widget>
+</display>

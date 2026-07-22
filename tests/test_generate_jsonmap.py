@@ -166,6 +166,17 @@ def test_generate_json_map_nav_tabs(
     assert test_json_map == example_json_map_root
 
 
+def test_generate_json_map_child_file_crawl_pvi_screen(
+    json_map_generator, example_json_map_pvi_screens, tmp_t01_services
+):
+    jsonmap = json_map_generator.generate_json_map(
+        screen_path=tmp_t01_services / "synoptic/motor1.bob",
+        dest_path=tmp_t01_services / "synoptic",
+    )
+
+    assert example_json_map_pvi_screens == jsonmap
+
+
 def test_parse_display_name_with_name(json_map_generator):
     """Test parse display name when <name> tag is present"""
     display_name = json_map_generator._parse_display_name(

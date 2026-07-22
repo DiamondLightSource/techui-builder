@@ -1,79 +1,158 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
+<!--Saved on 2026-07-20 15:06:49 by ryi58813-->
 <display version="2.0.0">
   <name>Display</name>
-  <widget type="symbol" version="2.0.0">
-    <name>Detector</name>
-    <pv_name>fshtr</pv_name>
-    <symbols>
-      <symbol>techui-support/symbols/shutter 1.svg</symbol>
-    </symbols>
-    <x>60</x>
-    <y>150</y>
-    <width>50</width>
-    <height>50</height>
-    <actions>
-      <action type="open_display">
-        <file>Detector.bob</file>
-        <target>replace</target>
-        <description>Open Display</description>
-      </action>
-    </actions>
-  </widget>
-  <widget type="symbol" version="2.0.0">
-    <name>MotorController</name>
-    <pv_name>d1</pv_name>
-    <symbols>
-      <symbol>techui-support/symbols/diag-stick.svg</symbol>
-    </symbols>
-    <x>280</x>
-    <y>150</y>
-    <width>50</width>
-    <height>50</height>
-    <actions>
-      <action type="open_display">
-        <file>MotorController.bob</file>
-        <target>replace</target>
-        <description>Open Display</description>
-      </action>
-    </actions>
-  </widget>
-  <widget type="symbol" version="2.0.0">
-    <name>TempController</name>
-    <pv_name>motor</pv_name>
-    <symbols>
-      <symbol>techui-support/symbols/aperture.svg</symbol>
-    </symbols>
-    <x>490</x>
-    <y>150</y>
-    <width>50</width>
-    <height>50</height>
-    <actions>
-      <action type="open_display">
-        <file>TempController.bob</file>
-        <target>replace</target>
-        <description>Open Display</description>
-      </action>
-    </actions>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label</name>
-    <text>FSHTR</text>
-    <x>30</x>
-    <y>130</y>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_1</name>
-    <text>D1</text>
+  <widget type="group" version="3.0.0">
+    <name>dcam1_Group</name>
     <x>250</x>
     <y>120</y>
-    <horizontal_alignment>1</horizontal_alignment>
+    <width>100</width>
+    <height>80</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="symbol" version="2.0.0">
+      <name>dcam1</name>
+      <symbols>
+        <symbol>techui-support/symbols/camera.svg</symbol>
+      </symbols>
+      <x>30</x>
+      <y>30</y>
+      <width>50</width>
+      <height>50</height>
+      <actions>
+        <action type="open_display">
+          <description>Diagnostic Camera 1</description>
+          <file>dcam1.bob</file>
+          <target>replace</target>
+        </action>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+      <pv_name>BL01T-DI-CAM-01:STA</pv_name>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>dcam1_L:abel</name>
+      <text>DCAM1</text>
+      <horizontal_alignment>1</horizontal_alignment>
+      <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+    </widget>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_2</name>
-    <text>Motor</text>
+  <widget type="group" version="3.0.0">
+    <name>diode1_Group</name>
+    <x>30</x>
+    <y>120</y>
+    <width>100</width>
+    <height>80</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="symbol" version="2.0.0">
+      <name>diode1</name>
+      <symbols>
+        <symbol>techui-support/symbols/oscilloscope.svg</symbol>
+      </symbols>
+      <x>30</x>
+      <y>30</y>
+      <width>50</width>
+      <height>50</height>
+      <actions>
+        <action type="open_display">
+          <description>Diode 1</description>
+          <file>test.bob</file>
+          <target>replace</target>
+        </action>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+      <pv_name>BL01T-DI-PHDGN-01:STA</pv_name>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>diode1_Label</name>
+      <text>DIODE1</text>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>temp1_Group</name>
     <x>460</x>
     <y>120</y>
-    <horizontal_alignment>1</horizontal_alignment>
+    <width>100</width>
+    <height>80</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="symbol" version="2.0.0">
+      <name>temp1</name>
+      <pv_name>BL01T-EA-TEMP-01:STA</pv_name>
+      <symbols>
+        <symbol>techui-support/symbols/cryocooler.svg</symbol>
+      </symbols>
+      <x>30</x>
+      <y>30</y>
+      <width>50</width>
+      <height>50</height>
+      <actions>
+        <action type="open_display">
+          <description>Temperaure Controller 1</description>
+          <file>temp1.bob</file>
+          <target>replace</target>
+        </action>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>temp1_label</name>
+      <text>temp1</text>
+      <horizontal_alignment>1</horizontal_alignment>
+      <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>temp1_Group_1</name>
+    <x>650</x>
+    <y>120</y>
+    <width>100</width>
+    <height>80</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="symbol" version="2.0.0">
+      <name>motor1</name>
+      <pv_name>BL01T-MO-MOTOR-01:STA</pv_name>
+      <symbols>
+        <symbol>techui-support/symbols/translation-stage.svg</symbol>
+      </symbols>
+      <x>30</x>
+      <y>30</y>
+      <width>50</width>
+      <height>50</height>
+      <actions>
+        <action type="open_display">
+          <description>Motor Stage</description>
+          <file>motor1.bob</file>
+          <target>replace</target>
+        </action>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>motor1_label</name>
+      <text>motor1</text>
+      <horizontal_alignment>1</horizontal_alignment>
+      <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+    </widget>
   </widget>
 </display>

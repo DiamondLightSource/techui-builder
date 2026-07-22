@@ -1,0 +1,101 @@
+{
+    "file": "index.bob",
+    "children": [
+        {
+            "file": "dcam1.bob",
+            "children": [
+                {
+                    "file": "ProfileCursorGraphs.bob",
+                    "macros": {
+                        "P": "BL01T-DI-CAM-01",
+                        "R": ":CAM:",
+                        "label": "CAM",
+                        "IOC": "https://t01-opis.diamond.ac.uk/bl01t-di-cam-01"
+                    },
+                    "displayName": "CAM"
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/ADAravis_detail.bob",
+                    "macros": {
+                        "P": "BL01T-DI-CAM-01",
+                        "R": ":CAM:",
+                        "label": "CAM"
+                    },
+                    "displayName": "ADAravis Camera"
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginROI.pvi.bob",
+                    "macros": {
+                        "P": "BL01T-DI-CAM-01",
+                        "R": ":ROI:",
+                        "label": "ROI"
+                    },
+                    "displayName": "NDPluginROI"
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDPluginStats.pvi.bob",
+                    "macros": {
+                        "P": "BL01T-DI-CAM-01",
+                        "R": ":STAT:",
+                        "label": "STAT"
+                    },
+                    "displayName": "NDPluginStats"
+                },
+                {
+                    "file": "techui-support/bob/ADAravis/NDFileHDF5.pvi.bob",
+                    "macros": {
+                        "P": "BL01T-DI-CAM-01",
+                        "R": ":HDF5:",
+                        "label": "HDF5"
+                    },
+                    "displayName": "NDFileHDF5"
+                }
+            ],
+            "displayName": "Diagnostic Camera 1"
+        },
+        {
+            "file": "test.bob",
+            "exists": false,
+            "displayName": "Diode 1"
+        },
+        {
+            "file": "temp1.bob",
+            "exists": false,
+            "displayName": "Temperaure Controller 1"
+        },
+        {
+            "file": "motor1.bob",
+            "children": [
+                {
+                    "file": "$(IOC)/pmacAxis.pvi.bob",
+                    "macros": {
+                        "M": ":X",
+                        "P": "BL01T-MO-MOTOR-01",
+                        "label": "X1",
+                        "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01"
+                    },
+                    "displayName": "X1"
+                },
+                {
+                    "file": "$(IOC)/pmacAxis.pvi.bob",
+                    "macros": {
+                        "M": ":A",
+                        "P": "BL01T-MO-MOTOR-01",
+                        "label": "A",
+                        "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01"
+                    },
+                    "displayName": "A"
+                },
+                {
+                    "file": "techui-support/bob/pmac/pmacController.bob",
+                    "macros": {
+                        "P": "BL01T-MO-BRICK-01"
+                    },
+                    "displayName": "pmacController"
+                }
+            ],
+            "displayName": "Motor Stage"
+        }
+    ],
+    "displayName": "Display"
+}

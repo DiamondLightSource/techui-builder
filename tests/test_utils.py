@@ -1,5 +1,4 @@
-from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, patch
 
 from lxml.etree import _ElementTree
 from lxml.objectify import Element, ObjectifiedElement
@@ -8,10 +7,10 @@ from techui_builder.utils import get_widgets, read_bob
 
 
 @patch("techui_builder.utils.get_widgets")
-def test_read_bob(mock_get_widgets):
-    mock_get_widgets.return_value = {"test_widget": Mock(spec=ObjectifiedElement)}
+def test_read_bob(mock_get_widgets: MagicMock, tmp_test_files):
+    mock_get_widgets.return_value = {"test_widget": MagicMock(spec=ObjectifiedElement)}
 
-    tree, widgets = read_bob(Path("tests/test_files/index.bob"))
+    tree, widgets = read_bob(tmp_test_files / "index.bob")
 
     assert isinstance(tree, _ElementTree)
     assert isinstance(widgets["test_widget"], ObjectifiedElement)

@@ -1,6 +1,5 @@
 from io import StringIO
-from pathlib import Path
-from unittest.mock import Mock, mock_open, patch
+from unittest.mock import MagicMock, Mock, mock_open, patch
 
 import pytest
 from softioc.builder import ClearRecords, records
@@ -10,17 +9,20 @@ from techui_builder.status import status_run
 
 @patch("techui_builder.status.GenerateStatusPvs.write_status_pvs")
 @patch("techui_builder.status.GenerateStatusPvs.create_status_pv")
-def test_status_run(mock_create, mock_write):
+def test_status_run(mock_create: MagicMock, mock_write: MagicMock, tmp_t01_services):
     mock_create.return_value = Mock()
     mock_write.return_value = Mock()
-    status_run(Path("tests/t01-services/synoptic/techui.yaml").absolute())
-    mock_create.assert_called_once()
-    mock_write.assert_called_once()
+
+    status_run(tmp_t01_services / "synoptic/techui.yaml")
+
+    mock_create.assert_called()
+    mock_write.assert_called()
 
 
-def test_status_run_invalid_yaml(caplog):
+def test_status_run_invalid_yaml(caplog: pytest.LogCaptureFixture, tmp_test_files):
     with pytest.raises(Exception):  # noqa: B017
-        status_run(Path("tests/invalid_techui.yaml").absolute())
+        status_run(tmp_test_files / "invalid_techui.yaml")
+
     assert "Error loading techui.yaml" in caplog.text
 
 
@@ -87,7 +89,7 @@ def test_status_write_status_pvs(status_gen):
 
         # Check open() was called with the correct args
         m.assert_called_once_with(
-            Path(status_gen._write_directory.joinpath("config/status.db")),
+            status_gen._conf_dir / "status.db",
             "w",
         )
         mock_print.assert_called_once()

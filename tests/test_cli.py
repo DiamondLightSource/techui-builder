@@ -1,5 +1,4 @@
 import logging
-import os
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -27,6 +26,7 @@ runner = CliRunner()
 def test_app():
     result = runner.invoke(app)
     help_result = runner.invoke(app, ["--help"])
+
     assert result.exit_code == 2
     assert help_result.exit_code == 0
     # for some reason passing '--help' outputs an extra newline at the end
@@ -37,12 +37,14 @@ def test_app():
 
 def test_app_version():
     result = runner.invoke(app, ["--version"])
+
     assert result.exit_code == 0
     assert "techui-builder version:" in result.output
 
 
 def test_app_schema():
     result = runner.invoke(schema_app)
+
     assert result.exit_code == 0
     assert (
         "\u2705 Wrote schemas/techui.schema.json\n\u2705 "
@@ -51,33 +53,36 @@ def test_app_schema():
 
 
 @patch("techui_builder.status.status_run")
-def test_status_run(mock_status_run, caplog):
+def test_status_run(mock_status_run: MagicMock, tmp_t01_services):
     ClearRecords()
     mock_status_run.return_value = Mock()
-    result = runner.invoke(status_app, ["example/t01-services/synoptic/techui.yaml"])
+
+    result = runner.invoke(status_app, [str(tmp_t01_services / "synoptic/techui.yaml")])
+
     assert result.exit_code == 0
 
 
-def test_status_run_output_directory():
+def test_status_run_output_directory(tmp_t01_services):
     ClearRecords()
-    output_dir = Path("example/t01-services/")
+
+    output_dir = tmp_t01_services
+
     result = runner.invoke(
-        status_app, ["-o", str(output_dir), "example/t01-services/synoptic/techui.yaml"]
+        status_app,
+        [str(tmp_t01_services / "synoptic/techui.yaml"), "-o", str(output_dir)],
     )
+
     assert result.exit_code == 0
-    assert Path.exists(output_dir.joinpath("config/status.db"))
-    if Path.exists(output_dir.joinpath("config/status.db")):
-        os.remove(output_dir.joinpath("config/status.db"))
-        os.removedirs(output_dir.joinpath("config"))
+    assert Path.exists(output_dir / "synoptic/config/status.db")
 
 
 @patch("techui_builder._logger.Logger")
-def test_log_level(mock_logger):
+def test_log_level(mock_logger: MagicMock):
     log_level("INFO")
     mock_logger.assert_called_once()
 
 
-def test_find_dirs(caplog):
+def test_find_dirs():
     mock_services = MagicMock(spec=Path)
     mock_services.relative_to.return_value = Path("mock_rel_path")
     mock_parent = MagicMock(spec=Path)
@@ -94,7 +99,7 @@ def test_find_dirs(caplog):
     assert services == Path("mock_rel_path")
 
 
-def test_find_dirs_no_ixx_services_dir(caplog):
+def test_find_dirs_no_ixx_services_dir(caplog: pytest.LogCaptureFixture):
     test_file = MagicMock(spec=Path)
     test_file.parents = []
 
@@ -108,7 +113,7 @@ def test_find_dirs_no_ixx_services_dir(caplog):
     assert exc_info.value.code is None
 
 
-def test_find_dirs_jxx_services(caplog):
+def test_find_dirs_jxx_services(caplog: pytest.LogCaptureFixture):
     mock_services = MagicMock(spec=Path)
     mock_services.relative_to.return_value = Path("mock_rel_path")
     mock_parent = MagicMock(spec=Path)
@@ -127,7 +132,7 @@ def test_find_dirs_jxx_services(caplog):
     assert "ixx-services relative path:" in caplog.text
 
 
-def test_find_bob(caplog):
+def test_find_bob(caplog: pytest.LogCaptureFixture):
     bob_file = Mock(spec=Path)
     bob_file.exists = MagicMock(return_value=True)
 
@@ -138,8 +143,9 @@ def test_find_bob(caplog):
     assert bob_file == file
 
 
-def test_find_bob_bob_file_does_not_exist(caplog):
+def test_find_bob_bob_file_does_not_exist(caplog: pytest.LogCaptureFixture):
     bad_bob_file = Path("bad_bob_file")
+
     with caplog.at_level(logging.CRITICAL) and pytest.raises(SystemExit) as exc_info:
         find_bob(bad_bob_file, Mock(spec=Path))
 
@@ -150,7 +156,7 @@ def test_find_bob_bob_file_does_not_exist(caplog):
     assert exc_info.value.code is None
 
 
-def test_find_bob_no_bob_file_finds_default_bob_file(caplog):
+def test_find_bob_no_bob_file_finds_default_bob_file(caplog: pytest.LogCaptureFixture):
     mock_bob_file = Path("mock_bob_file")
     mock_synoptic_dir = MagicMock(spec=Path)
     mock_synoptic_dir.glob.return_value = iter([mock_bob_file])
@@ -162,7 +168,7 @@ def test_find_bob_no_bob_file_finds_default_bob_file(caplog):
         assert f"bob file: {mock_bob_file}" in log_output.message
 
 
-def test_find_bob_no_bob_file_found(caplog):
+def test_find_bob_no_bob_file_found(caplog: pytest.LogCaptureFixture):
     mock_synoptic_dir = MagicMock(spec=Path)
     mock_synoptic_dir.glob.return_value = iter([])
 
@@ -183,7 +189,12 @@ def test_find_bob_no_bob_file_found(caplog):
 @patch("techui_builder.main_app.find_dirs")
 @patch("techui_builder.main_app.Autofiller")
 @patch("techui_builder.main_app.Builder")
-def test_main(mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob):
+def test_main(
+    mock_builder: MagicMock,
+    mock_autofiller: MagicMock,
+    mock_find_dirs: MagicMock,
+    mock_find_bob: MagicMock,
+):
     mock_find_dirs.return_value = Mock(), Mock()
     mock_path = Mock(spec=Path)
     main(mock_path)
@@ -192,50 +203,54 @@ def test_main(mock_builder, mock_autofiller, mock_find_dirs, mock_find_bob):
     mock_find_bob.assert_called_once()
 
 
-def test_main_json_map_no_bob_generation(caplog):
+def test_main_json_map_no_bob_generation(caplog: pytest.LogCaptureFixture):
     runner.invoke(app, ["--generate-jsonmap"])
+
     for log_output in caplog.records:
         assert (
             " Option '--generate-jsonmap' requires an argument." in log_output.message
         )
 
 
-def test_main_json_map_wrong_file(caplog):
+def test_main_json_map_wrong_file(caplog: pytest.LogCaptureFixture):
     result = runner.invoke(generate_jsonmap_app, ["map.json"])
+
     assert result.exit_code == 1
     for log_output in caplog.records:
         assert "No such file or directory" in log_output.message
 
 
-def test_main_json_map_generation(caplog):
+def test_main_json_map_generation(caplog: pytest.LogCaptureFixture, tmp_t01_services):
     runner.invoke(
         generate_jsonmap_app,
         [
-            "tests/t01-services/synoptic/index.bob",
+            str(tmp_t01_services / "synoptic/index.bob"),
         ],
     )
-    if Path.exists(Path("tests/t01-services/synoptic/JsonMap.json")):
-        os.remove("tests/t01-services/synoptic/JsonMap.json")
+
     for log_output in caplog.records:
         assert "Json map generated for (from" in log_output.message
 
 
-def test_main_json_map_generation_output_directory(caplog):
-    output_dir = Path("tests/t01-services/")
+def test_main_json_map_generation_output_directory(
+    caplog: pytest.LogCaptureFixture, tmp_t01_services
+):
+    output_dir = tmp_t01_services
+
     runner.invoke(
         generate_jsonmap_app,
         [
+            str(tmp_t01_services / "synoptic/index.bob"),
             "-o",
             str(output_dir),
-            "tests/t01-services/synoptic/index.bob",
         ],
     )
-    assert Path.exists(output_dir.joinpath("JsonMap.json"))
-    os.remove(output_dir.joinpath("JsonMap.json"))
+
+    assert Path.exists(output_dir / "JsonMap.json")
     for log_output in caplog.records:
         assert "Json map generated for (from" in log_output.message
 
 
-def test_main_without_techui_yaml(caplog):
+def test_main_json_map_generation_without_techui_yaml(caplog: pytest.LogCaptureFixture):
     result = runner.invoke(generate_jsonmap_app)
     assert "Missing argument 'BOB_PATH'." in result.output

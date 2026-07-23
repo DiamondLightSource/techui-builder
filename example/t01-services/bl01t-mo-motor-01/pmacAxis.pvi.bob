@@ -1,0 +1,1149 @@
+<display version="2.0.0">
+  <name>pmacAxis</name>
+  <x>0</x>
+  <y use_class="true">0</y>
+  <width>807</width>
+  <height>935</height>
+  <grid_step_x>4</grid_step_x>
+  <grid_step_y>4</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <class>TITLE</class>
+    <text>pmacAxis</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>807</width>
+    <height>25</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Motor</name>
+    <x>5</x>
+    <y>30</y>
+    <width>396</width>
+    <height>156</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Position</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M)</pv_name>
+      <x>155</x>
+      <y>0</y>
+      <width>100</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M).RBV</pv_name>
+      <x>260</x>
+      <y>0</y>
+      <width>100</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Stop</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>WritePV</name>
+      <pv_name>$(P)$(M).STOP</pv_name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>$(name)</description>
+        </action>
+      </actions>
+      <text>Stop</text>
+      <x>155</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(P)$(M).STOP = 1</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Tweak Forward</text>
+      <x>0</x>
+      <y>50</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>WritePV</name>
+      <pv_name>$(P)$(M).TWF</pv_name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>$(name)</description>
+        </action>
+      </actions>
+      <text>Tweak Forward</text>
+      <x>155</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(P)$(M).TWF = 1</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Tweak Step</text>
+      <x>0</x>
+      <y>75</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).TWV</pv_name>
+      <x>155</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Tweak Reverse</text>
+      <x>0</x>
+      <y>100</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>WritePV</name>
+      <pv_name>$(P)$(M).TWR</pv_name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>$(name)</description>
+        </action>
+      </actions>
+      <text>Tweak Reverse</text>
+      <x>155</x>
+      <y>100</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(P)$(M).TWR = 1</tooltip>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Status</name>
+    <x>5</x>
+    <y>191</y>
+    <width>396</width>
+    <height>231</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Ready</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).DMOV</pv_name>
+      <x>247</x>
+      <y>0</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Moving</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).MOVN</pv_name>
+      <x>247</x>
+      <y>25</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Forward</text>
+      <x>0</x>
+      <y>50</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).TDIR</pv_name>
+      <x>247</x>
+      <y>50</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Homed</text>
+      <x>0</x>
+      <y>75</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).MSTA</pv_name>
+      <x>247</x>
+      <y>75</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>High Limit</text>
+      <x>0</x>
+      <y>100</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).HLS</pv_name>
+      <x>247</x>
+      <y>100</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Low Limit</text>
+      <x>0</x>
+      <y>125</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).LLS</pv_name>
+      <x>247</x>
+      <y>125</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Soft Limit</text>
+      <x>0</x>
+      <y>150</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).LVIO</pv_name>
+      <x>247</x>
+      <y>150</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Missed</text>
+      <x>0</x>
+      <y>175</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).MISS</pv_name>
+      <x>247</x>
+      <y>175</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Homing</name>
+    <x>5</x>
+    <y>427</y>
+    <width>396</width>
+    <height>81</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Home Forward</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>WritePV</name>
+      <pv_name>$(P)$(M).HOMF</pv_name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>$(name)</description>
+        </action>
+      </actions>
+      <text>Home Forward</text>
+      <x>155</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(P)$(M).HOMF = 1</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Home Reverse</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>WritePV</name>
+      <pv_name>$(P)$(M).HOMR</pv_name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>$(name)</description>
+        </action>
+      </actions>
+      <text>Home Reverse</text>
+      <x>155</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(P)$(M).HOMR = 1</tooltip>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Calibration</name>
+    <x>5</x>
+    <y>513</y>
+    <width>396</width>
+    <height>131</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Direction</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(M).DIR</pv_name>
+      <x>155</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Offset</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).OFF</pv_name>
+      <x>155</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Freeze Offset</text>
+      <x>0</x>
+      <y>50</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(M).FOFF</pv_name>
+      <x>155</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Set Or Unset</text>
+      <x>0</x>
+      <y>75</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(M).SET</pv_name>
+      <x>155</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Status Detail</name>
+    <x>5</x>
+    <y>649</y>
+    <width>396</width>
+    <height>281</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Status</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="byte_monitor" version="2.0.0">
+      <name>BitField</name>
+      <pv_name>$(P)$(M).MSTA</pv_name>
+      <x>155</x>
+      <y>0</y>
+      <width>200</width>
+      <numBits>10</numBits>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Dial Read Back Value</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M).DRBV</pv_name>
+      <x>155</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Read Back Settle Time</text>
+      <x>0</x>
+      <y>50</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).DLY</pv_name>
+      <x>155</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Dval Minus Drbv</text>
+      <x>0</x>
+      <y>75</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M).DIFF</pv_name>
+      <x>155</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Rval Minus Rrbv</text>
+      <x>0</x>
+      <y>100</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M).RDIF</pv_name>
+      <x>155</x>
+      <y>100</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Raw Motor Position</text>
+      <x>0</x>
+      <y>125</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M).RRBV</pv_name>
+      <x>155</x>
+      <y>125</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Raw Encoder Position</text>
+      <x>0</x>
+      <y>150</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M).REP</pv_name>
+      <x>155</x>
+      <y>150</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Direction Of Travel</text>
+      <x>0</x>
+      <y>175</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M).TDIR</pv_name>
+      <x>155</x>
+      <y>175</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Following Error</text>
+      <x>0</x>
+      <y>200</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M):FERROR</pv_name>
+      <x>155</x>
+      <y>200</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Max Following Error</text>
+      <x>0</x>
+      <y>225</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(M):FERRORMAX</pv_name>
+      <x>155</x>
+      <y>225</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Motion</name>
+    <x>406</x>
+    <y>30</y>
+    <width>396</width>
+    <height>331</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Max Velocity</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).VMAX</pv_name>
+      <x>155</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Base Velocity</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).VBAS</pv_name>
+      <x>155</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Velocity</text>
+      <x>0</x>
+      <y>50</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).VELO</pv_name>
+      <x>155</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Acceleration</text>
+      <x>0</x>
+      <y>75</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).ACCL</pv_name>
+      <x>155</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Jog Velocity</text>
+      <x>0</x>
+      <y>100</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).JVEL</pv_name>
+      <x>155</x>
+      <y>100</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Jog Acceleration</text>
+      <x>0</x>
+      <y>125</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).JAR</pv_name>
+      <x>155</x>
+      <y>125</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Backlash Distance</text>
+      <x>0</x>
+      <y>150</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).BDST</pv_name>
+      <x>155</x>
+      <y>150</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Backlash Velocity</text>
+      <x>0</x>
+      <y>175</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).BVEL</pv_name>
+      <x>155</x>
+      <y>175</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Backlash Secs To Vel</text>
+      <x>0</x>
+      <y>200</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).BACC</pv_name>
+      <x>155</x>
+      <y>200</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Move Fraction</text>
+      <x>0</x>
+      <y>225</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).FRAC</pv_name>
+      <x>155</x>
+      <y>225</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Rery Deadband</text>
+      <x>0</x>
+      <y>250</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).RDBD</pv_name>
+      <x>155</x>
+      <y>250</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Retry Count</text>
+      <x>0</x>
+      <y>275</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).RTRY</pv_name>
+      <x>155</x>
+      <y>275</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Resolution</name>
+    <x>406</x>
+    <y>366</y>
+    <width>396</width>
+    <height>156</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Motor Step Size</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).MRES</pv_name>
+      <x>155</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Steps Per Revolution</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).SREV</pv_name>
+      <x>155</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Encoder Step Size</text>
+      <x>0</x>
+      <y>50</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).ERES</pv_name>
+      <x>155</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Readback Step Size</text>
+      <x>0</x>
+      <y>75</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).RRES</pv_name>
+      <x>155</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Use Encoder If Present</text>
+      <x>0</x>
+      <y>100</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(M).UEIP</pv_name>
+      <x>155</x>
+      <y>100</y>
+      <width>205</width>
+      <height>20</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Motor Limits</name>
+    <x>406</x>
+    <y>527</y>
+    <width>396</width>
+    <height>256</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>User High Limit</text>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).HLM</pv_name>
+      <x>155</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>User Low Limit</text>
+      <x>0</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).LLM</pv_name>
+      <x>155</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Dial High Limit</text>
+      <x>0</x>
+      <y>50</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).DHLM</pv_name>
+      <x>155</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Dial Low Limit</text>
+      <x>0</x>
+      <y>75</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(M).DLLM</pv_name>
+      <x>155</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Limit Violation</text>
+      <x>0</x>
+      <y>100</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).LVIO</pv_name>
+      <x>247</x>
+      <y>100</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>At High Limit Switch</text>
+      <x>0</x>
+      <y>125</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).HLS</pv_name>
+      <x>247</x>
+      <y>125</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>At Low Limit Switch</text>
+      <x>0</x>
+      <y>150</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).LLS</pv_name>
+      <x>247</x>
+      <y>150</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>At Raw High Limit Switch</text>
+      <x>0</x>
+      <y>175</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).RHLS</pv_name>
+      <x>247</x>
+      <y>175</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>At Raw Low Limit Switch</text>
+      <x>0</x>
+      <y>200</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(M).RLLS</pv_name>
+      <x>247</x>
+      <y>200</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+  </widget>
+</display>

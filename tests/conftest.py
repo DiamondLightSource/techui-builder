@@ -237,6 +237,59 @@ def example_display_names_json():
 
 
 @pytest.fixture
+def example_json_map_pvi_screens():
+    jsonmap = JsonMap(
+        file="motor1.bob",
+        display_name="motor1",
+        exists=True,
+        duplicate=False,
+        children=[
+            JsonMap(
+                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                display_name="X1",
+                exists=True,
+                duplicate=False,
+                children=[],
+                macros={
+                    "M": ":X",
+                    "P": "BL01T-MO-MOTOR-01",
+                    "label": "X1",
+                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                },
+                error="",
+            ),
+            JsonMap(
+                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                display_name="A",
+                exists=True,
+                duplicate=False,
+                children=[],
+                macros={
+                    "M": ":A",
+                    "P": "BL01T-MO-MOTOR-01",
+                    "label": "A",
+                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                },
+                error="",
+            ),
+            JsonMap(
+                file="techui-support/bob/pmac/pmacController.bob",
+                display_name="pmacController",
+                exists=True,
+                duplicate=False,
+                children=[],
+                macros={"P": "BL01T-MO-BRICK-01"},
+                error="",
+            ),
+        ],
+        macros={},
+        error="",
+    )
+
+    return jsonmap
+
+
+@pytest.fixture
 def generator(techui_support, tmp_t01_services):
     synoptic_dir = tmp_t01_services / "synoptic"
     techui_support_path = synoptic_dir.joinpath("techui-support")
@@ -282,6 +335,64 @@ def example_xml_embedded_widget(tmp_test_files):
     macros_element = SubElement(widget_element, "macros")
     macro_element_1 = SubElement(macros_element, "macro1")
     macro_element_1.text = "test_macro_1"
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element
+
+
+@pytest.fixture
+def example_xml_embedded_widget_pvi_child(tmp_t01_services):
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+
+    widget_element = Element("widget")
+    widget_element.set("type", "embedded")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "motor"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+    file_element = SubElement(widget_element, "file")
+    file_element.text = str(tmp_t01_services / "mock_adaravis_service/ADAravis.pvi.bob")
+    macros_element = SubElement(widget_element, "macros")
+    macro_element_1 = SubElement(macros_element, "macro1")
+    macro_element_1.text = "test_macro_1"
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element
+
+
+@pytest.fixture
+def example_xml_related_widget_pvi_child(tmp_t01_services):
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+
+    widget_element = Element("widget")
+    widget_element.set("type", "action_button")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "motor"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+
+    actions_element = SubElement(widget_element, "actions")
+    action_element = SubElement(actions_element, "action")
+    action_element.set("type", "open_display")
+    file_element = SubElement(action_element, "file")
+    file_element.text = str(tmp_t01_services / "mock_adaravis_service/ADAravis.pvi.bob")
+    desc_element = SubElement(action_element, "description")
+    desc_element.text = "placeholder description"
+    macros_element = SubElement(action_element, "macros")
+    macro_element = SubElement(macros_element, "P")
+    macro_element.text = "placeholder P"
 
     # ... which requires this horror
     widget_element = fromstring(tostring(widget_element))

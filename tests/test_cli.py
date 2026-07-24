@@ -195,8 +195,8 @@ def test_main(
     mock_find_dirs: MagicMock,
     mock_find_bob: MagicMock,
 ):
-    mock_find_dirs.return_value = Mock(), Mock()
-    mock_path = Mock(spec=Path)
+    mock_find_dirs.return_value = MagicMock(spec=Path), MagicMock(spec=Path)
+    mock_path = MagicMock(spec=Path)
     main(mock_path)
 
     mock_find_dirs.assert_called_once()

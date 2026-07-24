@@ -120,7 +120,7 @@ def main(
     bob_file = find_bob(bobfile, synoptic_dir)
 
     # # Overwrite after initialised to make sure this is picked up
-    gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
+    gui._services_dir = ixx_services_dir / "services"  # noqa: SLF001
     gui._write_directory = synoptic_dir  # noqa: SLF001
 
     logger_.debug(
@@ -141,7 +141,7 @@ Write directory: {gui._write_directory}
     autofiller.read_bob()
     autofiller.autofill_bob()
 
-    dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
+    dest_bob = gui._write_directory / "index.bob"  # noqa: SLF001
 
     autofiller.write_bob(dest_bob)
 

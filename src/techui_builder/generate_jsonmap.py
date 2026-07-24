@@ -407,7 +407,7 @@ class JsonMapGenerator:
             )
 
         map = self.generate_json_map(self.bob_path, self._parent_path)
-        with open(self._write_directory.joinpath("JsonMap.json"), "w") as f:
+        with open(self._write_directory / "JsonMap.json", "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
                 + "\n"

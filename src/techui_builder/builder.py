@@ -48,7 +48,7 @@ class Builder:
         from service ioc.yaml or fastcs.yaml.
         """
         # This needs to be before _read_map()
-        self.support_path = self._write_directory.joinpath("techui-support")
+        self.support_path = self._write_directory / "techui-support"
 
         self._read_map()
 
@@ -65,7 +65,7 @@ class Builder:
 
     def _read_map(self):
         """Read the techui-support.yaml file from techui-support."""
-        support_yaml = self.support_path.joinpath("techui-support.yaml").absolute()
+        support_yaml = self.support_path / "techui-support.yaml"
         logger_.debug(f"techui-support.yaml location: {support_yaml}")
 
         self.techui_support = TechUiSupport.model_validate(
@@ -109,7 +109,7 @@ class Builder:
             service_name = service.name
             # If service doesn't exist, file open will fail throwing exception
             try:
-                service_yaml_dir = service.joinpath("config")
+                service_yaml_dir = service / "config"
 
                 yaml_matches = [
                     p

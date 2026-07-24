@@ -195,7 +195,7 @@ class Generator:
                 "Only related displays can have remote screens"
             )
         else:
-            screen_path = self.support_path.joinpath(f"bob/{file}")
+            screen_path = self.support_path / f"bob/{file}"
             logger_.debug(f"Screen path: {screen_path}")
 
             # Path of screen relative to synoptic/

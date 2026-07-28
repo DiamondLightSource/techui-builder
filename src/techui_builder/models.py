@@ -21,8 +21,7 @@ logger_ = logging.getLogger(__name__)
 #   short: 'b23', 'ixx-1'
 
 
-_DLS_PREFIX_RE = re.compile(
-    r"""
+_DLS_PREFIX_PATTERN_VERBOSE = r"""
             ^           # start of string
             (?=         # lookahead to ensure the following pattern matches
                 [A-Za-z0-9-]{13,16} # match 13 to 16 alphanumeric characters or hyphens
@@ -42,9 +41,17 @@ _DLS_PREFIX_RE = re.compile(
             (?:\.([a-zA-Z0-9_]+))? # match zero or one dot followed by one or more
                                 # alphanumeric characters (capture group 3)
             $           # end of string
-        """,
-    re.VERBOSE,
+        """
+
+_DLS_PREFIX_RE = re.compile(_DLS_PREFIX_PATTERN_VERBOSE, re.VERBOSE)
+
+# JSON Schema (ECMA 262) has no concept of VERBOSE mode, so derive a
+# compact equivalent once at import time for use in json_schema_extra.
+# (i.e. This is to handle the inline comments)
+_DLS_PREFIX_PATTERN_COMPACT = re.sub(
+    r"\s+", "", re.sub(r"#.*", "", _DLS_PREFIX_PATTERN_VERBOSE)
 )
+
 # Checks for database link flags, e.g. NPP MS, at the end
 _DATABASE_FLAGS_RE = re.compile(
     r"(?:PP|NPP)?" + r"(?:[ ]+(?:MS|NMS|MSS|MSI))?$",
@@ -143,7 +150,7 @@ class Component(BaseModel):
             description="Component PV Prefix",
             # Make sure vscode is aware of schema validation
             json_schema_extra={
-                "pattern": _DLS_PREFIX_RE.pattern,
+                "pattern": _DLS_PREFIX_PATTERN_COMPACT,
                 "type": "string",
             },
         ),

@@ -5,8 +5,8 @@ from pathlib import Path
 import typer
 
 from techui_builder.models import (
-    GuiComponents,
     TechUi,
+    TechUiSupport,
 )
 
 SCHEMAS_DIR = Path("schemas")
@@ -40,5 +40,5 @@ def schema_generator() -> None:
     write_json_schema("techui", tu)
 
     # ibek_mapping
-    tu_support = GuiComponents.model_json_schema()
+    tu_support = TechUiSupport.model_json_schema()
     write_json_schema("techui.support", tu_support)

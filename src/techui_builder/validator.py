@@ -14,6 +14,8 @@ LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class Validator:
+    """Helper class containing functions to validate Component screens."""
+
     bobs: list[Path]
     validate: dict[str, Path] = field(
         default_factory=defaultdict, init=False, repr=False

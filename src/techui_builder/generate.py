@@ -18,6 +18,8 @@ logger_ = logging.getLogger(__name__)
 
 @dataclass
 class Generator:
+    """Helper class containing functions to generate Component screens."""
+
     synoptic_dir: Path = field(repr=False)
     beamline_url: str = field(repr=False)
 

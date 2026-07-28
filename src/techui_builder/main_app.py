@@ -93,7 +93,7 @@ def find_bob(bob_file: Path | None, synoptic_dir: Path):
 
 
 # This is the 'build' behaviour
-@app.command("build", help="Run techui-builder for a given techui.yaml")
+@app.command("build", help="Run `techui-builder build` for a given techui.yaml")
 def main(
     filename: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
     bobfile: Annotated[
@@ -111,7 +111,7 @@ def main(
         ),
     ] = "INFO",
 ) -> None:
-    """Default function called from cmd line tool."""
+    """Function to run when `techui-builder build` is called."""
 
     gui = Builder(techui=filename)
 

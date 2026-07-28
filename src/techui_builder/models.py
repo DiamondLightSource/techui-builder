@@ -58,10 +58,40 @@ _OPIS_URL_RE = re.compile(r"^(https:\/\/)?([a-z0-9]{3}-(?:[0-9]-)?opis(?:.[a-z0-
 class Beamline(BaseModel):
     """Global Beamline values read from `beamline:` table in techui.yaml"""
 
-    domain: Annotated[str, Field(description="Short BL location e.g. b23, ixx-1")]
-    location: Annotated[str, Field(description="Full BL domain e.g. bl23b")]
+    domain: Annotated[
+        str,
+        Field(
+            description="Short BL location e.g. b23, ixx-1",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _DOMAIN_RE.pattern,
+                "type": "string",
+            },
+        ),
+    ]
+    location: Annotated[
+        str,
+        Field(
+            description="Full BL domain e.g. bl23b",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _LOCATION_RE.pattern,
+                "type": "string",
+            },
+        ),
+    ]
     desc: Annotated[str, Field(description="Description")]
-    url: Annotated[str, Field(description="URL of ixx-opis")]
+    url: Annotated[
+        str,
+        Field(
+            description="URL of ixx-opis",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _OPIS_URL_RE.pattern,
+                "type": "string",
+            },
+        ),
+    ]
     model_config = ConfigDict(extra="forbid")
 
     @field_validator("domain")
@@ -73,7 +103,7 @@ class Beamline(BaseModel):
             # e.g. t01
             return v
 
-        raise ValueError("Invalid beamline domain.")
+        raise ValueError("Invalid beamline domain. It needs to be in the form of t01.")
 
     @field_validator("location")
     @classmethod
@@ -83,7 +113,9 @@ class Beamline(BaseModel):
             # already long: bl01t
             return v
 
-        raise ValueError("Invalid beamline location.")
+        raise ValueError(
+            "Invalid beamline location. It needs to be in the form of bl01t."
+        )
 
     @field_validator("url")
     @classmethod
@@ -105,7 +137,17 @@ class Beamline(BaseModel):
 class Component(BaseModel):
     """One UI Component from techui.yaml `components:` dictionary"""
 
-    prefix: Annotated[str, Field(description="Component PV Prefix")]
+    prefix: Annotated[
+        str,
+        Field(
+            description="Component PV Prefix",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _DLS_PREFIX_RE.pattern,
+                "type": "string",
+            },
+        ),
+    ]
     label: Annotated[str | None, Field(description="Component label")] = None
     child_labels: Annotated[
         dict[str, str] | None, Field(description="Component Children Label")

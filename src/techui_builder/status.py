@@ -23,6 +23,11 @@ app = typer.Typer(
 
 @dataclass
 class GenerateStatusPvs:
+    """
+    Helper class containing functions to generate Status PVs
+    and store them in a status.db file.
+    """
+
     techui_path: Path = field(repr=False)
     status_pvs: dict[str, Record] = field(default_factory=dict, init=False)
     output: Path | None = field(default=None)

@@ -292,7 +292,7 @@ def example_json_map_pvi_screens():
 @pytest.fixture
 def generator(techui_support, tmp_t01_services):
     synoptic_dir = tmp_t01_services / "synoptic"
-    techui_support_path = synoptic_dir.joinpath("techui-support")
+    techui_support_path = synoptic_dir / "techui-support"
 
     g = Generator(synoptic_dir, "test_url", techui_support_path, techui_support)
 

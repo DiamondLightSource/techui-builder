@@ -43,6 +43,8 @@ app = typer.Typer(
 
 @dataclass
 class JsonMap:
+    """Dataclass to handle the structure of a JsonMap element."""
+
     file: str
     display_name: str | None
     exists: bool = True
@@ -54,6 +56,8 @@ class JsonMap:
 
 @dataclass
 class JsonMapGenerator:
+    """Helper class containing functions to generate a JsonMap file."""
+
     bob_path: Path = field(default=Path("index.bob"))
     techui: Path = field(default=Path("techui.yaml"))
     output: Path | None = field(default=None)
@@ -95,7 +99,7 @@ class JsonMapGenerator:
         def _get_display_name(
             name_element: str | None, component_name: str | None, file_path: Path
         ):
-            # Validated screen names don't get renegerated
+            # Validated screen names don't get regenerated
             name = name_element
             display_name = self._get_component_label(
                 name_element,
@@ -114,7 +118,12 @@ class JsonMapGenerator:
             display_name: str | None,
             macro_dictionary: dict[str, Any],
         ):
-            # TODO: misleading var name?
+            """
+            Function to determine if the child node file exists, and if it
+            does, recursively generate a JsonMap element for it and it's children.
+
+            If it can't be found, a minimal JsonMap element is returned.
+            """
             child_file_path = destination_path / file_path_text
 
             match = _PVI_FILE_RE.fullmatch(file_path_text)
@@ -331,7 +340,7 @@ class JsonMapGenerator:
                     if name_elem in child_labels.values():
                         display_name = name_elem
                     # In the case of screens not regenerated, such as validated screens,
-                    # the name text will not be updated to the childlabel,so we check
+                    # the name text will not be updated to the child_label,so we check
                     # keys solely for generating the json_map from the top level .bob.
                     elif name_elem in child_labels:
                         display_name = child_labels[name_elem]
@@ -398,8 +407,8 @@ class JsonMapGenerator:
         self,
     ):
         """
-        Maps the valid entries from the ioc.yaml file
-        to the required screen in *-mapping.yaml
+        Maps the valid entries from the ioc.yaml or fastcs.yaml file
+        to the required screen in *-support.yaml
         """
         if not self.bob_path.exists():
             raise FileNotFoundError(
@@ -407,7 +416,7 @@ class JsonMapGenerator:
             )
 
         map = self.generate_json_map(self.bob_path, self._parent_path)
-        with open(self._write_directory.joinpath("JsonMap.json"), "w") as f:
+        with open(self._write_directory / "JsonMap.json", "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
                 + "\n"

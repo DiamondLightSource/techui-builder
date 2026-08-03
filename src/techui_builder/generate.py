@@ -18,6 +18,8 @@ logger_ = logging.getLogger(__name__)
 
 @dataclass
 class Generator:
+    """Helper class containing functions to generate Component screens."""
+
     synoptic_dir: Path = field(repr=False)
     beamline_url: str = field(repr=False)
 
@@ -195,7 +197,7 @@ class Generator:
                 "Only related displays can have remote screens"
             )
         else:
-            screen_path = self.support_path.joinpath(f"bob/{file}")
+            screen_path = self.support_path / f"bob/{file}"
             logger_.debug(f"Screen path: {screen_path}")
 
             # Path of screen relative to synoptic/

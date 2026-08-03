@@ -19,11 +19,15 @@ logger_ = logging.getLogger(__name__)
 class Builder:
     """
     This class provides the functionality to process the required
-    techui.yaml file into screens mapped from ioc.yaml and
-    *-mapping.yaml files.
+    techui.yaml file into screens mapped from ioc.yaml and fastcs.yaml files.
+    It does this by leveraging *-support.yaml mapping files in submodules that
+    include the respective screens. For example, all generic screens are
+    situated in techui-support, with a corresponding techui-support.yaml
+    containing the mappings. It is possible to submodule custom *-support
+    repos with more bespoke screens as well.
 
     By default it looks for a `techui.yaml` file in the same dir
-    of the script Guibuilder is called in. Optionally a custom path
+    of the script techui-builder is called in. Optionally a custom path
     can be declared.
 
     """
@@ -44,11 +48,11 @@ class Builder:
 
     def setup(self):
         """
-        Run intial setup, e.g. extracting entries
+        Run initial setup, e.g. extracting entries
         from service ioc.yaml or fastcs.yaml.
         """
         # This needs to be before _read_map()
-        self.support_path = self._write_directory.joinpath("techui-support")
+        self.support_path = self._write_directory / "techui-support"
 
         self._read_map()
 
@@ -65,7 +69,7 @@ class Builder:
 
     def _read_map(self):
         """Read the techui-support.yaml file from techui-support."""
-        support_yaml = self.support_path.joinpath("techui-support.yaml").absolute()
+        support_yaml = self.support_path / "techui-support.yaml"
         logger_.debug(f"techui-support.yaml location: {support_yaml}")
 
         self.techui_support = TechUiSupport.model_validate(
@@ -101,7 +105,7 @@ class Builder:
     def _extract_services(self):
         """
         Finds the services folders in the services directory
-        and extracts all entites
+        and extracts all entities.
         """
 
         # Loop over every dir in services, ignoring anything that isn't a service
@@ -109,7 +113,7 @@ class Builder:
             service_name = service.name
             # If service doesn't exist, file open will fail throwing exception
             try:
-                service_yaml_dir = service.joinpath("config")
+                service_yaml_dir = service / "config"
 
                 yaml_matches = [
                     p
@@ -140,13 +144,14 @@ class Builder:
 
     def _extract_entities(self, service_name: str, service_yaml: Path):
         """
-        Extracts the entries in ioc.yaml matching the defined prefix
+        Extracts the entries in ioc.yaml or fastcs.yaml matching the defined prefix.
         """
 
         with open(service_yaml) as ioc:
             ioc_conf: dict[str, list[dict[str, str]]] = yaml.safe_load(ioc)
 
             for key in ioc_conf.keys():
+                # ioc.yaml includes 'entities' and fastcs.yaml includes 'controllers'
                 _regex = re.compile(r"^(?:(entities)|(controllers))$")
                 match = _regex.match(key)
                 if match:
@@ -226,7 +231,7 @@ class Builder:
                         screen_entities.extend(self.entities[extra_p])
 
                 # This is used by both generate and validate,
-                # so called beforehand for tidyness
+                # so called beforehand for tidiness
                 self.generator.build_widgets(component_name, screen_entities)
                 self.generator.build_groups(component_name, self.conf.components)
 

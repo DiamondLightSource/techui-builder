@@ -6,6 +6,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from jinja2 import Template
 from lxml import objectify
 from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
@@ -184,7 +185,7 @@ class Generator:
         component_name, updated_macros = self._update_macros(component)
 
         # Get relative path to screen
-        file = screen_mapping["file"]
+        file = Template(screen_mapping["file"]).render(component.macros)
         if file.startswith("$(IOC)"):
             screen_path = support_screen_path = file.replace(
                 "$(IOC)", f"{self.beamline_url}/{component.service_name}"

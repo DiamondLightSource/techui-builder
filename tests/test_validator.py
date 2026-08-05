@@ -1,5 +1,4 @@
-from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 from lxml.etree import Element, _ElementTree, tostring
 from lxml.objectify import fromstring
@@ -18,11 +17,11 @@ def test_validator_check_bob(validator):
     validator._check_bob(validator.bobs[0])
 
     assert len(validator.validate.keys()) > 0
-    assert list(validator.validate.keys())[0] == "motor-edited"
+    assert list(validator.validate.keys())[0] == "motor_edited"
 
 
 @patch("techui_builder.validator.read_bob")
-def test_validator_read_bob(mock_read_bob, validator):
+def test_validator_read_bob(mock_read_bob: MagicMock, validator):
     # We need to set the spec of the first Mock so it knows
     # it has a getroot() function
     mock_read_bob.return_value = (Mock(spec=_ElementTree), Mock())
@@ -31,7 +30,7 @@ def test_validator_read_bob(mock_read_bob, validator):
 
 
 # TODO: Clean up this test... (make fixture for mock xml?)
-def test_validator_validate_bob(validator, example_xml_embedded_widget):
+def test_validator_validate_bob(validator, example_xml_embedded_widget, tmp_test_files):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
     mock_root_element = Element("root")
@@ -46,10 +45,10 @@ def test_validator_validate_bob(validator, example_xml_embedded_widget):
             {"motor": (mock_element)},
         )
     )
-    validator.validate = {"motor-edited": Path("tests/test_files/motor-edited.bob")}
+    validator.validate = {"motor_edited": tmp_test_files / "motor_edited.bob"}
     test_pwidget = EmbeddedDisplay(
         "motor",
-        "tests/test-files/motor_embed.bob",
+        tmp_test_files / "motor_embed.bob",
         0,
         0,
         205,
@@ -57,4 +56,4 @@ def test_validator_validate_bob(validator, example_xml_embedded_widget):
     )
     test_pwidget.macro("macro1", "test_macro_1")
 
-    validator.validate_bob("motor-edited", "motor", [test_pwidget])
+    validator.validate_bob("motor_edited", "motor", [test_pwidget])

@@ -25,22 +25,46 @@ def find_dirs(file_path: Path, beamline: str) -> tuple:
     cwd = Path.cwd()
     logger_.debug(f"Working directory: {cwd}")
 
+    directory = beamline
+
     # Get the relative path of ixx-services to techui.yaml
     ixx_services_dir = next(
         (
             ixx_services.relative_to(cwd, walk_up=True)
             for parent in abs_path.parents
-            for ixx_services in parent.glob(f"{beamline}-services")
+            for ixx_services in parent.glob(f"{directory}-services")
         ),
         None,
     )
+
     if ixx_services_dir is None:
-        logging.critical("ixx-services not found. Is you file structure correct?")
+        if not beamline.startswith("i"):
+            # If not found, try searching for Ixx-services as some
+            # J/K beamlines are in Ixx-services dir
+            directory = f"i{beamline[1:]}"
+            logger_.info(
+                f"{beamline}-services not found."
+                f" Searching for i{beamline[1:]}-services..."
+            )
+            # Get the relative path of ixx-services to techui.yaml
+            ixx_services_dir = next(
+                (
+                    ixx_services.relative_to(cwd, walk_up=True)
+                    for parent in abs_path.parents
+                    for ixx_services in parent.glob(f"{directory}-services")
+                ),
+                None,
+            )
+
+    if ixx_services_dir is None:
+        logging.critical(
+            f"{beamline}-services not found. Is you file structure correct?"
+        )
         exit()
     logger_.debug(f"ixx-services relative path: {ixx_services_dir}")
 
     # Get the synoptic dir relative to the parent dir
-    synoptic_dir = ixx_services_dir.joinpath("synoptic")
+    synoptic_dir = abs_path.parent
     logger_.debug(f"synoptic relative path: {synoptic_dir}")
 
     return ixx_services_dir, synoptic_dir
@@ -69,7 +93,7 @@ def find_bob(bob_file: Path | None, synoptic_dir: Path):
 
 
 # This is the 'build' behaviour
-@app.command("build", help="Run techui-builder for a given techui.yaml")
+@app.command("build", help="Run `techui-builder build` for a given techui.yaml")
 def main(
     filename: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
     bobfile: Annotated[
@@ -87,22 +111,22 @@ def main(
         ),
     ] = "INFO",
 ) -> None:
-    """Default function called from cmd line tool."""
+    """Function to run when `techui-builder build` is called."""
 
     gui = Builder(techui=filename)
 
-    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.location)
+    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.domain)
 
     bob_file = find_bob(bobfile, synoptic_dir)
 
     # # Overwrite after initialised to make sure this is picked up
-    gui._services_dir = ixx_services_dir.joinpath("services")  # noqa: SLF001
+    gui._services_dir = ixx_services_dir / "services"  # noqa: SLF001
     gui._write_directory = synoptic_dir  # noqa: SLF001
 
     logger_.debug(
         f"""
 
-Builder created for {gui.conf.beamline.location}.
+Builder created for {gui.conf.beamline.domain}.
 Services directory: {gui._services_dir}
 Write directory: {gui._write_directory}
 """,  # noqa: SLF001
@@ -111,14 +135,14 @@ Write directory: {gui._write_directory}
     gui.setup()
     gui.create_screens()
 
-    logger_.info(f"Screens generated for {gui.conf.beamline.location}.")
+    logger_.info(f"Screens generated for {gui.conf.beamline.domain}.")
 
     autofiller = Autofiller(bob_file, gui.conf.components)
     autofiller.read_bob()
     autofiller.autofill_bob()
 
-    dest_bob = gui._write_directory.joinpath("index.bob")  # noqa: SLF001
+    dest_bob = gui._write_directory / "index.bob"  # noqa: SLF001
 
     autofiller.write_bob(dest_bob)
 
-    logger_.info(f"Screens autofilled for {gui.conf.beamline.location}.")
+    logger_.info(f"Screens autofilled for {gui.conf.beamline.domain}.")

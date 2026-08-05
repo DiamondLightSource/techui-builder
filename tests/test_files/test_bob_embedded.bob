@@ -21,11 +21,16 @@ $(pv_value)
 $(actions)</tooltip>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>Embedded Display</name>
+    <name>Z</name>
+    <width>220</width>
+    <height>120</height>
     <file>motor_embed.bob</file>
+    <macros>
+      <P>BL01T-MO-MOTOR-01</P>
+      <M>:EMBED</M>
+      <label>EMBED</label>
+    </macros>
     <x>150</x>
     <y>120</y>
-    <width>160</width>
-    <height>80</height>
   </widget>
 </display>

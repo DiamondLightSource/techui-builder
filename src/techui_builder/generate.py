@@ -19,6 +19,8 @@ logger_ = logging.getLogger(__name__)
 
 @dataclass
 class Generator:
+    """Helper class containing functions to generate Component screens."""
+
     synoptic_dir: Path = field(repr=False)
     beamline_url: str = field(repr=False)
 
@@ -166,8 +168,8 @@ class Generator:
         # Try to get name from child labels if they exist,
         # if not, just use the name as it is.
         if component.child_labels is not None:
-            if suffix in component.child_labels.keys():
-                component_name = component.child_labels[suffix]
+            if component_name in component.child_labels.keys():
+                component_name = component.child_labels[component_name]
                 self.label_flag = True
 
         prefix_key = next(k for k, v in component.macros.items() if v == prefix)
@@ -196,7 +198,7 @@ class Generator:
                 "Only related displays can have remote screens"
             )
         else:
-            screen_path = self.support_path.joinpath(f"bob/{file}")
+            screen_path = self.support_path / f"bob/{file}"
             logger_.debug(f"Screen path: {screen_path}")
 
             # Path of screen relative to synoptic/

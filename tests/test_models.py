@@ -3,16 +3,14 @@ import pytest
 from techui_builder.models import (
     Beamline,
     Component,
-    GuiComponentEntry,
-    GuiComponents,
 )
 
 
 @pytest.fixture
 def beamline() -> Beamline:
     return Beamline(
-        location="t01",
-        domain="bl01t",
+        location="bl01t",
+        domain="t01",
         desc="Test Beamline",
         url="t01-opis.diamond.ac.uk",
     )
@@ -28,17 +26,10 @@ def component() -> Component:
     )
 
 
-@pytest.fixture
-def gui_components() -> GuiComponentEntry:
-    return GuiComponentEntry(
-        file="digitelMpc/digitelMpcIonp.bob", prefix="$(P)", type="embedded"
-    )
-
-
 # @pytest.mark.parametrize("beamline,expected",[])
 def test_beamline_object(beamline: Beamline):
-    assert beamline.location == "t01"
-    assert beamline.domain == "bl01t"
+    assert beamline.location == "bl01t"
+    assert beamline.domain == "t01"
     assert beamline.desc == "Test Beamline"
     assert beamline.url == "https://t01-opis.diamond.ac.uk"
 
@@ -65,18 +56,3 @@ def test_component_repr(component: Component):
 def test_component_bad_prefix():
     with pytest.raises(ValueError):
         Component(prefix="Test 2", label="BAD_PREFIX")
-
-
-def test_gui_component_entry(gui_components: GuiComponentEntry):
-    assert gui_components.file == "digitelMpc/digitelMpcIonp.bob"
-    assert gui_components.prefix == "$(P)"
-    assert gui_components.type == "embedded"
-
-
-def test_gui_components_object(gui_components: GuiComponentEntry):
-    gc = GuiComponents({"digitelMpc.digitelMpcIonp": [gui_components]})
-    entry = gc.root["digitelMpc.digitelMpcIonp"][0]  # type: ignore
-    assert entry.file == "digitelMpc/digitelMpcIonp.bob"
-
-    assert entry.prefix == "$(P)"
-    assert entry.type == "embedded"

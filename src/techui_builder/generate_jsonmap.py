@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from collections import defaultdict
 from dataclasses import _MISSING_TYPE, dataclass, field
 from pathlib import Path
@@ -11,9 +12,11 @@ from lxml import etree, objectify
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder._logger import Logger
-from techui_builder.models import TechUi
+from techui_builder.models import Component, TechUi
 
 logger_ = logging.getLogger(__name__)
+
+_PVI_FILE_RE = re.compile(r"^(?:\$\(IOC\))\/([a-zA-Z]+[.a-zA-Z]+)$")
 
 
 def log_level(level: str):
@@ -40,6 +43,8 @@ app = typer.Typer(
 
 @dataclass
 class JsonMap:
+    """Dataclass to handle the structure of a JsonMap element."""
+
     file: str
     display_name: str | None
     exists: bool = True
@@ -51,18 +56,27 @@ class JsonMap:
 
 @dataclass
 class JsonMapGenerator:
+    """Helper class containing functions to generate a JsonMap file."""
+
     bob_path: Path = field(default=Path("index.bob"))
     techui: Path = field(default=Path("techui.yaml"))
+    output: Path | None = field(default=None)
+    _current_service_name: str = field(default="", init=False, repr=False)
 
     def __post_init__(self):
-        # Get the directory to that holds the bob file and techui_yaml,
-        self._write_directory: Path = self.bob_path.parent
+        # Determine the directory to write the json map file to.
+        # By default, this looks at the location of the bob file, but can
+        # be overwritten using the --output flag
+        self._write_directory: Path = (
+            self.output if self.output is not None else self.bob_path.parent
+        )
+        self._parent_path: Path = self.bob_path.parent
         # Check if techui is default value and that it doesn't exist
         if (
             self.techui == self.__class__.__dataclass_fields__["techui"].default
             and not self.techui.exists()
         ):
-            self.techui = self._write_directory.joinpath("techui.yaml")
+            self.techui = self._parent_path / "techui.yaml"
         try:
             self.techui_yaml: TechUi = TechUi.model_validate(
                 yaml.safe_load(self.techui.read_text(encoding="utf-8"))
@@ -85,7 +99,7 @@ class JsonMapGenerator:
         def _get_display_name(
             name_element: str | None, component_name: str | None, file_path: Path
         ):
-            # Validated screen names don't get renegerated
+            # Validated screen names don't get regenerated
             name = name_element
             display_name = self._get_component_label(
                 name_element,
@@ -96,7 +110,7 @@ class JsonMapGenerator:
             display_name = self._parse_display_name(display_name, file_path)
             return display_name
 
-        def _next_file_crawl(
+        def _child_file_crawl(
             file_path_text: str,
             destination_path: Path,
             name_element: str | None,
@@ -104,14 +118,27 @@ class JsonMapGenerator:
             display_name: str | None,
             macro_dictionary: dict[str, Any],
         ):
-            # TODO: misleading var name?
-            next_file_path = destination_path.joinpath(file_path_text)
+            """
+            Function to determine if the child node file exists, and if it
+            does, recursively generate a JsonMap element for it and it's children.
+
+            If it can't be found, a minimal JsonMap element is returned.
+            """
+            child_file_path = destination_path / file_path_text
+
+            match = _PVI_FILE_RE.fullmatch(file_path_text)
+            # The file path is a PVI screen, so attempt to find that screen
+            if match:
+                file_name = match.group(1)
+                child_file_path = (
+                    destination_path / f"../{self._current_service_name}/{file_name}"
+                )
 
             # Crawl the next file
-            if next_file_path.is_file():
+            if child_file_path.is_file():
                 # TODO: investigate non-recursive approaches?
                 child_node = self.generate_json_map(
-                    next_file_path,
+                    child_file_path,
                     destination_path,
                     current_component_name=component_name,
                     name_elem=name_element,
@@ -129,7 +156,11 @@ class JsonMapGenerator:
 
         # Create initial node at top of .bob file
         current_node = JsonMap(
-            str(screen_path.resolve().relative_to(self._write_directory.resolve())),
+            str(
+                screen_path.resolve().relative_to(
+                    self._parent_path.resolve(), walk_up=True
+                )
+            ),
             display_name=None,
         )
 
@@ -139,6 +170,11 @@ class JsonMapGenerator:
             and screen_path.stem in self.techui_yaml.components
         ):
             current_component_name = screen_path.stem
+            # We know from the if statement that it exists
+            _current_component = self.techui_yaml.components.get(current_component_name)
+            assert isinstance(_current_component, Component)
+            # TODO: How to find the screens if PV prefix is not the service name???
+            self._current_service_name = _current_component.prefix.lower()
 
         abs_path = screen_path.absolute()
 
@@ -208,7 +244,7 @@ class JsonMapGenerator:
                                 name_elem, current_component_name, file_path
                             )
 
-                            child_node = _next_file_crawl(
+                            child_node = _child_file_crawl(
                                 file_text,
                                 dest_path,
                                 name_elem,
@@ -243,7 +279,7 @@ class JsonMapGenerator:
                     name_elem, current_component_name, file_path
                 )
 
-                child_node = _next_file_crawl(
+                child_node = _child_file_crawl(
                     file_text,
                     dest_path,
                     name_elem,
@@ -304,7 +340,7 @@ class JsonMapGenerator:
                     if name_elem in child_labels.values():
                         display_name = name_elem
                     # In the case of screens not regenerated, such as validated screens,
-                    # the name text will not be updated to the childlabel,so we check
+                    # the name text will not be updated to the child_label,so we check
                     # keys solely for generating the json_map from the top level .bob.
                     elif name_elem in child_labels:
                         display_name = child_labels[name_elem]
@@ -371,16 +407,16 @@ class JsonMapGenerator:
         self,
     ):
         """
-        Maps the valid entries from the ioc.yaml file
-        to the required screen in *-mapping.yaml
+        Maps the valid entries from the ioc.yaml or fastcs.yaml file
+        to the required screen in *-support.yaml
         """
         if not self.bob_path.exists():
             raise FileNotFoundError(
                 f"Cannot generate json map for {self.bob_path}. Has it been generated?"
             )
 
-        map = self.generate_json_map(self.bob_path, self._write_directory)
-        with open(self._write_directory.joinpath("JsonMap.json"), "w") as f:
+        map = self.generate_json_map(self.bob_path, self._parent_path)
+        with open(self._write_directory / "JsonMap.json", "w") as f:
             f.write(
                 json.dumps(map, indent=4, default=lambda o: _serialise_json_map(o))
                 + "\n"
@@ -474,6 +510,14 @@ def generate_jsonmap(
         Path,
         typer.Argument(help="Top level bobfile to generate json mapping from."),
     ],
+    output_path: Annotated[
+        Path | None,
+        typer.Option(
+            "--output",
+            "-o",
+            help="Alternative output location for generated json map file.",
+        ),
+    ] = None,
     loglevel: Annotated[
         str,
         typer.Option(
@@ -486,7 +530,9 @@ def generate_jsonmap(
     ] = "INFO",
 ) -> None:
     """Default function called from cmd line tool."""
-    jg = JsonMapGenerator(bob_path=bob_path)
+    if output_path is not None:
+        logger_.info(f"Using user provided output location of: {output_path}")
+    jg = JsonMapGenerator(bob_path=bob_path, output=output_path)
     jg.write_json_map()
     logger_.info(
         f"Json map generated for {jg.techui_yaml.beamline.location} (from index.bob)"

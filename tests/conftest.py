@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -16,13 +17,29 @@ from techui_builder.validator import Validator
 
 
 @pytest.fixture
-def builder():
-    ixx_services = Path(__file__).parent.joinpath(Path("t01-services"))
-    techui_path = ixx_services.joinpath("synoptic/techui.yaml")
+def tmp_t01_services(tmp_path) -> Path:
+    # Copy test files to tmp_path so they are visible to the tests
+    shutil.copytree(Path(__file__).parent / "t01-services", tmp_path / "t01-services")
+
+    return tmp_path / "t01-services"
+
+
+@pytest.fixture
+def tmp_test_files(tmp_path) -> Path:
+    # Copy test files to tmp_path so they are visible to the tests
+    shutil.copytree(Path("tests/test_files/"), tmp_path / "test_files")
+
+    return tmp_path / "test_files"
+
+
+@pytest.fixture
+def builder(tmp_t01_services):
+    ixx_services = tmp_t01_services
+    techui_path = ixx_services / "synoptic/techui.yaml"
 
     b = Builder(techui_path)
-    b._services_dir = ixx_services.joinpath("services")
-    b._write_directory = ixx_services.joinpath("synoptic")
+    b._services_dir = ixx_services / "services"
+    b._write_directory = ixx_services / "synoptic"
     return b
 
 
@@ -106,8 +123,8 @@ def builder_with_setup(builder: Builder, techui_support):
 
 
 @pytest.fixture
-def builder_with_test_files(builder: Builder):
-    builder._write_directory = Path("tests/test_files/").absolute()
+def builder_with_test_files(builder: Builder, tmp_test_files):
+    builder._write_directory = tmp_test_files
 
     return builder
 
@@ -118,21 +135,26 @@ def components(builder_with_test_files: Builder):
 
 
 @pytest.fixture
-def json_map_generator():
+def json_map_generator(tmp_t01_services):
     return JsonMapGenerator(
-        Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
+        tmp_t01_services / "synoptic/index.bob",
+        tmp_t01_services / "synoptic/techui.yaml",
+        output=tmp_t01_services / "synoptic",
     )
 
 
 @pytest.fixture
-def status_gen():
-    return GenerateStatusPvs(Path("tests/t01-services/synoptic/techui.yaml").absolute())
+def status_gen(tmp_t01_services):
+    return GenerateStatusPvs(
+        tmp_t01_services / "synoptic/techui.yaml",
+        output=tmp_t01_services / "synoptic/",
+    )
 
 
 @pytest.fixture
-def test_files():
-    screen_path = Path("tests/test_files/test_bob.bob").absolute()
-    dest_path = Path("tests/test_files/").absolute()
+def test_files(tmp_test_files):
+    screen_path = tmp_test_files / "test_bob.bob"
+    dest_path = tmp_test_files
 
     return screen_path, dest_path
 
@@ -145,12 +167,11 @@ def example_json_map_root():
 
 
 @pytest.fixture
-def json_map_generator_with_test_files():
+def json_map_generator_with_test_files(tmp_t01_services, tmp_test_files):
     return JsonMapGenerator(
-        bob_path=Path("tests/test_files/test_bob.bob").absolute(),
-        techui=Path(__file__).parent.joinpath(
-            Path("t01-services/synoptic/techui.yaml")
-        ),
+        bob_path=tmp_test_files / "test_bob.bob",
+        techui=tmp_t01_services / "synoptic/techui.yaml",
+        output=tmp_test_files,
     )
 
 
@@ -216,9 +237,62 @@ def example_display_names_json():
 
 
 @pytest.fixture
-def generator(techui_support):
-    synoptic_dir = Path(__file__).parent.joinpath(Path("t01-services/synoptic"))
-    techui_support_path = synoptic_dir.joinpath("techui-support")
+def example_json_map_pvi_screens():
+    jsonmap = JsonMap(
+        file="motor1.bob",
+        display_name="motor1",
+        exists=True,
+        duplicate=False,
+        children=[
+            JsonMap(
+                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                display_name="X1",
+                exists=True,
+                duplicate=False,
+                children=[],
+                macros={
+                    "M": ":X",
+                    "P": "BL01T-MO-MOTOR-01",
+                    "label": "X1",
+                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                },
+                error="",
+            ),
+            JsonMap(
+                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                display_name="A",
+                exists=True,
+                duplicate=False,
+                children=[],
+                macros={
+                    "M": ":A",
+                    "P": "BL01T-MO-MOTOR-01",
+                    "label": "A",
+                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                },
+                error="",
+            ),
+            JsonMap(
+                file="techui-support/bob/pmac/pmacController.bob",
+                display_name="pmacController",
+                exists=True,
+                duplicate=False,
+                children=[],
+                macros={"P": "BL01T-MO-BRICK-01"},
+                error="",
+            ),
+        ],
+        macros={},
+        error="",
+    )
+
+    return jsonmap
+
+
+@pytest.fixture
+def generator(techui_support, tmp_t01_services):
+    synoptic_dir = tmp_t01_services / "synoptic"
+    techui_support_path = synoptic_dir / "techui-support"
 
     g = Generator(synoptic_dir, "test_url", techui_support_path, techui_support)
 
@@ -226,8 +300,8 @@ def generator(techui_support):
 
 
 @pytest.fixture
-def autofiller():
-    index_bob = Path(__file__).parent.joinpath(Path("t01-services/synoptic/index.bob"))
+def autofiller(tmp_t01_services):
+    index_bob = tmp_t01_services / "synoptic/index.bob"
 
     a = Autofiller(index_bob, {"test_widget": MagicMock(spec=Component)})
 
@@ -235,15 +309,15 @@ def autofiller():
 
 
 @pytest.fixture
-def validator():
-    test_bobs = [Path("tests/test_files/motor-edited.bob")]
+def validator(tmp_test_files):
+    test_bobs = [tmp_test_files / "motor_edited.bob"]
     v = Validator(test_bobs)
 
     return v
 
 
 @pytest.fixture
-def example_xml_embedded_widget():
+def example_xml_embedded_widget(tmp_test_files):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -257,7 +331,7 @@ def example_xml_embedded_widget():
     height_element = SubElement(widget_element, "height")
     height_element.text = "120"
     file_element = SubElement(widget_element, "file")
-    file_element.text = "tests/test-files/motor_embed.bob"
+    file_element.text = str(tmp_test_files / "motor_embed.bob")
     macros_element = SubElement(widget_element, "macros")
     macro_element_1 = SubElement(macros_element, "macro1")
     macro_element_1.text = "test_macro_1"
@@ -269,7 +343,33 @@ def example_xml_embedded_widget():
 
 
 @pytest.fixture
-def example_xml_related_widget():
+def example_xml_embedded_widget_pvi_child(tmp_t01_services):
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+
+    widget_element = Element("widget")
+    widget_element.set("type", "embedded")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "motor"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+    file_element = SubElement(widget_element, "file")
+    file_element.text = str(tmp_t01_services / "mock_adaravis_service/ADAravis.pvi.bob")
+    macros_element = SubElement(widget_element, "macros")
+    macro_element_1 = SubElement(macros_element, "macro1")
+    macro_element_1.text = "test_macro_1"
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element
+
+
+@pytest.fixture
+def example_xml_related_widget_pvi_child(tmp_t01_services):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -287,8 +387,40 @@ def example_xml_related_widget():
     action_element = SubElement(actions_element, "action")
     action_element.set("type", "open_display")
     file_element = SubElement(action_element, "file")
-    file_element.text = (
-        "example/t01-services/synoptic/techui-support/bob/pmac/motor.bob"
+    file_element.text = str(tmp_t01_services / "mock_adaravis_service/ADAravis.pvi.bob")
+    desc_element = SubElement(action_element, "description")
+    desc_element.text = "placeholder description"
+    macros_element = SubElement(action_element, "macros")
+    macro_element = SubElement(macros_element, "P")
+    macro_element.text = "placeholder P"
+
+    # ... which requires this horror
+    widget_element = fromstring(tostring(widget_element))
+
+    return widget_element
+
+
+@pytest.fixture
+def example_xml_related_widget(tmp_t01_services):
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+
+    widget_element = Element("widget")
+    widget_element.set("type", "action_button")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "motor"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+
+    actions_element = SubElement(widget_element, "actions")
+    action_element = SubElement(actions_element, "action")
+    action_element.set("type", "open_display")
+    file_element = SubElement(action_element, "file")
+    file_element.text = str(
+        tmp_t01_services / "synoptic/techui-support/bob/pmac/motor.bob"
     )
     desc_element = SubElement(action_element, "description")
     desc_element.text = "placeholder description"
@@ -323,7 +455,7 @@ def example_xml_symbol_widget():
 
 
 @pytest.fixture
-def example_xml_navtabs_widget():
+def example_xml_navtabs_widget(tmp_test_files):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
 
@@ -343,7 +475,7 @@ def example_xml_navtabs_widget():
     name_element_1 = SubElement(tab_element_1, "name")
     name_element_1.text = "tab1"
     file_element_1 = SubElement(tab_element_1, "file")
-    file_element_1.text = "tests/test-files/motor_embed.bob"
+    file_element_1.text = str(tmp_test_files / "motor_embed.bob")
     macros_element_1 = SubElement(tab_element_1, "macros")
     macro_element_1 = SubElement(macros_element_1, "macro1")
     macro_element_1.text = "test_macro_1"
@@ -351,7 +483,7 @@ def example_xml_navtabs_widget():
     name_element_2 = SubElement(tab_element_2, "name")
     name_element_2.text = "tab2"
     file_element_2 = SubElement(tab_element_2, "file")
-    file_element_2.text = "tests/test-files/motor_embed.bob"
+    file_element_2.text = str(tmp_test_files / "motor_embed.bob")
     macros_element_2 = SubElement(tab_element_2, "macros")
     macro_element_2 = SubElement(macros_element_2, "macro2")
     macro_element_2.text = "test_macro_2"

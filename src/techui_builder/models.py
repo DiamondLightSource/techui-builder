@@ -1,13 +1,11 @@
 import logging
 import re
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any
 
 from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
-    RootModel,
-    StringConstraints,
     computed_field,
     field_validator,
     model_validator,
@@ -21,8 +19,7 @@ logger_ = logging.getLogger(__name__)
 #   short: 'b23', 'ixx-1'
 
 
-_DLS_PREFIX_RE = re.compile(
-    r"""
+_DLS_PREFIX_PATTERN_VERBOSE = r"""
             ^           # start of string
             (?=         # lookahead to ensure the following pattern matches
                 [A-Za-z0-9-]{13,16} # match 13 to 16 alphanumeric characters or hyphens
@@ -42,48 +39,88 @@ _DLS_PREFIX_RE = re.compile(
             (?:\.([a-zA-Z0-9_]+))? # match zero or one dot followed by one or more
                                 # alphanumeric characters (capture group 3)
             $           # end of string
-        """,
-    re.VERBOSE,
+        """
+
+_DLS_PREFIX_RE = re.compile(_DLS_PREFIX_PATTERN_VERBOSE, re.VERBOSE)
+
+# JSON Schema (ECMA 262) has no concept of VERBOSE mode, so derive a
+# compact equivalent once at import time for use in json_schema_extra.
+# (i.e. This is to handle the inline comments)
+_DLS_PREFIX_PATTERN_COMPACT = re.sub(
+    r"\s+", "", re.sub(r"#.*", "", _DLS_PREFIX_PATTERN_VERBOSE)
 )
+
 # Checks for database link flags, e.g. NPP MS, at the end
 _DATABASE_FLAGS_RE = re.compile(
     r"(?:PP|NPP)?" + r"(?:[ ]+(?:MS|NMS|MSS|MSI))?$",
     re.VERBOSE,
 )
-_DOMAIN_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
-_LOCATION_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
+_LOCATION_RE = re.compile(r"^[a-zA-Z]{2}\d{2}[a-zA-Z]$")
+_DOMAIN_RE = re.compile(r"^[a-zA-Z]{1}\d{2}(-[0-9]{1})?$")
 _OPIS_URL_RE = re.compile(r"^(https:\/\/)?([a-z0-9]{3}-(?:[0-9]-)?opis(?:.[a-z0-9]*)*)")
 
 
 class Beamline(BaseModel):
     """Global Beamline values read from `beamline:` table in techui.yaml"""
 
-    location: Annotated[str, Field(description="Short BL location e.g. b23, ixx-1")]
-    domain: Annotated[str, Field(description="Full BL domain e.g. bl23b")]
+    domain: Annotated[
+        str,
+        Field(
+            description="Short BL location e.g. b23, ixx-1",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _DOMAIN_RE.pattern,
+                "type": "string",
+            },
+        ),
+    ]
+    location: Annotated[
+        str,
+        Field(
+            description="Full BL domain e.g. bl23b",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _LOCATION_RE.pattern,
+                "type": "string",
+            },
+        ),
+    ]
     desc: Annotated[str, Field(description="Description")]
-    url: Annotated[str, Field(description="URL of ixx-opis")]
+    url: Annotated[
+        str,
+        Field(
+            description="URL of ixx-opis",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _OPIS_URL_RE.pattern,
+                "type": "string",
+            },
+        ),
+    ]
     model_config = ConfigDict(extra="forbid")
-
-    @field_validator("location")
-    @classmethod
-    def normalize_location(cls, v: str) -> str:
-        v = v.strip().lower()
-
-        if _LOCATION_RE.fullmatch(v):
-            # e.g. b23 -> bl23b
-            return v
-
-        raise ValueError("Invalid beamline location.")
 
     @field_validator("domain")
     @classmethod
     def normalize_domain(cls, v: str) -> str:
         v = v.strip().lower()
+
         if _DOMAIN_RE.fullmatch(v):
-            # already long: bl23b
+            # e.g. t01
             return v
 
-        raise ValueError("Invalid beamline domain.")
+        raise ValueError("Invalid beamline domain. It needs to be in the form of t01.")
+
+    @field_validator("location")
+    @classmethod
+    def normalize_location(cls, v: str) -> str:
+        v = v.strip().lower()
+        if _LOCATION_RE.fullmatch(v):
+            # already long: bl01t
+            return v
+
+        raise ValueError(
+            "Invalid beamline location. It needs to be in the form of bl01t."
+        )
 
     @field_validator("url")
     @classmethod
@@ -105,7 +142,17 @@ class Beamline(BaseModel):
 class Component(BaseModel):
     """One UI Component from techui.yaml `components:` dictionary"""
 
-    prefix: Annotated[str, Field(description="Component PV Prefix")]
+    prefix: Annotated[
+        str,
+        Field(
+            description="Component PV Prefix",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _DLS_PREFIX_PATTERN_COMPACT,
+                "type": "string",
+            },
+        ),
+    ]
     label: Annotated[str | None, Field(description="Component label")] = None
     child_labels: Annotated[
         dict[str, str] | None, Field(description="Component Children Label")
@@ -235,34 +282,9 @@ class TechUi(BaseModel):
 techui-support mapping models
 """
 
-BobPath = Annotated[
-    str, StringConstraints(pattern=r"^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.bob$")
-]
-# Must contain at least one $(NAME) macro
-MacroString = Annotated[
-    str,
-    StringConstraints(pattern=r"^[A-Za-z0-9_:\-./\s\$\(\)]+$"),
-]
-ScreenType = Literal["embedded", "related"]
-
-
-class GuiComponentEntry(BaseModel):
-    file: BobPath
-    prefix: MacroString
-    suffix: MacroString | None = None
-    type: ScreenType
-    model_config = ConfigDict(extra="forbid")
-
-
-GuiComponentUnion = list[GuiComponentEntry] | GuiComponentEntry
-
-
-class GuiComponents(RootModel[dict[str, GuiComponentUnion]]):
-    pass
-
 
 class Entity(BaseModel):
-    """One table of IOC variables extracted from an ioc.yaml file"""
+    """One table of IOC variables extracted from an ioc.yaml or fastcs.yaml file"""
 
     service_name: Annotated[str, Field(description="Service name of the IOC")]
     type: Annotated[

@@ -184,6 +184,7 @@ class Generator:
         self, screen_mapping: Mapping, component: Entity
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         component_name, updated_macros = self._update_macros(component)
+        component.macros.update(updated_macros)
 
         # Get relative path to screen
         file = screen_mapping["file"]
@@ -211,7 +212,7 @@ class Generator:
             if screen_mapping["suffixes"] is not None:
                 suffix_dict: dict[str, str] = screen_mapping["suffixes"]
                 for suffix_key, suffix in suffix_dict.items():
-                    updated_macros[suffix_key] = suffix
+                    component.macros[suffix_key] = suffix
 
                 # If no child label was specified...
                 if self.label_flag is False:
@@ -221,7 +222,7 @@ class Generator:
                         .removeprefix(":")
                         .removesuffix(":")
                     )
-                    updated_macros["label"] = component_name
+                    component.macros["label"] = component_name
         except KeyError:
             pass
 
@@ -236,7 +237,7 @@ class Generator:
                 height,
             )
             # Add macros to the widgets
-            for macro, macro_val in updated_macros.items():
+            for macro, macro_val in component.macros.items():
                 new_widget.macro(macro, macro_val)
 
             # TODO: Change this to pvi_button
@@ -260,7 +261,7 @@ class Generator:
             # Add action to action button: to open related display
 
             new_widget.action_open_display(
-                file=str(support_screen_path), target="tab", macros=updated_macros
+                file=str(support_screen_path), target="tab", macros=component.macros
             )
 
             # For some reason the version of action buttons is 3.0.0?

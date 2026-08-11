@@ -291,8 +291,8 @@ class Generator:
     def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
         group_spacing: int = 30
         max_group_height: int = 800
-        spacing_x: int = 20
-        spacing_y: int = 30
+        spacing_x: int = 5
+        spacing_y: int = 10
         # Group tiles by size
         groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton]] = (
             defaultdict(list)

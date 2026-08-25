@@ -199,13 +199,17 @@ class Generator:
                 "Only related displays can have remote screens"
             )
         else:
-            screen_path = self.support_path / f"bob/{file}"
-            logger_.debug(f"Screen path: {screen_path}")
+            support_bob = (self.support_path / "bob").resolve()
+            configured_path = Path(file)
 
-            # Path of screen relative to synoptic/
-            support_screen_path = screen_path.relative_to(
-                self.synoptic_dir, walk_up=True
-            )
+            if configured_path.is_absolute():
+                screen_path = configured_path.resolve()
+            elif configured_path.parts[:2] == ("techui-support", "bob"):
+                screen_path = (self.synoptic_dir / configured_path).resolve()
+            else:
+                screen_path = (support_bob / configured_path).resolve()
+
+            support_screen_path = screen_path.relative_to(self.synoptic_dir.resolve())
 
         # For Gui Components with multiple components embedded, we add a suffix field
         # to the components, and adjust the name and suffix accordingly
@@ -283,6 +287,9 @@ class Generator:
 {name}. Skipping..."
             )
             return None
+        # if component is fastcs, and has the field of file, add it to the support
+        if component.file:
+            screen_mapping.append({"file": component.file, "type": "embedded"})
 
         for screen_dict in screen_mapping:
             new_widget.append(self._allocate_widget(screen_dict, component))

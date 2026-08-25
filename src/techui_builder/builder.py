@@ -158,6 +158,9 @@ class Builder:
                     entity_key = match.group()
 
                     for entity in ioc_conf[entity_key]:
+                        if entity["type"].startswith("fastcs"):
+                            entity["type"] = "fastcs*"
+
                         if entity["type"] in self.techui_support.support_modules:
                             support_mapping: SupportEntity = (
                                 self.techui_support.support_modules[entity["type"]]
@@ -216,6 +219,7 @@ class Builder:
                 # with the same prefix as the component
                 for entity in self.entities[component.prefix]:
                     entity.child_labels = component.child_labels
+                    entity.file = component.file
 
                 screen_entities.extend(self.entities[component.prefix])
 

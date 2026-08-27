@@ -4,8 +4,13 @@ import re
 from collections import defaultdict
 from collections.abc import Mapping
 from dataclasses import dataclass, field
+from io import BytesIO
 from pathlib import Path
 
+<<<<<<< HEAD
+=======
+import requests
+>>>>>>> 28634f6 (Added remote fetching of files to be able to determine their sizes)
 from jinja2 import Template
 from lxml import objectify
 from phoebusgen import screen as pscreen
@@ -42,13 +47,17 @@ class Generator:
     group_padding: int = field(default=50, init=False, repr=False)
     label_flag: bool = field(default=False, init=False, repr=False)
 
-    def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
+    def _get_screen_dimensions(self, file: Path | bytes) -> tuple[int, int]:
         """
         Parses the bob files for information on the height
         and width of the screen
         """
         # Read the bob file
-        tree = objectify.parse(file)
+        if isinstance(file, bytes):
+            tree = objectify.parse(BytesIO(file))
+        else:
+            tree = objectify.parse(str(file))
+
         root = tree.getroot()
         try:
             height_element = root.height
@@ -189,15 +198,26 @@ class Generator:
 
         # Get relative path to screen
         file = Template(screen_mapping["file"]).render(component.macros)
+<<<<<<< HEAD
+=======
+
+        # IF the file starts with IOC, and needs macro expansion
+>>>>>>> 28634f6 (Added remote fetching of files to be able to determine their sizes)
         if file.startswith("$(IOC)"):
             screen_path = support_screen_path = file.replace(
                 "$(IOC)", f"{self.beamline_url}/{component.service_name}"
-            )  # Only works with related displays as
-            # embedded displays need to access the file to get dimensions
-
-            assert screen_mapping["type"] == "related", (
-                "Only related displays can have remote screens"
             )
+            # For embedded screens, that need to be placed on screen and dimensions,
+            # it is required to fetch the screen from remote
+            if screen_mapping["type"] == "embedded" and str(
+                support_screen_path
+            ).startswith("https"):
+                try:
+                    screen_path = requests.get(str(support_screen_path)).content
+                except requests.RequestException:
+                    logger_.warning(
+                        f"Could not retrieve file from link {support_screen_path}"
+                    )
         else:
             support_bob = (self.support_path / "bob").resolve()
             configured_path = Path(file)
@@ -232,7 +252,7 @@ class Generator:
             pass
 
         if screen_mapping["type"] == "embedded":
-            height, width = self._get_screen_dimensions(str(screen_path))
+            height, width = self._get_screen_dimensions(screen_path)
             new_widget = pwidget.EmbeddedDisplay(
                 component_name,
                 str(support_screen_path),

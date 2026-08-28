@@ -158,6 +158,11 @@ class Builder:
                     entity_key = match.group()
 
                     for entity in ioc_conf[entity_key]:
+                        component_name = None
+                        if entity["type"].startswith("fastcs"):
+                            component_name = entity["type"]
+                            entity["type"] = "fastcs*"
+
                         if entity["type"] in self.techui_support.support_modules:
                             support_mapping: SupportEntity = (
                                 self.techui_support.support_modules[entity["type"]]
@@ -178,10 +183,12 @@ class Builder:
                                 desc=entity.get("desc", None),
                                 prefix=prefix,
                                 macros=macros,
+                                name=component_name,
                             )
 
                             pv_root = prefix.split(":", maxsplit=1)[0]
                             self.entities[pv_root].append(new_entity)
+
                     break
 
     def _generate_screen(self, screen_name: str):
@@ -216,6 +223,7 @@ class Builder:
                 # with the same prefix as the component
                 for entity in self.entities[component.prefix]:
                     entity.child_labels = component.child_labels
+                    entity.file = component.file
 
                 screen_entities.extend(self.entities[component.prefix])
 

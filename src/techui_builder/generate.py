@@ -7,10 +7,7 @@ from dataclasses import dataclass, field
 from io import BytesIO
 from pathlib import Path
 
-<<<<<<< HEAD
-=======
 import requests
->>>>>>> 28634f6 (Added remote fetching of files to be able to determine their sizes)
 from jinja2 import Template
 from lxml import objectify
 from phoebusgen import screen as pscreen
@@ -202,11 +199,8 @@ class Generator:
 
         # Get relative path to screen
         file = Template(screen_mapping["file"]).render(component.macros)
-<<<<<<< HEAD
-=======
 
         # IF the file starts with IOC, and needs macro expansion
->>>>>>> 28634f6 (Added remote fetching of files to be able to determine their sizes)
         if file.startswith("$(IOC)"):
             screen_path = support_screen_path = file.replace(
                 "$(IOC)", f"{self.beamline_url}/{component.service_name}"

@@ -102,9 +102,7 @@ def techui_support():
                 },
             ],
         ),
-        "fastcs.TemperatureController": SupportEntity(
-            prefix="{{ name }}", macros=["name"], screens=[{}]
-        ),
+        "fastcs*": SupportEntity(prefix="{{ id }}", macros=["id"], screens=[{}]),
     }
 
     return ts

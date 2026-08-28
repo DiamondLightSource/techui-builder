@@ -125,19 +125,20 @@ def test_gb_extract_entities_ioc_yaml(
 
 
 @pytest.mark.parametrize(
-    "index, type, desc, pv, macros",
+    "index, type, name, desc, pv, macros",
     [
         (
             0,
+            "fastcs*",
             "fastcs.TemperatureController",
             None,
             "BL01T-EA-TEMP-01",
-            {"name": "BL01T-EA-TEMP-01"},
+            {"id": "BL01T-EA-TEMP-01"},
         ),
     ],
 )
 def test_gb_extract_entities_fastcs_yaml(
-    builder, techui_support, index, type, desc, pv, macros
+    builder, techui_support, index, type, name, desc, pv, macros
 ):
     # We don't want to use builder_with_setup as that calls _extract_services()
     # and in turn that calls _extract_entities()
@@ -151,6 +152,7 @@ def test_gb_extract_entities_fastcs_yaml(
     )
     entity = builder.entities[prefix][index]
     assert entity.type == type
+    assert entity.name == name
     assert entity.desc == desc
     assert entity.prefix == pv
     assert entity.macros == macros

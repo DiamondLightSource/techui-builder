@@ -158,8 +158,9 @@ class Builder:
                     entity_key = match.group()
 
                     for entity in ioc_conf[entity_key]:
+                        component_name = None
                         if entity["type"].startswith("fastcs"):
-                            entity["name"] = entity["type"]
+                            component_name = entity["type"]
                             entity["type"] = "fastcs*"
 
                         if entity["type"] in self.techui_support.support_modules:
@@ -182,6 +183,7 @@ class Builder:
                                 desc=entity.get("desc", None),
                                 prefix=prefix,
                                 macros=macros,
+                                name=component_name,
                             )
 
                             pv_root = prefix.split(":", maxsplit=1)[0]

@@ -310,6 +310,10 @@ class Entity(BaseModel):
         str | None,
         Field(description="File path for custom screen"),
     ] = None
+    name: Annotated[
+        str | None,
+        Field(description="placeholder name for fastcs screens"),
+    ] = None
 
 
 class SupportEntity(BaseModel):

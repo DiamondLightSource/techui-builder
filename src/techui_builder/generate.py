@@ -171,7 +171,11 @@ class Generator:
             suffix_key = next(k for k, v in component.macros.items() if v == suffix)
         except (IndexError, ValueError):
             prefix = component.prefix
-            component_name = component.type
+            component_name = (
+                component.name
+                if component.type == "fastcs*" and component.name is not None
+                else component.type
+            )
             suffix_key = suffix = ""
 
         # Try to get name from child labels if they exist,

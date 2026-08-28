@@ -169,9 +169,12 @@ class Generator:
             )
         except (IndexError, ValueError):
             prefix = component.prefix
-            component_name = component.type
-            suffix_key = None
-            suffix = ""
+            component_name = (
+                component.name
+                if component.type == "fastcs*" and component.name is not None
+                else component.type
+            )
+            suffix_key = suffix = ""
 
         # Try to get name from child labels if they exist,
         # if not, just use the name as it is.

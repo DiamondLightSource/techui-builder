@@ -159,6 +159,7 @@ class Builder:
 
                     for entity in ioc_conf[entity_key]:
                         if entity["type"].startswith("fastcs"):
+                            entity["name"] = entity["type"]
                             entity["type"] = "fastcs*"
 
                         if entity["type"] in self.techui_support.support_modules:
@@ -185,6 +186,7 @@ class Builder:
 
                             pv_root = prefix.split(":", maxsplit=1)[0]
                             self.entities[pv_root].append(new_entity)
+
                     break
 
     def _generate_screen(self, screen_name: str):

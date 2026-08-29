@@ -292,8 +292,8 @@ class Generator:
     def layout_widgets(self, widgets: list[EmbeddedDisplay | ActionButton]):
         group_spacing: int = 30
         max_group_height: int = 800
-        spacing_x: int = 20
-        spacing_y: int = 30
+        spacing_x: int = 5
+        spacing_y: int = 5
         # Group tiles by size
         groups: dict[tuple[int, int], list[EmbeddedDisplay | ActionButton]] = (
             defaultdict(list)
@@ -304,19 +304,18 @@ class Generator:
             groups[key].append(widget)
 
         # Sort groups by width (optional)
-        sorted_widgets: list[EmbeddedDisplay | ActionButton] = []
-        sorted_groups = sorted(groups.items(), key=lambda g: g[0][0], reverse=True)
+        layedout_widgets: list[EmbeddedDisplay | ActionButton] = []
         current_x: int = 0
         current_y: int = 0
         column_width: int = 0
         column_levels: list[list[EmbeddedDisplay | ActionButton]] = []
 
-        for (h, w), group in sorted_groups:
+        for (h, w), group in groups.items():
             for widget in group:
                 placed = False
                 for level in column_levels:
                     level_y, _ = self._get_widget_position(level[0])
-                    _, widget_width = self._get_widget_dimensions(widget)
+                    level_height = max(self._get_widget_dimensions(t)[0] for t in level)
                     level_width = (
                         sum(
                             (self._get_widget_dimensions(t))[1] + spacing_x
@@ -324,6 +323,12 @@ class Generator:
                         )
                         - spacing_x
                     )  # Find the width of the row
+
+                    _, widget_width = self._get_widget_dimensions(widget)
+
+                    if level_height > h or level_height < h:
+                        continue
+
                     if (
                         level_y + h <= max_group_height
                         and level_width + widget_width <= column_width
@@ -349,9 +354,9 @@ class Generator:
                     column_levels.append([widget])
                     current_y += h + spacing_y
                     column_width = max(column_width, w)
-                sorted_widgets.append(widget)
+                layedout_widgets.append(widget)
 
-        return sorted_widgets
+        return layedout_widgets
 
     def build_widgets(self, screen_name: str, screen_entities: list[Entity]):
         # Empty widget buffer

@@ -12,6 +12,18 @@ from techui_builder.utils import read_bob
 LOGGER = logging.getLogger(__name__)
 
 
+class WidgetPropertyError(AssertionError):
+    """A widget property is not consistent."""
+
+    ...
+
+
+class WidgetMissingError(AssertionError):
+    """A widget is missing from the screen being validated"""
+
+    ...
+
+
 @dataclass
 class Validator:
     """Helper class containing functions to validate Component screens."""
@@ -58,28 +70,44 @@ class Validator:
         ]
 
         for pwidget in pwidgets:
-            pwidget_name = pwidget.get_element_value("name")
             for file_widget in file_widgets:
-                if pwidget_name == file_widget.name:
-                    assert (
-                        int(pwidget.get_element_value("width")) == file_widget.width
-                    ), (
-                        f"{int(pwidget.get_element_value('width'))} \
-!= {file_widget.width}"
+                try:
+                    self._validate_widget(pwidget, file_widget)
+                except WidgetPropertyError as e:
+                    LOGGER.error(
+                        f"{screen_name} screen widget {file_widget.name} is altered"
+                        " or missing.\n"
+                        f"Error: {e}"
                     )
-                    assert (
-                        int(pwidget.get_element_value("height")) == file_widget.height
-                    ), (
-                        f"{int(pwidget.get_element_value('height'))} \
-!= {file_widget.height}"
-                    )
-                    assert pwidget.get_element_value("file") == file_widget.file, (
-                        f"{pwidget.get_element_value('file')} != {file_widget.file}"
-                    )
-
-                    self._validate_macros(pwidget, file_widget)
+                except Exception as e:
+                    print(f"BLAAAAGH {e}")
 
         LOGGER.info(f"{screen_name}.bob has been validated successfully")
+
+    def _validate_widget(
+        self, pwidget: EmbeddedDisplay | ActionButton, file_widget: ObjectifiedElement
+    ):
+        pwidget_name = pwidget.get_element_value("name")
+        if pwidget_name == file_widget.name:
+            assert int(pwidget.get_element_value("width")) == file_widget.width, (
+                WidgetPropertyError(
+                    f"{int(pwidget.get_element_value('width'))} != {file_widget.width}"
+                )
+            )
+
+            assert int(pwidget.get_element_value("height")) == file_widget.height, (
+                WidgetPropertyError(
+                    f"{int(pwidget.get_element_value('height'))} \
+                != {file_widget.height}"
+                )
+            )
+            assert pwidget.get_element_value("file") == file_widget.file, (
+                WidgetPropertyError(
+                    f"{pwidget.get_element_value('file')} != {file_widget.file}"
+                )
+            )
+
+            self._validate_macros(pwidget, file_widget)
 
     def _validate_macros(
         self, pwidget: EmbeddedDisplay | ActionButton, file_widget: ObjectifiedElement

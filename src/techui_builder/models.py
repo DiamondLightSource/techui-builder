@@ -306,6 +306,14 @@ class Entity(BaseModel):
         dict[str, Any],
         Field(description="Macros for the matching screen (can be empty)"),
     ]
+    file: Annotated[
+        str | None,
+        Field(description="File path for custom screen"),
+    ] = None
+    name: Annotated[
+        str | None,
+        Field(description="placeholder name for fastcs screens"),
+    ] = None
 
 
 class SupportEntity(BaseModel):

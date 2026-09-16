@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from lxml import objectify
 from lxml.objectify import ObjectifiedElement
@@ -35,6 +36,33 @@ def get_widgets(root: ObjectifiedElement):
                     # Get all the widgets inside of the group objects
                     groups_widgets = get_widgets(child)
                     widgets.update(groups_widgets)
+                case "navtabs":
+                    # There is a switch to toggle between screens
+                    # e.g. for different hutches on the main index.bob
+                    # so we need to extract those files and the widgets
+                    # on them.
+                    tabs = _get_nav_tabs(child)
+
+                    if tabs is None:
+                        continue
+
+                    for tab in tabs:
+                        # name_elem = tab.name.text
+                        file_elem = tab.file
+                        # macro_dict = _get_macros(tab)
+
+                        # Extract file path from file_elem
+                        # Keep raw string to preserve urls
+                        file_text = file_elem.text.strip() if file_elem.text else ""
+                        file_path = Path(file_text)
+
+                        # If file is already a .bob file, skip it
+                        if not file_path.suffix == ".bob":
+                            continue
+
+                        _, sub_widgets = read_bob(file_path)
+                        widgets.update(sub_widgets)
+
     return widgets
 
 

@@ -8,9 +8,8 @@ from lxml import objectify
 from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
 
-from techui_builder.generate_jsonmap import _get_action_group
 from techui_builder.models import Component
-from techui_builder.utils import read_bob
+from techui_builder.utils import _get_action_group, read_bob
 
 logger_ = logging.getLogger(__name__)
 

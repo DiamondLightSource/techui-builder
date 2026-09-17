@@ -10,7 +10,8 @@ from phoebusgen import widget as pwidget
 from techui_builder.autofill import Autofiller
 from techui_builder.builder import Builder
 from techui_builder.generate import Generator
-from techui_builder.generate_jsonmap import JsonMap, JsonMapGenerator
+from techui_builder.generate_jsonmap import JsonMapGenerator
+from techui_builder.jsonmap.nodes import ScreenNode
 from techui_builder.models import Component, SupportEntity
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
@@ -161,7 +162,7 @@ def test_files(tmp_test_files):
 
 @pytest.fixture
 def example_json_map_root():
-    test_map_base = JsonMap("test_bob.bob", "Display")
+    test_map_base = ScreenNode("test_bob.bob", "Display")
 
     return test_map_base
 
@@ -178,7 +179,7 @@ def json_map_generator_with_test_files(tmp_t01_services, tmp_test_files):
 @pytest.fixture
 def example_json_map(example_json_map_root):
     # Create test json map with child json map
-    test_map_child = JsonMap("test_child_bob.bob", "Detector", exists=False)
+    test_map_child = ScreenNode("test_child_bob.bob", "Detector", exists=False)
 
     example_json_map_root.children.append(test_map_child)
 
@@ -188,43 +189,43 @@ def example_json_map(example_json_map_root):
 @pytest.fixture
 def example_display_names_json():
     # Create test json map with correct display names
-    test_map_det1 = JsonMap(
+    test_map_det1 = ScreenNode(
         "test_child_bob.bob",
         "Detector (PV-DET-01)",
         macros={"P": "PV-DET-01"},
         exists=False,
     )
-    test_map_det2 = JsonMap(
+    test_map_det2 = ScreenNode(
         "test_child_bob.bob",
         "Detector (PV-DET-02)",
         macros={"P": "PV-DET-02"},
         exists=False,
     )
-    test_map_det3 = JsonMap(
+    test_map_det3 = ScreenNode(
         "test_child_bob.bob",
         "Detector (PV-DET-03)",
         macros={"P": "PV-DET-03"},
         exists=False,
     )
-    test_map_det4 = JsonMap(
+    test_map_det4 = ScreenNode(
         "test_child_bob.bob",
         "Detector (NO PV NAME 1)",
         macros={"R": "NON-P-MACRO"},
         exists=False,
     )
-    test_map_dev1 = JsonMap(
+    test_map_dev1 = ScreenNode(
         "test_child_bob.bob",
         "Device (PV-DEV-01)",
         macros={"P": "PV-DEV-01"},
         exists=False,
     )
-    test_map_dev2 = JsonMap(
+    test_map_dev2 = ScreenNode(
         "test_child_bob.bob",
         "Device (PV-DEV-02)",
         macros={"P": "PV-DEV-02"},
         exists=False,
     )
-    test_map = JsonMap("test_bob.bob", "Beamline")
+    test_map = ScreenNode("test_bob.bob", "Beamline")
 
     test_map_dev1.children.append(test_map_det1)
     test_map_dev1.children.append(test_map_det2)
@@ -238,13 +239,13 @@ def example_display_names_json():
 
 @pytest.fixture
 def example_json_map_pvi_screens():
-    jsonmap = JsonMap(
+    jsonmap = ScreenNode(
         file="motor1.bob",
         display_name="motor1",
         exists=True,
         duplicate=False,
         children=[
-            JsonMap(
+            ScreenNode(
                 file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="X1",
                 exists=True,
@@ -258,7 +259,7 @@ def example_json_map_pvi_screens():
                 },
                 error="",
             ),
-            JsonMap(
+            ScreenNode(
                 file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="A",
                 exists=True,
@@ -272,7 +273,7 @@ def example_json_map_pvi_screens():
                 },
                 error="",
             ),
-            JsonMap(
+            ScreenNode(
                 file="techui-support/bob/pmac/pmacController.bob",
                 display_name="pmacController",
                 exists=True,

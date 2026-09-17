@@ -34,9 +34,10 @@ class Builder:
 
     techui: Path = field(default=Path("techui.yaml"))
 
-    entities: defaultdict[str, list[Entity]] = field(
-        default_factory=lambda: defaultdict(list), init=False
-    )
+    # entity_registry: defaultdict[str, list[Entity]] = field(
+    #     default_factory=lambda: defaultdict(list), init=False
+    # )
+    entity_registry: defaultdict[str, Entity] = field(init=False, repr=False)
     _services_dir: Path = field(init=False, repr=False)
     _write_directory: Path = field(init=False, repr=False)
 
@@ -101,6 +102,18 @@ class Builder:
         for file_ in generated_files:
             logger_.debug(f"Removing generated file: {file_.name}")
             os.remove(file_)
+
+    def _add_to_registry(self, entity: Entity):
+        pass
+
+    def _search_entity_registry(self, component_prefix: str):
+        entity_matches = [
+            entity_id
+            for entity_id, entity in self.entity_registry.items()
+            if entity.prefix == component_prefix
+        ]
+
+        return entity_matches
 
     def _extract_services(self):
         """
@@ -180,8 +193,7 @@ class Builder:
                                 macros=macros,
                             )
 
-                            pv_root = prefix.split(":", maxsplit=1)[0]
-                            self.entities[pv_root].append(new_entity)
+                            self.entity_registry[prefix] = new_entity
                     break
 
     def _generate_screen(self, screen_name: str):
@@ -198,7 +210,7 @@ class Builder:
 
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
-        if len(self.entities) == 0:
+        if len(self.entity_registry) == 0:
             logger_.critical(
                 "No ioc entities found. This [italic]normally[/italic]"
                 " suggests an issue with finding ixx-services."
@@ -210,25 +222,28 @@ class Builder:
         for component_name, component in self.conf.components.items():
             screen_entities: list[Entity] = []
 
-            # ONLY IF there is a matching component and entity, generate a screen
-            if component.prefix in self.entities.keys():
+            matched_entities = self._search_entity_registry(component.prefix)
+
+            # ONLY IF there is at least one matching component and entity,
+            # generate a screen
+            if matched_entities:
                 # Populate child labels for any entities
                 # with the same prefix as the component
-                for entity in self.entities[component.prefix]:
+                for entity in self.entity_registry[component]:
                     entity.child_labels = component.child_labels
 
-                screen_entities.extend(self.entities[component.prefix])
+                screen_entities.extend(self.entity_registry[component.prefix])
 
                 if component.extras is not None:
                     # If component has any extras, add them to the entries to generate
                     for extra_p in component.extras:
-                        if extra_p not in self.entities.keys():
+                        if extra_p not in self.entity_registry.keys():
                             logger_.error(
                                 f"Extra prefix {extra_p} for {component_name} does not"
                                 " exist."
                             )
                             continue
-                        screen_entities.extend(self.entities[extra_p])
+                        screen_entities.extend(self.entity_registry[extra_p])
 
                 # This is used by both generate and validate,
                 # so called beforehand for tidiness

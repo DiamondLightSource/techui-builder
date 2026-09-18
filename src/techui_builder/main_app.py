@@ -1,4 +1,5 @@
 import logging
+import re
 from pathlib import Path
 from typing import Annotated
 
@@ -10,7 +11,7 @@ from techui_builder.builder import Builder
 
 logger_ = logging.getLogger(__name__)
 
-default_bobfile = "index.bob"
+_DEFAULT_BOBFILE_RE = re.compile(r"index(?:-(?:\w)*)*\.bob")
 
 
 app = typer.Typer(context_settings={"allow_interspersed_args": True})
@@ -70,26 +71,46 @@ def find_dirs(file_path: Path, beamline: str) -> tuple:
     return ixx_services_dir, synoptic_dir
 
 
-def find_bob(bob_file: Path | None, synoptic_dir: Path):
+def find_index_bobs(
+    bob_file: Path | None, synoptic_dir: Path
+) -> tuple[Path, list[Path]]:
     if bob_file is None:
         # Search default relative dir to techui filename
-        # There will only ever be one file, but if not return None
-        bob_file = next(
-            synoptic_dir.glob(default_bobfile),
-            None,
-        )
-        if bob_file is None:
+        # There should be at least one file, but if not return None
+        bob_files = [
+            p for p in synoptic_dir.iterdir() if _DEFAULT_BOBFILE_RE.match(p.name)
+        ]
+        if not bob_files:
             logging.critical(
-                f"Source bob file '{default_bobfile}' not found in \
-{synoptic_dir}. Does it exist?"
+                f"Source bob file not found in {synoptic_dir}. Does it exist?"
             )
             exit()
-    elif not bob_file.exists():
-        logging.critical(f"Source bob file '{bob_file}' not found. Does it exist?")
+    elif bob_file.exists():
+        # Search for bob files with similar names
+        _SIMILAR_BOBFILE_RE = re.compile(  # noqa: N806
+            rf"{bob_file.name.removesuffix('.bob')}(?:-(?:\w)*)*\.bob"
+        )
+        bob_files = [
+            p for p in synoptic_dir.iterdir() if _SIMILAR_BOBFILE_RE.match(p.name)
+        ]
+        if not bob_files:
+            logging.critical(
+                f"Source bob file not found in {synoptic_dir}. Does it exist?"
+            )
+            exit()
+    else:
+        logging.critical("There was an issue finding source bob files. Do they exist?")
         exit()
 
-    logger_.debug(f"bob file: {bob_file}")
-    return bob_file
+    index_bob = (
+        bob_file
+        if bob_file
+        else next(
+            (f for f in bob_files if f.name == "index.bob"),
+            bob_files[0],
+        )
+    )
+    return index_bob, bob_files
 
 
 # This is the 'build' behaviour
@@ -98,7 +119,10 @@ def main(
     filename: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
     bobfile: Annotated[
         Path | None,
-        typer.Argument(help="Override for template bob file location."),
+        typer.Argument(
+            help="Override for template bob file location. This will be used to find"
+            " and other template bob files in the same location with similar names."
+        ),
     ] = None,
     loglevel: Annotated[
         str,
@@ -117,7 +141,7 @@ def main(
 
     ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.domain)
 
-    bob_file = find_bob(bobfile, synoptic_dir)
+    index_bob_path, bob_files = find_index_bobs(bobfile, synoptic_dir)
 
     # # Overwrite after initialised to make sure this is picked up
     gui._services_dir = ixx_services_dir / "services"  # noqa: SLF001
@@ -137,12 +161,9 @@ Write directory: {gui._write_directory}
 
     logger_.info(f"Screens generated for {gui.conf.beamline.domain}.")
 
-    autofiller = Autofiller(bob_file, gui.conf.components)
-    autofiller.read_bob()
-    autofiller.autofill_bob()
-
-    dest_bob = gui._write_directory / "index.bob"  # noqa: SLF001
-
-    autofiller.write_bob(dest_bob)
+    autofiller = Autofiller(bob_files, index_bob_path, gui.conf.components)
+    autofiller.read_bobs()
+    autofiller.autofill_bobs()
+    autofiller.write_bobs()
 
     logger_.info(f"Screens autofilled for {gui.conf.beamline.domain}.")

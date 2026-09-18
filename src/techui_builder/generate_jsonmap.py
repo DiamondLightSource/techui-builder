@@ -13,6 +13,7 @@ from lxml.objectify import ObjectifiedElement
 
 from techui_builder._logger import Logger
 from techui_builder.models import Component, TechUi
+from techui_builder.utils import _get_action_group, _get_macros, _get_nav_tabs
 
 logger_ = logging.getLogger(__name__)
 
@@ -214,12 +215,12 @@ class JsonMapGenerator:
                         # Use file, name, and macro elements
                         file_elem = open_display.file
                         name_elem = widget_elem.name.text
-                        macro_dict = self._get_macros(open_display)
+                        macro_dict = _get_macros(open_display)
 
                     case "embedded":
                         file_elem = widget_elem.file
                         name_elem = widget_elem.name.text
-                        macro_dict = self._get_macros(widget_elem)
+                        macro_dict = _get_macros(widget_elem)
 
                     case "navtabs":
                         tabs = _get_nav_tabs(widget_elem)
@@ -229,7 +230,7 @@ class JsonMapGenerator:
                         for tab in tabs:
                             name_elem = tab.name.text
                             file_elem = tab.file
-                            macro_dict = self._get_macros(tab)
+                            macro_dict = _get_macros(tab)
 
                             # Extract file path from file_elem
                             # Keep raw string to preserve urls
@@ -346,17 +347,6 @@ class JsonMapGenerator:
                         display_name = child_labels[name_elem]
         return display_name
 
-    def _get_macros(self, element: ObjectifiedElement):
-        if hasattr(element, "macros"):
-            macros = element.macros.getchildren()
-            if macros is not None:
-                return {
-                    str(macro.tag): macro.text
-                    for macro in macros
-                    if macro.text is not None
-                }
-        return {}
-
     def _parse_display_name(self, name: str | None, file_path: Path) -> str | None:
         """Parse display name from <name> tag or file_path"""
 
@@ -457,51 +447,6 @@ def _serialise_json_map(map: JsonMap) -> dict[str, Any]:
         d["displayName"] = d.pop("display_name")
 
     return d
-
-
-# File and desc are under the "actions",
-# so the corresponding tag needs to be found
-def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
-    try:
-        actions = element.actions
-        assert actions is not None
-        for action in actions.iterchildren("action"):
-            if action.get("type", default=None) == "open_display":
-                return action
-        return None
-    except AttributeError:
-        # TODO: Find better way of handling there being no "actions" group
-        # TODO: Do widgets always have a name attr, or _can_ it be empty??
-        name = element.name
-
-        parent_name = p.name if (p := element.getparent()) is not None else None
-
-        logger_.error(
-            f"Actions group not found in component [bold]{name}[/bold] on "
-            f"[bold]{parent_name}[/bold]"
-        )
-
-
-def _get_nav_tabs(element: ObjectifiedElement) -> list[ObjectifiedElement] | None:
-    try:
-        element_tabs = element.tabs
-        assert element_tabs is not None
-
-        tabs = list(element_tabs.iterchildren("tab"))
-
-        return tabs
-
-    except AttributeError:
-        # TODO: Find better way of handling there being no "tabs" group
-        # TODO: Do widgets always have a name attr, or _can_ it be empty??
-        name = element.name
-
-        parent_name = p.name if (p := element.getparent()) is not None else None
-
-        logger_.error(
-            f"Tabs group not found in component [bold]{name}[/bold] on "
-            f"[bold]{parent_name}[/bold]"
-        )
 
 
 @app.callback(invoke_without_command=True)

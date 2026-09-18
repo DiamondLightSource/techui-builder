@@ -1,5 +1,4 @@
 import logging
-from pathlib import Path
 
 from lxml import objectify
 from lxml.objectify import ObjectifiedElement
@@ -28,7 +27,7 @@ def get_widgets(root: ObjectifiedElement):
         # If widget is a symbol (i.e. a component)
         if child.tag == "widget":
             match child.get("type", default=None):
-                case "action_button" | "symbol":
+                case "action_button" | "symbol" | "navtabs":
                     name = child.name.text
                     assert name is not None
                     widgets[name] = child
@@ -36,44 +35,6 @@ def get_widgets(root: ObjectifiedElement):
                     # Get all the widgets inside of the group objects
                     groups_widgets = get_widgets(child)
                     widgets.update(groups_widgets)
-                case "navtabs":
-                    # There is a switch to toggle between screens
-                    # e.g. for different hutches on the main index.bob
-                    # so we need to extract those files and the widgets
-                    # on them.
-                    tabs = _get_nav_tabs(child)
-
-                    if tabs is None:
-                        continue
-
-                    for tab in tabs:
-                        # name_elem = tab.name.text
-                        file_elem = tab.file
-                        # macro_dict = _get_macros(tab)
-
-                        # Extract file path from file_elem
-                        # Keep raw string to preserve urls
-                        file_text = file_elem.text.strip() if file_elem.text else ""
-                        file_path = Path(file_text)
-
-                        # If file is already a .bob file, skip it
-                        if not file_path.suffix == ".bob":
-                            continue
-
-                        assert root.base, (
-                            f"The file path for the screen is invalid: {root.base}"
-                        )
-                        root_file_dir = Path(root.base).parent
-
-                        # try to find the navtab screen next to the parent screen
-                        sub_screen_path = root_file_dir / file_path
-                        assert sub_screen_path.exists(), (
-                            f"The navtab screen '{file_path}' does not exist next to"
-                            f" name {Path(root.base).name}"
-                        )
-
-                        _, sub_widgets = read_bob(sub_screen_path)
-                        widgets.update(sub_widgets)
 
     return widgets
 

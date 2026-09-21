@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
@@ -10,35 +11,70 @@ from techui_builder.models import Component
 
 # Imported in to autofill from utils, so that needs to be patched
 @patch("techui_builder.autofill.read_bob")
-def test_autofiller_read_bob(mock_read_bob: MagicMock, autofiller):
+def test_autofiller_read_bobs(mock_read_bob: MagicMock, autofiller):
     mock_read_bob.return_value = (Mock(spec=ElementTree), Mock())
 
-    autofiller.read_bob()
+    autofiller.read_bobs()
 
     mock_read_bob.assert_called()
 
 
-def test_autofiller_autofill_bob(autofiller):
+def test_autofiller_autofill_bobs(autofiller):
+    autofiller._autofill_from_path = Mock()
+
+    autofiller.autofill_bobs()
+
+    autofiller._autofill_from_path.assert_called_once()
+
+
+def test_autofiller_autofill_from_path_no_navtabs(autofiller):
     autofiller.replace_content = Mock()
 
+    mock_path = MagicMock(spec=Path)
     mock_widget = Element("widget")
+    mock_widget.type = "symbol"
+    widgets = {"test_widget": mock_widget}
+    mock_index_trees = {mock_path: (MagicMock(), widgets)}
 
-    autofiller.widgets = {"test_widget": mock_widget}
+    autofiller.index_trees = mock_index_trees
 
-    autofiller.autofill_bob()
+    autofiller._autofill_from_path(mock_path)
 
     autofiller.replace_content.assert_called()
     assert mock_widget.find("run_actions_on_mouse_click") == "true"
 
 
+def test_autofiller_autofill_from_path_with_navtabs(
+    autofiller, example_xml_navtabs_widget, caplog
+):
+    autofiller.replace_content = Mock()
+
+    mock_path = MagicMock(spec=Path)
+    mock_widget = example_xml_navtabs_widget
+    widgets = {"test_widget": mock_widget}
+    mock_index_trees = {mock_path: (MagicMock(), widgets)}
+
+    autofiller.index_trees = mock_index_trees
+
+    with caplog.at_level(logging.DEBUG):
+        autofiller._autofill_from_path(mock_path)
+
+    assert any(
+        log_output.message.startswith("Navtabs widget found on")
+        for log_output in caplog.records
+    )
+
+    # The example navtab widget doesn't have any widgets in self.gui_components,
+    # so replace_content() doesn't get called
+    autofiller.replace_content.assert_not_called()
+
+
 @patch("techui_builder.autofill.objectify.deannotate")
-@patch("lxml.etree.ElementTree")
+@patch("techui_builder.autofill.ElementTree")
 def test_autofiller_write_bob(
     mock_tree: MagicMock, mock_deannotate: MagicMock, autofiller, tmp_test_files
 ):
-    autofiller.tree = mock_tree
-
-    autofiller.write_bob(tmp_test_files / "test_autofilled_bob.bob")
+    autofiller._write_bob(tmp_test_files / "test_autofilled_bob.bob", mock_tree)
 
     mock_deannotate.assert_called_once()
     mock_tree.write.assert_called_once_with(
@@ -47,6 +83,15 @@ def test_autofiller_write_bob(
         encoding="utf-8",
         xml_declaration=True,
     )
+
+
+def test_autofiller_write_bobs(autofiller):
+    autofiller._write_bob = Mock()
+    autofiller.index_trees = {MagicMock(spec=Path): (MagicMock(), MagicMock())}
+
+    autofiller.write_bobs()
+
+    autofiller._write_bob.assert_called_once()
 
 
 @pytest.mark.parametrize(

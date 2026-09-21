@@ -11,6 +11,7 @@ import yaml
 
 from techui_builder._logger import Logger
 from techui_builder.jsonmap.crawl import CrawlContext, crawl
+from techui_builder.jsonmap.fetch import ScreenFetcher
 from techui_builder.jsonmap.nodes import ScreenNode, serialise_node
 from techui_builder.models import TechUi
 
@@ -46,6 +47,7 @@ class JsonMapGenerator:
     bob_path: Path = field(default=Path("index.bob"))
     techui: Path = field(default=Path("techui.yaml"))
     output: Path | None = field(default=None)
+    fetcher: ScreenFetcher = field(default_factory=ScreenFetcher)
 
     def __post_init__(self):
         # Determine the directory to write the json map file to.
@@ -72,7 +74,6 @@ class JsonMapGenerator:
     def generate_json_map(
         self,
         screen_path: Path,
-        dest_path: Path,
         current_component_name: str | None = None,
         name_elem: str | None = None,
     ) -> ScreenNode:
@@ -80,9 +81,9 @@ class JsonMapGenerator:
         ctx = CrawlContext(
             components=self.techui_yaml.components,
             synoptic_dir=self._parent_path,
-            link_base_dir=dest_path,
+            fetcher=self.fetcher,
             component_name=current_component_name,
-            service_name="",
+            screen=screen_path,
         )
         return crawl(screen_path, ctx, link_name=name_elem)
 
@@ -95,7 +96,7 @@ class JsonMapGenerator:
                 f"Cannot generate json map for {self.bob_path}. Has it been generated?"
             )
 
-        json_map = self.generate_json_map(self.bob_path, self._parent_path)
+        json_map = self.generate_json_map(self.bob_path)
         with open(self._write_directory / "JsonMap.json", "w") as f:
             f.write(
                 json.dumps(json_map, indent=4, default=lambda o: serialise_node(o))

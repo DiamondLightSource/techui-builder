@@ -1,16 +1,20 @@
 """Links from a .bob screen to other screens."""
 
+import logging
 import re
 from collections.abc import Iterator, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from urllib.parse import urljoin, urlsplit
 
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.utils import _get_action_group, _get_macros, _get_nav_tabs
 
-PVI_FILE_RE = re.compile(r"^(?:\$\(IOC\))\/([a-zA-Z]+[.a-zA-Z]+)$")
+logger_ = logging.getLogger(__name__)
+
+MACRO_RE = re.compile(r"\$(?:\((\w+)\)|\{(\w+)\})")
 
 
 class WidgetType(StrEnum):
@@ -39,8 +43,8 @@ def extract_file_text(file_elem: ObjectifiedElement) -> str:
 
 
 def is_bob(file: str) -> bool:
-    """Whether the file is a .bob screen."""
-    return Path(file).suffix == ".bob"
+    """Whether the link is to a .bob screen"""
+    return urlsplit(file).path.endswith(".bob")  # ignores url queries
 
 
 def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
@@ -87,6 +91,7 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
                     file = extract_file_text(file_elem)
                     # Skip links that are not .bob screens
                     if not is_bob(file):
+                        logger_.debug(f"Skipping link to {file}: not a .bob screen")
                         continue
 
                     yield WidgetLink(file, name, widget_type, macros)
@@ -96,29 +101,34 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
         file = extract_file_text(file_elem)
         # Skip links that are not .bob screens
         if not is_bob(file):
+            logger_.debug(f"Skipping link to {file}: not a .bob screen")
             continue
 
         yield WidgetLink(file, name, widget_type, macros)
 
 
-def resolve_link_path(file: str, base_dir: Path, service_name: str) -> Path:
-    """Resolve a link's file to a local path."""
-
-    match = PVI_FILE_RE.fullmatch(file)
-    # The file path is a PVI screen, so attempt to find that screen
-    if match:
-        file_name = match.group(1)
-        return base_dir / f"../{service_name}/{file_name}"
-
-    return base_dir / file
+def is_url(file: str) -> bool:
+    """Whether the file is an http(s) URL."""
+    return file.startswith(("http://", "https://"))
 
 
-def find_local_screen(file: str, base_dir: Path, service_name: str) -> Path | None:
-    """Resolve a link's file, returning the path if it can be crawled locally."""
-    path = resolve_link_path(file, base_dir, service_name)
-    return path if path.is_file() else None
+def substitute_macros(text: str, macros: Mapping[str, str]) -> str:
+    """Replace $(NAME) and ${NAME} with macro values, leaving unknown macros as-is."""
+    return MACRO_RE.sub(
+        lambda m: macros.get(m.group(1) or m.group(2), m.group(0)), text
+    )
 
 
-def assumed_exists(file: str, macros: Mapping[str, str]) -> bool:
-    """Whether a link's file that could not be found locally is assumed to exist."""
-    return "IOC" in macros or ("https:/" in file)
+def resolve_link(
+    file: str, macros: Mapping[str, str], screen: Path | str
+) -> Path | str:
+    """Resolve a link's file to a URL or local path, relative to the linking screen."""
+    file = substitute_macros(file, macros)
+    if is_url(file):
+        return file
+
+    # Phoebus resolves relative files against the display containing the link
+    if isinstance(screen, str):
+        return urljoin(screen, file)
+
+    return screen.parent / file

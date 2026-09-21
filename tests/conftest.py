@@ -1,6 +1,10 @@
 import shutil
+from email.message import Message
+from io import BytesIO
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlparse
 
 import pytest
 from lxml.etree import Element, SubElement, tostring
@@ -15,6 +19,32 @@ from techui_builder.jsonmap.nodes import ScreenNode
 from techui_builder.models import Component, SupportEntity
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
+
+TESTS_DIR = Path(__file__).parent
+
+# Local directories standing in for the opis servers of each beamline
+OPIS_SERVERS = {
+    "t01-opis.diamond.ac.uk": TESTS_DIR / "t01-services",
+    "b01-1-opis.diamond.ac.uk": TESTS_DIR / "test_files",
+}
+
+
+def serve_opis(url: str, timeout: float) -> BytesIO:
+    """Open a URL on one of the local opis servers."""
+    parsed = urlparse(url)
+    if parsed.netloc not in OPIS_SERVERS:
+        raise URLError("Name or service not known")
+    path = OPIS_SERVERS[parsed.netloc] / parsed.path.lstrip("/")
+    if not path.is_file():
+        raise HTTPError(url, 404, "Not Found", Message(), None)
+    return BytesIO(path.read_bytes())
+
+
+@pytest.fixture(autouse=True)
+def no_network():
+    """Serve remote screens from local directories instead of the network."""
+    with patch("techui_builder.jsonmap.fetch.urlopen", side_effect=serve_opis):
+        yield
 
 
 @pytest.fixture
@@ -246,7 +276,7 @@ def example_json_map_pvi_screens():
         duplicate=False,
         children=[
             ScreenNode(
-                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                file="https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="X1",
                 exists=True,
                 duplicate=False,
@@ -260,7 +290,7 @@ def example_json_map_pvi_screens():
                 error="",
             ),
             ScreenNode(
-                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                file="https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="A",
                 exists=True,
                 duplicate=False,

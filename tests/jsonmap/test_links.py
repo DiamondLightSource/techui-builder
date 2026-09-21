@@ -5,10 +5,9 @@ from lxml import objectify
 from techui_builder.jsonmap.links import (
     WidgetLink,
     WidgetType,
-    assumed_exists,
     extract_links,
-    find_local_screen,
-    resolve_link_path,
+    is_bob,
+    resolve_link,
 )
 
 
@@ -63,26 +62,36 @@ def test_extract_links():
     ]
 
 
-def test_resolve_link_path():
-    dest = Path("/beamline/synoptic")
-    svc = "bl01t-mo-motor-01"
+def test_resolve_link():
+    screen = Path("/services/synoptic/techui-support/bob/slits/slit.bob")
+    url = "https://t01-opis.diamond.ac.uk/bl01t-di-cam-01/ADUVC.pvi.bob"
+    macros = {"IOC": "https://t01-opis.diamond.ac.uk/bl01t-di-cam-01"}
 
-    assert resolve_link_path("sub/screen.bob", dest, svc) == dest / "sub/screen.bob"
-    assert (
-        resolve_link_path("$(IOC)/Simple.pvi.bob", dest, svc)
-        == dest / f"../{svc}/Simple.pvi.bob"
+    # Local files are relative to the screen containing the link
+    assert resolve_link("../pmac/motor.bob", macros, screen) == Path(
+        "/services/synoptic/techui-support/bob/slits/../pmac/motor.bob"
+    )
+    # Macros are substituted, and unknown ones are left alone
+    assert resolve_link("$(IOC)/ADUVC.pvi.bob", macros, screen) == url
+    assert resolve_link("${IOC}/ADUVC.pvi.bob", macros, screen) == url
+    assert resolve_link("$(IOC)/x.bob", {}, screen) == screen.parent / "$(IOC)/x.bob"
+    # Files in remote screens are relative to the screen's URL
+    assert resolve_link("ADUVC_Advanced.pvi.bob", {}, url) == url.replace(
+        "ADUVC.pvi.bob", "ADUVC_Advanced.pvi.bob"
+    )
+    assert resolve_link("http://other.invalid/x.bob", macros, url) == (
+        "http://other.invalid/x.bob"
     )
 
 
-def test_find_local_screen(tmp_path: Path):
-    (tmp_path / "screen.bob").touch()
-
-    assert find_local_screen("screen.bob", tmp_path, "") == tmp_path / "screen.bob"
-    for file in ["missing.bob", "", "https://example.invalid/x/screen.bob"]:
-        assert find_local_screen(file, tmp_path, "") is None
-
-
-def test_assumed_exists():
-    assert assumed_exists("$(IOC)/x.pvi.bob", {"IOC": "https://example.invalid"})
-    assert assumed_exists("https://example.invalid/x/screen.bob", {})
-    assert not assumed_exists("missing.bob", {"P": "BL01T-MO-MOTOR-01"})
+def test_is_bob():
+    assert is_bob("dcam1.bob")
+    assert is_bob("$(IOC)/dcam1.bob")
+    assert is_bob("https://opis.diamond.ac.uk/ioc/ADUVC.pvi.bob")
+    # A url may carry a query or fragment that is not part of the file name
+    assert is_bob("https://opis.diamond.ac.uk/ioc/ADUVC.pvi.bob?v=2")
+    assert is_bob("https://opis.diamond.ac.uk/ioc/ADUVC.pvi.bob#Advanced")
+    # Screens Phoebus can open but the builder does not crawl
+    assert not is_bob("dcam1.opi")
+    assert not is_bob("https://opis.diamond.ac.uk/ioc/index.html")
+    assert not is_bob("")

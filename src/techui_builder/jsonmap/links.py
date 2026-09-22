@@ -3,23 +3,18 @@
 import re
 from collections.abc import Iterator, Mapping
 from dataclasses import dataclass
-from enum import StrEnum
 from pathlib import Path
 
 from lxml.objectify import ObjectifiedElement
 
-from techui_builder.utils import _get_action_group, _get_macros, _get_nav_tabs
+from techui_builder.utils import (
+    WidgetType,
+    _get_action_group,
+    _get_macros,
+    _get_nav_tabs,
+)
 
 PVI_FILE_RE = re.compile(r"^(?:\$\(IOC\))\/([a-zA-Z]+[.a-zA-Z]+)$")
-
-
-class WidgetType(StrEnum):
-    """Widget types in a .bob file that can link to other screens."""
-
-    SYMBOL = "symbol"
-    ACTION_BUTTON = "action_button"
-    EMBEDDED = "embedded"
-    NAVTABS = "navtabs"
 
 
 @dataclass
@@ -91,6 +86,10 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
 
                     yield WidgetLink(file, name, widget_type, macros)
 
+                continue
+
+            # If a widget is valid but not valid in this context
+            case _:
                 continue
 
         file = extract_file_text(file_elem)

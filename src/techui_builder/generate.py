@@ -4,8 +4,10 @@ import re
 from collections import defaultdict
 from collections.abc import Mapping
 from dataclasses import dataclass, field
+from io import BytesIO
 from pathlib import Path
 
+import requests
 from jinja2 import Template
 from lxml import objectify
 from phoebusgen import screen as pscreen
@@ -42,13 +44,17 @@ class Generator:
     group_padding: int = field(default=50, init=False, repr=False)
     label_flag: bool = field(default=False, init=False, repr=False)
 
-    def _get_screen_dimensions(self, file: str) -> tuple[int, int]:
+    def _get_screen_dimensions(self, file: Path | bytes) -> tuple[int, int]:
         """
         Parses the bob files for information on the height
         and width of the screen
         """
         # Read the bob file
-        tree = objectify.parse(file)
+        if isinstance(file, bytes):
+            tree = objectify.parse(BytesIO(file))
+        else:
+            tree = objectify.parse(str(file))
+
         root = tree.getroot()
         try:
             height_element = root.height
@@ -162,7 +168,11 @@ class Generator:
             suffix_key = next(k for k, v in component.macros.items() if v == suffix)
         except (IndexError, ValueError):
             prefix = component.prefix
-            component_name = component.type
+            component_name = (
+                component.name
+                if component.type == "fastcs*" and component.name is not None
+                else component.type
+            )
             suffix_key = suffix = ""
 
         # Try to get name from child labels if they exist,
@@ -189,23 +199,35 @@ class Generator:
 
         # Get relative path to screen
         file = Template(screen_mapping["file"]).render(component.macros)
+
+        # IF the file starts with IOC, and needs macro expansion
         if file.startswith("$(IOC)"):
             screen_path = support_screen_path = file.replace(
                 "$(IOC)", f"{self.beamline_url}/{component.service_name}"
-            )  # Only works with related displays as
-            # embedded displays need to access the file to get dimensions
-
-            assert screen_mapping["type"] == "related", (
-                "Only related displays can have remote screens"
             )
+            # For embedded screens, that need to be placed on screen and dimensions,
+            # it is required to fetch the screen from remote
+            if screen_mapping["type"] == "embedded" and str(
+                support_screen_path
+            ).startswith("https"):
+                try:
+                    screen_path = requests.get(str(support_screen_path)).content
+                except requests.RequestException:
+                    logger_.warning(
+                        f"Could not retrieve file from link {support_screen_path}"
+                    )
         else:
-            screen_path = self.support_path / f"bob/{file}"
-            logger_.debug(f"Screen path: {screen_path}")
+            support_bob = (self.support_path / "bob").resolve()
+            configured_path = Path(file)
 
-            # Path of screen relative to synoptic/
-            support_screen_path = screen_path.relative_to(
-                self.synoptic_dir, walk_up=True
-            )
+            if configured_path.is_absolute():
+                screen_path = configured_path.resolve()
+            elif configured_path.parts[:2] == ("techui-support", "bob"):
+                screen_path = (self.synoptic_dir / configured_path).resolve()
+            else:
+                screen_path = (support_bob / configured_path).resolve()
+
+            support_screen_path = screen_path.relative_to(self.synoptic_dir.resolve())
 
         # For Gui Components with multiple components embedded, we add a suffix field
         # to the components, and adjust the name and suffix accordingly
@@ -228,7 +250,7 @@ class Generator:
             pass
 
         if screen_mapping["type"] == "embedded":
-            height, width = self._get_screen_dimensions(str(screen_path))
+            height, width = self._get_screen_dimensions(screen_path)
             new_widget = pwidget.EmbeddedDisplay(
                 component_name,
                 str(support_screen_path),
@@ -283,6 +305,9 @@ class Generator:
 {name}. Skipping..."
             )
             return None
+        # if component is fastcs, and has the field of file, add it to the support
+        if component.file:
+            screen_mapping.append({"file": component.file, "type": "embedded"})
 
         for screen_dict in screen_mapping:
             new_widget.append(self._allocate_widget(screen_dict, component))

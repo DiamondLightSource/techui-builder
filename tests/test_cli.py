@@ -11,9 +11,8 @@ from techui_builder.generate_jsonmap import app as generate_jsonmap_app
 
 # from techui_builder.main_app import app as main_app
 from techui_builder.main_app import (
-    default_bobfile,
-    find_bob,
     find_dirs,
+    find_index_bobs,
     log_level,
     main,
 )
@@ -132,40 +131,51 @@ def test_find_dirs_jxx_services(caplog: pytest.LogCaptureFixture):
     assert "ixx-services relative path:" in caplog.text
 
 
-def test_find_bob(caplog: pytest.LogCaptureFixture):
-    bob_file = Mock(spec=Path)
-    bob_file.exists = MagicMock(return_value=True)
+def test_find_index_bobs(caplog: pytest.LogCaptureFixture):
+    mock_bob_file = Mock(spec=Path)
+    mock_bob_file.name = "index-mock.bob"
+    mock_bob_file.exists = MagicMock(return_value=True)
+
+    mock_synoptic_dir = MagicMock(spec=Path)
+    mock_synoptic_dir.iterdir = MagicMock(
+        spec=Path.iterdir, return_value=[mock_bob_file]
+    )
 
     with caplog.at_level(logging.DEBUG):
-        file = find_bob(bob_file, Mock(spec=Path))
+        index_bob, bob_files = find_index_bobs(mock_bob_file, mock_synoptic_dir)
 
     # It should just return back the same file
-    assert bob_file == file
+    assert mock_bob_file == index_bob
+    assert bob_files == [index_bob]
 
 
 def test_find_bob_bob_file_does_not_exist(caplog: pytest.LogCaptureFixture):
     bad_bob_file = Path("bad_bob_file")
 
     with caplog.at_level(logging.CRITICAL) and pytest.raises(SystemExit) as exc_info:
-        find_bob(bad_bob_file, Mock(spec=Path))
+        find_index_bobs(bad_bob_file, Mock(spec=Path))
 
     for log_output in caplog.records:
-        assert f"Source bob file '{bad_bob_file}' not found." in log_output.message
+        assert "There was an issue finding source bob files." in log_output.message
 
     # The function calls exit() with no value code
     assert exc_info.value.code is None
 
 
 def test_find_bob_no_bob_file_finds_default_bob_file(caplog: pytest.LogCaptureFixture):
-    mock_bob_file = Path("mock_bob_file")
+    mock_bob_file = MagicMock(spec=Path)
+    mock_bob_file.name = "index-mock.bob"
+
     mock_synoptic_dir = MagicMock(spec=Path)
-    mock_synoptic_dir.glob.return_value = iter([mock_bob_file])
+    mock_synoptic_dir.iterdir = MagicMock(
+        spec=Path.iterdir, return_value=[mock_bob_file]
+    )
 
     with caplog.at_level(logging.DEBUG):
-        _ = find_bob(None, mock_synoptic_dir)
+        index_bob, bob_files = find_index_bobs(None, mock_synoptic_dir)
 
-    for log_output in caplog.records:
-        assert f"bob file: {mock_bob_file}" in log_output.message
+    assert mock_bob_file == index_bob
+    assert bob_files == [index_bob]
 
 
 def test_find_bob_no_bob_file_found(caplog: pytest.LogCaptureFixture):
@@ -173,19 +183,16 @@ def test_find_bob_no_bob_file_found(caplog: pytest.LogCaptureFixture):
     mock_synoptic_dir.glob.return_value = iter([])
 
     with caplog.at_level(logging.CRITICAL) and pytest.raises(SystemExit) as exc_info:
-        _ = find_bob(None, mock_synoptic_dir)
+        _ = find_index_bobs(None, mock_synoptic_dir)
 
     for log_output in caplog.records:
-        assert (
-            f"Source bob file '{default_bobfile}' not found in {mock_synoptic_dir}"
-            in log_output.message
-        )
+        assert f"Source bob file not found in {mock_synoptic_dir}" in log_output.message
 
     # The function calls exit() with no value code
     assert exc_info.value.code is None
 
 
-@patch("techui_builder.main_app.find_bob")
+@patch("techui_builder.main_app.find_index_bobs")
 @patch("techui_builder.main_app.find_dirs")
 @patch("techui_builder.main_app.Autofiller")
 @patch("techui_builder.main_app.Builder")
@@ -193,14 +200,15 @@ def test_main(
     mock_builder: MagicMock,
     mock_autofiller: MagicMock,
     mock_find_dirs: MagicMock,
-    mock_find_bob: MagicMock,
+    mock_find_index_bobs: MagicMock,
 ):
+    mock_index_path = MagicMock(spec=Path)
     mock_find_dirs.return_value = MagicMock(spec=Path), MagicMock(spec=Path)
-    mock_path = MagicMock(spec=Path)
-    main(mock_path)
+    mock_find_index_bobs.return_value = mock_index_path, [mock_index_path]
+    main(mock_index_path)
 
     mock_find_dirs.assert_called_once()
-    mock_find_bob.assert_called_once()
+    mock_find_index_bobs.assert_called_once()
 
 
 def test_main_json_map_no_bob_generation(caplog: pytest.LogCaptureFixture):

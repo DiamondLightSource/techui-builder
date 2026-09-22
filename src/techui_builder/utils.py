@@ -27,7 +27,7 @@ def get_widgets(root: ObjectifiedElement):
         # If widget is a symbol (i.e. a component)
         if child.tag == "widget":
             match child.get("type", default=None):
-                case "action_button" | "symbol":
+                case "action_button" | "symbol" | "navtabs":
                     name = child.name.text
                     assert name is not None
                     widgets[name] = child
@@ -35,6 +35,7 @@ def get_widgets(root: ObjectifiedElement):
                     # Get all the widgets inside of the group objects
                     groups_widgets = get_widgets(child)
                     widgets.update(groups_widgets)
+
     return widgets
 
 

@@ -8,7 +8,7 @@ from lxml.etree import Element, ElementTree, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
 
 from techui_builder.models import Component
-from techui_builder.utils import _get_action_group, _get_nav_tabs, read_bob
+from techui_builder.utils import WidgetType, _get_action_group, _get_nav_tabs, read_bob
 
 logger_ = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ class Autofiller:
 
         for widget_name, widget in widgets.items():
             match widget.get("type", default=None):
-                case "navtabs":
+                case WidgetType.NAVTABS:
                     logger_.debug(
                         f"Navtabs widget found on {path.name}. Autofilling the tabs..."
                     )

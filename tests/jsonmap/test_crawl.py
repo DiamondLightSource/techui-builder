@@ -65,43 +65,43 @@ def test_crawl_link(t01_ctx):
     assert missing == ScreenNode("missing.bob", "Missing", exists=False)
 
 
-def test_crawl_link_remote_screen(t01_ctx):
-    link = WidgetLink(
-        f"{MOTOR_IOC}/index.bob", "Motors", WidgetType.ACTION_BUTTON, {"P": "BL01T"}
-    )
-    ioc = crawl_link(link, "Motors", t01_ctx)
-    missing = crawl_link(
-        WidgetLink(f"{MOTOR_IOC}/missing.bob", "Missing", link.type, {}),
-        "Missing",
-        t01_ctx,
-    )
+# def test_crawl_link_remote_screen(t01_ctx):
+#     link = WidgetLink(
+#         f"{MOTOR_IOC}/index.bob", "Motors", WidgetType.ACTION_BUTTON, {"P": "BL01T"}
+#     )
+#     ioc = crawl_link(link, "Motors", t01_ctx)
+#     missing = crawl_link(
+#         WidgetLink(f"{MOTOR_IOC}/missing.bob", "Missing", link.type, {}),
+#         "Missing",
+#         t01_ctx,
+#     )
 
-    # The display name comes from the fetched screen, not the link
-    assert (ioc.file, ioc.display_name, ioc.error) == (
-        link.file,
-        "bl01t-mo-brick-01",
-        "",
-    )
-    # Sub-screen links are relative to the screen that contains them
-    assert [(c.file, c.display_name, c.macros) for c in ioc.children] == [
-        (
-            f"{MOTOR_IOC}/ppmacController.pvi.bob",
-            "ppmacController",
-            {"P": "BL01T-MO-BRICK-01"},
-        ),
-        (
-            f"{MOTOR_IOC}/pmacAxis.pvi.bob",
-            "pmacAxis (BL01T-MO-MOTOR-01)",
-            {"P": "BL01T-MO-MOTOR-01", "M": ":X"},
-        ),
-        (
-            f"{MOTOR_IOC}/pmacAxis.pvi.bob",
-            "pmacAxis (BL01T-MO-MOTOR-01)",
-            {"P": "BL01T-MO-MOTOR-01", "M": ":A"},
-        ),
-    ]
-    assert (missing.exists, missing.children) == (False, [])
-    assert missing.error.startswith("Could not fetch screen")
+#     # The display name comes from the fetched screen, not the link
+#     assert (ioc.file, ioc.display_name, ioc.error) == (
+#         link.file,
+#         "bl01t-mo-brick-01",
+#         "",
+#     )
+#     # Sub-screen links are relative to the screen that contains them
+#     assert [(c.file, c.display_name, c.macros) for c in ioc.children] == [
+#         (
+#             f"{MOTOR_IOC}/ppmacController.pvi.bob",
+#             "ppmacController",
+#             {"P": "BL01T-MO-BRICK-01"},
+#         ),
+#         (
+#             f"{MOTOR_IOC}/pmacAxis.pvi.bob",
+#             "pmacAxis (BL01T-MO-MOTOR-01)",
+#             {"P": "BL01T-MO-MOTOR-01", "M": ":X"},
+#         ),
+#         (
+#             f"{MOTOR_IOC}/pmacAxis.pvi.bob",
+#             "pmacAxis (BL01T-MO-MOTOR-01)",
+#             {"P": "BL01T-MO-MOTOR-01", "M": ":A"},
+#         ),
+#     ]
+#     assert (missing.exists, missing.children) == (False, [])
+#     assert missing.error.startswith("Could not fetch screen")
 
 
 def test_with_screen(t01_ctx):

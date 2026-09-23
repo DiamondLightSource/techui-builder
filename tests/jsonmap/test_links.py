@@ -4,11 +4,11 @@ from lxml import objectify
 
 from techui_builder.jsonmap.links import (
     WidgetLink,
-    WidgetType,
     extract_links,
     is_bob,
     resolve_link,
 )
+from techui_builder.utils import WidgetType
 
 
 def button(name: str, *actions: str, widget_type="action_button") -> str:

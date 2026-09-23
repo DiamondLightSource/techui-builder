@@ -13,7 +13,6 @@ from lxml.objectify import ObjectifiedElement
 from techui_builder.jsonmap.fetch import ScreenFetcher
 from techui_builder.jsonmap.links import (
     WidgetLink,
-    WidgetType,
     extract_links,
     resolve_link,
     substitute_macros,
@@ -25,6 +24,7 @@ from techui_builder.jsonmap.naming import (
 )
 from techui_builder.jsonmap.nodes import ScreenNode
 from techui_builder.models import Component
+from techui_builder.utils import WidgetType
 
 logger_ = logging.getLogger(__name__)
 

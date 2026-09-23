@@ -4,8 +4,9 @@ import pytest
 
 from techui_builder.jsonmap.crawl import CrawlContext, crawl, crawl_link
 from techui_builder.jsonmap.fetch import ScreenFetcher
-from techui_builder.jsonmap.links import WidgetLink, WidgetType
+from techui_builder.jsonmap.links import WidgetLink
 from techui_builder.jsonmap.nodes import ScreenNode
+from techui_builder.utils import WidgetType
 
 MOTOR_IOC = "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01"
 

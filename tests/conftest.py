@@ -333,7 +333,7 @@ def generator(techui_support, tmp_t01_services):
 def autofiller(tmp_t01_services):
     index_bob = tmp_t01_services / "synoptic/index.bob"
 
-    a = Autofiller(index_bob, {"test_widget": MagicMock(spec=Component)})
+    a = Autofiller([index_bob], index_bob, {"test_widget": MagicMock(spec=Component)})
 
     return a
 

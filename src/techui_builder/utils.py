@@ -1,9 +1,20 @@
 import logging
+from enum import StrEnum
 
 from lxml import objectify
 from lxml.objectify import ObjectifiedElement
 
 logger_ = logging.getLogger(__name__)
+
+
+class WidgetType(StrEnum):
+    """Widget types in a .bob file."""
+
+    ACTION_BUTTON = "action_button"
+    EMBEDDED = "embedded"
+    GROUP = "group"
+    NAVTABS = "navtabs"
+    SYMBOL = "symbol"
 
 
 def read_bob(path):
@@ -27,14 +38,15 @@ def get_widgets(root: ObjectifiedElement):
         # If widget is a symbol (i.e. a component)
         if child.tag == "widget":
             match child.get("type", default=None):
-                case "action_button" | "symbol":
+                case WidgetType.ACTION_BUTTON | WidgetType.SYMBOL | WidgetType.NAVTABS:
                     name = child.name.text
                     assert name is not None
                     widgets[name] = child
-                case "group":
+                case WidgetType.GROUP:
                     # Get all the widgets inside of the group objects
                     groups_widgets = get_widgets(child)
                     widgets.update(groups_widgets)
+
     return widgets
 
 

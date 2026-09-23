@@ -241,6 +241,13 @@ class Generator:
             for macro, macro_val in component.macros.items():
                 new_widget.macro(macro, macro_val)
 
+            if component.macros.get("label") is None:
+                new_widget.macro(
+                    "label",
+                    list(component.macros.values())[-1]
+                    .removeprefix(":")
+                    .removesuffix(":"),
+                )
             # TODO: Change this to pvi_button
             if True:
                 new_widget.macro("IOC", f"{self.beamline_url}/{component.service_name}")

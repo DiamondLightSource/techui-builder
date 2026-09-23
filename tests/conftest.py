@@ -25,7 +25,6 @@ TESTS_DIR = Path(__file__).parent
 # Local directories standing in for the opis servers of each beamline
 OPIS_SERVERS = {
     "t01-opis.diamond.ac.uk": TESTS_DIR / "t01-services",
-    "b01-1-opis.diamond.ac.uk": TESTS_DIR / "test_files",
 }
 
 

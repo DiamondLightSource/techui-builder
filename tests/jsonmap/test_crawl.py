@@ -8,7 +8,6 @@ from techui_builder.jsonmap.links import WidgetLink, WidgetType
 from techui_builder.jsonmap.nodes import ScreenNode
 
 MOTOR_IOC = "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01"
-DCAM_IOC = "https://b01-1-opis.diamond.ac.uk/bl01c-di-dcam-01"
 
 
 @pytest.fixture
@@ -67,26 +66,38 @@ def test_crawl_link(t01_ctx):
 
 def test_crawl_link_remote_screen(t01_ctx):
     link = WidgetLink(
-        f"{DCAM_IOC}/ADUVC.pvi.bob",
-        "DRV",
-        WidgetType.ACTION_BUTTON,
-        {"P": "BL01C-DI-DCAM-01", "R": ":DRV:"},
+        f"{MOTOR_IOC}/index.bob", "Motors", WidgetType.ACTION_BUTTON, {"P": "BL01T"}
     )
-    camera = crawl_link(link, "DRV", t01_ctx)
+    ioc = crawl_link(link, "Motors", t01_ctx)
     missing = crawl_link(
-        WidgetLink(f"{DCAM_IOC}/missing.pvi.bob", "Missing", link.type, {}),
+        WidgetLink(f"{MOTOR_IOC}/missing.bob", "Missing", link.type, {}),
         "Missing",
         t01_ctx,
     )
 
-    assert (camera.file, camera.display_name, camera.error) == (
+    # The display name comes from the fetched screen, not the link
+    assert (ioc.file, ioc.display_name, ioc.error) == (
         link.file,
-        "ADUVC Camera",
+        "bl01t-mo-brick-01",
         "",
     )
-    # The subscreen link is relative and has no macros of its own
-    assert camera.children == [
-        ScreenNode(f"{DCAM_IOC}/ADUVC_Advanced.pvi.bob", "Advanced", macros=link.macros)
+    # Sub-screen links are relative to the screen that contains them
+    assert [(c.file, c.display_name, c.macros) for c in ioc.children] == [
+        (
+            f"{MOTOR_IOC}/ppmacController.pvi.bob",
+            "ppmacController",
+            {"P": "BL01T-MO-BRICK-01"},
+        ),
+        (
+            f"{MOTOR_IOC}/pmacAxis.pvi.bob",
+            "pmacAxis (BL01T-MO-MOTOR-01)",
+            {"P": "BL01T-MO-MOTOR-01", "M": ":X"},
+        ),
+        (
+            f"{MOTOR_IOC}/pmacAxis.pvi.bob",
+            "pmacAxis (BL01T-MO-MOTOR-01)",
+            {"P": "BL01T-MO-MOTOR-01", "M": ":A"},
+        ),
     ]
     assert (missing.exists, missing.children) == (False, [])
     assert missing.error.startswith("Could not fetch screen")

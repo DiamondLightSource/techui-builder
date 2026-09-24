@@ -11,7 +11,6 @@ class ScreenNode:
     file: str
     display_name: str | None
     exists: bool = True
-    duplicate: bool = False
     children: list["ScreenNode"] = field(default_factory=list)
     macros: dict[str, str] = field(default_factory=dict)
     error: str = ""

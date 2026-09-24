@@ -3,8 +3,11 @@ from pathlib import Path
 import pytest
 
 from techui_builder.jsonmap.crawl import CrawlContext, crawl, crawl_link
-from techui_builder.jsonmap.links import WidgetLink, WidgetType
+from techui_builder.jsonmap.links import WidgetLink
 from techui_builder.jsonmap.nodes import ScreenNode
+from techui_builder.utils import WidgetType
+
+MOTOR_IOC = "../bl01t-mo-motor-01"
 
 
 @pytest.fixture
@@ -13,9 +16,8 @@ def t01_ctx(json_map_generator) -> CrawlContext:
     return CrawlContext(
         components=json_map_generator.techui_yaml.components,
         synoptic_dir=synoptic,
-        link_base_dir=synoptic,
         component_name=None,
-        service_name="",
+        screen=synoptic / "index.bob",
     )
 
 
@@ -38,8 +40,8 @@ def test_crawl_component_screen(t01_ctx):
 
     assert motor.display_name == "Motor Stage"
     assert [(c.file, c.display_name) for c in motor.children] == [
-        ("../bl01t-mo-motor-01/pmacAxis.pvi.bob", "X1"),
-        ("../bl01t-mo-motor-01/pmacAxis.pvi.bob", "A"),
+        (f"{MOTOR_IOC}/pmacAxis.pvi.bob", "X1"),
+        (f"{MOTOR_IOC}/pmacAxis.pvi.bob", "A"),
         ("techui-support/bob/pmac/pmacController.bob", "pmacController"),
     ]
 
@@ -61,12 +63,14 @@ def test_crawl_link(t01_ctx):
     assert missing == ScreenNode("missing.bob", "Missing", exists=False)
 
 
-def test_with_screen_component(t01_ctx):
-    motor_ctx = t01_ctx.with_screen_component(Path("motor1.bob"))
+def test_with_screen(t01_ctx):
+    motor_ctx = t01_ctx.with_screen(Path("motor1.bob"))
 
-    assert motor_ctx.component_name == "motor1"
-    assert motor_ctx.service_name == "bl01t-mo-motor-01"
+    assert (motor_ctx.screen, motor_ctx.component_name) == (
+        Path("motor1.bob"),
+        "motor1",
+    )
     # Not a component
-    assert t01_ctx.with_screen_component(Path("index.bob")) is t01_ctx
+    assert t01_ctx.with_screen(Path("index.bob")).component_name is None
     # Already inside a component
-    assert motor_ctx.with_screen_component(Path("dcam1.bob")) is motor_ctx
+    assert motor_ctx.with_screen(Path("dcam1.bob")).component_name == "motor1"

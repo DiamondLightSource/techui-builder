@@ -10,6 +10,6 @@
     <P>BL01T-DI-IOC-01</P>
     <R>:CAM:</R>
     <label>CAM</label>
-    <IOC>test_url/bl01t-di-ioc-01</IOC>
+    <IOC>../../../../bl01t-di-ioc-01</IOC>
   </macros>
 </widget>

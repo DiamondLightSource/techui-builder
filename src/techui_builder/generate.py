@@ -181,6 +181,12 @@ class Generator:
 
         return component_name, new_macros
 
+    def resolve_service_dir(self, service_name: str, screen_dir: Path) -> str:
+        """A service's screen directory, relative to the screen linking to it."""
+        # Service directories sit alongside the synoptic directory, not inside it
+        service_dir = self.synoptic_dir.resolve().parent / service_name
+        return str(service_dir.relative_to(screen_dir.resolve(), walk_up=True))
+
     def _allocate_widget(
         self, screen_mapping: Mapping, component: Entity
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
@@ -191,7 +197,8 @@ class Generator:
         file = Template(screen_mapping["file"]).render(component.macros)
         if file.startswith("$(IOC)"):
             screen_path = support_screen_path = file.replace(
-                "$(IOC)", f"{self.beamline_url}/{component.service_name}"
+                "$(IOC)",
+                self.resolve_service_dir(component.service_name, self.synoptic_dir),
             )  # Only works with related displays as
             # embedded displays need to access the file to get dimensions
 
@@ -243,7 +250,12 @@ class Generator:
 
             # TODO: Change this to pvi_button
             if True:
-                new_widget.macro("IOC", f"{self.beamline_url}/{component.service_name}")
+                new_widget.macro(
+                    "IOC",
+                    self.resolve_service_dir(
+                        component.service_name, Path(screen_path).parent
+                    ),
+                )
 
         # The only other option is for related displays
         else:

@@ -240,7 +240,7 @@ def test_generator_allocate_widget(generator, tmp_test_files):
     assert str(widget) == xml_content
 
 
-def test_generator_allocate_widget_with_remote_screens(generator, tmp_test_files):
+def test_generator_allocate_widget_with_service_screens(generator, tmp_test_files):
     generator._update_macros = Mock(
         return_value=("CAM", {"P": "BL01T-DI-IOC-01", "R": ":CAM:", "label": "CAM"})
     )
@@ -256,7 +256,7 @@ def test_generator_allocate_widget_with_remote_screens(generator, tmp_test_files
         macros={"P": "BL01T-DI-IOC-01", "R": ":CAM:"},
     )
     widget = generator._allocate_widget(scrn_mapping, component)
-    control_widget = tmp_test_files / "widget_url_screen.xml"
+    control_widget = tmp_test_files / "widget_service_screen.xml"
 
     with open(control_widget) as f:
         xml_content = f.read()

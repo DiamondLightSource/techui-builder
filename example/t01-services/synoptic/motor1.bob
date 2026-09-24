@@ -13,10 +13,10 @@
         <height>120</height>
         <file>techui-support/bob/pmac/motor_embed.bob</file>
         <macros>
-          <P>BL01T-MO-MOTOR-01</P>
           <M>:X</M>
+          <P>BL01T-MO-MOTOR-01</P>
           <label>X1</label>
-          <IOC>https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01</IOC>
+          <IOC>../../../../bl01t-mo-motor-01</IOC>
         </macros>
         <x>0</x>
         <y>0</y>
@@ -27,10 +27,10 @@
         <height>120</height>
         <file>techui-support/bob/pmac/motor_embed.bob</file>
         <macros>
-          <P>BL01T-MO-MOTOR-01</P>
           <M>:A</M>
+          <P>BL01T-MO-MOTOR-01</P>
           <label>A</label>
-          <IOC>https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01</IOC>
+          <IOC>../../../../bl01t-mo-motor-01</IOC>
         </macros>
         <x>0</x>
         <y>150</y>

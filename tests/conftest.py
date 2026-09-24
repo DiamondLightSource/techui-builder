@@ -16,6 +16,8 @@ from techui_builder.models import Component, SupportEntity
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
+TESTS_DIR = Path(__file__).parent
+
 
 @pytest.fixture
 def tmp_t01_services(tmp_path) -> Path:
@@ -243,19 +245,17 @@ def example_json_map_pvi_screens():
         file="motor1.bob",
         display_name="motor1",
         exists=True,
-        duplicate=False,
         children=[
             ScreenNode(
                 file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="X1",
                 exists=True,
-                duplicate=False,
                 children=[],
                 macros={
                     "M": ":X",
                     "P": "BL01T-MO-MOTOR-01",
                     "label": "X1",
-                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                    "IOC": "../../../../bl01t-mo-motor-01",
                 },
                 error="",
             ),
@@ -263,13 +263,12 @@ def example_json_map_pvi_screens():
                 file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="A",
                 exists=True,
-                duplicate=False,
                 children=[],
                 macros={
                     "M": ":A",
                     "P": "BL01T-MO-MOTOR-01",
                     "label": "A",
-                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                    "IOC": "../../../../bl01t-mo-motor-01",
                 },
                 error="",
             ),
@@ -277,7 +276,6 @@ def example_json_map_pvi_screens():
                 file="techui-support/bob/pmac/pmacController.bob",
                 display_name="pmacController",
                 exists=True,
-                duplicate=False,
                 children=[],
                 macros={"P": "BL01T-MO-BRICK-01"},
                 error="",
@@ -503,7 +501,7 @@ def example_pgen_embedded_widget():
     embedded_widget.macro("P", "BL01T-DI-IOC-01")
     embedded_widget.macro("R", ":CAM:")
     embedded_widget.macro("label", "CAM")
-    embedded_widget.macro("IOC", "test_url/bl01t-di-ioc-01")
+    embedded_widget.macro("IOC", "../../../../bl01t-di-ioc-01")
 
     return embedded_widget
 

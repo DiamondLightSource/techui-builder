@@ -11,7 +11,6 @@ import yaml
 
 from techui_builder._logger import Logger
 from techui_builder.jsonmap.crawl import CrawlContext, crawl
-from techui_builder.jsonmap.fetch import ScreenFetcher
 from techui_builder.jsonmap.nodes import ScreenNode, serialise_node
 from techui_builder.models import TechUi
 
@@ -47,7 +46,6 @@ class JsonMapGenerator:
     bob_path: Path = field(default=Path("index.bob"))
     techui: Path = field(default=Path("techui.yaml"))
     output: Path | None = field(default=None)
-    fetcher: ScreenFetcher = field(default_factory=ScreenFetcher)
 
     def __post_init__(self):
         # Determine the directory to write the json map file to.
@@ -81,7 +79,6 @@ class JsonMapGenerator:
         ctx = CrawlContext(
             components=self.techui_yaml.components,
             synoptic_dir=self._parent_path,
-            fetcher=self.fetcher,
             component_name=current_component_name,
             screen=screen_path,
         )

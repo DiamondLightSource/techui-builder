@@ -3,12 +3,11 @@ from pathlib import Path
 import pytest
 
 from techui_builder.jsonmap.crawl import CrawlContext, crawl, crawl_link
-from techui_builder.jsonmap.fetch import ScreenFetcher
 from techui_builder.jsonmap.links import WidgetLink
 from techui_builder.jsonmap.nodes import ScreenNode
 from techui_builder.utils import WidgetType
 
-MOTOR_IOC = "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01"
+MOTOR_IOC = "../bl01t-mo-motor-01"
 
 
 @pytest.fixture
@@ -17,7 +16,6 @@ def t01_ctx(json_map_generator) -> CrawlContext:
     return CrawlContext(
         components=json_map_generator.techui_yaml.components,
         synoptic_dir=synoptic,
-        fetcher=ScreenFetcher(),
         component_name=None,
         screen=synoptic / "index.bob",
     )
@@ -65,45 +63,6 @@ def test_crawl_link(t01_ctx):
     assert missing == ScreenNode("missing.bob", "Missing", exists=False)
 
 
-# def test_crawl_link_remote_screen(t01_ctx):
-#     link = WidgetLink(
-#         f"{MOTOR_IOC}/index.bob", "Motors", WidgetType.ACTION_BUTTON, {"P": "BL01T"}
-#     )
-#     ioc = crawl_link(link, "Motors", t01_ctx)
-#     missing = crawl_link(
-#         WidgetLink(f"{MOTOR_IOC}/missing.bob", "Missing", link.type, {}),
-#         "Missing",
-#         t01_ctx,
-#     )
-
-#     # The display name comes from the fetched screen, not the link
-#     assert (ioc.file, ioc.display_name, ioc.error) == (
-#         link.file,
-#         "bl01t-mo-brick-01",
-#         "",
-#     )
-#     # Sub-screen links are relative to the screen that contains them
-#     assert [(c.file, c.display_name, c.macros) for c in ioc.children] == [
-#         (
-#             f"{MOTOR_IOC}/ppmacController.pvi.bob",
-#             "ppmacController",
-#             {"P": "BL01T-MO-BRICK-01"},
-#         ),
-#         (
-#             f"{MOTOR_IOC}/pmacAxis.pvi.bob",
-#             "pmacAxis (BL01T-MO-MOTOR-01)",
-#             {"P": "BL01T-MO-MOTOR-01", "M": ":X"},
-#         ),
-#         (
-#             f"{MOTOR_IOC}/pmacAxis.pvi.bob",
-#             "pmacAxis (BL01T-MO-MOTOR-01)",
-#             {"P": "BL01T-MO-MOTOR-01", "M": ":A"},
-#         ),
-#     ]
-#     assert (missing.exists, missing.children) == (False, [])
-#     assert missing.error.startswith("Could not fetch screen")
-
-
 def test_with_screen(t01_ctx):
     motor_ctx = t01_ctx.with_screen(Path("motor1.bob"))
 
@@ -115,9 +74,3 @@ def test_with_screen(t01_ctx):
     assert t01_ctx.with_screen(Path("index.bob")).component_name is None
     # Already inside a component
     assert motor_ctx.with_screen(Path("dcam1.bob")).component_name == "motor1"
-    # A remote screen is never a component, but is still the screen being crawled
-    remote_ctx = t01_ctx.with_screen(f"{MOTOR_IOC}/motor1.bob")
-    assert (remote_ctx.screen, remote_ctx.component_name) == (
-        f"{MOTOR_IOC}/motor1.bob",
-        None,
-    )

@@ -5,12 +5,12 @@
             "file": "dcam1.bob",
             "children": [
                 {
-                    "file": "ProfileCursorGraphs.bob",
+                    "file": "techui-support/bob/ADAravis/ProfileCursorGraphs.bob",
                     "macros": {
                         "P": "BL01T-DI-CAM-01",
                         "R": ":CAM:",
                         "label": "CAM",
-                        "IOC": "https://t01-opis.diamond.ac.uk/bl01t-di-cam-01"
+                        "IOC": "../../../../bl01t-di-cam-01"
                     },
                     "displayName": "CAM"
                 },
@@ -72,7 +72,7 @@
                         "M": ":X",
                         "P": "BL01T-MO-MOTOR-01",
                         "label": "X1",
-                        "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01"
+                        "IOC": "../../../../bl01t-mo-motor-01"
                     },
                     "displayName": "X1"
                 },
@@ -82,7 +82,7 @@
                         "M": ":A",
                         "P": "BL01T-MO-MOTOR-01",
                         "label": "A",
-                        "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01"
+                        "IOC": "../../../../bl01t-mo-motor-01"
                     },
                     "displayName": "A"
                 },

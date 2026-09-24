@@ -1,10 +1,6 @@
 import shutil
-from email.message import Message
-from io import BytesIO
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
 
 import pytest
 from lxml.etree import Element, SubElement, tostring
@@ -21,29 +17,6 @@ from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
 TESTS_DIR = Path(__file__).parent
-
-# Local directories standing in for the opis servers of each beamline
-OPIS_SERVERS = {
-    "t01-opis.diamond.ac.uk": TESTS_DIR / "t01-services",
-}
-
-
-def serve_opis(url: str, timeout: float) -> BytesIO:
-    """Open a URL on one of the local opis servers."""
-    parsed = urlparse(url)
-    if parsed.netloc not in OPIS_SERVERS:
-        raise URLError("Name or service not known")
-    path = OPIS_SERVERS[parsed.netloc] / parsed.path.lstrip("/")
-    if not path.is_file():
-        raise HTTPError(url, 404, "Not Found", Message(), None)
-    return BytesIO(path.read_bytes())
-
-
-@pytest.fixture(autouse=True)
-def no_network():
-    """Serve remote screens from local directories instead of the network."""
-    with patch("techui_builder.jsonmap.fetch.urlopen", side_effect=serve_opis):
-        yield
 
 
 @pytest.fixture
@@ -272,33 +245,30 @@ def example_json_map_pvi_screens():
         file="motor1.bob",
         display_name="motor1",
         exists=True,
-        duplicate=False,
         children=[
             ScreenNode(
-                file="https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="X1",
                 exists=True,
-                duplicate=False,
                 children=[],
                 macros={
                     "M": ":X",
                     "P": "BL01T-MO-MOTOR-01",
                     "label": "X1",
-                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                    "IOC": "../../../../bl01t-mo-motor-01",
                 },
                 error="",
             ),
             ScreenNode(
-                file="https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01/pmacAxis.pvi.bob",
+                file="../bl01t-mo-motor-01/pmacAxis.pvi.bob",
                 display_name="A",
                 exists=True,
-                duplicate=False,
                 children=[],
                 macros={
                     "M": ":A",
                     "P": "BL01T-MO-MOTOR-01",
                     "label": "A",
-                    "IOC": "https://t01-opis.diamond.ac.uk/bl01t-mo-motor-01",
+                    "IOC": "../../../../bl01t-mo-motor-01",
                 },
                 error="",
             ),
@@ -306,7 +276,6 @@ def example_json_map_pvi_screens():
                 file="techui-support/bob/pmac/pmacController.bob",
                 display_name="pmacController",
                 exists=True,
-                duplicate=False,
                 children=[],
                 macros={"P": "BL01T-MO-BRICK-01"},
                 error="",
@@ -532,7 +501,7 @@ def example_pgen_embedded_widget():
     embedded_widget.macro("P", "BL01T-DI-IOC-01")
     embedded_widget.macro("R", ":CAM:")
     embedded_widget.macro("label", "CAM")
-    embedded_widget.macro("IOC", "test_url/bl01t-di-ioc-01")
+    embedded_widget.macro("IOC", "../../../../bl01t-di-ioc-01")
 
     return embedded_widget
 

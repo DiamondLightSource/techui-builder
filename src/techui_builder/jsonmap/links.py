@@ -5,7 +5,6 @@ import re
 from collections.abc import Iterator, Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import urljoin, urlsplit
 
 from lxml.objectify import ObjectifiedElement
 
@@ -33,13 +32,13 @@ class WidgetLink:
 
 def extract_file_text(file_elem: ObjectifiedElement) -> str:
     """The stripped text of a <file> element."""
-    # Keep raw string to preserve urls
+    # Keep the raw string; macros are expanded later
     return file_elem.text.strip() if file_elem.text else ""
 
 
 def is_bob(file: str) -> bool:
     """Whether the link is to a .bob screen"""
-    return urlsplit(file).path.endswith(".bob")  # ignores url queries
+    return file.endswith(".bob")
 
 
 def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
@@ -106,11 +105,6 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
         yield WidgetLink(file, name, widget_type, macros)
 
 
-def is_url(file: str) -> bool:
-    """Whether the file is an http(s) URL."""
-    return file.startswith(("http://", "https://"))
-
-
 def substitute_macros(text: str, macros: Mapping[str, str]) -> str:
     """Replace $(NAME) and ${NAME} with macro values, leaving unknown macros as-is."""
     return MACRO_RE.sub(
@@ -118,16 +112,8 @@ def substitute_macros(text: str, macros: Mapping[str, str]) -> str:
     )
 
 
-def resolve_link(
-    file: str, macros: Mapping[str, str], screen: Path | str
-) -> Path | str:
-    """Resolve a link's file to a URL or local path, relative to the linking screen."""
+def resolve_link(file: str, macros: Mapping[str, str], screen: Path) -> Path:
+    """Resolve a link's file to a local path, relative to the linking screen."""
     file = substitute_macros(file, macros)
-    if is_url(file):
-        return file
-
     # Phoebus resolves relative files against the display containing the link
-    if isinstance(screen, str):
-        return urljoin(screen, file)
-
     return screen.parent / file

@@ -22,7 +22,6 @@ def test_field_default():
         "file": MISSING,
         "display_name": MISSING,
         "exists": True,
-        "duplicate": False,
         "children": [],
         "macros": {},
         "error": "",

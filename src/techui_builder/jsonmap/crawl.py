@@ -4,13 +4,9 @@ import logging
 from collections.abc import Mapping
 from dataclasses import dataclass, field, replace
 from pathlib import Path
-from urllib.error import HTTPError
-from urllib.parse import urlsplit
 
 from lxml import etree, objectify
-from lxml.objectify import ObjectifiedElement
 
-from techui_builder.jsonmap.fetch import ScreenFetcher
 from techui_builder.jsonmap.links import (
     WidgetLink,
     extract_links,
@@ -34,34 +30,22 @@ class CrawlContext:
     """State passed down the recursion."""
 
     components: Mapping[str, Component]
-    synoptic_dir: Path  # local ScreenNode.file is relative to this
-    fetcher: ScreenFetcher
+    synoptic_dir: Path  # ScreenNode.file is relative to this
     component_name: str | None
-    screen: Path | str  # the screen being crawled, as a local path or URL
+    screen: Path  # the screen being crawled
     macros: dict[str, str] = field(default_factory=dict)  # including inherited ones
 
-    def with_screen(self, screen: Path | str) -> "CrawlContext":
+    def with_screen(self, screen: Path) -> "CrawlContext":
         """A copy for crawling a screen's links, in its component if it names one."""
         component_name = self.component_name
-        # Only a local screen in the synoptic directory can name a component
-        if component_name is None and isinstance(screen, Path):
-            if screen.stem in self.components:
-                component_name = screen.stem
+        if component_name is None and screen.stem in self.components:
+            component_name = screen.stem
 
         return replace(self, screen=screen, component_name=component_name)
 
 
-def find_screen_file(screen: Path | str) -> Path:
-    """The screen's file name, for a local path or a URL with a query or fragment."""
-    if isinstance(screen, str):
-        return Path(urlsplit(screen).path)
-    return screen
-
-
-def format_screen(screen: Path | str, synoptic_dir: Path) -> str:
-    """The URL, or the local path relative to the synoptic directory."""
-    if isinstance(screen, str):
-        return screen
+def format_screen(screen: Path, synoptic_dir: Path) -> str:
+    """The screen's path, relative to the synoptic directory."""
     return str(screen.resolve().relative_to(synoptic_dir.resolve(), walk_up=True))
 
 
@@ -84,26 +68,15 @@ def crawl_link(
     """
     macros = inherit_macros(ctx.macros, link.macros)
     screen = resolve_link(link.file, macros, ctx.screen)
-    leaf = ScreenNode(
-        format_screen(screen, ctx.synoptic_dir), display_name, macros=macros
-    )
 
-    if isinstance(screen, str):
-        try:
-            ctx.fetcher.fetch(screen)
-        except HTTPError as e:
-            leaf.exists = False
-            leaf.error = f"Could not fetch screen: {e}"
-            return leaf
-        except OSError as e:
-            # The server may just be unreachable from here, so assume it exists
-            leaf.error = f"Could not fetch screen: {e}"
-            return leaf
-
-    elif not screen.is_file():
-        leaf.exists = False
+    if not screen.is_file():
         logger_.debug(f"Link {link.file} -> {screen}: not found")
-        return leaf
+        return ScreenNode(
+            format_screen(screen, ctx.synoptic_dir),
+            display_name,
+            exists=False,
+            macros=macros,
+        )
 
     logger_.debug(f"Link {link.file} -> {screen}: found")
 
@@ -114,16 +87,7 @@ def crawl_link(
     return node
 
 
-def parse_screen(screen: Path | str, fetcher: ScreenFetcher) -> ObjectifiedElement:
-    """Parse a local or remote .bob screen."""
-    if isinstance(screen, str):
-        return objectify.fromstring(fetcher.fetch(screen), base_url=screen)
-    return objectify.parse(screen.absolute()).getroot()
-
-
-def crawl(
-    screen: Path | str, ctx: CrawlContext, link_name: str | None = None
-) -> ScreenNode:
+def crawl(screen: Path, ctx: CrawlContext, link_name: str | None = None) -> ScreenNode:
     """Crawl a .bob screen and the screens it links to into a ScreenNode."""
 
     # Create initial node at top of .bob file
@@ -135,10 +99,10 @@ def crawl(
 
     try:
         # Create xml tree from .bob file
-        root = parse_screen(screen, ctx.fetcher)
+        root = objectify.parse(screen.absolute()).getroot()
 
         # Label for the linking widget, else the screen's own <name>, else file stem
-        own_name = name_or_file_stem(root.name.text, find_screen_file(screen))
+        own_name = name_or_file_stem(root.name.text, screen)
         label = find_techui_label(ctx.components, ctx.component_name, link_name)
         current_node.display_name = label if label is not None else own_name
 
@@ -146,7 +110,7 @@ def crawl(
             # Label, else widget <name>, else file stem
             label = find_techui_label(ctx.components, ctx.component_name, link.name)
             display_name = name_or_file_stem(
-                label if label is not None else link.name, find_screen_file(link.file)
+                label if label is not None else link.name, Path(link.file)
             )
 
             child_node = crawl_link(link, display_name, ctx)

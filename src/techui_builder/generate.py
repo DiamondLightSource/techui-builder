@@ -159,7 +159,9 @@ class Generator:
                 :2
             ]
             component_name = suffix.removeprefix(":").removesuffix(":")
-            suffix_key = next(k for k, v in component.macros.items() if v == suffix)
+            suffix_key = next(
+                (k for k, v in component.macros.items() if v == suffix), component_name
+            )
         except (IndexError, ValueError):
             prefix = component.prefix
             component_name = component.type
@@ -210,19 +212,15 @@ class Generator:
         # For Gui Components with multiple components embedded, we add a suffix field
         # to the components, and adjust the name and suffix accordingly
         try:
-            if screen_mapping["suffixes"] is not None:
-                suffix_dict: dict[str, str] = screen_mapping["suffixes"]
-                for suffix_key, suffix in suffix_dict.items():
-                    component.macros[suffix_key] = suffix
+            if screen_mapping.get("screen_macros"):
+                for macro_key, macro_val in screen_mapping["screen_macros"].items():
+                    component.macros[macro_key] = macro_val
 
                 # If no child label was specified...
-                if self.label_flag is False:
+                if not self.label_flag and "label" not in component.macros:
                     # TODO: think of a better fallback component name for this
-                    component_name = (
-                        list(suffix_dict.values())[0]
-                        .removeprefix(":")
-                        .removesuffix(":")
-                    )
+                    first_val = list(screen_mapping["screen_macros"].values())[0]
+                    component_name = first_val.removeprefix(":").removesuffix(":")
                     component.macros["label"] = component_name
         except KeyError:
             pass

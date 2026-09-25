@@ -75,28 +75,28 @@ def techui_support():
             screens=[
                 {
                     "file": "ADAravis/NDPluginStats.pvi.bob",
-                    "suffixes": {
+                    "screen_macros": {
                         "R": ":STAT:",
                     },
                     "type": "related",
                 },
                 {
                     "file": "ADAravis/NDPluginPva.pvi.bob",
-                    "suffixes": {
+                    "screen_macros": {
                         "R": ":PVA:",
                     },
                     "type": "related",
                 },
                 {
                     "file": "ADAravis/NDPluginROIStat.pvi.bob",
-                    "suffixes": {
+                    "screen_macros": {
                         "R": ":ROISTAT:",
                     },
                     "type": "related",
                 },
                 {
                     "file": "ADAravis/NDFileHDF5.pvi.bob",
-                    "suffixes": {
+                    "screen_macros": {
                         "R": ":HDF5:",
                     },
                     "type": "related",

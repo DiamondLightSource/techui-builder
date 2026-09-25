@@ -308,6 +308,24 @@ class Entity(BaseModel):
     ]
 
 
+class SupportEntityScreen(BaseModel):
+    """One screen entry for a support module."""
+
+    file: Annotated[str, Field(description="Path to the .bob or .pvi.bob screen file")]
+    type: Annotated[str, Field(description="Screen type, e.g. 'embedded' or 'related'")]
+    screen_macros: Annotated[
+        dict[str, str] | None,
+        Field(
+            description="Screen-specific macro overrides",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "type": "object",
+                "additionalProperties": {"type": "string"},
+            },
+        ),
+    ] = None
+
+
 class SupportEntity(BaseModel):
     """
     Table of variables from corresponding support module in techui-support.yaml file
@@ -319,8 +337,8 @@ class SupportEntity(BaseModel):
         Field(description="Macros for the matching screen (can be empty)"),
     ]
     screens: Annotated[
-        list[dict[str, str | dict[str, str]]],
-        Field(description="Dictionary of available screens for the support module"),
+        list[SupportEntityScreen],
+        Field(description="List of available screens for the support module"),
     ]
 
 

@@ -12,7 +12,7 @@ from techui_builder.builder import Builder
 from techui_builder.generate import Generator
 from techui_builder.generate_jsonmap import JsonMapGenerator
 from techui_builder.jsonmap.nodes import ScreenNode
-from techui_builder.models import Component, SupportEntity
+from techui_builder.models import Component, SupportEntity, SupportEntityScreen
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
@@ -48,63 +48,71 @@ def builder(tmp_t01_services):
 def techui_support():
     ts = MagicMock()
     ts.support_modules = {
-        "pmac.GeoBrick": SupportEntity(prefix="{{ P }}", macros=["P"], screens=[{}]),
-        "pmac.autohome": SupportEntity(prefix="{{ P }}", macros=["P"], screens=[{}]),
+        "pmac.GeoBrick": SupportEntity(
+            prefix="{{ P }}",
+            macros=["P"],
+            screens=[SupportEntityScreen(file="", type="")],
+        ),
+        "pmac.autohome": SupportEntity(
+            prefix="{{ P }}",
+            macros=["P"],
+            screens=[SupportEntityScreen(file="", type="")],
+        ),
         "pmac.dls_pmac_asyn_motor": SupportEntity(
-            prefix="{{ P }}{{ M }}", macros=["P", "M"], screens=[{}]
+            prefix="{{ P }}{{ M }}",
+            macros=["P", "M"],
+            screens=[SupportEntityScreen(file="", type="")],
         ),
         "ADAravis.aravisCamera": SupportEntity(
             prefix="{{ P }}{{ R }}",
             macros=["P", "R"],
             screens=[
-                {"file": "ADAravis/ADAravis_summary.bob", "type": "embedded"},
-                {"file": "ADAravis/ADAravis_detail.bob", "type": "related"},
+                SupportEntityScreen(
+                    file="ADAravis/ADAravis_summary.bob", type="embedded"
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/ADAravis_detail.bob", type="related"
+                ),
             ],
         ),
         "ADUVC.UVC": SupportEntity(
             prefix="{{ P }}{{ R }}",
             macros=["P", "R"],
             screens=[
-                {"file": "ADUVC/ADUVC_summary.bob", "type": "embedded"},
-                {"file": "$(IOC)/ADUVC.pvi.bob", "type": "related"},
+                SupportEntityScreen(file="ADUVC/ADUVC_summary.bob", type="embedded"),
+                SupportEntityScreen(file="$(IOC)/ADUVC.pvi.bob", type="related"),
             ],
         ),
         "detectorPlugins.detectorPlugins": SupportEntity(
             prefix="{{ P }}{{ R }}",
             macros=["P", "R"],
             screens=[
-                {
-                    "file": "ADAravis/NDPluginStats.pvi.bob",
-                    "screen_macros": {
-                        "R": ":STAT:",
-                    },
-                    "type": "related",
-                },
-                {
-                    "file": "ADAravis/NDPluginPva.pvi.bob",
-                    "screen_macros": {
-                        "R": ":PVA:",
-                    },
-                    "type": "related",
-                },
-                {
-                    "file": "ADAravis/NDPluginROIStat.pvi.bob",
-                    "screen_macros": {
-                        "R": ":ROISTAT:",
-                    },
-                    "type": "related",
-                },
-                {
-                    "file": "ADAravis/NDFileHDF5.pvi.bob",
-                    "screen_macros": {
-                        "R": ":HDF5:",
-                    },
-                    "type": "related",
-                },
+                SupportEntityScreen(
+                    file="ADAravis/NDPluginStats.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":STAT:"},
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/NDPluginPva.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":PVA:"},
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/NDPluginROIStat.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":ROISTAT:"},
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/NDFileHDF5.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":HDF5:"},
+                ),
             ],
         ),
         "fastcs.TemperatureController": SupportEntity(
-            prefix="{{ name }}", macros=["name"], screens=[{}]
+            prefix="{{ name }}",
+            macros=["name"],
+            screens=[SupportEntityScreen(file="", type="")],
         ),
     }
 

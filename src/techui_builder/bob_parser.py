@@ -20,6 +20,8 @@ class BobParser:
         for element in container.iterchildren("widget"):
             name_element = element.find("name")
             name = name_element.text if name_element is not None else ""
+            prefix_element = element.find("pv_name")
+            prefix = prefix_element.text if prefix_element is not None else ""
 
             widget = BobWidget(
                 name=name or "",
@@ -27,6 +29,7 @@ class BobParser:
                 macros=_get_macros(element),
                 element=element,
                 children=None,
+                prefix=prefix or "",
             )
             if widget.widget_type == "group":
                 widget.children = self._parse_widgets(element)

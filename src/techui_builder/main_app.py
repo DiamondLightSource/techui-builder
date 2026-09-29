@@ -19,13 +19,13 @@ app = typer.Typer(context_settings={"allow_interspersed_args": True})
 def find_dirs(file_path: Path, beamline: str) -> tuple:
     # Get the relative path to the techui file from working dir
     abs_path = file_path.absolute()
-    logger_.debug(f"techui.yaml absolute path: {abs_path}")
+    logger_.debug(f"index.bob absolute path: {abs_path}")
 
     # Get the current working dir
     cwd = Path.cwd()
     logger_.debug(f"Working directory: {cwd}")
 
-    directory = beamline
+    directory = beamline.lower()
 
     # Get the relative path of ixx-services to techui.yaml
     ixx_services_dir = next(
@@ -156,7 +156,13 @@ def main(
     # autofiller = Autofiller(bob_files, index_bob_path, gui.conf.components)
     # Extract information from index.bob
     bp = BobParser(filename)
-    bp.read_bob()
+    synoptic_macros = bp.parse_bob()
+    print(synoptic_macros)
+    ixx_services_dir, synoptic_dir = find_dirs(
+        filename, synoptic_macros.macros["domain"]
+    )
+    # Need to provide builder the macros to work on generating and validating bob files.
+
     # autofiller.autofill_bobs()
     # autofiller.write_bobs()
 

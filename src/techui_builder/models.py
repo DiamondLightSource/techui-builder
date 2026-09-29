@@ -1,7 +1,10 @@
 import logging
 import re
+from pathlib import Path
 from typing import Annotated, Any
 
+from lxml.etree import ElementTree
+from lxml.objectify import ObjectifiedElement
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -13,7 +16,7 @@ from pydantic import (
 
 logger_ = logging.getLogger(__name__)
 
-
+type MacroMap = dict[str, str]
 # Patterns:
 #   long:  'bl23b'
 #   short: 'b23', 'ixx-1'
@@ -329,3 +332,45 @@ class TechUiSupport(BaseModel):
         dict[str, SupportEntity],
         Field(description="The dictionary of techui-support.yaml entities"),
     ]
+
+
+"""
+BobParser Models
+"""
+
+
+class BobWidget(BaseModel):
+    """Class representation of Bob Widget"""
+
+    name: Annotated[str, Field(description="Widget name")]
+    widget_type: Annotated[str, Field(description="Widget type")]
+    macros: Annotated[MacroMap, Field(description="Macro dictionary")]
+    element: Annotated[
+        ObjectifiedElement,
+        Field(description="XML tree representation of the widget", repr=False),
+    ]
+    children: Annotated[
+        list["BobWidget"] | None,
+        Field(description="Children of parent BobWidget", default_factory=list),
+    ]
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+    )
+
+
+class BobFile(BaseModel):
+    """Class representation of BobFile suchs as index.bob and {component}.bob"""
+
+    path: Annotated[Path, Field(description="Path to file")]
+    macros: Annotated[MacroMap, Field(description="Macro dictionary")]
+    tree: Annotated[
+        ElementTree,
+        Field(description="XML tree representation of the file", repr=False),
+    ]
+    widgets: Annotated[
+        list[BobWidget],
+        Field(description="Widgets in the .bob file", default_factory=list),
+    ]
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+    )

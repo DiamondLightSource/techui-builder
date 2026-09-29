@@ -6,8 +6,7 @@ from typing import Annotated
 import typer
 
 from techui_builder._logger import log_level
-from techui_builder.autofill import Autofiller
-from techui_builder.builder import Builder
+from techui_builder.bob_parser import BobParser
 
 logger_ = logging.getLogger(__name__)
 
@@ -114,16 +113,9 @@ def find_index_bobs(
 
 
 # This is the 'build' behaviour
-@app.command("build", help="Run `techui-builder build` for a given techui.yaml")
+@app.command("build", help="Run `techui-builder build` for a given index.bob")
 def main(
-    filename: Annotated[Path, typer.Argument(help="The path to techui.yaml")],
-    bobfile: Annotated[
-        Path | None,
-        typer.Argument(
-            help="Override for template bob file location. This will be used to find"
-            " and other template bob files in the same location with similar names."
-        ),
-    ] = None,
+    filename: Annotated[Path, typer.Argument(help="The path to index.bob")],
     loglevel: Annotated[
         str,
         typer.Option(
@@ -137,33 +129,35 @@ def main(
 ) -> None:
     """Function to run when `techui-builder build` is called."""
 
-    gui = Builder(techui=filename)
+    # gui = Builder(techui=filename)
 
-    ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.domain)
+    # ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.domain)
 
-    index_bob_path, bob_files = find_index_bobs(bobfile, synoptic_dir)
+    # index_bob_path, bob_files = find_index_bobs(filename, synoptic_dir)
 
     # # Overwrite after initialised to make sure this is picked up
-    gui._services_dir = ixx_services_dir / "services"  # noqa: SLF001
-    gui._write_directory = synoptic_dir  # noqa: SLF001
+    # gui._services_dir = ixx_services_dir / "services"  # noqa: SLF001
+    # gui._write_directory = synoptic_dir  # noqa: SLF001
 
-    logger_.debug(
-        f"""
+    #     logger_.debug(
+    #         f"""
 
-Builder created for {gui.conf.beamline.domain}.
-Services directory: {gui._services_dir}
-Write directory: {gui._write_directory}
-""",  # noqa: SLF001
-    )
+    # Builder created for {gui.conf.beamline.domain}.
+    # Services directory: {gui._services_dir}
+    # Write directory: {gui._write_directory}
+    # """,  # noqa: SLF001
+    #     )
 
-    gui.setup()
-    gui.create_screens()
+    # gui.setup()
+    # gui.create_screens()
 
-    logger_.info(f"Screens generated for {gui.conf.beamline.domain}.")
+    # logger_.info(f"Screens generated for {gui.conf.beamline.domain}.")
 
-    autofiller = Autofiller(bob_files, index_bob_path, gui.conf.components)
-    autofiller.read_bobs()
-    autofiller.autofill_bobs()
-    autofiller.write_bobs()
+    # autofiller = Autofiller(bob_files, index_bob_path, gui.conf.components)
+    # Extract information from index.bob
+    bp = BobParser(filename)
+    bp.read_bob()
+    # autofiller.autofill_bobs()
+    # autofiller.write_bobs()
 
-    logger_.info(f"Screens autofilled for {gui.conf.beamline.domain}.")
+    # logger_.info(f"Screens autofilled for {gui.conf.beamline.domain}.")

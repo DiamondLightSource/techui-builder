@@ -159,7 +159,9 @@ class Builder:
 
                     for entity in ioc_conf[entity_key]:
                         component_name = None
-                        if entity["type"].startswith("fastcs"):
+                        if (entity["type"].startswith("fastcs")) and (
+                            entity["type"] not in self.techui_support.support_modules
+                        ):
                             component_name = entity["type"]
                             entity["type"] = "fastcs*"
 

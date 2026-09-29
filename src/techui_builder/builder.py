@@ -1,7 +1,6 @@
 import logging
 import os
 import re
-from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -34,9 +33,7 @@ class Builder:
 
     techui: Path = field(default=Path("techui.yaml"))
 
-    entities: defaultdict[str, list[Entity]] = field(
-        default_factory=lambda: defaultdict(list), init=False
-    )
+    entities: dict[str, Entity] = field(default_factory=dict, init=False)
     _services_dir: Path = field(init=False, repr=False)
     _write_directory: Path = field(init=False, repr=False)
 
@@ -180,9 +177,20 @@ class Builder:
                                 macros=macros,
                             )
 
-                            pv_root = prefix.split(":", maxsplit=1)[0]
-                            self.entities[pv_root].append(new_entity)
+                            self.entities[prefix] = new_entity
                     break
+
+    def get_entities_for_prefix(self, prefix: str) -> list[Entity]:
+        """Return entities matching a full PV prefix, or all entities under a root."""
+        results = []
+        if prefix in self.entities:
+            # Exact match (no suffix) — also catches root entity in loop below
+            results.append(self.entities[prefix])
+        # Children with suffixes (e.g. BL19I-MO-DCM-01:MOT1)
+        for entity in self.entities.values():
+            if entity.base_prefix == prefix and entity is not self.entities.get(prefix):
+                results.append(entity)
+        return results
 
     def _generate_screen(self, screen_name: str):
         self.generator.build_screen(screen_name)
@@ -210,41 +218,39 @@ class Builder:
         for component_name, component in self.conf.components.items():
             screen_entities: list[Entity] = []
 
-            # ONLY IF there is a matching component and entity, generate a screen
-            if component.prefix in self.entities.keys():
-                # Populate child labels for any entities
-                # with the same prefix as the component
-                for entity in self.entities[component.prefix]:
-                    entity.child_labels = component.child_labels
-
-                screen_entities.extend(self.entities[component.prefix])
-
-                if component.extras is not None:
-                    # If component has any extras, add them to the entries to generate
-                    for extra_p in component.extras:
-                        if extra_p not in self.entities.keys():
-                            logger_.error(
-                                f"Extra prefix {extra_p} for {component_name} does not"
-                                " exist."
-                            )
-                            continue
-                        screen_entities.extend(self.entities[extra_p])
-
-                # This is used by both generate and validate,
-                # so called beforehand for tidiness
-                self.generator.build_widgets(component_name, screen_entities)
-                self.generator.build_groups(component_name, self.conf.components)
-
-                screens_to_validate = list(self.validator.validate.keys())
-
-                if component_name in screens_to_validate:
-                    self._validate_screen(component_name)
-                else:
-                    self._generate_screen(component_name)
-
-            else:
+            matched = self.get_entities_for_prefix(component.prefix)
+            if not matched:
                 logger_.warning(
-                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold] "
-                    f"set in the component [bold]{component_name}[/bold] does not match"
-                    " any P field in the ioc.yaml files in services"
+                    f"{self.techui.name}: prefix [bold]{component.prefix}[/bold] "
+                    f"for component [bold]{component_name}[/bold] matched no entities."
                 )
+                continue
+
+            # Populate child labels for any entities
+            for entity in matched:
+                entity.child_labels = component.child_labels
+
+            screen_entities.extend(matched)
+
+            if component.extras is not None:
+                for extra_p in component.extras:
+                    extra_matched = self.get_entities_for_prefix(extra_p)
+                    if not extra_matched:
+                        logger_.error(
+                            f"Extra prefix {extra_p} for {component_name} matched no"
+                            " entities."
+                        )
+                        continue
+                    screen_entities.extend(extra_matched)
+
+            # This is used by both generate and validate,
+            # so called beforehand for tidiness
+            self.generator.build_widgets(component_name, screen_entities)
+            self.generator.build_groups(component_name, self.conf.components)
+
+            screens_to_validate = list(self.validator.validate.keys())
+
+            if component_name in screens_to_validate:
+                self._validate_screen(component_name)
+            else:
+                self._generate_screen(component_name)

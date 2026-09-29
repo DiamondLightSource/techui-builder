@@ -9,7 +9,14 @@ import yaml
 from jinja2 import Template
 
 from techui_builder.generate import Generator
-from techui_builder.models import BobFile, Entity, SupportEntity, TechUi, TechUiSupport
+from techui_builder.models import (
+    BobFile,
+    Component,
+    Entity,
+    SupportEntity,
+    TechUi,
+    TechUiSupport,
+)
 from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
@@ -47,6 +54,12 @@ class Builder:
             self.conf = TechUi.model_validate(
                 yaml.safe_load(self.techui.read_text(encoding="utf-8"))
             )
+        for widget in self.bob_description.widgets:
+            if widget.prefix:
+                self.conf.components[widget.name] = Component(
+                    prefix=widget.prefix,
+                    label=widget.name,
+                )
 
     def setup(self):
         """

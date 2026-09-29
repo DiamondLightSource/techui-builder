@@ -29,7 +29,7 @@ class Autofiller:
 
     def read_bobs(self) -> None:
         for path in self.index_paths:
-            tree, widget_dict = read_bob(path)
+            tree, widget_dict, _ = read_bob(path)
             self.index_trees[path] = (tree, widget_dict)
 
     def autofill_bobs(self) -> None:
@@ -63,7 +63,7 @@ class Autofiller:
                                 self._autofill_from_path(resolved_path)
                             else:
                                 if resolved_path.exists():
-                                    nav_tree, nav_widgets = read_bob(resolved_path)
+                                    nav_tree, nav_widgets, _ = read_bob(resolved_path)
                                     self.index_trees[resolved_path] = (
                                         nav_tree,
                                         nav_widgets,

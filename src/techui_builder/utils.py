@@ -26,7 +26,9 @@ def read_bob(path):
 
     widgets = get_widgets(root)
 
-    return tree, widgets
+    macros = _get_macros(root)
+
+    return tree, widgets, macros
 
 
 def get_widgets(root: ObjectifiedElement):

@@ -1,31 +1,50 @@
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
-from lxml.etree import ElementTree
 from lxml.objectify import ObjectifiedElement
 
-from techui_builder.utils import (
-    read_bob,
-)
+from techui_builder.models import BobFile, BobWidget
+from techui_builder.utils import WidgetType, _get_macros, read_bob
 
 logger_ = logging.getLogger(__name__)
-
-macros = dict[str, str]
-WidgetDict = dict[str, ObjectifiedElement]
-TreeWidgetDictTuple = tuple[ElementTree, WidgetDict]
-MacroTreeTuple = tuple[macros, TreeWidgetDictTuple]
-IndexObjectDict = dict[Path, MacroTreeTuple]
 
 
 @dataclass
 class BobParser:
     bob_path: Path
-    index_trees: IndexObjectDict = field(default_factory=dict, init=False, repr=False)
 
-    def read_bob(self):
-        # Read the bob file
-        tree, widget_dict, macros = read_bob(self.bob_path)
-        self.index_trees[self.bob_path] = (macros, (tree, widget_dict))
-        print(self.index_trees)
-        return self.index_trees
+    def _parse_widgets(self, container: ObjectifiedElement) -> list[BobWidget]:
+        result = []
+
+        for element in container.iterchildren("widget"):
+            name_element = element.find("name")
+            name = name_element.text if name_element is not None else ""
+
+            widget = BobWidget(
+                name=name or "",
+                widget_type=element.get("type", default=""),
+                macros=_get_macros(element),
+                element=element,
+                children=None,
+            )
+            if widget.widget_type == "group":
+                widget.children = self._parse_widgets(element)
+
+            if widget.widget_type in WidgetType:
+                result.append(widget)
+
+        return result
+
+    def parse_bob(
+        self,
+    ) -> BobFile:
+        tree, _, display_macros = read_bob(self.bob_path)
+        root = tree.getroot()
+
+        return BobFile(
+            path=self.bob_path,
+            macros=display_macros,
+            tree=tree,
+            widgets=self._parse_widgets(root),
+        )

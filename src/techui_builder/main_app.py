@@ -162,7 +162,8 @@ def main(
         filename, synoptic_macros.macros["domain"]
     )
     # Need to provide builder the macros to work on generating and validating bob files.
-
+    index_bob_path, bob_files = find_index_bobs(filename, synoptic_dir)
+    print(index_bob_path, bob_files)
     # autofiller.autofill_bobs()
     # autofiller.write_bobs()
 

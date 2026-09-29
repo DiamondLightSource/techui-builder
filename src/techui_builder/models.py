@@ -297,7 +297,17 @@ class Entity(BaseModel):
             "ADAravis.aravisCamera"
         ),
     ]
-    prefix: Annotated[str, Field(description="PV Prefix for module entity")]
+    prefix: Annotated[
+        str,
+        Field(
+            description="Component PV Prefix",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "pattern": _DLS_PREFIX_PATTERN_COMPACT,
+                "type": "string",
+            },
+        ),
+    ]
     desc: Annotated[
         str | None, Field(description="Optional description of module entity")
     ] = None
@@ -345,6 +355,7 @@ class BobWidget(BaseModel):
     name: Annotated[str, Field(description="Widget name")]
     widget_type: Annotated[str, Field(description="Widget type")]
     macros: Annotated[MacroMap, Field(description="Macro dictionary")]
+    prefix: Annotated[str, _DLS_PREFIX_PATTERN_VERBOSE]
     element: Annotated[
         ObjectifiedElement,
         Field(description="XML tree representation of the widget", repr=False),

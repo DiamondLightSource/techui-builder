@@ -9,7 +9,7 @@ import yaml
 from jinja2 import Template
 
 from techui_builder.generate import Generator
-from techui_builder.models import Entity, SupportEntity, TechUi, TechUiSupport
+from techui_builder.models import BobFile, Entity, SupportEntity, TechUi, TechUiSupport
 from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
@@ -32,7 +32,8 @@ class Builder:
 
     """
 
-    techui: Path = field(default=Path("techui.yaml"))
+    bob_description: BobFile
+    techui: Path = field(init=False, repr=False)
 
     entities: defaultdict[str, list[Entity]] = field(
         default_factory=lambda: defaultdict(list), init=False
@@ -42,9 +43,10 @@ class Builder:
 
     def __post_init__(self):
         # Populate beamline and components
-        self.conf = TechUi.model_validate(
-            yaml.safe_load(self.techui.read_text(encoding="utf-8"))
-        )
+        if self.techui:
+            self.conf = TechUi.model_validate(
+                yaml.safe_load(self.techui.read_text(encoding="utf-8"))
+            )
 
     def setup(self):
         """
@@ -62,7 +64,7 @@ class Builder:
 
         self.generator = Generator(
             self._write_directory,
-            self.conf.beamline.url,
+            self.bob_description.macros["url"],
             self.support_path,
             self.techui_support,
         )
@@ -109,7 +111,9 @@ class Builder:
         """
 
         # Loop over every dir in services, ignoring anything that isn't a service
-        for service in self._services_dir.glob(f"{self.conf.beamline.location}-*-*-*"):
+        for service in self._services_dir.glob(
+            f"{self.bob_description.macros['location']}-*-*-*"
+        ):
             service_name = service.name
             # If service doesn't exist, file open will fail throwing exception
             try:

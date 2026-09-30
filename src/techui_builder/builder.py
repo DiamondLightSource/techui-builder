@@ -40,7 +40,7 @@ class Builder:
     """
 
     bob_description: BobFile
-    techui: Path = field(init=False, repr=False)
+    techui: Path = field(init=True, repr=False)
 
     entities: defaultdict[str, list[Entity]] = field(
         default_factory=lambda: defaultdict(list), init=False
@@ -55,11 +55,20 @@ class Builder:
                 yaml.safe_load(self.techui.read_text(encoding="utf-8"))
             )
         for widget in self.bob_description.widgets:
-            if widget.prefix:
-                self.conf.components[widget.name] = Component(
-                    prefix=widget.prefix,
-                    label=widget.name,
-                )
+            values = {
+                "prefix": widget.prefix,
+                "label": widget.name,
+            }
+            values.update(
+                {
+                    key: value
+                    for key, value in widget.macros.items()
+                    if key in Component.model_fields and key not in {"prefix", "label"}
+                }
+            )
+
+            if values["prefix"]:
+                self.conf.components[widget.name] = Component(**values)
 
     def setup(self):
         """

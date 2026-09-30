@@ -185,8 +185,9 @@ def test_gb_extract_services_both_yaml_files(
     builder._extract_entities = Mock()
 
     # overwrite to not see the bl01t service dirs
-    builder.conf.beamline.location = "bl01z"
+    builder.bob_description.macros["location"] = "bl01z"
     builder._services_dir = tmp_path
+
     # Temporary files to test against
     (tmp_path / "bl01z-ea-temp-01").mkdir()
     (tmp_path / "bl01z-ea-temp-01/config").mkdir()

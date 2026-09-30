@@ -1,7 +1,13 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<!--Saved on 2026-07-20 15:06:49 by ryi58813-->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2026-09-30 12:56:26 by uns32131-->
 <display version="2.0.0">
   <name>Display</name>
+  <macros>
+    <location>bl01t</location>
+    <domain>t01</domain>
+    <desc>Test Beamline</desc>
+    <url>t01-opis.diamond.ac.uk</url>
+  </macros>
   <widget type="group" version="3.0.0">
     <name>dcam1_Group</name>
     <x>250</x>
@@ -12,6 +18,7 @@
     <transparent>true</transparent>
     <widget type="symbol" version="2.0.0">
       <name>dcam1</name>
+      <pv_name>BL01T-DI-CAM-01:STA</pv_name>
       <symbols>
         <symbol>techui-support/symbols/camera.svg</symbol>
       </symbols>
@@ -26,11 +33,10 @@
           <target>replace</target>
         </action>
       </actions>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
       <tooltip>$(pv_name)
 $(pv_value)
 $(actions)</tooltip>
-      <pv_name>BL01T-DI-CAM-01:STA</pv_name>
-      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
     </widget>
     <widget type="label" version="2.0.0">
       <name>dcam1_L:abel</name>
@@ -51,6 +57,7 @@ $(actions)</tooltip>
     <transparent>true</transparent>
     <widget type="symbol" version="2.0.0">
       <name>diode1</name>
+      <pv_name>BL01T-DI-PHDGN-01:STA</pv_name>
       <symbols>
         <symbol>techui-support/symbols/oscilloscope.svg</symbol>
       </symbols>
@@ -65,11 +72,10 @@ $(actions)</tooltip>
           <target>replace</target>
         </action>
       </actions>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
       <tooltip>$(pv_name)
 $(pv_value)
 $(actions)</tooltip>
-      <pv_name>BL01T-DI-PHDGN-01:STA</pv_name>
-      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
     </widget>
     <widget type="label" version="2.0.0">
       <name>diode1_Label</name>
@@ -102,10 +108,10 @@ $(actions)</tooltip>
           <target>replace</target>
         </action>
       </actions>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
       <tooltip>$(pv_name)
 $(pv_value)
 $(actions)</tooltip>
-      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
     </widget>
     <widget type="label" version="2.0.0">
       <name>temp1_label</name>
@@ -141,10 +147,10 @@ $(actions)</tooltip>
           <target>replace</target>
         </action>
       </actions>
+      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
       <tooltip>$(pv_name)
 $(pv_value)
 $(actions)</tooltip>
-      <run_actions_on_mouse_click>true</run_actions_on_mouse_click>
     </widget>
     <widget type="label" version="2.0.0">
       <name>motor1_label</name>

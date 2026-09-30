@@ -29,7 +29,7 @@ _DLS_PREFIX_PATTERN_VERBOSE = r"""
             (?!.*--)    # negative lookahead to ensure no double hyphens
             (?!.*:\..)  # negative lookahead to ensure no colon followed by a dot
             (           # start of capture group 1
-                (?:[A-Za-z0-9]{2,5}-){3} # match 2 to 5 alphanumeric characters followed
+                (?:[A-Za-z0-9]{2,6}-){3} # match 2 to 6 alphanumeric characters followed
                                     # by a hyphen, repeated 3 times
                 [\d]*   # match zero or more digits
                 [^:]?   # match zero or one non-colon character

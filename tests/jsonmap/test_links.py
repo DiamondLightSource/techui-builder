@@ -11,9 +11,11 @@ from techui_builder.jsonmap.links import (
 from techui_builder.utils import WidgetType
 
 
-def button(name: str, *actions: str, widget_type="action_button") -> str:
+def button(
+    name: str, *actions: str, widget_type="action_button", symbols: str = ""
+) -> str:
     return (
-        f'<widget type="{widget_type}"><name>{name}</name>'
+        f'<widget type="{widget_type}"><name>{name}</name>{symbols}'
         f"<actions>{''.join(actions)}</actions></widget>"
     )
 
@@ -85,3 +87,22 @@ def test_is_bob():
     assert not is_bob("dcam1.opi")
     assert not is_bob("index.html")
     assert not is_bob("")
+
+
+def test_extract_links_symbols():
+    icon = "techui-support/symbols/camera.svg"
+    # A symbol widget can hold one symbol per PV state; the first is its icon
+    states = f"<symbols><symbol> {icon} </symbol><symbol>other.svg</symbol></symbols>"
+    root = objectify.fromstring(
+        '<display version="2.0.0"><name>Display</name>'
+        + button(
+            "Symbol", open_display("symbol.bob"), widget_type="symbol", symbols=states
+        )
+        + button("Bare", open_display("bare.bob"))
+        + "</display>"
+    )
+
+    assert [(link.file, link.symbol) for link in extract_links(root)] == [
+        ("symbol.bob", icon),
+        ("bare.bob", None),
+    ]

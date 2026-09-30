@@ -7,12 +7,12 @@ from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import fromstring
 from phoebusgen import widget as pwidget
 
-from techui_builder.autofill import Autofiller
+from techui_builder.autofill import Autofiller, IndexObjectDict
 from techui_builder.builder import Builder
 from techui_builder.generate import Generator
 from techui_builder.generate_jsonmap import JsonMapGenerator
 from techui_builder.jsonmap.nodes import ScreenNode
-from techui_builder.models import Component, SupportEntity, SupportEntityScreen
+from techui_builder.models import Component, Entity, SupportEntity, SupportEntityScreen
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
@@ -343,10 +343,49 @@ def generator(techui_support, tmp_t01_services):
 
 
 @pytest.fixture
-def autofiller(tmp_t01_services):
-    index_bob = tmp_t01_services / "synoptic/index.bob"
+def autofiller_index_trees(example_xml_symbol_widget):
+    mock_path = MagicMock(spec=Path)
+    mock_index_trees: IndexObjectDict = {
+        mock_path: (
+            MagicMock(),
+            {
+                "test_widget": example_xml_symbol_widget,
+                "test_entity": example_xml_symbol_widget,
+            },
+        )
+    }
+    return mock_index_trees
 
+
+@pytest.fixture
+def autofiller(tmp_t01_services, autofiller_index_trees):
+    index_bob = tmp_t01_services / "synoptic/index.bob"
     a = Autofiller([index_bob], index_bob, {"test_widget": MagicMock(spec=Component)})
+
+    a.index_trees = autofiller_index_trees
+
+    return a
+
+
+@pytest.fixture
+def autofiller_with_entities(tmp_t01_services, autofiller_index_trees):
+    index_bob = tmp_t01_services / "synoptic/index.bob"
+    a = Autofiller(
+        [index_bob],
+        index_bob,
+        {},
+        {
+            "test_entity": Entity(
+                service_name="test",
+                type="pmac.dls_pmac_asyn_motor",
+                prefix="BL01T-MO-TEST",
+                desc="Test Description",
+                macros={"P": "BL01T-MO-TEST"},
+            ),
+        },
+    )
+
+    a.index_trees = autofiller_index_trees
 
     return a
 

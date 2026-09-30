@@ -6,7 +6,9 @@ from typing import Annotated
 import typer
 
 from techui_builder._logger import log_level
+from techui_builder.autofill import Autofiller
 from techui_builder.bob_parser import BobParser
+from techui_builder.builder import Builder
 
 logger_ = logging.getLogger(__name__)
 
@@ -129,8 +131,6 @@ def main(
 ) -> None:
     """Function to run when `techui-builder build` is called."""
 
-    # gui = Builder(techui=filename)
-
     # ixx_services_dir, synoptic_dir = find_dirs(filename, gui.conf.beamline.domain)
 
     # index_bob_path, bob_files = find_index_bobs(filename, synoptic_dir)
@@ -164,7 +164,27 @@ def main(
     # Need to provide builder the macros to work on generating and validating bob files.
     index_bob_path, bob_files = find_index_bobs(filename, synoptic_dir)
     print(index_bob_path, bob_files)
-    # autofiller.autofill_bobs()
-    # autofiller.write_bobs()
 
-    # logger_.info(f"Screens autofilled for {gui.conf.beamline.domain}.")
+    gui = Builder(synoptic_macros, synoptic_dir / "techui.yaml")
+    gui._services_dir = ixx_services_dir / "services"  # noqa: SLF001
+    gui._write_directory = synoptic_dir  # noqa: SLF001
+
+    logger_.debug(
+        f"""
+
+    Builder created for {gui.conf.beamline.domain}.
+    Services directory: {gui._services_dir}
+    Write directory: {gui._write_directory}
+    """,  # noqa: SLF001
+    )
+
+    gui.setup()
+    gui.create_screens()
+
+    logger_.info(f"Screens generated for {gui.conf.beamline.domain}.")
+
+    autofiller = Autofiller(bob_files, index_bob_path, gui.conf.components)
+    autofiller.autofill_bobs()
+    autofiller.write_bobs()
+
+    logger_.info(f"Screens autofilled for {gui.conf.beamline.domain}.")

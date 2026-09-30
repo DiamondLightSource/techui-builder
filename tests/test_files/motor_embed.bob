@@ -27,7 +27,7 @@
       <pv_name>$(P)$(M).TWR</pv_name>
       <text>-</text>
       <y>10</y>
-      <width>30</width>
+      <width>31</width>
       <height>20</height>
       <font>
         <font family="Arial" style="REGULAR" size="12.0">

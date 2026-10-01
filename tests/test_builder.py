@@ -20,7 +20,7 @@ def test_beamline_attributes(builder, attr, expected):
 @pytest.mark.parametrize(
     "index, name, label, P, R, attribute, file, extras, child_labels",
     [
-        (0, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None, None),
+        (4, "fshtr", "Fast Shutter", "BL01T-EA-FSHTR-01", None, None, None, None, None),
         (
             1,
             "diode1",
@@ -33,7 +33,7 @@ def test_beamline_attributes(builder, attr, expected):
             None,
         ),
         (
-            4,
+            3,
             "motor1",
             "Motor Stage",
             "BL01T-MO-MOTOR-01",
@@ -185,8 +185,9 @@ def test_gb_extract_services_both_yaml_files(
     builder._extract_entities = Mock()
 
     # overwrite to not see the bl01t service dirs
-    builder.conf.beamline.location = "bl01z"
+    builder.bob_description.macros["location"] = "bl01z"
     builder._services_dir = tmp_path
+
     # Temporary files to test against
     (tmp_path / "bl01z-ea-temp-01").mkdir()
     (tmp_path / "bl01z-ea-temp-01/config").mkdir()

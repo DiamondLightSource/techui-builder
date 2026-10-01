@@ -192,6 +192,7 @@ def test_find_bob_no_bob_file_found(caplog: pytest.LogCaptureFixture):
     assert exc_info.value.code is None
 
 
+@patch("techui_builder.main_app.BobParser")
 @patch("techui_builder.main_app.find_index_bobs")
 @patch("techui_builder.main_app.find_dirs")
 @patch("techui_builder.main_app.Autofiller")
@@ -201,12 +202,18 @@ def test_main(
     mock_autofiller: MagicMock,
     mock_find_dirs: MagicMock,
     mock_find_index_bobs: MagicMock,
+    mock_bob_parser: MagicMock,
 ):
     mock_index_path = MagicMock(spec=Path)
     mock_find_dirs.return_value = MagicMock(spec=Path), MagicMock(spec=Path)
     mock_find_index_bobs.return_value = mock_index_path, [mock_index_path]
+    mock_bob_parser.return_value.parse_bob.return_value.macros.macros = {
+        "domain": "ixx"
+    }
+
     main(mock_index_path)
 
+    mock_bob_parser.assert_called_once_with(mock_index_path)
     mock_find_dirs.assert_called_once()
     mock_find_index_bobs.assert_called_once()
 

@@ -31,7 +31,7 @@ app = typer.Typer(
     `-- synoptic\n
     .   |-- techui-support/\n
     |   |   `-- ...\n
-    .   |-- techui.yaml\n
+    .   |-- techui.yaml?\n
     .   `-- index.bob\n
 """,
     no_args_is_help=True,

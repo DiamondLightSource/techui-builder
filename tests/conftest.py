@@ -8,11 +8,12 @@ from lxml.objectify import fromstring
 from phoebusgen import widget as pwidget
 
 from techui_builder.autofill import Autofiller
+from techui_builder.bob_parser import BobParser
 from techui_builder.builder import Builder
 from techui_builder.generate import Generator
 from techui_builder.generate_jsonmap import JsonMapGenerator
 from techui_builder.jsonmap.nodes import ScreenNode
-from techui_builder.models import Component, SupportEntity
+from techui_builder.models import BobFile, Component, SupportEntity
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
@@ -26,6 +27,12 @@ def tmp_t01_services(tmp_path) -> Path:
 
 
 @pytest.fixture
+def bob_parser(tmp_t01_services) -> BobFile:
+    bob_document = BobParser(tmp_t01_services / "synoptic/index.bob").parse_bob()
+    return bob_document
+
+
+@pytest.fixture
 def tmp_test_files(tmp_path) -> Path:
     # Copy test files to tmp_path so they are visible to the tests
     shutil.copytree(Path("tests/test_files/"), tmp_path / "test_files")
@@ -34,11 +41,12 @@ def tmp_test_files(tmp_path) -> Path:
 
 
 @pytest.fixture
-def builder(tmp_t01_services):
+def builder(tmp_t01_services, bob_parser):
     ixx_services = tmp_t01_services
+    bob_document = bob_parser
     techui_path = ixx_services / "synoptic/techui.yaml"
 
-    b = Builder(techui_path)
+    b = Builder(bob_document, techui_path)
     b._services_dir = ixx_services / "services"
     b._write_directory = ixx_services / "synoptic"
     return b

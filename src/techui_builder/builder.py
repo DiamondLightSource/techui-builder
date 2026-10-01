@@ -9,7 +9,14 @@ import yaml
 from jinja2 import Template
 
 from techui_builder.generate import Generator
-from techui_builder.models import Entity, SupportEntity, TechUi, TechUiSupport
+from techui_builder.models import (
+    BobFile,
+    Component,
+    Entity,
+    SupportEntity,
+    TechUi,
+    TechUiSupport,
+)
 from techui_builder.validator import Validator
 
 logger_ = logging.getLogger(__name__)
@@ -32,7 +39,8 @@ class Builder:
 
     """
 
-    techui: Path = field(default=Path("techui.yaml"))
+    bob_description: BobFile
+    techui: Path | None = field(init=True, repr=False)
 
     entities: defaultdict[str, list[Entity]] = field(
         default_factory=lambda: defaultdict(list), init=False
@@ -40,11 +48,41 @@ class Builder:
     _services_dir: Path = field(init=False, repr=False)
     _write_directory: Path = field(init=False, repr=False)
 
+    def _iter_prefixed_widgets(self, widgets):
+        for widget in widgets:
+            if widget.prefix and widget.prefix.strip():
+                yield widget
+
+            if widget.widget_type == "group":
+                yield from self._iter_prefixed_widgets(widget.children or [])
+
     def __post_init__(self):
-        # Populate beamline and components
-        self.conf = TechUi.model_validate(
-            yaml.safe_load(self.techui.read_text(encoding="utf-8"))
-        )
+        components = {}
+
+        for widget in self._iter_prefixed_widgets(self.bob_description.widgets):
+            values = {
+                key: value
+                for key, value in widget.macros.items()
+                if key in Component.model_fields and key != "prefix"
+            }
+            values["prefix"] = widget.prefix.strip()
+            values.setdefault("label", widget.name)
+            components[widget.name] = values
+
+        macros = self.bob_description.macros
+        techui_data = {
+            "beamline": {
+                key: macros[key] for key in ("location", "domain", "desc", "url")
+            },
+            "components": components,
+        }
+
+        if self.techui is not None and self.techui.is_file():
+            yaml_data = yaml.safe_load(self.techui.read_text(encoding="utf-8")) or {}
+            techui_data["beamline"].update(yaml_data.get("beamline", {}))
+            components.update(yaml_data.get("components", {}))
+
+        self.conf = TechUi.model_validate(techui_data)
 
     def setup(self):
         """
@@ -62,7 +100,7 @@ class Builder:
 
         self.generator = Generator(
             self._write_directory,
-            self.conf.beamline.url,
+            self.bob_description.macros["url"],
             self.support_path,
             self.techui_support,
         )
@@ -109,7 +147,9 @@ class Builder:
         """
 
         # Loop over every dir in services, ignoring anything that isn't a service
-        for service in self._services_dir.glob(f"{self.conf.beamline.location}-*-*-*"):
+        for service in self._services_dir.glob(
+            f"{self.bob_description.macros['location']}-*-*-*"
+        ):
             service_name = service.name
             # If service doesn't exist, file open will fail throwing exception
             try:
@@ -198,6 +238,8 @@ class Builder:
 
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
+
+        techui_name = self.techui.name if self.techui is not None else "techui.yaml"
         if len(self.entities) == 0:
             logger_.critical(
                 "No ioc entities found. This [italic]normally[/italic]"
@@ -244,7 +286,7 @@ class Builder:
 
             else:
                 logger_.warning(
-                    f"{self.techui.name}: The prefix [bold]{component.prefix}[/bold] "
+                    f"{techui_name}: The prefix [bold]{component.prefix}[/bold] "
                     f"set in the component [bold]{component_name}[/bold] does not match"
                     " any P field in the ioc.yaml files in services"
                 )

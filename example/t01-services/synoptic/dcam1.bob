@@ -16,7 +16,7 @@
           <P>BL01T-DI-CAM-01</P>
           <R>:CAM:</R>
           <label>CAM</label>
-          <IOC>https://t01-opis.diamond.ac.uk/bl01t-di-cam-01</IOC>
+          <IOC>../../../../bl01t-di-cam-01</IOC>
         </macros>
         <x>0</x>
         <y>0</y>

@@ -15,7 +15,7 @@
         <R>:CAM:</R>
         <label>CAM</label>
       </macros>
-      <file>test_url/bl01t-di-ioc-01/ADUVC.pvi.bob</file>
+      <file>../bl01t-di-ioc-01/ADUVC.pvi.bob</file>
       <target>tab</target>
     </action>
   </actions>

@@ -72,7 +72,6 @@ class JsonMapGenerator:
     def generate_json_map(
         self,
         screen_path: Path,
-        dest_path: Path,
         current_component_name: str | None = None,
         name_elem: str | None = None,
     ) -> ScreenNode:
@@ -80,9 +79,8 @@ class JsonMapGenerator:
         ctx = CrawlContext(
             components=self.techui_yaml.components,
             synoptic_dir=self._parent_path,
-            link_base_dir=dest_path,
             component_name=current_component_name,
-            service_name="",
+            screen=screen_path,
         )
         return crawl(screen_path, ctx, link_name=name_elem)
 
@@ -95,7 +93,7 @@ class JsonMapGenerator:
                 f"Cannot generate json map for {self.bob_path}. Has it been generated?"
             )
 
-        json_map = self.generate_json_map(self.bob_path, self._parent_path)
+        json_map = self.generate_json_map(self.bob_path)
         with open(self._write_directory / "JsonMap.json", "w") as f:
             f.write(
                 json.dumps(json_map, indent=4, default=lambda o: serialise_node(o))

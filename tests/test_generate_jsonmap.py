@@ -67,7 +67,6 @@ def test_write_json_map(json_map_generator, tmp_test_files):
 def test_generate_json_map(json_map_generator_with_test_files, example_json_map):
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
-        json_map_generator_with_test_files._write_directory,
     )
 
     assert test_json_map == example_json_map
@@ -92,7 +91,6 @@ def test_generate_json_map_embedded_screen(
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
-        json_map_generator_with_test_files._write_directory,
     )
     assert test_json_map == example_json_map
 
@@ -114,7 +112,6 @@ def test_generate_json_map_nav_tabs(
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
-        json_map_generator_with_test_files._write_directory,
     )
 
     assert test_json_map == example_json_map_root
@@ -125,7 +122,6 @@ def test_generate_json_map_child_file_crawl_pvi_screen(
 ):
     jsonmap = json_map_generator.generate_json_map(
         screen_path=tmp_t01_services / "synoptic/motor1.bob",
-        dest_path=tmp_t01_services / "synoptic",
     )
 
     assert example_json_map_pvi_screens == jsonmap
@@ -150,7 +146,6 @@ def test_generate_json_map_get_macros(
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
-        json_map_generator_with_test_files._write_directory,
     )
     assert test_json_map == example_json_map
 
@@ -162,7 +157,6 @@ def test_generate_json_map_xml_parse_error(
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
-        json_map_generator_with_test_files._write_directory,
     )
 
     assert test_json_map.error.startswith("XML parse error:")
@@ -177,7 +171,6 @@ def test_generate_json_map_other_exception(
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
-        json_map_generator_with_test_files._write_directory,
     )
 
     assert test_json_map.error != ""

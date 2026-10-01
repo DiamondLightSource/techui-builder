@@ -7,7 +7,7 @@ from lxml.etree import _ElementTree
 from lxml.objectify import Element, ObjectifiedElement
 
 from techui_builder.utils import (
-    _get_action_group,
+    _get_actions_group,
     _get_macros,
     _get_nav_tabs,
     get_widgets,
@@ -41,7 +41,7 @@ def test_get_action_group(tmp_test_files):
     widget = test_bob.find(".//widget")
     assert widget is not None
 
-    action_group = _get_action_group(widget)
+    action_group = _get_actions_group(widget)
     assert action_group is not None
 
 
@@ -54,8 +54,9 @@ def test_get_action_group_no_action_elements(tmp_test_files):
     # Clear the actions element
     widget.actions = objectify.ObjectifiedElement()
 
-    action_group = _get_action_group(widget)
-    assert action_group is None
+    action_group = _get_actions_group(widget)
+    assert action_group is not None
+    assert action_group.countchildren() == 0
 
 
 def test_get_action_group_no_actions_group(caplog: pytest.LogCaptureFixture):
@@ -65,7 +66,7 @@ def test_get_action_group_no_actions_group(caplog: pytest.LogCaptureFixture):
     widget.name = "Test"
 
     with caplog.at_level(logging.ERROR):
-        _get_action_group(widget)
+        _get_actions_group(widget)
 
     for log_output in caplog.records:
         assert "Actions group not found" in log_output.message

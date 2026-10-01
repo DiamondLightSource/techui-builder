@@ -246,6 +246,8 @@ class Builder:
 
     def create_screens(self):
         """Create the screens for each component in techui.yaml"""
+
+        techui_name = self.techui.name if self.techui is not None else "techui.yaml"
         if len(self.entities) == 0:
             logger_.critical(
                 "No ioc entities found. This [italic]normally[/italic]"
@@ -261,7 +263,7 @@ class Builder:
             matched = self.get_entities_for_prefix(component.prefix)
             if not matched:
                 logger_.warning(
-                    f"{self.techui.name}: prefix [bold]{component.prefix}[/bold] "
+                    f"{techui_name}: prefix [bold]{component.prefix}[/bold] "
                     f"for component [bold]{component_name}[/bold] matched no entities."
                 )
                 continue

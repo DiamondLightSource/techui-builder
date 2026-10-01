@@ -7,12 +7,12 @@ from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import fromstring
 from phoebusgen import widget as pwidget
 
-from techui_builder.autofill import Autofiller
+from techui_builder.autofill import Autofiller, IndexObjectDict
 from techui_builder.builder import Builder
 from techui_builder.generate import Generator
 from techui_builder.generate_jsonmap import JsonMapGenerator
 from techui_builder.jsonmap.nodes import ScreenNode
-from techui_builder.models import Component, SupportEntity
+from techui_builder.models import Component, Entity, SupportEntity, SupportEntityScreen
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
@@ -48,63 +48,71 @@ def builder(tmp_t01_services):
 def techui_support():
     ts = MagicMock()
     ts.support_modules = {
-        "pmac.GeoBrick": SupportEntity(prefix="{{ P }}", macros=["P"], screens=[{}]),
-        "pmac.autohome": SupportEntity(prefix="{{ P }}", macros=["P"], screens=[{}]),
+        "pmac.GeoBrick": SupportEntity(
+            prefix="{{ P }}",
+            macros=["P"],
+            screens=[SupportEntityScreen(file="", type="")],
+        ),
+        "pmac.autohome": SupportEntity(
+            prefix="{{ P }}",
+            macros=["P"],
+            screens=[SupportEntityScreen(file="", type="")],
+        ),
         "pmac.dls_pmac_asyn_motor": SupportEntity(
-            prefix="{{ P }}{{ M }}", macros=["P", "M"], screens=[{}]
+            prefix="{{ P }}{{ M }}",
+            macros=["P", "M"],
+            screens=[SupportEntityScreen(file="", type="")],
         ),
         "ADAravis.aravisCamera": SupportEntity(
             prefix="{{ P }}{{ R }}",
             macros=["P", "R"],
             screens=[
-                {"file": "ADAravis/ADAravis_summary.bob", "type": "embedded"},
-                {"file": "ADAravis/ADAravis_detail.bob", "type": "related"},
+                SupportEntityScreen(
+                    file="ADAravis/ADAravis_summary.bob", type="embedded"
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/ADAravis_detail.bob", type="related"
+                ),
             ],
         ),
         "ADUVC.UVC": SupportEntity(
             prefix="{{ P }}{{ R }}",
             macros=["P", "R"],
             screens=[
-                {"file": "ADUVC/ADUVC_summary.bob", "type": "embedded"},
-                {"file": "$(IOC)/ADUVC.pvi.bob", "type": "related"},
+                SupportEntityScreen(file="ADUVC/ADUVC_summary.bob", type="embedded"),
+                SupportEntityScreen(file="$(IOC)/ADUVC.pvi.bob", type="related"),
             ],
         ),
         "detectorPlugins.detectorPlugins": SupportEntity(
             prefix="{{ P }}{{ R }}",
             macros=["P", "R"],
             screens=[
-                {
-                    "file": "ADAravis/NDPluginStats.pvi.bob",
-                    "suffixes": {
-                        "R": ":STAT:",
-                    },
-                    "type": "related",
-                },
-                {
-                    "file": "ADAravis/NDPluginPva.pvi.bob",
-                    "suffixes": {
-                        "R": ":PVA:",
-                    },
-                    "type": "related",
-                },
-                {
-                    "file": "ADAravis/NDPluginROIStat.pvi.bob",
-                    "suffixes": {
-                        "R": ":ROISTAT:",
-                    },
-                    "type": "related",
-                },
-                {
-                    "file": "ADAravis/NDFileHDF5.pvi.bob",
-                    "suffixes": {
-                        "R": ":HDF5:",
-                    },
-                    "type": "related",
-                },
+                SupportEntityScreen(
+                    file="ADAravis/NDPluginStats.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":STAT:"},
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/NDPluginPva.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":PVA:"},
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/NDPluginROIStat.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":ROISTAT:"},
+                ),
+                SupportEntityScreen(
+                    file="ADAravis/NDFileHDF5.pvi.bob",
+                    type="related",
+                    screen_macros={"R": ":HDF5:"},
+                ),
             ],
         ),
         "fastcs.TemperatureController": SupportEntity(
-            prefix="{{ name }}", macros=["name"], screens=[{}]
+            prefix="{{ name }}",
+            macros=["name"],
+            screens=[SupportEntityScreen(file="", type="")],
         ),
     }
 
@@ -121,6 +129,40 @@ def builder_with_setup(builder: Builder, techui_support):
 
         builder.setup()
         return builder
+
+
+@pytest.fixture
+def builder_with_entities(builder: Builder):
+    """Builder with a pre-populated entity registry for testing lookups."""
+    from techui_builder.models import Entity
+
+    builder.entities = {
+        "BL01T-MO-DCM-01": Entity(
+            service_name="bl01t-mo-dcm-01",
+            type="pmac.GeoBrick",
+            prefix="BL01T-MO-DCM-01",
+            macros={"P": "BL01T-MO-DCM-01"},
+        ),
+        "BL01T-MO-DCM-01:BRAGG": Entity(
+            service_name="bl01t-mo-dcm-01",
+            type="pmac.dls_pmac_asyn_motor",
+            prefix="BL01T-MO-DCM-01:BRAGG",
+            macros={"P": "BL01T-MO-DCM-01", "M": ":BRAGG"},
+        ),
+        "BL01T-MO-DCM-01:GAP": Entity(
+            service_name="bl01t-mo-dcm-01",
+            type="pmac.dls_pmac_asyn_motor",
+            prefix="BL01T-MO-DCM-01:GAP",
+            macros={"P": "BL01T-MO-DCM-01", "M": ":GAP"},
+        ),
+        "BL01T-MO-STEP-13": Entity(
+            service_name="bl01t-mo-step-13",
+            type="pmac.GeoBrick",
+            prefix="BL01T-MO-STEP-13",
+            macros={"P": "BL01T-MO-STEP-13"},
+        ),
+    }
+    return builder
 
 
 @pytest.fixture
@@ -301,10 +343,49 @@ def generator(techui_support, tmp_t01_services):
 
 
 @pytest.fixture
-def autofiller(tmp_t01_services):
-    index_bob = tmp_t01_services / "synoptic/index.bob"
+def autofiller_index_trees(example_xml_symbol_widget):
+    mock_path = MagicMock(spec=Path)
+    mock_index_trees: IndexObjectDict = {
+        mock_path: (
+            MagicMock(),
+            {
+                "test_widget": example_xml_symbol_widget,
+                "test_entity": example_xml_symbol_widget,
+            },
+        )
+    }
+    return mock_index_trees
 
+
+@pytest.fixture
+def autofiller(tmp_t01_services, autofiller_index_trees):
+    index_bob = tmp_t01_services / "synoptic/index.bob"
     a = Autofiller([index_bob], index_bob, {"test_widget": MagicMock(spec=Component)})
+
+    a.index_trees = autofiller_index_trees
+
+    return a
+
+
+@pytest.fixture
+def autofiller_with_entities(tmp_t01_services, autofiller_index_trees):
+    index_bob = tmp_t01_services / "synoptic/index.bob"
+    a = Autofiller(
+        [index_bob],
+        index_bob,
+        {},
+        {
+            "test_entity": Entity(
+                service_name="test",
+                type="pmac.dls_pmac_asyn_motor",
+                prefix="BL01T-MO-TEST",
+                desc="Test Description",
+                macros={"P": "BL01T-MO-TEST"},
+            ),
+        },
+    )
+
+    a.index_trees = autofiller_index_trees
 
     return a
 

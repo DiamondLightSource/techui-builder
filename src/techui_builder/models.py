@@ -307,6 +307,30 @@ class Entity(BaseModel):
         Field(description="Macros for the matching screen (can be empty)"),
     ]
 
+    @computed_field(repr=False, return_type=str)
+    @property
+    def base_prefix(self) -> str:
+        """PV prefix, excluding  any colons or suffix, e.g. 'BL01T-MO-MOTOR-01'."""
+        return self.prefix.split(":", maxsplit=1)[0]
+
+
+class SupportEntityScreen(BaseModel):
+    """One screen entry for a support module."""
+
+    file: Annotated[str, Field(description="Path to the .bob or .pvi.bob screen file")]
+    type: Annotated[str, Field(description="Screen type, e.g. 'embedded' or 'related'")]
+    screen_macros: Annotated[
+        dict[str, str] | None,
+        Field(
+            description="Screen-specific macro overrides",
+            # Make sure vscode is aware of schema validation
+            json_schema_extra={
+                "type": "object",
+                "additionalProperties": {"type": "string"},
+            },
+        ),
+    ] = None
+
 
 class SupportEntity(BaseModel):
     """
@@ -319,8 +343,8 @@ class SupportEntity(BaseModel):
         Field(description="Macros for the matching screen (can be empty)"),
     ]
     screens: Annotated[
-        list[dict[str, str | dict[str, str]]],
-        Field(description="Dictionary of available screens for the support module"),
+        list[SupportEntityScreen],
+        Field(description="List of available screens for the support module"),
     ]
 
 

@@ -79,25 +79,22 @@ def test_missing_service(builder, caplog: pytest.LogCaptureFixture):
 
 
 @pytest.mark.parametrize(
-    "index, type, desc, pv, macros",
+    "type, desc, pv, macros",
     [
-        (0, "pmac.GeoBrick", None, "BL01T-MO-BRICK-01", {"P": "BL01T-MO-BRICK-01"}),
+        ("pmac.GeoBrick", None, "BL01T-MO-BRICK-01", {"P": "BL01T-MO-BRICK-01"}),
         (
-            0,
             "pmac.autohome",
             None,
             "BL01T-MO-MOTOR-01",
             {"P": "BL01T-MO-MOTOR-01"},
         ),
         (
-            1,
             "pmac.dls_pmac_asyn_motor",
             None,
             "BL01T-MO-MOTOR-01:X",
             {"P": "BL01T-MO-MOTOR-01", "M": ":X"},
         ),
         (
-            2,
             "pmac.dls_pmac_asyn_motor",
             None,
             "BL01T-MO-MOTOR-01:A",
@@ -105,19 +102,16 @@ def test_missing_service(builder, caplog: pytest.LogCaptureFixture):
         ),
     ],
 )
-def test_gb_extract_entities_ioc_yaml(
-    builder, techui_support, index, type, desc, pv, macros
-):
+def test_gb_extract_entities_ioc_yaml(builder, techui_support, type, desc, pv, macros):
     # We don't want to use builder_with_setup as that calls _extract_services()
     # and in turn that calls _extract_entities()
     builder.techui_support = techui_support
-    prefix = pv.split(":", maxsplit=1)[0]
 
     builder._extract_entities(
         "bl01t-mo-motor-01",
         builder._services_dir / "bl01t-mo-motor-01/config/ioc.yaml",
     )
-    entity = builder.entities[prefix][index]
+    entity = builder.entities[pv]
     assert entity.type == type
     assert entity.desc == desc
     assert entity.prefix == pv
@@ -125,10 +119,9 @@ def test_gb_extract_entities_ioc_yaml(
 
 
 @pytest.mark.parametrize(
-    "index, type, desc, pv, macros",
+    "type, desc, pv, macros",
     [
         (
-            0,
             "fastcs.TemperatureController",
             None,
             "BL01T-EA-TEMP-01",
@@ -137,19 +130,17 @@ def test_gb_extract_entities_ioc_yaml(
     ],
 )
 def test_gb_extract_entities_fastcs_yaml(
-    builder, techui_support, index, type, desc, pv, macros
+    builder, techui_support, type, desc, pv, macros
 ):
     # We don't want to use builder_with_setup as that calls _extract_services()
     # and in turn that calls _extract_entities()
     builder.techui_support = techui_support
 
-    prefix = pv.split(":", maxsplit=1)[0]
-
     builder._extract_entities(
         "bl01t-ea-temp-01",
         builder._services_dir / "bl01t-ea-temp-01/config/fastcs.yaml",
     )
-    entity = builder.entities[prefix][index]
+    entity = builder.entities[pv]
     assert entity.type == type
     assert entity.desc == desc
     assert entity.prefix == pv
@@ -266,3 +257,43 @@ def test_create_screens_extra_p_does_not_exist(
 
     for log_output in caplog.records:
         assert "Extra prefix BAD-PV" in log_output.message
+
+
+@pytest.mark.parametrize(
+    "prefix",
+    [
+        "BL01T-MO-DCM-01:BRAGG",
+        "BL01T-MO-STEP-13",
+    ],
+)
+def test_get_entities_for_prefix_single(builder_with_entities, prefix):
+    """Single PV lookup returns exactly one entity."""
+    result = builder_with_entities.get_entities_for_prefix(prefix)
+    assert {r.prefix for r in result} == {prefix}
+
+
+def test_get_entities_for_prefix_root_with_children(builder_with_entities):
+    """Root prefix lookup collects all matching children."""
+    result = builder_with_entities.get_entities_for_prefix("BL01T-MO-DCM-01")
+    expected = {
+        "BL01T-MO-DCM-01",
+        "BL01T-MO-DCM-01:BRAGG",
+        "BL01T-MO-DCM-01:GAP",
+    }
+    assert {r.prefix for r in result} == expected
+
+
+def test_get_entities_for_prefix_no_match(builder_with_entities):
+    """Lookup of a non-existent prefix returns empty list."""
+    result = builder_with_entities.get_entities_for_prefix("BL01T-NONEXISTENT-01")
+    assert result == []
+
+
+def test_get_entities_for_prefix_root_without_root_entity(builder_with_entities):
+    """Root prefix lookup collects children even when no root entity exists."""
+    del builder_with_entities.entities["BL01T-MO-DCM-01"]
+    result = builder_with_entities.get_entities_for_prefix("BL01T-MO-DCM-01")
+    assert {r.prefix for r in result} == {
+        "BL01T-MO-DCM-01:BRAGG",
+        "BL01T-MO-DCM-01:GAP",
+    }

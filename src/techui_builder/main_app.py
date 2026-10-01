@@ -157,13 +157,11 @@ def main(
     # Extract information from index.bob
     bp = BobParser(filename)
     synoptic_macros = bp.parse_bob()
-    print(synoptic_macros)
     ixx_services_dir, synoptic_dir = find_dirs(
         filename, synoptic_macros.macros["domain"]
     )
     # Need to provide builder the macros to work on generating and validating bob files.
     index_bob_path, bob_files = find_index_bobs(filename, synoptic_dir)
-    print(index_bob_path, bob_files)
 
     gui = Builder(synoptic_macros, synoptic_dir / "techui.yaml")
     gui._services_dir = ixx_services_dir / "services"  # noqa: SLF001

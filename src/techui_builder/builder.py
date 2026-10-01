@@ -40,7 +40,7 @@ class Builder:
     """
 
     bob_description: BobFile
-    techui: Path = field(init=True, repr=False)
+    techui: Path | None = field(init=True, repr=False)
 
     entities: defaultdict[str, list[Entity]] = field(
         default_factory=lambda: defaultdict(list), init=False
@@ -48,27 +48,41 @@ class Builder:
     _services_dir: Path = field(init=False, repr=False)
     _write_directory: Path = field(init=False, repr=False)
 
-    def __post_init__(self):
-        # Populate beamline and components
-        if self.techui:
-            self.conf = TechUi.model_validate(
-                yaml.safe_load(self.techui.read_text(encoding="utf-8"))
-            )
-        for widget in self.bob_description.widgets:
-            values = {
-                "prefix": widget.prefix,
-                "label": widget.name,
-            }
-            values.update(
-                {
-                    key: value
-                    for key, value in widget.macros.items()
-                    if key in Component.model_fields and key not in {"prefix", "label"}
-                }
-            )
+    def _iter_prefixed_widgets(self, widgets):
+        for widget in widgets:
+            if widget.prefix and widget.prefix.strip():
+                yield widget
 
-            if values["prefix"]:
-                self.conf.components[widget.name] = Component(**values)
+            if widget.widget_type == "group":
+                yield from self._iter_prefixed_widgets(widget.children or [])
+
+    def __post_init__(self):
+        components = {}
+
+        for widget in self._iter_prefixed_widgets(self.bob_description.widgets):
+            values = {
+                key: value
+                for key, value in widget.macros.items()
+                if key in Component.model_fields and key != "prefix"
+            }
+            values["prefix"] = widget.prefix.strip()
+            values.setdefault("label", widget.name)
+            components[widget.name] = values
+
+        macros = self.bob_description.macros
+        techui_data = {
+            "beamline": {
+                key: macros[key] for key in ("location", "domain", "desc", "url")
+            },
+            "components": components,
+        }
+
+        if self.techui is not None and self.techui.is_file():
+            yaml_data = yaml.safe_load(self.techui.read_text(encoding="utf-8")) or {}
+            techui_data["beamline"].update(yaml_data.get("beamline", {}))
+            components.update(yaml_data.get("components", {}))
+
+        self.conf = TechUi.model_validate(techui_data)
 
     def setup(self):
         """

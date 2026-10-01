@@ -2,7 +2,6 @@ import logging
 import os
 import re
 from collections import defaultdict
-from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -12,7 +11,7 @@ from phoebusgen import screen as pscreen
 from phoebusgen import widget as pwidget
 from phoebusgen.widget.widgets import ActionButton, EmbeddedDisplay, Group
 
-from techui_builder.models import Component, Entity, TechUiSupport
+from techui_builder.models import Component, Entity, SupportEntityScreen, TechUiSupport
 
 logger_ = logging.getLogger(__name__)
 
@@ -159,11 +158,14 @@ class Generator:
                 :2
             ]
             component_name = suffix.removeprefix(":").removesuffix(":")
-            suffix_key = next(k for k, v in component.macros.items() if v == suffix)
+            suffix_key = next(
+                (k for k, v in component.macros.items() if v == suffix), None
+            )
         except (IndexError, ValueError):
             prefix = component.prefix
             component_name = component.type
-            suffix_key = suffix = ""
+            suffix_key = None
+            suffix = ""
 
         # Try to get name from child labels if they exist,
         # if not, just use the name as it is.
@@ -175,27 +177,27 @@ class Generator:
         prefix_key = next(k for k, v in component.macros.items() if v == prefix)
 
         new_macros[prefix_key] = prefix
-        if suffix_key != "":
+        if suffix_key is not None:
             new_macros[suffix_key] = suffix
             new_macros["label"] = component_name
 
         return component_name, new_macros
 
     def _allocate_widget(
-        self, screen_mapping: Mapping, component: Entity
+        self, screen_mapping: SupportEntityScreen, component: Entity
     ) -> EmbeddedDisplay | ActionButton | None | list[EmbeddedDisplay | ActionButton]:
         component_name, updated_macros = self._update_macros(component)
         component.macros.update(updated_macros)
 
         # Get relative path to screen
-        file = Template(screen_mapping["file"]).render(component.macros)
+        file = Template(screen_mapping.file).render(component.macros)
         if file.startswith("$(IOC)"):
             screen_path = support_screen_path = file.replace(
                 "$(IOC)", f"{self.beamline_url}/{component.service_name}"
             )  # Only works with related displays as
             # embedded displays need to access the file to get dimensions
 
-            assert screen_mapping["type"] == "related", (
+            assert screen_mapping.type == "related", (
                 "Only related displays can have remote screens"
             )
         else:
@@ -207,27 +209,34 @@ class Generator:
                 self.synoptic_dir, walk_up=True
             )
 
-        # For Gui Components with multiple components embedded, we add a suffix field
-        # to the components, and adjust the name and suffix accordingly
+        # For Gui Components with multiple components embedded, we add macro overrides
+        # via screen_macros and adjust the name/label accordingly
         try:
-            if screen_mapping["suffixes"] is not None:
-                suffix_dict: dict[str, str] = screen_mapping["suffixes"]
-                for suffix_key, suffix in suffix_dict.items():
-                    component.macros[suffix_key] = suffix
+            if screen_mapping.screen_macros:
+                for macro_key, macro_val in screen_mapping.screen_macros.items():
+                    component.macros[macro_key] = macro_val
 
                 # If no child label was specified...
-                if self.label_flag is False:
-                    # TODO: think of a better fallback component name for this
-                    component_name = (
-                        list(suffix_dict.values())[0]
-                        .removeprefix(":")
-                        .removesuffix(":")
-                    )
-                    component.macros["label"] = component_name
+                if not self.label_flag and "label" not in component.macros:
+                    # Prefer an explicit "label" or "suffix" key in screen_macros,
+                    # otherwise fall back to the first value (by insertion order).
+                    fallback_keys = ("label", "suffix")
+                    first_val = None
+                    for key in fallback_keys:
+                        if key in screen_mapping.screen_macros:
+                            first_val = screen_mapping.screen_macros[key]
+                            break
+                    if first_val is None:
+                        first_val = next(
+                            iter(screen_mapping.screen_macros.values()), None
+                        )
+                    if first_val is not None:
+                        component_name = first_val.removeprefix(":").removesuffix(":")
+                        component.macros["label"] = component_name
         except KeyError:
             pass
 
-        if screen_mapping["type"] == "embedded":
+        if screen_mapping.type == "embedded":
             height, width = self._get_screen_dimensions(str(screen_path))
             new_widget = pwidget.EmbeddedDisplay(
                 component_name,

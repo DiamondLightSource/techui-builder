@@ -6,6 +6,15 @@ from lxml.objectify import ObjectifiedElement
 
 logger_ = logging.getLogger(__name__)
 
+__all__ = [
+    "WidgetType",
+    "get_widgets",
+    "read_bob",
+    "_get_action_group",
+    "_get_macros",
+    "_get_nav_tabs",
+]
+
 
 class WidgetType(StrEnum):
     """Widget types in a .bob file."""

@@ -222,7 +222,7 @@ def test_generator_allocate_widget(generator, tmp_test_files):
     scrn_mappings = generator.techui_support.support_modules[
         "ADAravis.aravisCamera"
     ].screens
-    scrn_mapping = next((x for x in scrn_mappings if x["type"] == "embedded"), None)
+    scrn_mapping = next((x for x in scrn_mappings if x.type == "embedded"), None)
 
     component = Entity(
         service_name="bl01t-di-ioc-01",
@@ -246,7 +246,7 @@ def test_generator_allocate_widget_with_remote_screens(generator, tmp_test_files
     )
 
     scrn_mappings = generator.techui_support.support_modules["ADUVC.UVC"].screens
-    scrn_mapping = next((x for x in scrn_mappings if x["type"] == "related"), None)
+    scrn_mapping = next((x for x in scrn_mappings if x.type == "related"), None)
 
     component = Entity(
         service_name="bl01t-di-ioc-01",
@@ -271,7 +271,7 @@ def test_generator_allocate_widget_with_custom_suffix(generator, tmp_test_files)
     scrn_mappings = generator.techui_support.support_modules[
         "detectorPlugins.detectorPlugins"
     ].screens
-    scrn_mapping = next((x for x in scrn_mappings if x["type"] == "related"), None)
+    scrn_mapping = next((x for x in scrn_mappings if x.type == "related"), None)
 
     component = Entity(
         service_name="bl01t-di-ioc-01",

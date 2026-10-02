@@ -217,7 +217,7 @@ class Generator:
                     component.macros[macro_key] = macro_val
 
                 # If no child label was specified...
-                if not self.label_flag and "label" not in component.macros:
+                if not self.label_flag:
                     # Prefer an explicit "label" or "suffix" key in screen_macros,
                     # otherwise fall back to the first value (by insertion order).
                     fallback_keys = ("label", "suffix")

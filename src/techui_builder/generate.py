@@ -211,7 +211,7 @@ class Generator:
             )
             # For embedded screens, that need to be placed on screen and dimensions,
             # it is required to fetch the screen from remote
-            if screen_mapping["type"] == "embedded" and str(
+            if screen_mapping.type == "embedded" and str(
                 support_screen_path
             ).startswith("https"):
                 try:
@@ -318,7 +318,9 @@ class Generator:
             return None
         # if component is fastcs, and has the field of file, add it to the support
         if component.file:
-            screen_mapping.append({"file": component.file, "type": "embedded"})
+            screen_mapping.append(
+                SupportEntityScreen(file=component.file, type="embedded")
+            )
 
         for screen_dict in screen_mapping:
             new_widget.append(self._allocate_widget(screen_dict, component))

@@ -174,7 +174,7 @@ class Generator:
                 if component.type == "fastcs*" and component.name is not None
                 else component.type
             )
-            suffix_key = suffix = ""
+            suffix_key = suffix = None
 
         # Try to get name from child labels if they exist,
         # if not, just use the name as it is.

@@ -177,6 +177,10 @@ def test_generator_update_macros(generator):
 
 
 def test_generator_update_macros_no_suffix(generator):
+    # This would be extracted from the techui-support mapping in the level above
+    # this function. Therefore it needs setting here to mimic this.
+    generator._current_prefix_key = "pv"
+
     component = Entity(
         service_name="bl01t-ea-ioc-01",
         type="test",
@@ -191,6 +195,40 @@ def test_generator_update_macros_no_suffix(generator):
     assert len(updated_macros) == 1
     assert updated_macros["pv"] == "TEST"
     assert "label" not in updated_macros.keys()
+
+
+@pytest.mark.parametrize(
+    "prefix_key, suffix_key",
+    [
+        ("P", "R"),
+        ("bpm", None),
+    ],
+)
+def test_generator_update_macros_with_prefix_key(generator, prefix_key, suffix_key):
+    """_update_macros uses custom prefix_key from support module."""
+    generator._current_prefix_key = prefix_key
+
+    # Check if the run of the test needs a suffix
+    suffix = f":{suffix_key}" if suffix_key else ""
+    macros = {suffix_key: suffix} if suffix_key else {}
+
+    component = Entity(
+        service_name="bl01t-ea-test-01",
+        type="test",
+        prefix=f"TEST{suffix}",
+        macros=macros,
+    )
+
+    component_name, updated_macros = generator._update_macros(component)
+
+    # If suffix is None, it should resort to the component type
+    assert component_name == (suffix_key or component.type)
+    assert prefix_key in updated_macros
+    assert updated_macros[prefix_key] == "TEST"
+    if suffix:
+        assert updated_macros["label"] == suffix_key
+    else:
+        assert "label" not in updated_macros
 
 
 def test_generator_update_macros_suffix_with_child_labels(generator):

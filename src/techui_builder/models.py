@@ -341,6 +341,16 @@ class SupportEntity(BaseModel):
         Field(description="List of available screens for the support module"),
     ]
 
+    @computed_field(repr=False)
+    @property
+    def prefix_key(self) -> str:
+        """
+        Extract first macro key from prefix template, e.g. 'P' from '{{ P }}{{ M }}'.
+        Defaults to 'P'.
+        """
+        match = re.search(r"\{\{\s*(\w+)\s*\}\}", self.prefix)
+        return match.group(1) if match else "P"
+
 
 class TechUiSupport(BaseModel):
     support_modules: Annotated[

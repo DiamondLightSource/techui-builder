@@ -26,8 +26,8 @@ class Generator:
     # These are global params for the class (not accessible by user)
     support_path: Path = field(repr=False)
     techui_support: TechUiSupport = field(repr=False)
+    _current_prefix_key: str = field(default="P", init=False, repr=False)
     default_size: int = field(default=100, init=False, repr=False)
-    prefix: str = field(default="P", init=False, repr=False)
     widgets: list[ActionButton | EmbeddedDisplay] = field(
         default_factory=list[ActionButton | EmbeddedDisplay], init=False, repr=False
     )
@@ -174,9 +174,7 @@ class Generator:
                 component_name = component.child_labels[component_name]
                 self.label_flag = True
 
-        prefix_key = next(k for k, v in component.macros.items() if v == prefix)
-
-        new_macros[prefix_key] = prefix
+        new_macros[self._current_prefix_key] = prefix
         if suffix_key is not None:
             new_macros[suffix_key] = suffix
             new_macros["label"] = component_name
@@ -297,7 +295,9 @@ class Generator:
         new_widget = []
 
         try:
-            screen_mapping = self.techui_support.support_modules[component.type].screens
+            support_module = self.techui_support.support_modules[component.type]
+            self._current_prefix_key = support_module.prefix_key
+            screen_mapping = support_module.screens
         except KeyError:
             logger_.warning(
                 f"No available widget for {component.type} in screen \

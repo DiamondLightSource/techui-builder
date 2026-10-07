@@ -307,6 +307,12 @@ class Entity(BaseModel):
         Field(description="Macros for the matching screen (can be empty)"),
     ]
 
+    @computed_field(repr=False, return_type=str)
+    @property
+    def base_prefix(self) -> str:
+        """PV prefix, excluding  any colons or suffix, e.g. 'BL01T-MO-MOTOR-01'."""
+        return self.prefix.split(":", maxsplit=1)[0]
+
 
 class SupportEntityScreen(BaseModel):
     """One screen entry for a support module."""

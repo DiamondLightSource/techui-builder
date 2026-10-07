@@ -134,6 +134,40 @@ def builder_with_setup(builder: Builder, techui_support):
 
 
 @pytest.fixture
+def builder_with_entities(builder: Builder):
+    """Builder with a pre-populated entity registry for testing lookups."""
+    from techui_builder.models import Entity
+
+    builder.entities = {
+        "BL01T-MO-DCM-01": Entity(
+            service_name="bl01t-mo-dcm-01",
+            type="pmac.GeoBrick",
+            prefix="BL01T-MO-DCM-01",
+            macros={"P": "BL01T-MO-DCM-01"},
+        ),
+        "BL01T-MO-DCM-01:BRAGG": Entity(
+            service_name="bl01t-mo-dcm-01",
+            type="pmac.dls_pmac_asyn_motor",
+            prefix="BL01T-MO-DCM-01:BRAGG",
+            macros={"P": "BL01T-MO-DCM-01", "M": ":BRAGG"},
+        ),
+        "BL01T-MO-DCM-01:GAP": Entity(
+            service_name="bl01t-mo-dcm-01",
+            type="pmac.dls_pmac_asyn_motor",
+            prefix="BL01T-MO-DCM-01:GAP",
+            macros={"P": "BL01T-MO-DCM-01", "M": ":GAP"},
+        ),
+        "BL01T-MO-STEP-13": Entity(
+            service_name="bl01t-mo-step-13",
+            type="pmac.GeoBrick",
+            prefix="BL01T-MO-STEP-13",
+            macros={"P": "BL01T-MO-STEP-13"},
+        ),
+    }
+    return builder
+
+
+@pytest.fixture
 def builder_with_test_files(builder: Builder, tmp_test_files):
     builder._write_directory = tmp_test_files
 

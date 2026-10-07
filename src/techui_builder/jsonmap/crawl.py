@@ -1,18 +1,17 @@
 """Recursively crawl a tree of .bob screens into a tree of ScreenNodes."""
 
+import logging
 from collections.abc import Mapping
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 from lxml import etree, objectify
-from lxml.objectify import ObjectifiedElement
 
 from techui_builder.jsonmap.links import (
     WidgetLink,
-    WidgetType,
-    assumed_exists,
     extract_links,
-    find_local_screen,
+    resolve_link,
+    substitute_macros,
 )
 from techui_builder.jsonmap.naming import (
     find_techui_label,
@@ -21,6 +20,9 @@ from techui_builder.jsonmap.naming import (
 )
 from techui_builder.jsonmap.nodes import ScreenNode
 from techui_builder.models import Component
+from techui_builder.utils import WidgetType
+
+logger_ = logging.getLogger(__name__)
 
 
 @dataclass
@@ -29,23 +31,30 @@ class CrawlContext:
 
     components: Mapping[str, Component]
     synoptic_dir: Path  # ScreenNode.file is relative to this
-    link_base_dir: Path  # link files are resolved against this; never changes
     component_name: str | None
-    service_name: str
+    screen: Path  # the screen being crawled
+    macros: dict[str, str] = field(default_factory=dict)  # including inherited ones
 
-    def with_screen_component(self, screen_path: Path) -> "CrawlContext":
-        """A copy for the screen's component, if it is one and none is set yet."""
-        if self.component_name is not None or screen_path.stem not in self.components:
-            return self
+    def with_screen(self, screen: Path) -> "CrawlContext":
+        """A copy for crawling a screen's links, in its component if it names one."""
+        component_name = self.component_name
+        if component_name is None and screen.stem in self.components:
+            component_name = screen.stem
 
-        component_name = screen_path.stem
-        # We know from the if statement that it exists
-        component = self.components.get(component_name)
-        assert isinstance(component, Component)
-        # TODO: How to find the screens if PV prefix is not the service name???
-        return replace(
-            self, component_name=component_name, service_name=component.prefix.lower()
-        )
+        return replace(self, screen=screen, component_name=component_name)
+
+
+def format_screen(screen: Path, synoptic_dir: Path) -> str:
+    """The screen's path, relative to the synoptic directory."""
+    return str(screen.resolve().relative_to(synoptic_dir.resolve(), walk_up=True))
+
+
+def inherit_macros(
+    parent_macros: Mapping[str, str], macros: Mapping[str, str]
+) -> dict[str, str]:
+    """The parent's macros overridden by a link's macros, expanded like Phoebus."""
+    expanded = {k: substitute_macros(v, parent_macros) for k, v in macros.items()}
+    return {**parent_macros, **expanded}
 
 
 def crawl_link(
@@ -57,42 +66,43 @@ def crawl_link(
 
     If it can't be found, a leaf ScreenNode is returned.
     """
-    local_path = find_local_screen(link.file, ctx.link_base_dir, ctx.service_name)
+    macros = inherit_macros(ctx.macros, link.macros)
+    screen = resolve_link(link.file, macros, ctx.screen)
+
+    if not screen.is_file():
+        logger_.debug(f"Link {link.file} -> {screen}: not found")
+        return ScreenNode(
+            format_screen(screen, ctx.synoptic_dir),
+            display_name,
+            exists=False,
+            macros=macros,
+        )
+
+    logger_.debug(f"Link {link.file} -> {screen}: found")
 
     # Crawl the next file
-    if local_path is not None:
-        # TODO: investigate non-recursive approaches?
-        return crawl(local_path, ctx, link_name=link.name)
-
-    return ScreenNode(
-        link.file,
-        display_name,
-        exists=assumed_exists(link.file, link.macros),
-    )
+    # TODO: investigate non-recursive approaches?
+    node = crawl(screen, replace(ctx, macros=macros), link_name=link.name)
+    node.macros = macros
+    return node
 
 
-def crawl(
-    screen_path: Path, ctx: CrawlContext, link_name: str | None = None
-) -> ScreenNode:
+def crawl(screen: Path, ctx: CrawlContext, link_name: str | None = None) -> ScreenNode:
     """Crawl a .bob screen and the screens it links to into a ScreenNode."""
 
     # Create initial node at top of .bob file
     current_node = ScreenNode(
-        str(
-            screen_path.resolve().relative_to(ctx.synoptic_dir.resolve(), walk_up=True)
-        ),
-        display_name=None,
+        format_screen(screen, ctx.synoptic_dir), display_name=None
     )
 
-    ctx = ctx.with_screen_component(screen_path)
+    ctx = ctx.with_screen(screen)
 
     try:
         # Create xml tree from .bob file
-        tree = objectify.parse(screen_path.absolute())
-        root: ObjectifiedElement = tree.getroot()
+        root = objectify.parse(screen.absolute()).getroot()
 
         # Label for the linking widget, else the screen's own <name>, else file stem
-        own_name = name_or_file_stem(root.name.text, screen_path)
+        own_name = name_or_file_stem(root.name.text, screen)
         label = find_techui_label(ctx.components, ctx.component_name, link_name)
         current_node.display_name = label if label is not None else own_name
 
@@ -107,15 +117,10 @@ def crawl(
 
             if link.type == WidgetType.EMBEDDED:
                 for embedded_child in child_node.children:
-                    embedded_child.macros = {**embedded_child.macros, **link.macros}
                     embedded_child.display_name = display_name
-                    embedded_child.exists = "IOC" in link.macros or (
-                        "https://" in str(embedded_child.file)
-                    )
                     current_node.children.append(embedded_child)
 
             else:
-                child_node.macros = link.macros
                 # TODO: make this work for only list[ScreenNode]
                 assert isinstance(current_node.children, list)
                 # TODO: fix typing

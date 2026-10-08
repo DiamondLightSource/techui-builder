@@ -116,7 +116,7 @@ def test_autofiller_write_bobs(autofiller):
         ),
     ],
 )
-@patch("techui_builder.autofill._get_action_group")
+@patch("techui_builder.autofill._get_open_display_action")
 def test_autofiller_replace_content(
     mock_get: MagicMock,
     autofiller,
@@ -152,7 +152,7 @@ def test_autofiller_replace_content(
             assert example_xml_related_widget.actions.action.macros[k] == macros[k] == v
 
 
-@patch("techui_builder.autofill._get_action_group")
+@patch("techui_builder.autofill._get_open_display_action")
 def test_autofiller_replace_content_no_action_group(
     mock_get: MagicMock, autofiller, caplog: pytest.LogCaptureFixture
 ):

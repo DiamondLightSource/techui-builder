@@ -10,9 +10,9 @@ from lxml.objectify import ObjectifiedElement
 
 from techui_builder.utils import (
     WidgetType,
-    _get_action_group,
     _get_macros,
     _get_nav_tabs,
+    _get_open_display_action,
 )
 
 logger_ = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
         match widget_type:
             case WidgetType.SYMBOL | WidgetType.ACTION_BUTTON:
                 # Only the first open_display action; skip widgets without one
-                open_display = _get_action_group(widget_elem)
+                open_display = _get_open_display_action(widget_elem)
                 if open_display is None:
                     continue
 

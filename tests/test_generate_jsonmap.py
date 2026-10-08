@@ -127,10 +127,10 @@ def test_generate_json_map_child_file_crawl_pvi_screen(
     assert example_json_map_pvi_screens == jsonmap
 
 
-# We don't want to access the _get_action_group function in this test
-@patch("techui_builder.jsonmap.links._get_action_group")
+# We don't want to access the _get_open_display_action function in this test
+@patch("techui_builder.jsonmap.links._get_open_display_action")
 def test_generate_json_map_get_macros(
-    mock_get_action_group: MagicMock,
+    mock_get_open_display_action: MagicMock,
     json_map_generator_with_test_files,
     example_json_map,
 ):
@@ -142,7 +142,7 @@ def test_generate_json_map_get_macros(
     macros = objectify.SubElement(mock_xml, "macros")
     # Set a macro to test
     macros["macro"] = "value"
-    mock_get_action_group.return_value = mock_xml
+    mock_get_open_display_action.return_value = mock_xml
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,
@@ -162,12 +162,12 @@ def test_generate_json_map_xml_parse_error(
     assert test_json_map.error.startswith("XML parse error:")
 
 
-@patch("techui_builder.jsonmap.links._get_action_group")
+@patch("techui_builder.jsonmap.links._get_open_display_action")
 def test_generate_json_map_other_exception(
-    mock_get_action_group: MagicMock,
+    mock_get_open_display_action: MagicMock,
     json_map_generator_with_test_files,
 ):
-    mock_get_action_group.side_effect = Exception("Some exception")
+    mock_get_open_display_action.side_effect = Exception("Some exception")
 
     test_json_map = json_map_generator_with_test_files.generate_json_map(
         json_map_generator_with_test_files.bob_path,

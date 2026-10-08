@@ -2,7 +2,8 @@ import logging
 from enum import StrEnum
 
 from lxml import objectify
-from lxml.objectify import ObjectifiedElement
+from lxml.etree import Element, SubElement, tostring
+from lxml.objectify import ObjectifiedElement, fromstring
 
 logger_ = logging.getLogger(__name__)
 
@@ -10,7 +11,7 @@ __all__ = [
     "WidgetType",
     "get_widgets",
     "read_bob",
-    "_get_action_group",
+    "_get_actions_group",
     "_get_macros",
     "_get_nav_tabs",
 ]
@@ -71,14 +72,12 @@ def _get_macros(element: ObjectifiedElement):
 
 # File and desc are under the "actions",
 # so the corresponding tag needs to be found
-def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
+def _get_actions_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
     try:
         actions = element.actions
         assert actions is not None
-        for action in actions.iterchildren("action"):
-            if action.get("type", default=None) == "open_display":
-                return action
-        return None
+        return actions
+
     except AttributeError:
         # TODO: Find better way of handling there being no "actions" group
         # TODO: Do widgets always have a name attr, or _can_ it be empty??
@@ -90,6 +89,42 @@ def _get_action_group(element: ObjectifiedElement) -> ObjectifiedElement | None:
             f"Actions group not found in component [bold]{name}[/bold] on "
             f"[bold]{parent_name}[/bold]"
         )
+        return None
+
+
+# File and desc are under the "actions",
+# so the corresponding tag needs to be found
+def _get_open_display_action(element: ObjectifiedElement) -> ObjectifiedElement:
+    actions = _get_actions_group(element)
+
+    if actions is not None:
+        for action in actions.iterchildren("action"):
+            if action.get("type", default=None) == "open_display":
+                return action
+
+    # No open_display action found, add one
+    return _add_open_display(element)
+
+
+def _add_open_display(element: ObjectifiedElement) -> ObjectifiedElement:
+    if _get_actions_group(element) is None:
+        # This is the objectify SubElement so needs to be explicit
+        actions = objectify.SubElement(element, "actions")
+    else:
+        actions = element.actions
+
+    action = Element("action")
+    action.set("type", "open_display")
+    file = SubElement(action, "file")
+    file.text = "placeholder_file"
+    desc = SubElement(action, "description")
+    desc.text = "placeholder_desc"
+    target = SubElement(action, "target")
+    target.text = "tab"
+
+    action_element = fromstring(tostring(action))
+    actions.append(action_element)
+    return action_element
 
 
 def _get_nav_tabs(element: ObjectifiedElement) -> list[ObjectifiedElement] | None:

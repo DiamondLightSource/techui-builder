@@ -8,7 +8,12 @@ from lxml.etree import Element, ElementTree, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
 
 from techui_builder.models import Component
-from techui_builder.utils import WidgetType, _get_action_group, _get_nav_tabs, read_bob
+from techui_builder.utils import (
+    WidgetType,
+    _get_nav_tabs,
+    _get_open_display_action,
+    read_bob,
+)
 
 logger_ = logging.getLogger(__name__)
 
@@ -119,7 +124,10 @@ class Autofiller:
                     # Get current component attribute
                     component_attr = getattr(component, macro, None)
 
-                    current_widget = _get_action_group(widget)
+                    # We need to override the current widget with it's
+                    # open_display action
+                    current_widget = _get_open_display_action(widget)
+
                     match macro:
                         case "desc":
                             tag_name = "description"
@@ -145,7 +153,6 @@ class Autofiller:
                                 # As this will overwrite generated macros
                                 continue
 
-                            assert current_widget is not None
                             # Remove all existing macros if they exist
                             if hasattr(current_widget, "macros"):
                                 current_widget.remove(current_widget.macros)

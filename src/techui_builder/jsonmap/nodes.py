@@ -10,6 +10,7 @@ class ScreenNode:
 
     file: str
     display_name: str | None
+    icon: str = ""
     exists: bool = True
     children: list["ScreenNode"] = field(default_factory=list)
     macros: dict[str, str] = field(default_factory=dict)

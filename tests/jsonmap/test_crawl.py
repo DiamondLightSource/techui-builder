@@ -74,3 +74,18 @@ def test_with_screen(t01_ctx):
     assert t01_ctx.with_screen(Path("index.bob")).component_name is None
     # Already inside a component
     assert motor_ctx.with_screen(Path("dcam1.bob")).component_name == "motor1"
+
+
+def test_crawl_icons(t01_ctx):
+    json_map = crawl(t01_ctx.synoptic_dir / "index.bob", t01_ctx)
+
+    # The icon comes from the symbol of the widget linking to the screen,
+    # relative to the synoptic directory, whether or not the screen exists
+    assert [(c.file, c.icon) for c in json_map.children] == [
+        ("dcam1.bob", "techui-support/symbols/camera.svg"),
+        ("test.bob", "techui-support/symbols/oscilloscope.svg"),
+        ("temp1.bob", "techui-support/symbols/cryocooler.svg"),
+        ("motor1.bob", "techui-support/symbols/translation-stage.svg"),
+    ]
+    # Screens linked by a widget without a symbol have no icon
+    assert all(c.icon == "" for c in json_map.children[0].children)

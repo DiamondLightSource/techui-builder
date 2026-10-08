@@ -7,7 +7,7 @@ from lxml import objectify
 from lxml.etree import Element, ElementTree, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
 
-from techui_builder.models import Component
+from techui_builder.models import Component, Entity
 from techui_builder.utils import (
     WidgetType,
     _get_nav_tabs,
@@ -27,6 +27,7 @@ class Autofiller:
     index_paths: list[Path]
     base_index_path: Path
     gui_components: dict[str, Component]
+    entities: dict[str, Entity] | None = None
     macros: list[str] = field(
         default_factory=lambda: ["prefix", "desc", "file", "macros"]
     )
@@ -75,11 +76,14 @@ class Autofiller:
                                     )
                                 self._autofill_from_path(resolved_path)
                 case _:
-                    if widget_name in self.gui_components:
+                    component = self.gui_components.get(widget_name)
+                    if component is None and self.entities is not None:
+                        component = self.entities.get(widget_name)
+                    if component is not None:
                         self.replace_content(
                             widget=widget,
                             component_name=widget_name,
-                            component=self.gui_components[widget_name],
+                            entry=component,
                         )
                         widget["run_actions_on_mouse_click"] = "true"
 
@@ -109,7 +113,7 @@ class Autofiller:
         self,
         widget: ObjectifiedElement,
         component_name: str,
-        component: Component,
+        entry: Component | Entity,
     ):
         for macro in self.macros:
             # Fix to make sure widget is reverted back to widget that was passed in
@@ -118,11 +122,12 @@ class Autofiller:
             match macro:
                 case "prefix":
                     tag_name = "pv_name"
-                    component_attr = f"{component.P}:STA"
+                    p_val = getattr(entry, "P", getattr(entry, "base_prefix", None))
+                    component_attr = f"{p_val}:STA"
 
                 case "desc" | "file" | "macros":
-                    # Get current component attribute
-                    component_attr = getattr(component, macro, None)
+                    # Get current entry attribute
+                    component_attr = getattr(entry, macro, None)
 
                     # We need to override the current widget with it's
                     # open_display action
@@ -134,9 +139,7 @@ class Autofiller:
 
                             if component_attr is None:
                                 component_attr = (
-                                    component_name
-                                    if component.label is None
-                                    else component.label
+                                    getattr(entry, "label", None) or component_name
                                 )
 
                         case "file":

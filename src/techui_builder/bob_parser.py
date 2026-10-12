@@ -5,7 +5,7 @@ from pathlib import Path
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.models import BobFile, BobWidget, MacroMap
-from techui_builder.utils import WidgetType, _get_action_group, _get_macros, read_bob
+from techui_builder.utils import WidgetType, _get_actions_group, _get_macros, read_bob
 
 logger_ = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class BobParser:
             prefix = prefix_element.text if prefix_element is not None else ""
 
             # Collect the macros from the widget through its action group if it has one
-            action_group = _get_action_group(element)
+            action_group = _get_actions_group(element)
             raw_macros = _get_macros(
                 action_group if action_group is not None else element
             )

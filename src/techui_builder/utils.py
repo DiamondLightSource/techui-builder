@@ -5,6 +5,8 @@ from lxml import objectify
 from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
 
+from techui_builder.models import RawMacroMap
+
 logger_ = logging.getLogger(__name__)
 
 __all__ = [
@@ -62,7 +64,7 @@ def get_widgets(root: ObjectifiedElement):
     return widgets
 
 
-def _get_macros(element: ObjectifiedElement):
+def _get_macros(element: ObjectifiedElement) -> RawMacroMap:
     if hasattr(element, "macros"):
         macros = element.macros.getchildren()
         if macros is not None:

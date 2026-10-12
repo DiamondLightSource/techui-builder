@@ -157,6 +157,7 @@ def main(
     # Extract information from index.bob
     bp = BobParser(filename)
     synoptic_macros = bp.parse_bob()
+    print(synoptic_macros)
     ixx_services_dir, synoptic_dir = find_dirs(
         filename, synoptic_macros.macros["domain"]
     )

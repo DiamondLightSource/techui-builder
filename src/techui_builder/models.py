@@ -16,7 +16,8 @@ from pydantic import (
 
 logger_ = logging.getLogger(__name__)
 
-type MacroMap = dict[str, str]
+type RawMacroMap = dict[str, str]
+type MacroMap = dict[str, str | list[str] | int | float]
 # Patterns:
 #   long:  'bl23b'
 #   short: 'b23', 'ixx-1'
@@ -417,7 +418,7 @@ class BobFile(BaseModel):
     """Class representation of BobFile suchs as index.bob and {component}.bob"""
 
     path: Annotated[Path, Field(description="Path to file")]
-    macros: Annotated[MacroMap, Field(description="Macro dictionary")]
+    macros: Annotated[RawMacroMap, Field(description="Macro dictionary")]
     tree: Annotated[
         ElementTree,
         Field(description="XML tree representation of the file", repr=False),

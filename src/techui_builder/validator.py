@@ -36,8 +36,8 @@ class Validator:
                 self.validate[bob_path.name.removesuffix(".bob")] = bob_path
 
     def _read_bob(self, path: Path):
-        tree, widget, _ = read_bob(path)
-        return tree.getroot(), widget
+        tree, widgets, _ = read_bob(path)
+        return tree.getroot(), widgets
 
     def validate_bob(
         self,

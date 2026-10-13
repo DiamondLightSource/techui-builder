@@ -161,7 +161,9 @@ Write directory: {gui._write_directory}
 
     logger_.info(f"Screens generated for {gui.conf.beamline.domain}.")
 
-    autofiller = Autofiller(bob_files, index_bob_path, gui.conf.components)
+    autofiller = Autofiller(
+        bob_files, index_bob_path, gui.conf.components, gui.entities
+    )
     autofiller.read_bobs()
     autofiller.autofill_bobs()
     autofiller.write_bobs()

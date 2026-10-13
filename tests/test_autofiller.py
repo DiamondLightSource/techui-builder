@@ -186,3 +186,58 @@ def test_autofiller_replace_content_unsupported_macro(autofiller):
         autofiller.replace_content(None, "", mock_component)
 
         assert e == "The provided macro type is not supported."
+
+
+def test_autofill_from_path_entity_fallback(
+    autofiller_with_entities,
+    autofiller_index_trees,
+):
+    """Widget not in gui_components falls back to entity registry."""
+    autofiller_with_entities.replace_content = Mock()
+    autofiller_with_entities.index_trees = autofiller_index_trees
+
+    mock_path = list(autofiller_index_trees.keys())[0]
+
+    autofiller_with_entities._autofill_from_path(mock_path)
+
+    autofiller_with_entities.replace_content.assert_called_once()
+
+
+def test_autofill_from_path_prioritizes_gui_components(
+    autofiller,
+    autofiller_index_trees,
+):
+    """Widget name in gui_components takes priority over entities."""
+    autofiller.index_trees = autofiller_index_trees
+    autofiller.replace_content = Mock()
+
+    mock_path = list(autofiller_index_trees.keys())[0]
+
+    autofiller._autofill_from_path(mock_path)
+
+    autofiller.replace_content.assert_called_once()
+    # Should use gui_components (Component), not entities (Entity)
+    assert isinstance(autofiller.replace_content.call_args.kwargs["entry"], Component)
+
+
+@patch("techui_builder.autofill._get_open_display_action")
+def test_replace_content_with_entity(
+    mock_get: MagicMock,
+    autofiller_with_entities,
+    example_xml_related_widget,
+):
+    """replace_content works correctly with an Entity object."""
+    mock_get.return_value = example_xml_related_widget.actions.action
+
+    assert autofiller_with_entities.entities is not None
+    entity = autofiller_with_entities.entities["test_entity"]
+    autofiller_with_entities.replace_content(
+        example_xml_related_widget,
+        "test_entity",
+        entry=entity,
+    )
+
+    assert example_xml_related_widget.pv_name == "BL01T-MO-TEST:STA"
+    # Entity has desc, so it should be used as fallback
+    desc_text = example_xml_related_widget.actions.action.description.text
+    assert desc_text == "Test Description"

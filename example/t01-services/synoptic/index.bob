@@ -56,7 +56,7 @@ $(actions)</tooltip>
     <style>3</style>
     <transparent>true</transparent>
     <widget type="symbol" version="2.0.0">
-      <name>diode1</name>
+      <name>name= diode1, label= Diode 1, extras= [BL01T-DI-PHDGN-01, BL01T-DI-PHDGM-01] </name>
       <pv_name>BL01T-DI-PHDGN-01:STA</pv_name>
       <symbols>
         <symbol>techui-support/symbols/oscilloscope.svg</symbol>

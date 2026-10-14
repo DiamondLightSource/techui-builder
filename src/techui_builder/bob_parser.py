@@ -1,11 +1,12 @@
 import logging
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.models import BobFile, BobWidget, MacroMap
-from techui_builder.utils import WidgetType, _get_actions_group, _get_macros, read_bob
+from techui_builder.utils import WidgetType, index_bob_name_pattern, read_bob
 
 logger_ = logging.getLogger(__name__)
 
@@ -24,22 +25,20 @@ class BobParser:
             prefix_element = element.find("pv_name")
             prefix = prefix_element.text if prefix_element is not None else ""
 
-            # Collect the macros from the widget through its action group if it has one
-            action_group = _get_actions_group(element)
-            raw_macros = _get_macros(
-                action_group if action_group is not None else element
-            )
-
-            # Create a MacroMap from the raw macros
             macros: MacroMap = {}
+            macro_pairs = re.findall(index_bob_name_pattern, name if name else "")
 
-            for key, value in raw_macros.items():
-                macros[key] = value
+            if macro_pairs:
+                macro_dict = dict(macro_pairs)
+                name = macro_dict.get("name", "")
 
-            for key in ("extras", "status"):
-                value = raw_macros.get(key)
-                if value is not None:
-                    macros[key] = value.split(", ")
+                list_types = ("extras", "status")
+                for key, value in macro_dict.items():
+                    if key not in list_types:
+                        macros[key] = value
+                    else:
+                        value = value[1:-1]
+                        macros[key] = [v.strip() for v in value.split(",") if v.strip()]
 
             # Create a BobWidget instance for the widget
             widget = BobWidget(

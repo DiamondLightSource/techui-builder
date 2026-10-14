@@ -41,6 +41,11 @@ def bob_parser(tmp_t01_services) -> BobFile:
 
 
 @pytest.fixture
+def bob_parser_object(tmp_t01_services) -> BobParser:
+    return BobParser(tmp_t01_services / "synoptic/index.bob")
+
+
+@pytest.fixture
 def tmp_test_files(tmp_path) -> Path:
     # Copy test files to tmp_path so they are visible to the tests
     shutil.copytree(Path("tests/test_files/"), tmp_path / "test_files")
@@ -546,6 +551,26 @@ def example_xml_symbol_widget():
     widget_element = fromstring(tostring(widget_element))
 
     return widget_element
+
+
+@pytest.fixture
+def example_xml_symbol_widget_bob_parser():
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+    widget_element = Element("widget")
+    widget_element.set("type", "symbol")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "name= new, label=test, status=[BL01T-TS-TEST-01]"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+
+    container = Element("display")
+    container.append(widget_element)
+    # ... which requires this horror
+    return fromstring(tostring(container))
 
 
 @pytest.fixture

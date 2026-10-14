@@ -1,11 +1,25 @@
 """Display-name rules for ScreenNodes and duplicate-name fixing."""
 
+import re
 from collections import defaultdict
 from collections.abc import Mapping
 from pathlib import Path
 
 from techui_builder.jsonmap.nodes import ScreenNode
 from techui_builder.models import Component
+from techui_builder.utils import index_bob_name_pattern
+
+
+def get_name_from_list(name: str) -> str:
+    """Extract the 'name' value from a string using the index_bob_name_pattern regex."""
+
+    macro_pairs = re.findall(index_bob_name_pattern, name)
+
+    if macro_pairs:
+        name_dict = dict(macro_pairs)
+        return name_dict.get("name", "")
+
+    return name
 
 
 def find_techui_label(
@@ -16,6 +30,8 @@ def find_techui_label(
     """The techui.yaml label or child label for a widget name, or None."""
     if name is None:
         return None
+
+    name = get_name_from_list(name)
 
     if name in components and components[name].label is not None:
         return components[name].label
@@ -42,6 +58,8 @@ def find_techui_label(
 
 def name_or_file_stem(name: str | None, file_path: Path) -> str | None:
     """The name if it is non-empty, else the file name without suffixes, else None."""
+
+    name = get_name_from_list(name) if name else None
 
     if name:
         # Return name tag text as displayName

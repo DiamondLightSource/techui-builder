@@ -16,7 +16,10 @@ __all__ = [
     "_get_actions_group",
     "_get_macros",
     "_get_nav_tabs",
+    "index_bob_name_pattern",
 ]
+
+index_bob_name_pattern = r"(\w+)\s*=\s*(\[.*?\]|.*?)(?=\s*,\s*\w+\s*=|$)"
 
 
 class WidgetType(StrEnum):

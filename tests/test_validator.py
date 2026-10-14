@@ -24,7 +24,7 @@ def test_validator_check_bob(validator):
 def test_validator_read_bob(mock_read_bob: MagicMock, validator):
     # We need to set the spec of the first Mock so it knows
     # it has a getroot() function
-    mock_read_bob.return_value = (Mock(spec=_ElementTree), Mock())
+    mock_read_bob.return_value = (Mock(spec=_ElementTree), Mock(), Mock())
 
     validator._read_bob(validator.bobs[0])
 

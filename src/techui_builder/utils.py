@@ -5,6 +5,8 @@ from lxml import objectify
 from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
 
+from techui_builder.models import RawMacroMap
+
 logger_ = logging.getLogger(__name__)
 
 __all__ = [
@@ -14,7 +16,10 @@ __all__ = [
     "_get_actions_group",
     "_get_macros",
     "_get_nav_tabs",
+    "index_bob_name_pattern",
 ]
+
+index_bob_name_pattern = r"(\w+)\s*=\s*(\[.*?\]|.*?)(?=\s*,\s*\w+\s*=|$)"
 
 
 class WidgetType(StrEnum):
@@ -36,7 +41,9 @@ def read_bob(path):
 
     widgets = get_widgets(root)
 
-    return tree, widgets
+    macros = _get_macros(root)
+
+    return tree, widgets, macros
 
 
 def get_widgets(root: ObjectifiedElement):
@@ -60,7 +67,7 @@ def get_widgets(root: ObjectifiedElement):
     return widgets
 
 
-def _get_macros(element: ObjectifiedElement):
+def _get_macros(element: ObjectifiedElement) -> RawMacroMap:
     if hasattr(element, "macros"):
         macros = element.macros.getchildren()
         if macros is not None:

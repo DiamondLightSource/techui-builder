@@ -12,7 +12,7 @@ from techui_builder.models import Component
 # Imported in to autofill from utils, so that needs to be patched
 @patch("techui_builder.autofill.read_bob")
 def test_autofiller_read_bobs(mock_read_bob: MagicMock, autofiller):
-    mock_read_bob.return_value = (Mock(spec=ElementTree), Mock())
+    mock_read_bob.return_value = (Mock(spec=ElementTree), Mock(), Mock())
 
     autofiller.read_bobs()
 

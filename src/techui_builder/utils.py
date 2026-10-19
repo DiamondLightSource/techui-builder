@@ -19,7 +19,7 @@ __all__ = [
     "index_bob_name_pattern",
 ]
 
-index_bob_name_pattern = r"(\w+)\s*=\s*(\[.*?\]|.*?)(?=\s*,\s*\w+\s*=|$)"
+index_bob_name_pattern = r"{?(\w+)\s*=\s*(\[.*?\]|.*?)(?=\s*,\s*\w+\s*=|\s*}|$)"
 
 
 class WidgetType(StrEnum):

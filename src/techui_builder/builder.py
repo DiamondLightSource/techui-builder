@@ -47,11 +47,8 @@ class Builder:
 
     def _iter_prefixed_widgets(self, widgets):
         for widget in widgets:
-            if widget.prefix and widget.prefix.strip():
+            if widget.prefix:
                 yield widget
-
-            if widget.widget_type == "group":
-                yield from self._iter_prefixed_widgets(widget.children or [])
 
     def __post_init__(self):
         components = {}

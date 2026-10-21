@@ -57,6 +57,15 @@ def inherit_macros(
     return {**parent_macros, **expanded}
 
 
+def format_icon(symbol: str | None, ctx: CrawlContext) -> str:
+    """A link's symbol, relative to the synoptic directory, or empty if it has none."""
+    if symbol is None:
+        return ""
+
+    # Symbols are relative to the screen containing the linking widget
+    return format_screen(ctx.screen.parent / symbol, ctx.synoptic_dir)
+
+
 def crawl_link(
     link: WidgetLink, display_name: str | None, ctx: CrawlContext
 ) -> ScreenNode:
@@ -68,12 +77,14 @@ def crawl_link(
     """
     macros = inherit_macros(ctx.macros, link.macros)
     screen = resolve_link(link.file, macros, ctx.screen)
+    icon = format_icon(link.symbol, ctx)
 
     if not screen.is_file():
         logger_.debug(f"Link {link.file} -> {screen}: not found")
         return ScreenNode(
             format_screen(screen, ctx.synoptic_dir),
             display_name,
+            icon=icon,
             exists=False,
             macros=macros,
         )
@@ -84,6 +95,7 @@ def crawl_link(
     # TODO: investigate non-recursive approaches?
     node = crawl(screen, replace(ctx, macros=macros), link_name=link.name)
     node.macros = macros
+    node.icon = icon
     return node
 
 

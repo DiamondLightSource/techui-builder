@@ -21,6 +21,7 @@ def test_field_default():
     assert defaults == {
         "file": MISSING,
         "display_name": MISSING,
+        "icon": "",
         "exists": True,
         "children": [],
         "macros": {},

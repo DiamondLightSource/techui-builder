@@ -6,7 +6,7 @@ from pathlib import Path
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.models import BobFile, BobWidget, MacroMap
-from techui_builder.utils import WidgetType, index_bob_name_pattern, read_bob
+from techui_builder.utils import _INDEX_BOB_NAME_RE, WidgetType, read_bob
 
 logger_ = logging.getLogger(__name__)
 
@@ -29,6 +29,8 @@ class BobParser:
         result = []
 
         for element in container.iterchildren("widget"):
+            if element.get("type", default="") not in WidgetType:
+                continue
             # Find the name and prefix of the widget
             name_element = element.find("name")
             name = name_element.text if name_element is not None else ""
@@ -36,14 +38,17 @@ class BobParser:
             prefix = prefix_element.text if prefix_element is not None else ""
 
             macros: MacroMap = {}
-            macro_pairs = re.findall(index_bob_name_pattern, name if name else "")
+            macro_pairs = re.fullmatch(_INDEX_BOB_NAME_RE, name if name else "")
 
-            if macro_pairs:
-                macro_dict = dict(macro_pairs)
-                name = macro_dict.get("name", "")
+            if macro_pairs is None:
+                print(f"No match for {name!r}")
+            else:
+                print(f"Match: {macro_pairs.group(0)!r}")
+                for number, value in enumerate(macro_pairs.groups(), start=1):
+                    print(f"Group {number}: {value!r}")
 
                 list_types = ("extras", "status")
-                for key, value in macro_dict.items():
+                for key, value in macro_pairs.groupdict().items():
                     if key not in list_types:
                         macros[key] = value
                     else:

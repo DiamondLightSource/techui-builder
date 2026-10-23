@@ -8,7 +8,7 @@ from pathlib import Path
 
 from techui_builder.jsonmap.nodes import ScreenNode
 from techui_builder.models import Component
-from techui_builder.utils import index_bob_name_pattern
+from techui_builder.utils import _INDEX_BOB_NAME_RE
 
 logger_ = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ logger_ = logging.getLogger(__name__)
 def get_name_from_list(name: str) -> str:
     """Extract the 'name' value from a string using the index_bob_name_pattern regex."""
 
-    macro_pairs = re.findall(index_bob_name_pattern, name)
+    macro_pairs = re.findall(_INDEX_BOB_NAME_RE, name)
 
     try:
         if macro_pairs:

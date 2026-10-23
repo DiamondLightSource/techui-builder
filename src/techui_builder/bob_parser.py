@@ -1,5 +1,4 @@
 import logging
-import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -29,31 +28,39 @@ class BobParser:
         result = []
 
         for element in container.iterchildren("widget"):
+            if element.get("type", default="") == WidgetType.GROUP:
+                self._parse_widgets(element)
             if element.get("type", default="") not in WidgetType:
                 continue
             # Find the name and prefix of the widget
             name_element = element.find("name")
-            name = name_element.text if name_element is not None else ""
+            name = (
+                name_element.text
+                if (name_element is not None and name_element.text is not None)
+                else ""
+            )
             prefix_element = element.find("pv_name")
             prefix = prefix_element.text if prefix_element is not None else ""
 
             macros: MacroMap = {}
-            macro_pairs = re.fullmatch(_INDEX_BOB_NAME_RE, name if name else "")
+            matches = _INDEX_BOB_NAME_RE.finditer(name)
+            macro_pairs = {
+                match.group("key") or "name": match.group("val") for match in matches
+            }
 
             if macro_pairs is None:
                 print(f"No match for {name!r}")
-            else:
-                print(f"Match: {macro_pairs.group(0)!r}")
-                for number, value in enumerate(macro_pairs.groups(), start=1):
-                    print(f"Group {number}: {value!r}")
+                continue
+
+            for key, value in macro_pairs.items():
+                print(f"Match: {key, value}")
 
                 list_types = ("extras", "status")
-                for key, value in macro_pairs.groupdict().items():
-                    if key not in list_types:
-                        macros[key] = value
-                    else:
-                        value = value[1:-1]
-                        macros[key] = [v.strip() for v in value.split(",") if v.strip()]
+                if key not in list_types:
+                    macros[key] = value
+                else:
+                    value = value[1:-1]
+                    macros[key] = [v.strip() for v in value.split(",") if v.strip()]
 
             # Create a BobWidget instance for the widget
             widget = BobWidget(

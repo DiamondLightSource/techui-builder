@@ -1,9 +1,12 @@
 import logging
+import re
 from enum import StrEnum
 
 from lxml import objectify
 from lxml.etree import Element, SubElement, tostring
 from lxml.objectify import ObjectifiedElement, fromstring
+
+from techui_builder.models import RawMacroMap
 
 logger_ = logging.getLogger(__name__)
 
@@ -14,7 +17,56 @@ __all__ = [
     "_get_actions_group",
     "_get_macros",
     "_get_nav_tabs",
+    "_INDEX_BOB_NAME_RE",
 ]
+
+# index_bob_name_pattern = r"{?(\w+)\s*=\s*(\[.*?\]|.*?)(?=\s*,\s*\w+\s*=|\s*}$)"
+
+_INDEX_BOB_NAME_PATTERN_VERBOSE = r"""
+    (?:^{)?                 # optional '{' at the start of the string (the ^ only
+                            # anchors the '{')
+    (?!.*\s,)               # LOOKAHEAD 1 (negative): no whitespace directly before a
+                            # comma later on the line
+    (?!\]*\s)               # LOOKAHEAD 2 (negative): fail on whitespace here, or ']'s
+                            # then whitespace
+    (?:                     # start of one key=value unit
+        (?:(?P<key>[\w]+))  # GROUP key: the key, one or more word chars
+        (?:\s?=\s?)         # '=' with at most one space either side
+        (?:                 # start of lookahead alternation (only one must pass)
+            (?=[\w\s:\-.]+) # LOOKAHEAD A (positive): a "value char" comes next
+                            #   (value char = [\w\s:\-.] = word char, whitespace, ':',
+                            #   '-' or '.')
+        |                   # OR
+            (?=\[?[\w\s:\-.]+(?:,\s?)?\]?)
+                            # LOOKAHEAD B (positive): an optional '[', value chars, an
+                            #   optional ',' + one space and an optional ']' come next
+                            #   (this is the one that lets a leading '[' through)
+        )                   # end of lookahead alternation
+        (?P<val>            # GROUP val: the value, either a list or a bare value
+            (?:             #   branch 1: a bracketed list, e.g. "[a, b, c]"
+                \[          #     literal '['
+                (?:
+                    (?:[\w\s:\-.]+)   # an item: one or more value chars
+                    (?:,\s?)?         # optional comma
+                )*          #     zero or more items
+                \]          #     literal ']'
+            )
+        |                   #   OR
+            (?:[\w\s:\-.]+) #   branch 2: a bare value, one or more value chars
+        )
+    )                       # end of key=value unit
+    (?:,\s?)?               # optional trailing comma (consumed, not captured)
+    (?:}$)?                 # optional '}' at the end of the string
+"""
+
+_INDEX_BOB_NAME_RE = re.compile(_INDEX_BOB_NAME_PATTERN_VERBOSE, re.VERBOSE)
+
+# JSON Schema (ECMA 262) has no concept of VERBOSE mode, so derive a
+# compact equivalent once at import time for use in json_schema_extra.
+# (i.e. This is to handle the inline comments)
+_INDEX_BOB_NAME_PATTERN_COMPACT = re.sub(
+    r"\s+", "", re.sub(r"#.*", "", _INDEX_BOB_NAME_PATTERN_VERBOSE)
+)
 
 
 class WidgetType(StrEnum):
@@ -36,7 +88,9 @@ def read_bob(path):
 
     widgets = get_widgets(root)
 
-    return tree, widgets
+    macros = _get_macros(root)
+
+    return tree, widgets, macros
 
 
 def get_widgets(root: ObjectifiedElement):
@@ -60,7 +114,7 @@ def get_widgets(root: ObjectifiedElement):
     return widgets
 
 
-def _get_macros(element: ObjectifiedElement):
+def _get_macros(element: ObjectifiedElement) -> RawMacroMap:
     if hasattr(element, "macros"):
         macros = element.macros.getchildren()
         if macros is not None:

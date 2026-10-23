@@ -1170,7 +1170,6 @@ dev = [
     { name = "tox-uv" },
     { name = "types-lxml" },
     { name = "types-mock" },
-    { name = "uv" },
 ]
 
 [package.metadata]
@@ -1203,7 +1202,6 @@ dev = [
     { name = "tox-uv" },
     { name = "types-lxml" },
     { name = "types-mock" },
-    { name = "uv", specifier = ">=0.13.5,<0.14.0" },
 ]
 
 [[package]]

@@ -594,7 +594,7 @@ def example_pgen_related_widget():
     )
     related_widget.action_open_display(
         file="techui-support/bob/pmac/pmacController.bob",
-        target="tab",
+        target="replace",
         macros={"P": "BL01T-MO-IOC-01"},
     )
     # For some reason the version of action buttons is 3.0.0?

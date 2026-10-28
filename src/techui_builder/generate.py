@@ -281,7 +281,7 @@ class Generator:
             # Add action to action button: to open related display
 
             new_widget.action_open_display(
-                file=str(support_screen_path), target="tab", macros=component.macros
+                file=str(support_screen_path), target="replace", macros=component.macros
             )
 
             # For some reason the version of action buttons is 3.0.0?

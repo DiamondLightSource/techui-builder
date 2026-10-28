@@ -120,7 +120,7 @@ def _add_open_display(element: ObjectifiedElement) -> ObjectifiedElement:
     desc = SubElement(action, "description")
     desc.text = "placeholder_desc"
     target = SubElement(action, "target")
-    target.text = "tab"
+    target.text = "replace"
 
     action_element = fromstring(tostring(action))
     actions.append(action_element)

@@ -52,8 +52,11 @@ dev = [
     "tox-uv",
     "types-lxml",
     "types-mock",
-    "uv>=0.13.5,<0.14.0",
 ]
+
+[tool.uv]
+# Minimum uv to fix eMudhra CA cert incident (see discuss.python.org/t/109576)
+required-version = ">=0.13.5"
 
 [tool.setuptools_scm]
 version_file = "src/techui_builder/_version.py"

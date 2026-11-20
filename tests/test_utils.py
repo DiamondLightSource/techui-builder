@@ -19,10 +19,11 @@ from techui_builder.utils import (
 def test_read_bob(mock_get_widgets: MagicMock, tmp_test_files):
     mock_get_widgets.return_value = {"test_widget": MagicMock(spec=ObjectifiedElement)}
 
-    tree, widgets = read_bob(tmp_test_files / "index.bob")
+    tree, widgets, macros = read_bob(tmp_test_files / "index.bob")
 
     assert isinstance(tree, _ElementTree)
     assert isinstance(widgets["test_widget"], ObjectifiedElement)
+    assert isinstance(macros, dict)
     mock_get_widgets.assert_called_once()
 
 

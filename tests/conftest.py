@@ -4,15 +4,23 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 from lxml.etree import Element, SubElement, tostring
+from lxml.objectify import Element as ObjectifyElemment
 from lxml.objectify import fromstring
 from phoebusgen import widget as pwidget
 
 from techui_builder.autofill import Autofiller, IndexObjectDict
+from techui_builder.bob_parser import BobParser
 from techui_builder.builder import Builder
 from techui_builder.generate import Generator
 from techui_builder.generate_jsonmap import JsonMapGenerator
 from techui_builder.jsonmap.nodes import ScreenNode
-from techui_builder.models import Component, Entity, SupportEntity, SupportEntityScreen
+from techui_builder.models import (
+    BobFile,
+    Component,
+    Entity,
+    SupportEntity,
+    SupportEntityScreen,
+)
 from techui_builder.status import GenerateStatusPvs
 from techui_builder.validator import Validator
 
@@ -28,6 +36,17 @@ def tmp_t01_services(tmp_path) -> Path:
 
 
 @pytest.fixture
+def bob_parser(tmp_t01_services) -> BobFile:
+    bob_document = BobParser(tmp_t01_services / "synoptic/index.bob").parse_bob()
+    return bob_document
+
+
+@pytest.fixture
+def bob_parser_object(tmp_t01_services) -> BobParser:
+    return BobParser(tmp_t01_services / "synoptic/index.bob")
+
+
+@pytest.fixture
 def tmp_test_files(tmp_path) -> Path:
     # Copy test files to tmp_path so they are visible to the tests
     shutil.copytree(Path("tests/test_files/"), tmp_path / "test_files")
@@ -36,11 +55,12 @@ def tmp_test_files(tmp_path) -> Path:
 
 
 @pytest.fixture
-def builder(tmp_t01_services):
+def builder(tmp_t01_services, bob_parser):
     ixx_services = tmp_t01_services
+    bob_document = bob_parser
     techui_path = ixx_services / "synoptic/techui.yaml"
 
-    b = Builder(techui_path)
+    b = Builder(bob_document, techui_path)
     b._services_dir = ixx_services / "services"
     b._write_directory = ixx_services / "synoptic"
     return b
@@ -397,6 +417,17 @@ def validator(tmp_test_files):
 
 
 @pytest.fixture
+def example_xml_display_container():
+    # A factory fixture to wrap an objectified widget in a 'display' element
+    def _construct_display(widget_element):
+        container = ObjectifyElemment("display")
+        container.append(widget_element)
+        return container
+
+    return _construct_display
+
+
+@pytest.fixture
 def example_xml_embedded_widget(tmp_test_files):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
@@ -532,6 +563,24 @@ def example_xml_symbol_widget():
     widget_element = fromstring(tostring(widget_element))
 
     return widget_element
+
+
+@pytest.fixture
+def example_xml_symbol_widget_bob_parser():
+    # You cannot set a text tag of an ObjectifiedElement,
+    # so we need to make an etree.Element and convert it ...
+    widget_element = Element("widget")
+    widget_element.set("type", "symbol")
+    widget_element.set("version", "2.0.0")
+    name_element = SubElement(widget_element, "name")
+    name_element.text = "{name= new, label=test, status=[BL01T-TS-TEST-01]}"
+    width_element = SubElement(widget_element, "width")
+    width_element.text = "205"
+    height_element = SubElement(widget_element, "height")
+    height_element.text = "120"
+
+    # ... which requires this horror
+    return fromstring(tostring(widget_element))
 
 
 @pytest.fixture

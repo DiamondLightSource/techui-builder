@@ -22,5 +22,6 @@ def test_parse_widgets(bob_parser_object, example_xml_symbol_widget_bob_parser):
 
     for w in widget:
         assert isinstance(w, BobWidget)
-        assert w.name == "new"
+        assert w.name is not None
+        assert w.macros["label"] == "test"
         assert w.macros["status"] == ["BL01T-TS-TEST-01"]

@@ -561,7 +561,7 @@ def example_xml_symbol_widget_bob_parser():
     widget_element.set("type", "symbol")
     widget_element.set("version", "2.0.0")
     name_element = SubElement(widget_element, "name")
-    name_element.text = "name= new, label=test, status=[BL01T-TS-TEST-01]"
+    name_element.text = "{name= new, label=test, status=[BL01T-TS-TEST-01]}"
     width_element = SubElement(widget_element, "width")
     width_element.text = "205"
     height_element = SubElement(widget_element, "height")

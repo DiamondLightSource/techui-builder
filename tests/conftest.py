@@ -4,6 +4,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 from lxml.etree import Element, SubElement, tostring
+from lxml.objectify import Element as ObjectifyElemment
 from lxml.objectify import fromstring
 from phoebusgen import widget as pwidget
 
@@ -416,6 +417,17 @@ def validator(tmp_test_files):
 
 
 @pytest.fixture
+def example_xml_display_container():
+    # A factory fixture to wrap an objectified widget in a 'display' element
+    def _construct_display(widget_element):
+        container = ObjectifyElemment("display")
+        container.append(widget_element)
+        return container
+
+    return _construct_display
+
+
+@pytest.fixture
 def example_xml_embedded_widget(tmp_test_files):
     # You cannot set a text tag of an ObjectifiedElement,
     # so we need to make an etree.Element and convert it ...
@@ -567,10 +579,8 @@ def example_xml_symbol_widget_bob_parser():
     height_element = SubElement(widget_element, "height")
     height_element.text = "120"
 
-    container = Element("display")
-    container.append(widget_element)
     # ... which requires this horror
-    return fromstring(tostring(container))
+    return fromstring(tostring(widget_element))
 
 
 @pytest.fixture

@@ -48,13 +48,14 @@ class BobParser:
                 match.group("key") or "name": match.group("val") for match in matches
             }
 
-            if macro_pairs is None:
-                print(f"No match for {name!r}")
+            if macro_pairs == {}:
+                logger_.debug(
+                    f"{self.bob_path.name}: No MacroDict match for "
+                    f"{element.get('type')} with name: {name!r}"
+                )
                 continue
 
             for key, value in macro_pairs.items():
-                print(f"Match: {key, value}")
-
                 list_types = ("extras", "status")
                 if key not in list_types:
                     macros[key] = value

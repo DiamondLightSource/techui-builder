@@ -1,5 +1,7 @@
 import logging
+import re
 from enum import StrEnum
+from pathlib import Path
 
 from lxml import objectify
 from lxml.etree import Element, SubElement, tostring
@@ -15,6 +17,8 @@ __all__ = [
     "_get_macros",
     "_get_nav_tabs",
 ]
+
+_DEFAULT_BOBFILE_RE = re.compile(r"index(?:-(?:\w)*)*\.bob")
 
 
 class WidgetType(StrEnum):
@@ -147,3 +151,89 @@ def _get_nav_tabs(element: ObjectifiedElement) -> list[ObjectifiedElement] | Non
             f"Tabs group not found in component [bold]{name}[/bold] on "
             f"[bold]{parent_name}[/bold]"
         )
+
+
+def find_dirs(file_path: Path, beamline: str) -> tuple:
+    # Get the relative path to the techui file from working dir
+    abs_path = file_path.absolute()
+    logger_.debug(f"techui.yaml absolute path: {abs_path}")
+
+    # Get the current working dir
+    cwd = Path.cwd()
+    logger_.debug(f"Working directory: {cwd}")
+
+    directory = beamline
+
+    # Get the relative path of ixx-services to techui.yaml
+    ixx_services_dir = next(
+        (
+            ixx_services.relative_to(cwd, walk_up=True)
+            for parent in abs_path.parents
+            for ixx_services in parent.glob(f"{directory}-services")
+        ),
+        None,
+    )
+
+    if ixx_services_dir is None:
+        if not beamline.startswith("i"):
+            # If not found, try searching for Ixx-services as some
+            # J/K beamlines are in Ixx-services dir
+            directory = f"i{beamline[1:]}"
+            logger_.info(
+                f"{beamline}-services not found."
+                f" Searching for i{beamline[1:]}-services..."
+            )
+            # Get the relative path of ixx-services to techui.yaml
+            ixx_services_dir = next(
+                (
+                    ixx_services.relative_to(cwd, walk_up=True)
+                    for parent in abs_path.parents
+                    for ixx_services in parent.glob(f"{directory}-services")
+                ),
+                None,
+            )
+
+    if ixx_services_dir is None:
+        logging.critical(
+            f"{beamline}-services not found. Is you file structure correct?"
+        )
+        exit()
+    logger_.debug(f"ixx-services relative path: {ixx_services_dir}")
+
+    # Get the synoptic dir relative to the parent dir
+    synoptic_dir = abs_path.parent
+    logger_.debug(f"synoptic relative path: {synoptic_dir}")
+
+    return ixx_services_dir, synoptic_dir
+
+
+def find_index_bobs(bob_file: Path | None, synoptic_dir: Path) -> list[Path] | None:
+    if bob_file is None:
+        # Search default relative dir to techui filename
+        # There should be at least one file, but if not return None
+        bob_files = [
+            p for p in synoptic_dir.iterdir() if _DEFAULT_BOBFILE_RE.match(p.name)
+        ]
+        if not bob_files:
+            logging.critical(
+                f"Source bob file not found in {synoptic_dir}. Does it exist?"
+            )
+            return None
+    elif bob_file.exists():
+        # Search for bob files with similar names
+        _SIMILAR_BOBFILE_RE = re.compile(  # noqa: N806
+            rf"{bob_file.name.removesuffix('.bob')}(?:-(?:\w)*)*\.bob"
+        )
+        bob_files = [
+            p for p in synoptic_dir.iterdir() if _SIMILAR_BOBFILE_RE.match(p.name)
+        ]
+        if not bob_files:
+            logging.critical(
+                f"Source bob file not found in {synoptic_dir}. Does it exist?"
+            )
+            return None
+    else:
+        logging.critical("There was an issue finding source bob files. Do they exist?")
+        return None
+
+    return bob_files

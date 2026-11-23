@@ -142,24 +142,22 @@ def test_find_index_bobs(caplog: pytest.LogCaptureFixture):
     )
 
     with caplog.at_level(logging.DEBUG):
-        index_bob, bob_files = find_index_bobs(mock_bob_file, mock_synoptic_dir)
+        bob_files = find_index_bobs(mock_bob_file, mock_synoptic_dir)
 
     # It should just return back the same file
-    assert mock_bob_file == index_bob
-    assert bob_files == [index_bob]
+    assert bob_files is not None
+    assert len(bob_files) == 1
+    assert mock_bob_file == bob_files[0]
 
 
 def test_find_bob_bob_file_does_not_exist(caplog: pytest.LogCaptureFixture):
     bad_bob_file = Path("bad_bob_file")
 
-    with caplog.at_level(logging.CRITICAL) and pytest.raises(SystemExit) as exc_info:
+    with caplog.at_level(logging.CRITICAL):
         find_index_bobs(bad_bob_file, Mock(spec=Path))
 
     for log_output in caplog.records:
-        assert "There was an issue finding source bob files." in log_output.message
-
-    # The function calls exit() with no value code
-    assert exc_info.value.code is None
+        assert "There was an issue finding the provided bob file:" in log_output.message
 
 
 def test_find_bob_no_bob_file_finds_default_bob_file(caplog: pytest.LogCaptureFixture):
@@ -172,24 +170,24 @@ def test_find_bob_no_bob_file_finds_default_bob_file(caplog: pytest.LogCaptureFi
     )
 
     with caplog.at_level(logging.DEBUG):
-        index_bob, bob_files = find_index_bobs(None, mock_synoptic_dir)
+        bob_files = find_index_bobs(None, mock_synoptic_dir)
 
-    assert mock_bob_file == index_bob
-    assert bob_files == [index_bob]
+    assert bob_files is not None
+    assert len(bob_files) == 1
+    assert mock_bob_file == bob_files[0]
 
 
 def test_find_bob_no_bob_file_found(caplog: pytest.LogCaptureFixture):
     mock_synoptic_dir = MagicMock(spec=Path)
     mock_synoptic_dir.glob.return_value = iter([])
 
-    with caplog.at_level(logging.CRITICAL) and pytest.raises(SystemExit) as exc_info:
+    with caplog.at_level(logging.CRITICAL):
         _ = find_index_bobs(None, mock_synoptic_dir)
 
     for log_output in caplog.records:
-        assert f"Source bob file not found in {mock_synoptic_dir}" in log_output.message
-
-    # The function calls exit() with no value code
-    assert exc_info.value.code is None
+        assert (
+            f"Source bob file(s) not found in {mock_synoptic_dir}" in log_output.message
+        )
 
 
 @patch("techui_builder.main_app.find_index_bobs")
@@ -204,7 +202,7 @@ def test_main(
 ):
     mock_index_path = MagicMock(spec=Path)
     mock_find_dirs.return_value = MagicMock(spec=Path), MagicMock(spec=Path)
-    mock_find_index_bobs.return_value = mock_index_path, [mock_index_path]
+    mock_find_index_bobs.return_value = [mock_index_path]
     main(mock_index_path)
 
     mock_find_dirs.assert_called_once()

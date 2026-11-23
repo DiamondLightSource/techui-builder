@@ -115,7 +115,9 @@ def crawl(screen: Path, ctx: CrawlContext, link_name: str | None = None) -> Scre
 
             child_node = crawl_link(link, display_name, ctx)
 
-            if link.type == WidgetType.EMBEDDED:
+            if link.type == WidgetType.EMBEDDED and "index" not in link.file:
+                # If this embedded screen is an index file, we want it to have it's own
+                # node with nested children, so skip this
                 for embedded_child in child_node.children:
                     embedded_child.display_name = display_name
                     current_node.children.append(embedded_child)

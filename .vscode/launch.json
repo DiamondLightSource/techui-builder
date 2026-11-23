@@ -24,5 +24,15 @@
             "console": "integratedTerminal",
             "args": "status ${workspaceFolder}/example/t01-services/synoptic/techui.yaml"
         },
+        {
+            "name": "Run techui-builder generate-jsonmap",
+            "type": "debugpy",
+            "request": "launch",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/src/techui_builder/__main__.py",
+            "console": "integratedTerminal",
+            "args": "generate-jsonmap ${workspaceFolder}/example/t01-services/synoptic/index.bob"
+        },
     ]
 }

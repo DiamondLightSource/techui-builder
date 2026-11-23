@@ -21,6 +21,14 @@ __all__ = [
 _DEFAULT_BOBFILE_RE = re.compile(r"index(?:-(?:\w)*)*\.bob")
 
 
+def construct_similar_bob_re(bob_file_name: str):
+    # Search for bob files with similar names
+    _SIMILAR_BOBFILE_RE = re.compile(  # noqa: N806
+        rf"{bob_file_name.removesuffix('.bob')}(?:-(?:\w)*)*\.bob"
+    )
+    return _SIMILAR_BOBFILE_RE
+
+
 class WidgetType(StrEnum):
     """Widget types in a .bob file."""
 
@@ -207,33 +215,23 @@ def find_dirs(file_path: Path, beamline: str) -> tuple:
     return ixx_services_dir, synoptic_dir
 
 
-def find_index_bobs(bob_file: Path | None, synoptic_dir: Path) -> list[Path] | None:
+def find_index_bobs(bob_file: Path | None, bobs_dir: Path) -> list[Path] | None:
     if bob_file is None:
-        # Search default relative dir to techui filename
-        # There should be at least one file, but if not return None
-        bob_files = [
-            p for p in synoptic_dir.iterdir() if _DEFAULT_BOBFILE_RE.match(p.name)
-        ]
-        if not bob_files:
-            logging.critical(
-                f"Source bob file not found in {synoptic_dir}. Does it exist?"
-            )
-            return None
-    elif bob_file.exists():
-        # Search for bob files with similar names
-        _SIMILAR_BOBFILE_RE = re.compile(  # noqa: N806
-            rf"{bob_file.name.removesuffix('.bob')}(?:-(?:\w)*)*\.bob"
+        regex = _DEFAULT_BOBFILE_RE
+    elif not bob_file.exists():
+        logging.critical(
+            f"There was an issue finding the provided bob file: {bob_file}. "
+            "Does it exist?"
         )
-        bob_files = [
-            p for p in synoptic_dir.iterdir() if _SIMILAR_BOBFILE_RE.match(p.name)
-        ]
-        if not bob_files:
-            logging.critical(
-                f"Source bob file not found in {synoptic_dir}. Does it exist?"
-            )
-            return None
+        return None
     else:
-        logging.critical("There was an issue finding source bob files. Do they exist?")
+        regex = construct_similar_bob_re(bob_file.name)
+
+    # Search default relative dir to techui filename
+    # There should be at least one file, but if not return None
+    bob_files = [p for p in bobs_dir.iterdir() if regex.match(p.name)]
+    if not bob_files:
+        logging.critical(f"Source bob file(s) not found in {bobs_dir}. Does it exist?")
         return None
 
     return bob_files

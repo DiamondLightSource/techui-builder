@@ -9,10 +9,12 @@ from pathlib import Path
 from lxml.objectify import ObjectifiedElement
 
 from techui_builder.utils import (
+    # _DEFAULT_BOBFILE_RE,
     WidgetType,
     _get_macros,
     _get_nav_tabs,
     _get_open_display_action,
+    # find_index_bobs,
 )
 
 logger_ = logging.getLogger(__name__)
@@ -43,6 +45,16 @@ def is_bob(file: str) -> bool:
 
 def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
     """Yield links to .bob screens from widgets, in document order."""
+
+    def extract_widget_link(file_element: ObjectifiedElement):
+        file = extract_file_text(file_element)
+        # Skip links that are not .bob screens
+        if not is_bob(file):
+            logger_.debug(f"Skipping link to {file}: not a .bob screen")
+            return None
+
+        return WidgetLink(file, name, widget_type, macros)
+
     # Find all <widget> elements
     widgets = [
         w
@@ -71,6 +83,15 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
                 name = widget_elem.name.text
                 macros = _get_macros(widget_elem)
 
+                # TODO: This is currently handled in crawl() in crawl.py; should
+                # we move it here????
+                #
+                # if file_path_text := file_elem.text:
+                #     # TODO: Think of a better way to determine if an index file?
+                #     if _DEFAULT_BOBFILE_RE.match(file_path_text):
+                #         if link := extract_widget_link(file_elem):
+                #             yield link
+
             case WidgetType.NAVTABS:
                 # One link per tab, in tab order
                 tabs = _get_nav_tabs(widget_elem)
@@ -78,17 +99,12 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
                     continue
 
                 for tab in tabs:
-                    name = tab.name.text
-                    file_elem = tab.file
-                    macros = _get_macros(tab)
+                    if name := tab.name.text:
+                        file_elem = tab.file
+                        macros = _get_macros(tab)
 
-                    file = extract_file_text(file_elem)
-                    # Skip links that are not .bob screens
-                    if not is_bob(file):
-                        logger_.debug(f"Skipping link to {file}: not a .bob screen")
-                        continue
-
-                    yield WidgetLink(file, name, widget_type, macros)
+                        if link := extract_widget_link(file_elem):
+                            yield link
 
                 continue
 

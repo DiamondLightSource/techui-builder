@@ -28,12 +28,26 @@ class WidgetLink:
     name: str | None  # widget <name> (or tab <name>)
     type: WidgetType
     macros: dict[str, str]
+    symbol: str | None = None  # raw <symbol> text of the linking widget
 
 
 def extract_file_text(file_elem: ObjectifiedElement) -> str:
     """The stripped text of a <file> element."""
     # Keep the raw string; macros are expanded later
     return file_elem.text.strip() if file_elem.text else ""
+
+
+def extract_symbol(widget_elem: ObjectifiedElement) -> str | None:
+    """The first <symbol> of a widget's <symbols>, or None if it has none."""
+    if not hasattr(widget_elem, "symbols"):
+        return None
+
+    symbols = widget_elem.symbols.findall("symbol")
+    # A symbol widget can hold one symbol per PV state; the first is its icon
+    if not symbols or not symbols[0].text:
+        return None
+
+    return symbols[0].text.strip()
 
 
 def is_bob(file: str) -> bool:
@@ -65,11 +79,13 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
                 file_elem = open_display.file
                 name = widget_elem.name.text
                 macros = _get_macros(open_display)
+                symbol = extract_symbol(widget_elem)
 
             case WidgetType.EMBEDDED:
                 file_elem = widget_elem.file
                 name = widget_elem.name.text
                 macros = _get_macros(widget_elem)
+                symbol = None
 
             case WidgetType.NAVTABS:
                 # One link per tab, in tab order
@@ -102,7 +118,7 @@ def extract_links(root: ObjectifiedElement) -> Iterator[WidgetLink]:
             logger_.debug(f"Skipping link to {file}: not a .bob screen")
             continue
 
-        yield WidgetLink(file, name, widget_type, macros)
+        yield WidgetLink(file, name, widget_type, macros, symbol)
 
 
 def substitute_macros(text: str, macros: Mapping[str, str]) -> str:
